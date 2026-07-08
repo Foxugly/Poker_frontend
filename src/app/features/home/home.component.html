@@ -1,0 +1,44 @@
+<section class="page page--narrow">
+  <div class="hero">
+    <p class="eyebrow">{{ 'home.eyebrow' | transloco }}</p>
+    <h1>{{ 'home.title' | transloco }}</h1>
+    <p class="lead">{{ 'home.intro' | transloco }}</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="card">
+      <h2>{{ 'home.create_title' | transloco }}</h2>
+      <div class="meta-grid" style="margin-top: var(--s-4)">
+        <div>
+          <label class="meta-label">{{ 'home.room_title' | transloco }}</label>
+          <input pInputText class="w-full" [ngModel]="title()" (ngModelChange)="title.set($event)" />
+        </div>
+        <div>
+          <label class="meta-label">{{ 'field.username' | transloco }} *</label>
+          <input pInputText class="w-full" [ngModel]="username()" (ngModelChange)="username.set($event)" />
+          @if (submitted() && !username().trim()) {
+            <p class="meta-hint--error">{{ 'errors.username_required' | transloco }}</p>
+          }
+        </div>
+        <p-button
+          [label]="'home.create_cta' | transloco"
+          icon="pi pi-plus"
+          severity="success"
+          [loading]="creating()"
+          (onClick)="createRoom()"
+        />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>{{ 'home.join_title' | transloco }}</h2>
+      <p class="lead" style="margin: var(--s-3) 0">{{ 'home.join_intro' | transloco }}</p>
+      <p-button
+        [label]="'home.join_cta' | transloco"
+        icon="pi pi-sign-in"
+        [outlined]="true"
+        (onClick)="goJoin()"
+      />
+    </div>
+  </div>
+</section>

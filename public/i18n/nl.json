@@ -1,0 +1,43 @@
+{
+  "app": { "title": "Delegation Poker", "tagline": "Bepaal samen het juiste delegatieniveau." },
+  "nav": { "home": "Home", "features": "Functies" },
+  "field": { "username": "Je naam" },
+  "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten" },
+  "home": {
+    "eyebrow": "Management 3.0",
+    "title": "Delegation Poker, in realtime",
+    "intro": "Maak een kamer, nodig je team uit, stem over een delegatieniveau en onthul de stemmen samen.",
+    "create_title": "Kamer maken",
+    "room_title": "Kamertitel (optioneel)",
+    "create_cta": "Maken",
+    "join_title": "Kamer binnengaan",
+    "join_intro": "Heb je een kamercode of link? Doe mee met het lopende spel.",
+    "join_cta": "Deelnemen"
+  },
+  "join": { "title": "Kamer binnengaan", "code": "Kamercode", "cta": "Deelnemen" },
+  "vote_state": { "idle": "Wachten", "open": "Stemming open", "revealed": "Onthuld", "acted": "Resultaat vastgelegd" },
+  "room": {
+    "untitled": "Kamer",
+    "no_subject": "Geen onderwerp ingesteld",
+    "set_subject": "Stel het stemonderwerp in",
+    "share": "Link delen",
+    "open_vote": "Stemming openen",
+    "reveal": "Onthullen",
+    "reset": "Opnieuw",
+    "new_round": "Nieuwe ronde",
+    "acted_result": "Gekozen niveau",
+    "choose_result": "Kies het gekozen niveau",
+    "act": "Vastleggen",
+    "participants": "Deelnemers",
+    "facilitator_absent": "De facilitator is afwezig.",
+    "claim": "Rol overnemen",
+    "code_copied": "Code gekopieerd",
+    "link_copied": "Link gekopieerd"
+  },
+  "errors": {
+    "username_required": "Je naam is verplicht.",
+    "code_required": "De kamercode is verplicht.",
+    "create_room": "Kan de kamer niet maken.",
+    "room_not_found": "Kamer niet gevonden of verlopen."
+  }
+}

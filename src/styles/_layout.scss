@@ -1,0 +1,41 @@
+// Fleet layout primitives (mirrors trainingmanager/quizonline conventions, §3.15).
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-4);
+}
+
+.page--narrow {
+  max-width: 720px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: var(--s-6);
+}
+
+.form-card {
+  max-width: 520px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4);
+}
+
+.meta-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: var(--s-1);
+}
+
+.meta-hint--error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-top: var(--s-1);
+}

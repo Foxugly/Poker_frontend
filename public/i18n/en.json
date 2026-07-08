@@ -1,0 +1,43 @@
+{
+  "app": { "title": "Delegation Poker", "tagline": "Decide the right level of delegation, together." },
+  "nav": { "home": "Home", "features": "Features" },
+  "field": { "username": "Your name" },
+  "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave" },
+  "home": {
+    "eyebrow": "Management 3.0",
+    "title": "Delegation Poker, in real time",
+    "intro": "Create a room, invite your team, vote on a delegation level and reveal the votes together.",
+    "create_title": "Create a room",
+    "room_title": "Room title (optional)",
+    "create_cta": "Create",
+    "join_title": "Join a room",
+    "join_intro": "Got a room code or a link? Jump into the ongoing game.",
+    "join_cta": "Join"
+  },
+  "join": { "title": "Join a room", "code": "Room code", "cta": "Join" },
+  "vote_state": { "idle": "Waiting", "open": "Vote open", "revealed": "Revealed", "acted": "Result set" },
+  "room": {
+    "untitled": "Room",
+    "no_subject": "No subject set",
+    "set_subject": "Set the vote subject",
+    "share": "Share link",
+    "open_vote": "Open vote",
+    "reveal": "Reveal",
+    "reset": "Reset",
+    "new_round": "New round",
+    "acted_result": "Chosen level",
+    "choose_result": "Choose the chosen level",
+    "act": "Set result",
+    "participants": "Participants",
+    "facilitator_absent": "The facilitator is away.",
+    "claim": "Take the role",
+    "code_copied": "Code copied",
+    "link_copied": "Link copied"
+  },
+  "errors": {
+    "username_required": "Your name is required.",
+    "code_required": "The room code is required.",
+    "create_room": "Could not create the room.",
+    "room_not_found": "Room not found or expired."
+  }
+}

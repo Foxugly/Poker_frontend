@@ -1,0 +1,43 @@
+{
+  "app": { "title": "Delegation Poker", "tagline": "Decidete insieme il giusto livello di delega." },
+  "nav": { "home": "Home", "features": "Funzionalità" },
+  "field": { "username": "Il tuo nome" },
+  "action": { "cancel": "Annulla", "save": "Salva", "quit": "Esci" },
+  "home": {
+    "eyebrow": "Management 3.0",
+    "title": "Delegation Poker, in tempo reale",
+    "intro": "Crea una stanza, invita il team, vota un livello di delega e rivela i voti insieme.",
+    "create_title": "Crea una stanza",
+    "room_title": "Titolo della stanza (opzionale)",
+    "create_cta": "Crea",
+    "join_title": "Entra in una stanza",
+    "join_intro": "Hai un codice stanza o un link? Unisciti alla partita in corso.",
+    "join_cta": "Entra"
+  },
+  "join": { "title": "Entra in una stanza", "code": "Codice stanza", "cta": "Entra" },
+  "vote_state": { "idle": "In attesa", "open": "Voto aperto", "revealed": "Rivelato", "acted": "Risultato deciso" },
+  "room": {
+    "untitled": "Stanza",
+    "no_subject": "Nessun argomento definito",
+    "set_subject": "Definisci l'argomento del voto",
+    "share": "Condividi link",
+    "open_vote": "Apri il voto",
+    "reveal": "Rivela",
+    "reset": "Reimposta",
+    "new_round": "Nuovo turno",
+    "acted_result": "Livello scelto",
+    "choose_result": "Scegli il livello",
+    "act": "Conferma",
+    "participants": "Partecipanti",
+    "facilitator_absent": "Il facilitatore è assente.",
+    "claim": "Assumi il ruolo",
+    "code_copied": "Codice copiato",
+    "link_copied": "Link copiato"
+  },
+  "errors": {
+    "username_required": "Il tuo nome è obbligatorio.",
+    "code_required": "Il codice stanza è obbligatorio.",
+    "create_room": "Impossibile creare la stanza.",
+    "room_not_found": "Stanza non trovata o scaduta."
+  }
+}

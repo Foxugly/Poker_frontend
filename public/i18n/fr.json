@@ -1,0 +1,43 @@
+{
+  "app": { "title": "Delegation Poker", "tagline": "Décidez ensemble du bon niveau de délégation." },
+  "nav": { "home": "Accueil", "features": "Fonctionnalités" },
+  "field": { "username": "Votre nom" },
+  "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter" },
+  "home": {
+    "eyebrow": "Management 3.0",
+    "title": "Delegation Poker en temps réel",
+    "intro": "Créez une salle, invitez votre équipe, votez sur un niveau de délégation et révélez les votes ensemble.",
+    "create_title": "Créer une salle",
+    "room_title": "Titre de la salle (optionnel)",
+    "create_cta": "Créer",
+    "join_title": "Rejoindre une salle",
+    "join_intro": "Vous avez un code de salle ou un lien ? Rejoignez la partie en cours.",
+    "join_cta": "Rejoindre"
+  },
+  "join": { "title": "Rejoindre une salle", "code": "Code de salle", "cta": "Rejoindre" },
+  "vote_state": { "idle": "En attente", "open": "Vote ouvert", "revealed": "Révélé", "acted": "Résultat acté" },
+  "room": {
+    "untitled": "Salle",
+    "no_subject": "Aucun sujet défini",
+    "set_subject": "Définir le sujet du vote",
+    "share": "Partager le lien",
+    "open_vote": "Ouvrir le vote",
+    "reveal": "Révéler",
+    "reset": "Réinitialiser",
+    "new_round": "Nouveau tour",
+    "acted_result": "Niveau retenu",
+    "choose_result": "Choisir le niveau retenu",
+    "act": "Acter",
+    "participants": "Participants",
+    "facilitator_absent": "Le facilitateur est absent.",
+    "claim": "Prendre le rôle",
+    "code_copied": "Code copié",
+    "link_copied": "Lien copié"
+  },
+  "errors": {
+    "username_required": "Votre nom est requis.",
+    "code_required": "Le code de salle est requis.",
+    "create_room": "Impossible de créer la salle.",
+    "room_not_found": "Salle introuvable ou expirée."
+  }
+}

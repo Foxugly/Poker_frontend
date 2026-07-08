@@ -1,0 +1,12 @@
+@use "styles/tokens";
+@use "styles/layout";
+
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--surface-soft);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
