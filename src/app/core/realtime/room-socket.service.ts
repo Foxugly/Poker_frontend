@@ -162,6 +162,9 @@ export class RoomSocketService {
       case 'facilitator.changed':
         this.facilitatorPresent.set(true);
         return;
+      case 'facilitator.presence':
+        this.facilitatorPresent.set((msg.payload as { present: boolean }).present);
+        return;
       case 'error':
         this.lastError.set(msg.payload as RoomError);
         return;

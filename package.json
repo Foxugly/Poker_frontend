@@ -30,9 +30,11 @@
     "@angular/cli": "^21.2.8",
     "@angular/compiler-cli": "^21.2.0",
     "@tailwindcss/postcss": "^4.3.2",
+    "jsdom": "^28.1.0",
     "postcss": "^8.5.16",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.3.2",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "^4.1.10"
   }
 }

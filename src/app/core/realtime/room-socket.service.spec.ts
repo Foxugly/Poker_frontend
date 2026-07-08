@@ -1,0 +1,62 @@
+import { describe, expect, it } from 'vitest';
+
+import { RoomSocketService } from './room-socket.service';
+import { StateSync } from './protocol';
+
+// Exercises the server->client reducer (onMessage) directly, without a socket:
+// the service has no constructor deps, so we can drive its signals from envelopes.
+function feed(svc: RoomSocketService, type: string, payload: unknown) {
+  (svc as unknown as { onMessage: (m: unknown) => void }).onMessage({ v: 1, type, payload });
+}
+
+const SYNC: StateSync = {
+  room: { code: 'ABC234', title: 'Retro' },
+  protocolVersion: 1,
+  roundState: 'open',
+  subject: 'Budget?',
+  deckSnapshot: { voteType: 'delegation_poker', resolutionStrategy: 'v1', deckId: 1, cardBack: { image: null }, cards: [] },
+  participants: [{ participantId: 'p1', username: 'Sam', role: 'facilitator', hasVoted: false }],
+  myVote: 'consult',
+  result: null,
+  facilitatorPresent: true,
+};
+
+describe('RoomSocketService reducer', () => {
+  it('applies state.sync', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', SYNC);
+    expect(svc.roundState()).toBe('open');
+    expect(svc.subject()).toBe('Budget?');
+    expect(svc.myVote()).toBe('consult');
+    expect(svc.participants().length).toBe(1);
+  });
+
+  it('keeps vote values secret in participation.update', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'participation.update', { voted: 1, total: 2, votedIds: ['p1'] });
+    expect(svc.participation().voted).toBe(1);
+    expect(svc.participation().total).toBe(2);
+  });
+
+  it('reveals values only on vote.revealed', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 } });
+    expect(svc.roundState()).toBe('revealed');
+    expect(svc.revealedVotes()[0].cardValue).toBe('5');
+  });
+
+  it('resets vote state on vote.wasReset', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 } });
+    feed(svc, 'vote.wasReset', { nextState: 'idle' });
+    expect(svc.roundState()).toBe('idle');
+    expect(svc.revealedVotes().length).toBe(0);
+    expect(svc.myVote()).toBeNull();
+  });
+
+  it('tracks facilitator presence', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'facilitator.presence', { present: false });
+    expect(svc.facilitatorPresent()).toBe(false);
+  });
+});

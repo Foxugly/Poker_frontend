@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -20,6 +20,7 @@ export class HomeComponent {
   private identity = inject(IdentityService);
   private router = inject(Router);
   private messages = inject(MessageService);
+  private transloco = inject(TranslocoService);
 
   readonly username = signal(this.identity.username);
   readonly title = signal('');
@@ -39,7 +40,7 @@ export class HomeComponent {
       },
       error: () => {
         this.creating.set(false);
-        this.messages.add({ severity: 'error', summary: 'errors.create_room' });
+        this.messages.add({ severity: 'error', summary: this.transloco.translate('errors.create_room') });
       },
     });
   }

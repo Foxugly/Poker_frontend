@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,6 +21,7 @@ export class JoinComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private messages = inject(MessageService);
+  private transloco = inject(TranslocoService);
 
   readonly code = signal('');
   readonly username = signal(this.identity.username);
@@ -51,7 +52,7 @@ export class JoinComponent implements OnInit {
       },
       error: () => {
         this.joining.set(false);
-        this.messages.add({ severity: 'error', summary: 'errors.room_not_found' });
+        this.messages.add({ severity: 'error', summary: this.transloco.translate('errors.room_not_found') });
       },
     });
   }

@@ -90,6 +90,13 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "Poker_frontend:build:development",
+            "runner": "vitest"
+          }
         }
       }
     }
