@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Delegation Poker frontend — seed AWS SSM /poker-frontend/prod/* (OFF-BOX, admin).
+# All String (public — ships in the browser). Idempotent.
+# =============================================================================
+set -euo pipefail
+REGION="eu-west-1"
+P="/poker-frontend/prod"
+put(){ aws ssm put-parameter --region "$REGION" --name "$P/$1" --type String --overwrite --value "$2"; }
+
+put API_BASE_URL "https://poker-api.foxugly.com"
+put SENTRY_DSN "<POKER_FRONTEND_SENTRY_DSN>"
+put SENTRY_ENV "production"
+put SENTRY_RELEASE ""
+
+echo "Seeded $P/* — grant the instance role foxugly-fleet-ec2 SSM read on $P and $P/*."

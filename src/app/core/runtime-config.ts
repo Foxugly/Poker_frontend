@@ -1,19 +1,42 @@
-// Runtime config: prod values injected by nginx (window.__POKER__ from SSM);
-// dev falls back to the local backend. WS base is derived from the API base.
+// Runtime config: prod values injected by nginx into index.html as window.__POKER__
+// (from SSM /poker-frontend/prod/*, see deploy/nginx/poker-frontend.conf +
+// deploy/fetch-frontend-runtime-from-ssm.sh). Dev (ng serve) has no global and
+// falls back to the local backend. 100% PUBLIC — never put a secret here.
+export interface RuntimeSentry {
+  dsn: string;
+  environment: string;
+  release: string;
+}
+
 export interface RuntimeConfig {
   apiBaseUrl: string;
   wsBaseUrl: string;
+  sentry: RuntimeSentry;
 }
 
 declare global {
   interface Window {
-    __POKER__?: Partial<RuntimeConfig>;
+    __POKER__?: {
+      apiBaseUrl?: string;
+      wsBaseUrl?: string;
+      sentry?: Partial<RuntimeSentry>;
+    };
   }
 }
 
 export function getRuntimeConfig(): RuntimeConfig {
   const injected = (typeof window !== 'undefined' && window.__POKER__) || {};
   const apiBaseUrl = (injected.apiBaseUrl ?? 'http://127.0.0.1:8000').replace(/\/$/, '');
+  // WS base is derived from the API base (http→ws) unless explicitly provided.
   const wsBaseUrl = (injected.wsBaseUrl ?? apiBaseUrl.replace(/^http/, 'ws')).replace(/\/$/, '');
-  return { apiBaseUrl, wsBaseUrl };
+  const s = injected.sentry ?? {};
+  return {
+    apiBaseUrl,
+    wsBaseUrl,
+    sentry: {
+      dsn: (s.dsn ?? '').trim(),
+      environment: (s.environment ?? 'production').trim(),
+      release: (s.release ?? '').trim(),
+    },
+  };
 }
