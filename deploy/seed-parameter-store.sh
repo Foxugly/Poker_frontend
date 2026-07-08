@@ -11,6 +11,7 @@ put(){ aws ssm put-parameter --region "$REGION" --name "$P/$1" --type String --o
 put API_BASE_URL "https://poker-api.foxugly.com"
 put SENTRY_DSN "<POKER_FRONTEND_SENTRY_DSN>"
 put SENTRY_ENV "production"
-put SENTRY_RELEASE ""
+# Note: SSM rejects empty values — do NOT seed SENTRY_RELEASE="" (the runtime-fetch
+# script defaults it to "" when absent). Seed it only with a real release string.
 
 echo "Seeded $P/* — grant the instance role foxugly-fleet-ec2 SSM read on $P and $P/*."
