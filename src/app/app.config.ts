@@ -1,10 +1,12 @@
 import {
   ApplicationConfig,
+  ErrorHandler,
   inject,
   isDevMode,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
+import * as Sentry from '@sentry/angular';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
@@ -53,6 +55,9 @@ export const appConfig: ApplicationConfig = {
       inject(ThemeService).init();
       inject(LanguageService).init();
     }),
+    // Reports unhandled Angular errors to Sentry (no-op when Sentry.init wasn't
+    // called, i.e. no DSN in dev). See main.ts.
+    { provide: ErrorHandler, useValue: Sentry.createErrorHandler() },
     MessageService,
   ],
 };
