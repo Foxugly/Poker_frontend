@@ -1,0 +1,52 @@
+.auth {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-4);
+}
+.auth h1 {
+  margin: 0 0 var(--s-2);
+  font-size: 1.5rem;
+  color: var(--text-strong);
+}
+.auth .lead {
+  color: var(--muted);
+  margin: 0 0 var(--s-6);
+}
+.auth .field {
+  margin-bottom: var(--s-4);
+}
+.auth label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: var(--s-1);
+}
+.auth input {
+  width: 100%;
+}
+.auth .actions {
+  margin-top: var(--s-4);
+}
+.auth .links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin-top: var(--s-6);
+  font-size: 0.9rem;
+}
+.auth .links a {
+  color: var(--fox-primary);
+  cursor: pointer;
+  text-decoration: none;
+}
+.auth .links a:hover {
+  text-decoration: underline;
+}
+.auth .err {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: var(--s-1);
+}
+.auth .ok {
+  color: var(--fox-primary);
+}

@@ -39,6 +39,44 @@
       "email_history": "Envoi de l'historique par email"
     }
   },
+  "auth": {
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "new_password": "Nouveau mot de passe",
+    "display_name": "Nom affiché",
+    "logout": "Se déconnecter",
+    "back_to_login": "Retour à la connexion",
+    "login": {
+      "title": "Se connecter", "lead": "Accédez à votre équipe et votre historique.", "cta": "Se connecter",
+      "forgot": "Mot de passe oublié ?", "magic": "Recevoir un lien de connexion par e-mail",
+      "no_account": "Pas encore de compte ?", "not_confirmed": "Confirmez d'abord votre e-mail.",
+      "resend": "Renvoyer le lien", "resent": "Si ce compte existe, un nouveau lien a été envoyé."
+    },
+    "register": {
+      "title": "Créer un compte", "lead": "Créez votre compte pour gérer une équipe.", "cta": "Créer le compte",
+      "have_account": "Déjà un compte ?", "done_title": "Vérifiez votre boîte mail",
+      "done_lead": "Nous vous avons envoyé un lien pour confirmer votre adresse."
+    },
+    "forgot": {
+      "title": "Mot de passe oublié", "lead": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
+      "cta": "Envoyer le lien", "sent": "Si cette adresse existe, un lien de réinitialisation a été envoyé."
+    },
+    "reset": { "title": "Réinitialiser le mot de passe", "cta": "Réinitialiser", "done": "Mot de passe réinitialisé. Vous pouvez vous connecter." },
+    "confirm": {
+      "pending": "Confirmation en cours…", "ok_title": "E-mail confirmé", "ok_lead": "Redirection…",
+      "error_title": "Lien invalide", "error_lead": "Ce lien de confirmation est invalide ou expiré."
+    },
+    "magic": {
+      "title": "Lien de connexion", "lead": "Entrez votre e-mail, on vous envoie un lien pour vous connecter.",
+      "cta": "Envoyer le lien", "sent": "Si ce compte existe, un lien de connexion a été envoyé.",
+      "verifying": "Connexion en cours…", "error_title": "Lien invalide",
+      "error_lead": "Ce lien est invalide, expiré ou déjà utilisé.", "request_new": "Demander un nouveau lien"
+    },
+    "errors": {
+      "invalid_credentials": "E-mail ou mot de passe incorrect.", "password_short": "Au moins 8 caractères.",
+      "generic": "Une erreur est survenue. Réessayez.", "reset_invalid": "Lien invalide ou expiré."
+    }
+  },
   "vote_state": { "idle": "En attente", "open": "Vote ouvert", "revealed": "Révélé", "acted": "Résultat acté" },
   "room": {
     "untitled": "Salle",

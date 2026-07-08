@@ -39,6 +39,44 @@
       "email_history": "Geschiedenis per e-mail versturen"
     }
   },
+  "auth": {
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "new_password": "Nieuw wachtwoord",
+    "display_name": "Weergavenaam",
+    "logout": "Afmelden",
+    "back_to_login": "Terug naar aanmelden",
+    "login": {
+      "title": "Aanmelden", "lead": "Toegang tot je team en geschiedenis.", "cta": "Aanmelden",
+      "forgot": "Wachtwoord vergeten?", "magic": "Stuur me een aanmeldlink per e-mail",
+      "no_account": "Nog geen account?", "not_confirmed": "Bevestig eerst je e-mail.",
+      "resend": "Link opnieuw sturen", "resent": "Als dat account bestaat, is een nieuwe link verstuurd."
+    },
+    "register": {
+      "title": "Account aanmaken", "lead": "Maak je account om een team te beheren.", "cta": "Account aanmaken",
+      "have_account": "Heb je al een account?", "done_title": "Controleer je inbox",
+      "done_lead": "We hebben je een link gestuurd om je adres te bevestigen."
+    },
+    "forgot": {
+      "title": "Wachtwoord vergeten", "lead": "Voer je e-mail in om een herstellink te ontvangen.",
+      "cta": "Link versturen", "sent": "Als dat adres bestaat, is een herstellink verstuurd."
+    },
+    "reset": { "title": "Wachtwoord opnieuw instellen", "cta": "Opnieuw instellen", "done": "Wachtwoord opnieuw ingesteld. Je kunt je nu aanmelden." },
+    "confirm": {
+      "pending": "Bevestigen…", "ok_title": "E-mail bevestigd", "ok_lead": "Doorverwijzen…",
+      "error_title": "Ongeldige link", "error_lead": "Deze bevestigingslink is ongeldig of verlopen."
+    },
+    "magic": {
+      "title": "Aanmeldlink", "lead": "Voer je e-mail in en we sturen je een link om je aan te melden.",
+      "cta": "Link versturen", "sent": "Als dat account bestaat, is een aanmeldlink verstuurd.",
+      "verifying": "Aanmelden…", "error_title": "Ongeldige link",
+      "error_lead": "Deze link is ongeldig, verlopen of al gebruikt.", "request_new": "Nieuwe link aanvragen"
+    },
+    "errors": {
+      "invalid_credentials": "Onjuist e-mailadres of wachtwoord.", "password_short": "Minstens 8 tekens.",
+      "generic": "Er ging iets mis. Probeer opnieuw.", "reset_invalid": "Ongeldige of verlopen link."
+    }
+  },
   "vote_state": { "idle": "Wachten", "open": "Stemming open", "revealed": "Onthuld", "acted": "Resultaat vastgelegd" },
   "room": {
     "untitled": "Kamer",

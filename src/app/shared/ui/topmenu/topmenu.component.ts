@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
+import { ButtonModule } from 'primeng/button';
 
+import { AuthService } from '../../../core/auth/auth.service';
 import { LanguageSwitcherComponent } from '../language-switcher/language-switcher.component';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 
@@ -12,7 +14,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 @Component({
   selector: 'app-topmenu',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, TranslocoModule, LanguageSwitcherComponent, ThemeToggleComponent],
+  imports: [RouterLink, RouterLinkActive, TranslocoModule, ButtonModule, LanguageSwitcherComponent, ThemeToggleComponent],
   template: `
     <header class="topbar">
       <a routerLink="/" class="brand">
@@ -28,6 +30,13 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
       <div class="actions">
         <app-theme-toggle />
         <app-language-switcher />
+        @if (auth.isAuthenticated()) {
+          <span class="user"><i class="pi pi-user"></i>{{ auth.currentUser()?.display_name || auth.currentUser()?.email }}</span>
+          <p-button icon="pi pi-sign-out" [text]="true" [rounded]="true" severity="secondary"
+                    [ariaLabel]="'auth.logout' | transloco" (onClick)="logout()" />
+        } @else {
+          <a routerLink="/login" class="signin">{{ 'auth.login.cta' | transloco }}</a>
+        }
       </div>
     </header>
   `,
@@ -71,6 +80,28 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
         align-items: center;
         gap: var(--s-2);
       }
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .user i {
+        color: var(--fox-primary);
+      }
+      .signin {
+        color: var(--fox-primary);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+      .signin:hover {
+        text-decoration: underline;
+      }
       @media (max-width: 640px) {
         .nav {
           display: none;
@@ -79,4 +110,12 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
     `,
   ],
 })
-export class TopmenuComponent {}
+export class TopmenuComponent {
+  readonly auth = inject(AuthService);
+  private router = inject(Router);
+
+  async logout(): Promise<void> {
+    await this.auth.logout();
+    this.router.navigateByUrl('/');
+  }
+}

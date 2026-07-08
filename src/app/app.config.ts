@@ -22,6 +22,8 @@ import { AVAILABLE_LANGS, DEFAULT_LANG } from './core/i18n/available-languages';
 import { LanguageService } from './core/i18n/language.service';
 import { ThemeService } from './core/theme/theme.service';
 import { languageHeaderInterceptor } from './core/i18n/language.interceptor';
+import { authInterceptor } from './core/auth/auth.interceptor';
+import { AuthService } from './core/auth/auth.service';
 
 // Aura preset with Emerald as primary; `green` primitive → emerald so `success`
 // buttons match `primary` (one green across the UI, §3.15). Dark via `.dark-mode`.
@@ -41,7 +43,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({ theme: { preset: AuraEmerald, options: { darkModeSelector: '.dark-mode' } } }),
-    provideHttpClient(withInterceptors([languageHeaderInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, languageHeaderInterceptor])),
     provideTransloco({
       config: {
         availableLangs: [...AVAILABLE_LANGS],
@@ -54,6 +56,8 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(ThemeService).init();
       inject(LanguageService).init();
+      // Restore any existing session before the app renders.
+      return inject(AuthService).bootstrap();
     }),
     // Reports unhandled Angular errors to Sentry (no-op when Sentry.init wasn't
     // called, i.e. no DSN in dev). See main.ts.

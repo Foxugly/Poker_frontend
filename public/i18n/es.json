@@ -39,6 +39,44 @@
       "email_history": "Envío del historial por correo"
     }
   },
+  "auth": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "new_password": "Nueva contraseña",
+    "display_name": "Nombre visible",
+    "logout": "Cerrar sesión",
+    "back_to_login": "Volver a iniciar sesión",
+    "login": {
+      "title": "Iniciar sesión", "lead": "Accede a tu equipo y tu historial.", "cta": "Iniciar sesión",
+      "forgot": "¿Olvidaste tu contraseña?", "magic": "Enviarme un enlace de acceso por correo",
+      "no_account": "¿Aún no tienes cuenta?", "not_confirmed": "Confirma primero tu correo.",
+      "resend": "Reenviar el enlace", "resent": "Si esa cuenta existe, se ha enviado un nuevo enlace."
+    },
+    "register": {
+      "title": "Crear una cuenta", "lead": "Crea tu cuenta para gestionar un equipo.", "cta": "Crear cuenta",
+      "have_account": "¿Ya tienes cuenta?", "done_title": "Revisa tu correo",
+      "done_lead": "Te hemos enviado un enlace para confirmar tu dirección."
+    },
+    "forgot": {
+      "title": "Contraseña olvidada", "lead": "Introduce tu correo para recibir un enlace de restablecimiento.",
+      "cta": "Enviar el enlace", "sent": "Si esa dirección existe, se ha enviado un enlace de restablecimiento."
+    },
+    "reset": { "title": "Restablecer contraseña", "cta": "Restablecer", "done": "Contraseña restablecida. Ya puedes iniciar sesión." },
+    "confirm": {
+      "pending": "Confirmando…", "ok_title": "Correo confirmado", "ok_lead": "Redirigiendo…",
+      "error_title": "Enlace no válido", "error_lead": "Este enlace de confirmación no es válido o ha caducado."
+    },
+    "magic": {
+      "title": "Enlace de acceso", "lead": "Introduce tu correo y te enviaremos un enlace para iniciar sesión.",
+      "cta": "Enviar el enlace", "sent": "Si esa cuenta existe, se ha enviado un enlace de acceso.",
+      "verifying": "Iniciando sesión…", "error_title": "Enlace no válido",
+      "error_lead": "Este enlace no es válido, ha caducado o ya se ha usado.", "request_new": "Solicitar un nuevo enlace"
+    },
+    "errors": {
+      "invalid_credentials": "Correo o contraseña incorrectos.", "password_short": "Al menos 8 caracteres.",
+      "generic": "Algo salió mal. Inténtalo de nuevo.", "reset_invalid": "Enlace no válido o caducado."
+    }
+  },
   "vote_state": { "idle": "Esperando", "open": "Votación abierta", "revealed": "Revelado", "acted": "Resultado fijado" },
   "room": {
     "untitled": "Sala",
