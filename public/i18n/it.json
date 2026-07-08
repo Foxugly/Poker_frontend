@@ -15,6 +15,30 @@
     "join_cta": "Entra"
   },
   "join": { "title": "Entra in una stanza", "code": "Codice stanza", "cta": "Entra" },
+  "features": {
+    "eyebrow": "Gratis e a pagamento",
+    "title": "Funzionalità",
+    "intro": "Inizia gratis con stanze anonime in tempo reale. Passa a pagamento per team, cronologia e delegation board.",
+    "feature": "Funzionalità",
+    "free": "Gratis",
+    "free_desc": "Stanze anonime, senza account",
+    "paid": "A pagamento",
+    "paid_desc": "Team, in abbonamento",
+    "rows": {
+      "anon_rooms": "Stanze anonime temporanee",
+      "standard_deck": "Mazzo Delegation Poker standard",
+      "realtime": "Voto in tempo reale e rivelazione simultanea",
+      "langs": "5 lingue (FR/NL/EN/IT/ES)",
+      "accounts": "Account e team",
+      "history": "Cronologia delle sessioni",
+      "board": "Delegation Board (AS-IS / TO-BE)",
+      "custom_decks": "Mazzi personalizzati",
+      "custom_back": "Retro carta personalizzato",
+      "prepared_votes": "Voti preparati in anticipo",
+      "export": "Esportazione CSV / PDF",
+      "email_history": "Invio della cronologia via email"
+    }
+  },
   "vote_state": { "idle": "In attesa", "open": "Voto aperto", "revealed": "Rivelato", "acted": "Risultato deciso" },
   "room": {
     "untitled": "Stanza",

@@ -15,6 +15,30 @@
     "join_cta": "Deelnemen"
   },
   "join": { "title": "Kamer binnengaan", "code": "Kamercode", "cta": "Deelnemen" },
+  "features": {
+    "eyebrow": "Gratis & Betaald",
+    "title": "Functies",
+    "intro": "Begin gratis met realtime anonieme kamers. Ga betaald voor teams, geschiedenis en het delegatiebord.",
+    "feature": "Functie",
+    "free": "Gratis",
+    "free_desc": "Anonieme kamers, geen account",
+    "paid": "Betaald",
+    "paid_desc": "Teams, per abonnement",
+    "rows": {
+      "anon_rooms": "Tijdelijke anonieme kamers",
+      "standard_deck": "Standaard Delegation Poker-deck",
+      "realtime": "Realtime stemmen & gelijktijdige onthulling",
+      "langs": "5 talen (FR/NL/EN/IT/ES)",
+      "accounts": "Accounts & teams",
+      "history": "Sessiegeschiedenis",
+      "board": "Delegatiebord (AS-IS / TO-BE)",
+      "custom_decks": "Aangepaste decks",
+      "custom_back": "Aangepaste kaartachterkant",
+      "prepared_votes": "Vooraf voorbereide stemmingen",
+      "export": "CSV / PDF-export",
+      "email_history": "Geschiedenis per e-mail versturen"
+    }
+  },
   "vote_state": { "idle": "Wachten", "open": "Stemming open", "revealed": "Onthuld", "acted": "Resultaat vastgelegd" },
   "room": {
     "untitled": "Kamer",

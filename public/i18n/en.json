@@ -15,6 +15,30 @@
     "join_cta": "Join"
   },
   "join": { "title": "Join a room", "code": "Room code", "cta": "Join" },
+  "features": {
+    "eyebrow": "Free & Paid",
+    "title": "Features",
+    "intro": "Start free with real-time anonymous rooms. Go paid for teams, history and the delegation board.",
+    "feature": "Feature",
+    "free": "Free",
+    "free_desc": "Anonymous rooms, no account",
+    "paid": "Paid",
+    "paid_desc": "Teams, by subscription",
+    "rows": {
+      "anon_rooms": "Ephemeral anonymous rooms",
+      "standard_deck": "Standard Delegation Poker deck",
+      "realtime": "Real-time voting & simultaneous reveal",
+      "langs": "5 languages (FR/NL/EN/IT/ES)",
+      "accounts": "Accounts & teams",
+      "history": "Session history",
+      "board": "Delegation Board (AS-IS / TO-BE)",
+      "custom_decks": "Custom decks",
+      "custom_back": "Custom card back",
+      "prepared_votes": "Votes prepared in advance",
+      "export": "CSV / PDF export",
+      "email_history": "Email the history"
+    }
+  },
   "vote_state": { "idle": "Waiting", "open": "Vote open", "revealed": "Revealed", "acted": "Result set" },
   "room": {
     "untitled": "Room",

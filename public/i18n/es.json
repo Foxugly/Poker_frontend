@@ -15,6 +15,30 @@
     "join_cta": "Unirse"
   },
   "join": { "title": "Unirse a una sala", "code": "Código de sala", "cta": "Unirse" },
+  "features": {
+    "eyebrow": "Gratis y de pago",
+    "title": "Funciones",
+    "intro": "Empieza gratis con salas anónimas en tiempo real. Pasa a la versión de pago para equipos, historial y delegation board.",
+    "feature": "Función",
+    "free": "Gratis",
+    "free_desc": "Salas anónimas, sin cuenta",
+    "paid": "De pago",
+    "paid_desc": "Equipos, por suscripción",
+    "rows": {
+      "anon_rooms": "Salas anónimas temporales",
+      "standard_deck": "Baraja Delegation Poker estándar",
+      "realtime": "Votación en tiempo real y revelación simultánea",
+      "langs": "5 idiomas (FR/NL/EN/IT/ES)",
+      "accounts": "Cuentas y equipos",
+      "history": "Historial de sesiones",
+      "board": "Delegation Board (AS-IS / TO-BE)",
+      "custom_decks": "Barajas personalizadas",
+      "custom_back": "Reverso de carta personalizado",
+      "prepared_votes": "Votos preparados con antelación",
+      "export": "Exportación CSV / PDF",
+      "email_history": "Envío del historial por correo"
+    }
+  },
   "vote_state": { "idle": "Esperando", "open": "Votación abierta", "revealed": "Revelado", "acted": "Resultado fijado" },
   "room": {
     "untitled": "Sala",

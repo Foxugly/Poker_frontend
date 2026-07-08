@@ -15,6 +15,30 @@
     "join_cta": "Rejoindre"
   },
   "join": { "title": "Rejoindre une salle", "code": "Code de salle", "cta": "Rejoindre" },
+  "features": {
+    "eyebrow": "Gratuit & Payant",
+    "title": "Fonctionnalités",
+    "intro": "Commencez gratuitement avec des salles anonymes en temps réel. Passez au payant pour les équipes, l'historique et le delegation board.",
+    "feature": "Fonctionnalité",
+    "free": "Gratuit",
+    "free_desc": "Salles anonymes, sans compte",
+    "paid": "Payant",
+    "paid_desc": "Équipes, par abonnement",
+    "rows": {
+      "anon_rooms": "Salles anonymes éphémères",
+      "standard_deck": "Deck Delegation Poker standard",
+      "realtime": "Vote temps réel & révélation simultanée",
+      "langs": "5 langues (FR/NL/EN/IT/ES)",
+      "accounts": "Comptes & équipes",
+      "history": "Historique des sessions",
+      "board": "Delegation Board (AS-IS / TO-BE)",
+      "custom_decks": "Decks personnalisés",
+      "custom_back": "Dos de carte personnalisé",
+      "prepared_votes": "Votes préparés à l'avance",
+      "export": "Export CSV / PDF",
+      "email_history": "Envoi de l'historique par email"
+    }
+  },
   "vote_state": { "idle": "En attente", "open": "Vote ouvert", "revealed": "Révélé", "acted": "Résultat acté" },
   "room": {
     "untitled": "Salle",
