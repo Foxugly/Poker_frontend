@@ -30,8 +30,12 @@ interface Seat {
   participantId: string;
   username: string;
   role: string;
-  x: number; // % position around the table
-  y: number;
+  // Radial layout (same angle from the table centre): the card sits near the table,
+  // the person (avatar + name) further out. All in % of the felt container.
+  cardX: number;
+  cardY: number;
+  personX: number;
+  personY: number;
   card: SnapshotCard | null; // the card to render (face when revealed, any card for the back)
   revealed: boolean;
   show: boolean; // whether the seat has a card (voted) at all
@@ -131,18 +135,29 @@ export class RoomComponent implements OnInit, OnDestroy {
       let card: SnapshotCard | null = null;
       if (faceValue !== undefined) card = this.cardByValue(faceValue);
       else if (hasVoted && deck) card = deck.cards[0]; // back placeholder
+      const cx = Math.cos(angle);
+      const sy = Math.sin(angle);
       return {
         participantId: p.participantId,
         username: p.username,
         role: p.role,
-        x: 50 + 44 * Math.cos(angle),
-        y: 50 + 34 * Math.sin(angle),
+        // Card near the table edge; person one ring further out — same angle (radial).
+        cardX: 50 + 33 * cx,
+        cardY: 50 + 30 * sy,
+        personX: 50 + 47 * cx,
+        personY: 50 + 45 * sy,
         card,
         revealed: faceValue !== undefined,
         show: hasVoted,
       };
     });
   });
+
+  /** The table grows wider with more players (kept short via a rising aspect ratio),
+   * bounded for up to 20 participants; seat cards shrink as the table fills. */
+  readonly feltWidth = computed(() => Math.min(760, 380 + this.socket.participants().length * 24));
+  readonly feltAspect = computed(() => Math.min(3.2, 1.9 + this.socket.participants().length * 0.09).toFixed(2));
+  readonly seatCardWidth = computed(() => Math.round(Math.max(34, 62 - this.socket.participants().length * 1.4)));
 
   cardByValue(value: string): SnapshotCard | null {
     return this.socket.deckSnapshot()?.cards.find((c) => c.value === value) ?? null;

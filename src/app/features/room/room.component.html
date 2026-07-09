@@ -20,9 +20,18 @@
         </div>
 
         <div class="table-wrap">
-          <div class="felt">
+          <div class="felt" [style.max-width.px]="feltWidth()" [style.aspect-ratio]="feltAspect()" [style.--seat-card-w.px]="seatCardWidth()">
             @for (seat of seats(); track seat.participantId) {
-              <div class="seat" [style.left.%]="seat.x" [style.top.%]="seat.y">
+              <!-- Card near the table -->
+              <div class="seat-card" [style.left.%]="seat.cardX" [style.top.%]="seat.cardY">
+                @if (seat.show && seat.card) {
+                  <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
+                } @else {
+                  <div class="empty-slot"></div>
+                }
+              </div>
+              <!-- Participant on the outside -->
+              <div class="seat-person" [style.left.%]="seat.personX" [style.top.%]="seat.personY">
                 <div class="avatar" [style.background]="avatarColor(seat.participantId)">{{ initials(seat.username) }}</div>
                 <span class="seat-name">
                   @if (seat.role === 'facilitator') { <i class="pi pi-star-fill"></i> }
@@ -33,13 +42,6 @@
                     </button>
                   }
                 </span>
-                <div class="seat-card">
-                  @if (seat.show && seat.card) {
-                    <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
-                  } @else {
-                    <div class="empty-slot"></div>
-                  }
-                </div>
               </div>
             }
 
