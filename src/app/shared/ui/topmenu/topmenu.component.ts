@@ -38,6 +38,9 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
           <a class="nav__link" routerLink="/features" routerLinkActive="nav__link--active">
             <i class="pi pi-sparkles"></i>{{ 'nav.features' | transloco }}
           </a>
+          <a class="nav__link" routerLink="/pricing" routerLinkActive="nav__link--active">
+            <i class="pi pi-tag"></i>{{ 'nav.pricing' | transloco }}
+          </a>
           <a class="nav__link nav__link--accent" routerLink="/support" routerLinkActive="nav__link--active">
             <i class="pi pi-heart"></i>{{ 'nav.support' | transloco }}
           </a>

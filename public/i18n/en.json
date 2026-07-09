@@ -1,6 +1,6 @@
 {
   "app": { "title": "Poker", "tagline": "Shared decision-making, in real time — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Home", "features": "Features", "support": "Support", "about": "About", "teams": "Teams" },
+  "nav": { "home": "Home", "features": "Features", "pricing": "Pricing", "support": "Support", "about": "About", "teams": "Teams" },
   "field": { "username": "Your name" },
   "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave", "back": "Back" },
   "teams": {
@@ -31,9 +31,40 @@
   },
   "support": {
     "title": "Support",
-    "lead": "Poker is free for anonymous rooms.",
-    "body": "If you find it useful, supporting us helps cover hosting and keep improving it.",
-    "cta": "Support us"
+    "why_title": "Why support Poker?",
+    "reasons": {
+      "free": { "title": "Free for the essentials", "desc": "Real-time anonymous rooms stay free, no account needed." },
+      "infra": { "title": "Hosting & infrastructure", "desc": "Servers, SSL certificates and email delivery have a real cost." },
+      "maintenance": { "title": "Ongoing maintenance", "desc": "Security updates, bug fixes, compatibility." },
+      "features": { "title": "New features", "desc": "Every contribution accelerates development." }
+    },
+    "cta_title": "Make a donation",
+    "cta_desc": "Donations go through GitHub Sponsors — one-time or recurring.",
+    "cta_button": "Support on GitHub Sponsors",
+    "cta_note": "You'll be redirected to GitHub Sponsors in a new tab.",
+    "thanks_title": "Thank you!",
+    "thanks_desc": "Every contribution, however small, makes a difference."
+  },
+  "pricing": {
+    "title": "Pricing",
+    "intro": "Free for anonymous rooms. Go paid to create and manage teams.",
+    "free_title": "Free",
+    "free_f1": "Real-time anonymous rooms",
+    "free_f2": "Up to 20 people per room",
+    "free_f3": "No account required",
+    "team1_title": "1 team",
+    "team5_title": "5 teams",
+    "team5_f1": "Up to 5 teams",
+    "per_month": "/month",
+    "per_year": "/year",
+    "or": "or",
+    "paid_f1": "Delegation Board (AS-IS / TO-BE)",
+    "paid_f2": "History + email delivery",
+    "paid_f3": "Custom appearance",
+    "paid_f4": "Up to 20 members per team",
+    "note": "20 people max per room · 20 members max per team.",
+    "cta_free": "Create a room",
+    "cta_paid": "Choose"
   },
   "about": {
     "title": "About",

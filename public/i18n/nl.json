@@ -1,6 +1,6 @@
 {
   "app": { "title": "Poker", "tagline": "Samen beslissen, in realtime — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Home", "features": "Functies", "support": "Steunen", "about": "Over", "teams": "Teams" },
+  "nav": { "home": "Home", "features": "Functies", "pricing": "Tarieven", "support": "Steunen", "about": "Over", "teams": "Teams" },
   "field": { "username": "Je naam" },
   "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten", "back": "Terug" },
   "teams": {
@@ -31,9 +31,40 @@
   },
   "support": {
     "title": "Steunen",
-    "lead": "Poker is gratis voor anonieme kamers.",
-    "body": "Vind je het nuttig? Je steun helpt de hosting te dekken en Poker te blijven verbeteren.",
-    "cta": "Steun ons"
+    "why_title": "Waarom Poker steunen?",
+    "reasons": {
+      "free": { "title": "Gratis voor het essentiële", "desc": "Realtime anonieme kamers blijven gratis, zonder account." },
+      "infra": { "title": "Hosting & infrastructuur", "desc": "Servers, SSL-certificaten en e-mailbezorging brengen reële kosten mee." },
+      "maintenance": { "title": "Doorlopend onderhoud", "desc": "Beveiligingsupdates, bugfixes, compatibiliteit." },
+      "features": { "title": "Nieuwe functies", "desc": "Elke bijdrage versnelt de ontwikkeling." }
+    },
+    "cta_title": "Een gift doen",
+    "cta_desc": "Giften verlopen via GitHub Sponsors — eenmalig of terugkerend.",
+    "cta_button": "Steun op GitHub Sponsors",
+    "cta_note": "Je wordt in een nieuw tabblad naar GitHub Sponsors geleid.",
+    "thanks_title": "Bedankt!",
+    "thanks_desc": "Elke bijdrage, hoe klein ook, maakt een verschil."
+  },
+  "pricing": {
+    "title": "Tarieven",
+    "intro": "Gratis voor anonieme kamers. Ga betaald om teams te maken en te beheren.",
+    "free_title": "Gratis",
+    "free_f1": "Realtime anonieme kamers",
+    "free_f2": "Tot 20 personen per kamer",
+    "free_f3": "Geen account nodig",
+    "team1_title": "1 team",
+    "team5_title": "5 teams",
+    "team5_f1": "Tot 5 teams",
+    "per_month": "/maand",
+    "per_year": "/jaar",
+    "or": "of",
+    "paid_f1": "Delegation Board (AS-IS / TO-BE)",
+    "paid_f2": "Geschiedenis + e-mailbezorging",
+    "paid_f3": "Aangepast uiterlijk",
+    "paid_f4": "Tot 20 leden per team",
+    "note": "Max. 20 personen per kamer · max. 20 leden per team.",
+    "cta_free": "Kamer maken",
+    "cta_paid": "Kiezen"
   },
   "about": {
     "title": "Over",

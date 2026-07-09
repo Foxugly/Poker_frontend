@@ -10,6 +10,7 @@ export const routes: Routes = [
     children: [
       { path: '', loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent) },
       { path: 'features', loadComponent: () => import('./features/features/features.component').then((m) => m.FeaturesComponent) },
+      { path: 'pricing', loadComponent: () => import('./features/pricing/pricing.component').then((m) => m.PricingComponent) },
       { path: 'support', loadComponent: () => import('./features/support/support.component').then((m) => m.SupportComponent) },
       { path: 'about', loadComponent: () => import('./features/about/about.component').then((m) => m.AboutComponent) },
       { path: 'login', loadComponent: () => import('./features/auth/login.component').then((m) => m.LoginComponent) },

@@ -1,6 +1,6 @@
 {
   "app": { "title": "Poker", "tagline": "La prise de décision commune, en temps réel — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Accueil", "features": "Fonctionnalités", "support": "Soutenir", "about": "À propos", "teams": "Équipes" },
+  "nav": { "home": "Accueil", "features": "Fonctionnalités", "pricing": "Tarifs", "support": "Soutenir", "about": "À propos", "teams": "Équipes" },
   "field": { "username": "Votre nom" },
   "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter", "back": "Retour" },
   "teams": {
@@ -31,9 +31,40 @@
   },
   "support": {
     "title": "Soutenir",
-    "lead": "Poker est gratuit pour les salles anonymes.",
-    "body": "Si l'outil vous est utile, un soutien nous aide à couvrir l'hébergement et à continuer de l'améliorer.",
-    "cta": "Nous soutenir"
+    "why_title": "Pourquoi soutenir Poker ?",
+    "reasons": {
+      "free": { "title": "Gratuit pour l'essentiel", "desc": "Les salles anonymes en temps réel restent gratuites, sans compte." },
+      "infra": { "title": "Hébergement & infrastructure", "desc": "Serveurs, certificats SSL et envoi d'emails ont un coût réel." },
+      "maintenance": { "title": "Maintenance continue", "desc": "Mises à jour de sécurité, corrections de bugs, compatibilité." },
+      "features": { "title": "Nouvelles fonctionnalités", "desc": "Chaque contribution accélère le développement." }
+    },
+    "cta_title": "Faire un don",
+    "cta_desc": "Les dons passent par GitHub Sponsors — ponctuel ou récurrent.",
+    "cta_button": "Soutenir sur GitHub Sponsors",
+    "cta_note": "Vous serez redirigé vers GitHub Sponsors dans un nouvel onglet.",
+    "thanks_title": "Merci !",
+    "thanks_desc": "Chaque contribution, même modeste, fait la différence."
+  },
+  "pricing": {
+    "title": "Tarifs",
+    "intro": "Gratuit pour les salles anonymes. Passez au payant pour créer et gérer des équipes.",
+    "free_title": "Gratuit",
+    "free_f1": "Salles anonymes en temps réel",
+    "free_f2": "Jusqu'à 20 personnes par salle",
+    "free_f3": "Aucun compte requis",
+    "team1_title": "1 équipe",
+    "team5_title": "5 équipes",
+    "team5_f1": "Jusqu'à 5 équipes",
+    "per_month": "/mois",
+    "per_year": "/an",
+    "or": "ou",
+    "paid_f1": "Delegation Board (AS-IS / TO-BE)",
+    "paid_f2": "Historique + envoi par email",
+    "paid_f3": "Apparence personnalisée",
+    "paid_f4": "Jusqu'à 20 membres par équipe",
+    "note": "20 personnes maximum par salle · 20 membres maximum par équipe.",
+    "cta_free": "Créer une salle",
+    "cta_paid": "Choisir"
   },
   "about": {
     "title": "À propos",
