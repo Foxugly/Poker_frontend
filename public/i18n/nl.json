@@ -205,6 +205,7 @@
     "username_required": "Je naam is verplicht.",
     "code_required": "De kamercode is verplicht.",
     "create_room": "Kan de kamer niet maken.",
-    "room_not_found": "Kamer niet gevonden of verlopen."
+    "room_not_found": "Kamer niet gevonden of verlopen.",
+    "room_full": "Deze kamer is vol (maximaal 20 personen)."
   }
 }

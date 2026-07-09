@@ -205,6 +205,7 @@
     "username_required": "Your name is required.",
     "code_required": "The room code is required.",
     "create_room": "Could not create the room.",
-    "room_not_found": "Room not found or expired."
+    "room_not_found": "Room not found or expired.",
+    "room_full": "This room is full (20 people maximum)."
   }
 }

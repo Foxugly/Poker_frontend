@@ -205,6 +205,7 @@
     "username_required": "Votre nom est requis.",
     "code_required": "Le code de salle est requis.",
     "create_room": "Impossible de créer la salle.",
-    "room_not_found": "Salle introuvable ou expirée."
+    "room_not_found": "Salle introuvable ou expirée.",
+    "room_full": "Cette salle est pleine (20 personnes maximum)."
   }
 }

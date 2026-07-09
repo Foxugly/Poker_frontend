@@ -205,6 +205,7 @@
     "username_required": "Il tuo nome è obbligatorio.",
     "code_required": "Il codice stanza è obbligatorio.",
     "create_room": "Impossibile creare la stanza.",
-    "room_not_found": "Stanza non trovata o scaduta."
+    "room_not_found": "Stanza non trovata o scaduta.",
+    "room_full": "Questa stanza è piena (massimo 20 persone)."
   }
 }

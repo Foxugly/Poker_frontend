@@ -205,6 +205,7 @@
     "username_required": "Tu nombre es obligatorio.",
     "code_required": "El código de sala es obligatorio.",
     "create_room": "No se pudo crear la sala.",
-    "room_not_found": "Sala no encontrada o expirada."
+    "room_not_found": "Sala no encontrada o expirada.",
+    "room_full": "Esta sala está llena (máximo 20 personas)."
   }
 }

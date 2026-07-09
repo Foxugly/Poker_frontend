@@ -68,9 +68,10 @@ export class HomeComponent {
         this.identity.saveSession({ code: res.code, token: res.participantToken, role: res.role });
         this.router.navigate(['/room', res.code]);
       },
-      error: () => {
+      error: (err) => {
         this.joining.set(false);
-        this.messages.add({ severity: 'error', summary: this.transloco.translate('errors.room_not_found') });
+        const key = err?.error?.code === 'room_full' ? 'errors.room_full' : 'errors.room_not_found';
+        this.messages.add({ severity: 'error', summary: this.transloco.translate(key) });
       },
     });
   }
