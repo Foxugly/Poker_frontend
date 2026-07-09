@@ -8,7 +8,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 
+import { firstValueFrom } from 'rxjs';
+
 import { AuthService } from '../../core/auth/auth.service';
+import { RoomApiService } from '../../core/api/room-api.service';
+import { IdentityService } from '../../core/identity/identity.service';
 import { TeamsService } from '../../core/teams/teams.service';
 import { Invitation, Membership, Team, TeamRole } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
@@ -25,6 +29,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
       <section class="page">
         <app-page-header [icon]="'pi-users'" [title]="team.name">
           <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+          <p-button [label]="'teams.new_session' | transloco" icon="pi pi-play" severity="success" [loading]="starting()" (onClick)="startSession()" />
         </app-page-header>
 
         <!-- Members -->
@@ -89,8 +94,11 @@ export class TeamDetailComponent implements OnInit {
   private messages = inject(MessageService);
   private transloco = inject(TranslocoService);
   private auth = inject(AuthService);
+  private roomApi = inject(RoomApiService);
+  private identity = inject(IdentityService);
 
   private id = 0;
+  readonly starting = signal(false);
   readonly team = signal<Team | null>(null);
   readonly members = signal<Membership[]>([]);
   readonly invitations = signal<Invitation[]>([]);
@@ -121,6 +129,17 @@ export class TeamDetailComponent implements OnInit {
 
   back(): void {
     this.router.navigate(['/teams']);
+  }
+
+  async startSession(): Promise<void> {
+    this.starting.set(true);
+    try {
+      const res = await firstValueFrom(this.roomApi.createRoom('', '', this.id));
+      this.identity.saveSession({ code: res.code, token: res.participantToken, role: res.role });
+      this.router.navigate(['/room', res.code]);
+    } finally {
+      this.starting.set(false);
+    }
   }
 
   async setRole(m: Membership, role: TeamRole): Promise<void> {

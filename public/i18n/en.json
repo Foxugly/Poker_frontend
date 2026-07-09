@@ -4,7 +4,7 @@
   "field": { "username": "Your name" },
   "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave", "back": "Back" },
   "teams": {
-    "title": "Teams", "create": "Create a team", "name": "Team name",
+    "title": "Teams", "create": "Create a team", "new_session": "New session", "name": "Team name",
     "empty": "You have no team yet. Create one to invite members.",
     "members": "Members", "invitations": "Invitations", "invite": "Invite",
     "invited": "Invitation sent.", "already_member": "That person is already a member.",
@@ -107,6 +107,7 @@
     "participants": "Participants",
     "facilitator_absent": "The facilitator is away.",
     "claim": "Take the role",
+    "give_facilitator": "Make facilitator",
     "your_hand": "Your hand",
     "waiting_facilitator": "Waiting for the facilitator",
     "scenario": "Scenario",

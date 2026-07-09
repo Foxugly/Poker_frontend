@@ -108,6 +108,17 @@
   color: var(--fox-primary);
   font-size: 0.72rem;
 }
+.seat-transfer {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 2px;
+  font-size: 0.72rem;
+}
+.seat-transfer:hover {
+  color: var(--fox-primary);
+}
 .seat-card {
   width: 84px;
 }

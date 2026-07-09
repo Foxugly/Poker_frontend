@@ -8,6 +8,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 
+import { firstValueFrom } from 'rxjs';
+
+import { AuthService } from '../../core/auth/auth.service';
+import { RoomApiService } from '../../core/api/room-api.service';
 import { LanguageService } from '../../core/i18n/language.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { RoomSocketService } from '../../core/realtime/room-socket.service';
@@ -52,6 +56,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   private messages = inject(MessageService);
   private language = inject(LanguageService);
   private transloco = inject(TranslocoService);
+  private roomApi = inject(RoomApiService);
+  private auth = inject(AuthService);
 
   readonly code = signal('');
   readonly subjectDraft = signal('');
@@ -153,16 +159,37 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const code = (this.route.snapshot.paramMap.get('code') ?? '').toUpperCase();
     this.code.set(code);
     const session = this.identity.sessionFor(code);
-    if (!session) {
-      // Arrived by URL without joining → go through the join screen (asks username).
-      this.router.navigate(['/join', code]);
+    if (session) {
+      this.socket.connect(session.code, session.token, session.role);
       return;
     }
-    this.socket.connect(session.code, session.token, session.role);
+    // No local session: resolve the room. A team room auto-joins an authenticated
+    // member (no username prompt); an anonymous room goes through /join.
+    try {
+      const info = await firstValueFrom(this.roomApi.roomExists(code));
+      if (!info.exists) return this.router.navigate(['/join', code]) as unknown as void;
+      if (info.isTeam) {
+        if (!this.auth.isAuthenticated()) {
+          this.router.navigate(['/login'], { queryParams: { returnUrl: `/room/${code}` } });
+          return;
+        }
+        const res = await firstValueFrom(this.roomApi.joinRoom(code, ''));
+        this.identity.saveSession({ code: res.code, token: res.participantToken, role: res.role });
+        this.socket.connect(res.code, res.participantToken, res.role);
+      } else {
+        this.router.navigate(['/join', code]);
+      }
+    } catch {
+      this.router.navigate(['/join', code]);
+    }
+  }
+
+  transfer(participantId: string): void {
+    this.socket.transferFacilitator(participantId);
   }
 
   ngOnDestroy(): void {

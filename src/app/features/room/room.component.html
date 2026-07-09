@@ -22,6 +22,11 @@
                 <span class="seat-name">
                   @if (seat.role === 'facilitator') { <i class="pi pi-star-fill"></i> }
                   {{ seat.username }}
+                  @if (isFacilitator() && seat.role !== 'facilitator') {
+                    <button class="seat-transfer" type="button" [title]="'room.give_facilitator' | transloco" (click)="transfer(seat.participantId)">
+                      <i class="pi pi-star"></i>
+                    </button>
+                  }
                 </span>
                 <div class="seat-card">
                   @if (seat.show && seat.card) {

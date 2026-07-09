@@ -11,6 +11,7 @@ export interface CreateRoomResponse {
   participantToken: string;
   role: Role;
   deckSnapshot: DeckSnapshot;
+  isTeam: boolean;
 }
 
 export interface JoinRoomResponse extends CreateRoomResponse {}
@@ -19,19 +20,25 @@ export interface RoomExistsResponse {
   code: string;
   roomTitle: string;
   exists: boolean;
+  isTeam: boolean;
 }
 
-/** HTTP boundary that creates/resolves a room before the socket opens (contract §1). */
+/** HTTP boundary that creates/resolves a room before the socket opens (contract §1).
+ * A `teamId` makes it a members-only, non-ephemeral team room (Phase 2). */
 @Injectable({ providedIn: 'root' })
 export class RoomApiService {
   private http = inject(HttpClient);
   private base = getRuntimeConfig().apiBaseUrl;
 
-  createRoom(username: string, title: string): Observable<CreateRoomResponse> {
-    return this.http.post<CreateRoomResponse>(`${this.base}/api/rooms`, { username, title });
+  createRoom(username: string, title: string, teamId?: number): Observable<CreateRoomResponse> {
+    const body: Record<string, unknown> = { title };
+    if (teamId != null) body['team'] = teamId;
+    else body['username'] = username;
+    return this.http.post<CreateRoomResponse>(`${this.base}/api/rooms`, body);
   }
 
   joinRoom(code: string, username: string): Observable<JoinRoomResponse> {
+    // Team rooms ignore username (the authed user + interceptor token identify them).
     return this.http.post<JoinRoomResponse>(`${this.base}/api/rooms/${code}/join`, { username });
   }
 

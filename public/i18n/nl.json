@@ -4,7 +4,7 @@
   "field": { "username": "Je naam" },
   "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten", "back": "Terug" },
   "teams": {
-    "title": "Teams", "create": "Team aanmaken", "name": "Teamnaam",
+    "title": "Teams", "create": "Team aanmaken", "new_session": "Nieuwe sessie", "name": "Teamnaam",
     "empty": "Je hebt nog geen team. Maak er een om leden uit te nodigen.",
     "members": "Leden", "invitations": "Uitnodigingen", "invite": "Uitnodigen",
     "invited": "Uitnodiging verstuurd.", "already_member": "Deze persoon is al lid.",
@@ -107,6 +107,7 @@
     "participants": "Deelnemers",
     "facilitator_absent": "De facilitator is afwezig.",
     "claim": "Rol overnemen",
+    "give_facilitator": "Facilitator maken",
     "your_hand": "Je hand",
     "waiting_facilitator": "Wachten op de facilitator",
     "scenario": "Scenario",

@@ -99,6 +99,7 @@ export class RoomSocketService {
   actResult(chosenValue: string) { this.send('result.act', { chosenValue }); }
   reset() { this.send('vote.reset', {}); }
   claimFacilitator() { this.send('facilitator.claim', {}); }
+  transferFacilitator(targetParticipantId: string) { this.send('facilitator.transfer', { targetParticipantId }); }
 
   private send(type: string, payload: unknown): void {
     if (this.ws?.readyState !== WebSocket.OPEN) return;

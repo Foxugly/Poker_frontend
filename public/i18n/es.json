@@ -4,7 +4,7 @@
   "field": { "username": "Tu nombre" },
   "action": { "cancel": "Cancelar", "save": "Guardar", "quit": "Salir", "back": "Volver" },
   "teams": {
-    "title": "Equipos", "create": "Crear un equipo", "name": "Nombre del equipo",
+    "title": "Equipos", "create": "Crear un equipo", "new_session": "Nueva sesión", "name": "Nombre del equipo",
     "empty": "Aún no tienes ningún equipo. Crea uno para invitar a miembros.",
     "members": "Miembros", "invitations": "Invitaciones", "invite": "Invitar",
     "invited": "Invitación enviada.", "already_member": "Esa persona ya es miembro.",
@@ -107,6 +107,7 @@
     "participants": "Participantes",
     "facilitator_absent": "El facilitador está ausente.",
     "claim": "Tomar el rol",
+    "give_facilitator": "Hacer facilitador",
     "your_hand": "Tu mano",
     "waiting_facilitator": "Esperando al facilitador",
     "scenario": "Escenario",
