@@ -1,7 +1,7 @@
 // Contact / legal identity for the About page. Email is rendered with [at]/[dot]
 // markers so it isn't harvested verbatim; the real address is reassembled only when
 // the user clicks (openContactEmail).
-const EMAIL_USER = 'hello';
+const EMAIL_USER = 'info';
 const EMAIL_HOST = 'foxugly';
 const EMAIL_TLD = 'com';
 const PHONE_PREFIX = '+32';

@@ -41,7 +41,7 @@
     "tab_legal": "Mentions légales",
     "tab_technical": "Technique",
     "company_body": "Poker est édité par Foxugly SRL, une société belge. Nous construisons des outils simples pour les équipes qui décident ensemble.",
-    "legal_body": "Éditeur : Foxugly SRL — Belgique. Contact : hello@foxugly.com. Hébergement : Amazon Web Services (Irlande, région eu-west-1). Les salles anonymes sont temporaires et expirent après une période d'inactivité.",
+    "legal_body": "Éditeur : Foxugly SRL — Belgique. Contact : info@foxugly.com. Hébergement : Amazon Web Services (Irlande, région eu-west-1). Les salles anonymes sont temporaires et expirent après une période d'inactivité.",
     "technical_body": "Application temps réel : backend Django et Django Channels (WebSocket), frontend Angular et PrimeNG. Multilingue (5 langues), thèmes clair et sombre."
   },
   "join": { "title": "Rejoindre une salle", "code": "Code de salle", "cta": "Rejoindre" },
