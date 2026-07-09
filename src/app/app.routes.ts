@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { PublicLayoutComponent } from './core/layout/public-layout.component';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,9 @@ export const routes: Routes = [
       { path: 'auth/reset-password/:uid/:token', loadComponent: () => import('./features/auth/reset-password.component').then((m) => m.ResetPasswordComponent) },
       { path: 'auth/magic-link', loadComponent: () => import('./features/auth/magic-link-request.component').then((m) => m.MagicLinkRequestComponent) },
       { path: 'auth/magic-link/:token', loadComponent: () => import('./features/auth/magic-link-verify.component').then((m) => m.MagicLinkVerifyComponent) },
+      { path: 'teams', canActivate: [authGuard], loadComponent: () => import('./features/teams/teams-list.component').then((m) => m.TeamsListComponent) },
+      { path: 'teams/join/:token', canActivate: [authGuard], loadComponent: () => import('./features/teams/accept-invite.component').then((m) => m.AcceptInviteComponent) },
+      { path: 'teams/:id', canActivate: [authGuard], loadComponent: () => import('./features/teams/team-detail.component').then((m) => m.TeamDetailComponent) },
       { path: 'join', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'join/:code', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'room/:code', loadComponent: () => import('./features/room/room.component').then((m) => m.RoomComponent) },

@@ -1,8 +1,22 @@
 {
   "app": { "title": "Delegation Poker", "tagline": "Bepaal samen het juiste delegatieniveau." },
-  "nav": { "home": "Home", "features": "Functies" },
+  "nav": { "home": "Home", "features": "Functies", "teams": "Teams" },
   "field": { "username": "Je naam" },
-  "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten" },
+  "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten", "back": "Terug" },
+  "teams": {
+    "title": "Teams", "create": "Team aanmaken", "name": "Teamnaam",
+    "empty": "Je hebt nog geen team. Maak er een om leden uit te nodigen.",
+    "members": "Leden", "invitations": "Uitnodigingen", "invite": "Uitnodigen",
+    "invited": "Uitnodiging verstuurd.", "already_member": "Deze persoon is al lid.",
+    "revoke": "Intrekken", "remove": "Verwijderen", "manage": "Team beheren",
+    "delete": "Team verwijderen", "delete_confirm": "Dit team definitief verwijderen?",
+    "role": { "owner": "Eigenaar", "admin": "Admin", "member": "Lid" },
+    "accept": {
+      "pending": "Uitnodiging accepteren…", "error_title": "Ongeldige uitnodiging",
+      "error_lead": "Deze uitnodiging is ongeldig, verlopen of al gebruikt.",
+      "email_mismatch": "Meld je aan met het e-mailadres waarnaar de uitnodiging is gestuurd."
+    }
+  },
   "home": {
     "eyebrow": "Management 3.0",
     "title": "Delegation Poker, in realtime",

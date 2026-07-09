@@ -1,0 +1,180 @@
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
+
+import { AuthService } from '../../core/auth/auth.service';
+import { TeamsService } from '../../core/teams/teams.service';
+import { Invitation, Membership, Team, TeamRole } from '../../core/teams/teams.models';
+import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
+
+const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1'];
+
+@Component({
+  selector: 'app-team-detail',
+  standalone: true,
+  imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, TagModule, PageHeaderComponent],
+  styleUrl: './teams.scss',
+  template: `
+    @if (team(); as team) {
+      <section class="page">
+        <app-page-header [icon]="'pi-users'" [title]="team.name">
+          <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+        </app-page-header>
+
+        <!-- Members -->
+        <div class="section">
+          <h3>{{ 'teams.members' | transloco }}</h3>
+          @for (m of members(); track m.id) {
+            <div class="member-row">
+              <div class="avatar" [style.background]="color(m.user.email)">{{ initials(m.user.display_name || m.user.email) }}</div>
+              <div class="who">
+                <div class="name">{{ m.user.display_name || m.user.email }}</div>
+                <div class="email">{{ m.user.email }}</div>
+              </div>
+              @if (m.role === 'owner') {
+                <p-tag [value]="'teams.role.owner' | transloco" />
+              } @else if (isAdmin()) {
+                <p-select [options]="roleOptions" optionLabel="label" optionValue="value" [ngModel]="m.role" (ngModelChange)="setRole(m, $event)" appendTo="body" />
+                <p-button icon="pi pi-times" [text]="true" severity="danger" [ariaLabel]="'teams.remove' | transloco" (onClick)="remove(m)" />
+              } @else {
+                <p-tag [value]="'teams.role.' + m.role | transloco" severity="secondary" />
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Invitations (admin only) -->
+        @if (isAdmin()) {
+          <div class="section">
+            <h3>{{ 'teams.invitations' | transloco }}</h3>
+            <div class="invite-row">
+              <input pInputText [placeholder]="'auth.email' | transloco" [(ngModel)]="inviteEmail" style="min-width:220px" />
+              <p-select [options]="roleOptions" optionLabel="label" optionValue="value" [(ngModel)]="inviteRole" appendTo="body" />
+              <p-button [label]="'teams.invite' | transloco" icon="pi pi-send" [loading]="inviting()" (onClick)="invite()" />
+            </div>
+            @for (inv of invitations(); track inv.id) {
+              <div class="pending">
+                <span>{{ inv.email }} · {{ 'teams.role.' + inv.role | transloco }}</span>
+                <p-button icon="pi pi-times" [text]="true" severity="secondary" [ariaLabel]="'teams.revoke' | transloco" (onClick)="revoke(inv)" />
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Danger zone (owner) -->
+        @if (isOwner()) {
+          <div class="section">
+            <h3>{{ 'teams.manage' | transloco }}</h3>
+            <div class="invite-row">
+              <input pInputText [(ngModel)]="renameValue" style="min-width:220px" />
+              <p-button [label]="'action.save' | transloco" icon="pi pi-save" (onClick)="rename()" />
+              <p-button [label]="'teams.delete' | transloco" icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="remove_team()" />
+            </div>
+          </div>
+        }
+      </section>
+    }
+  `,
+})
+export class TeamDetailComponent implements OnInit {
+  private teamsService = inject(TeamsService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private messages = inject(MessageService);
+  private transloco = inject(TranslocoService);
+  private auth = inject(AuthService);
+
+  private id = 0;
+  readonly team = signal<Team | null>(null);
+  readonly members = signal<Membership[]>([]);
+  readonly invitations = signal<Invitation[]>([]);
+  readonly isAdmin = computed(() => ['owner', 'admin'].includes(this.team()?.my_role ?? ''));
+  readonly isOwner = computed(() => this.team()?.my_role === 'owner');
+  readonly inviting = signal(false);
+  inviteEmail = '';
+  inviteRole: TeamRole = 'member';
+  renameValue = '';
+
+  readonly roleOptions = [
+    { value: 'member', label: this.transloco.translate('teams.role.member') },
+    { value: 'admin', label: this.transloco.translate('teams.role.admin') },
+  ];
+
+  async ngOnInit(): Promise<void> {
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    try {
+      const team = await this.teamsService.getTeam(this.id);
+      this.team.set(team);
+      this.renameValue = team.name;
+      this.members.set(await this.teamsService.getMembers(this.id));
+      if (this.isAdmin()) this.invitations.set(await this.teamsService.getInvitations(this.id));
+    } catch {
+      this.router.navigate(['/teams']);
+    }
+  }
+
+  back(): void {
+    this.router.navigate(['/teams']);
+  }
+
+  async setRole(m: Membership, role: TeamRole): Promise<void> {
+    await this.teamsService.changeRole(this.id, m.user.id, role);
+    this.members.update((list) => list.map((x) => (x.id === m.id ? { ...x, role } : x)));
+  }
+
+  async remove(m: Membership): Promise<void> {
+    await this.teamsService.removeMember(this.id, m.user.id);
+    this.members.update((list) => list.filter((x) => x.id !== m.id));
+  }
+
+  async invite(): Promise<void> {
+    const email = this.inviteEmail.trim().toLowerCase();
+    if (!email) return;
+    this.inviting.set(true);
+    try {
+      const inv = await this.teamsService.invite(this.id, email, this.inviteRole);
+      this.invitations.update((list) => [...list, inv]);
+      this.inviteEmail = '';
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.invited') });
+    } catch (e: unknown) {
+      const code = (e as { error?: { code?: string } }).error?.code;
+      this.messages.add({ severity: 'warn', summary: this.transloco.translate(code === 'already_member' ? 'teams.already_member' : 'auth.errors.generic') });
+    } finally {
+      this.inviting.set(false);
+    }
+  }
+
+  async revoke(inv: Invitation): Promise<void> {
+    await this.teamsService.revokeInvite(this.id, inv.id);
+    this.invitations.update((list) => list.filter((x) => x.id !== inv.id));
+  }
+
+  async rename(): Promise<void> {
+    const name = this.renameValue.trim();
+    if (!name) return;
+    const team = await this.teamsService.renameTeam(this.id, name);
+    this.team.set(team);
+  }
+
+  async remove_team(): Promise<void> {
+    if (!confirm(this.transloco.translate('teams.delete_confirm'))) return;
+    await this.teamsService.deleteTeam(this.id);
+    this.router.navigate(['/teams']);
+  }
+
+  initials(name: string): string {
+    const p = (name || '?').trim().split(/\s+/);
+    return ((p[0]?.[0] ?? '?') + (p.length > 1 ? p[1][0] : p[0]?.[1] ?? '')).toUpperCase();
+  }
+  color(seed: string): string {
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    return AVATAR_COLORS[h % AVATAR_COLORS.length];
+  }
+}

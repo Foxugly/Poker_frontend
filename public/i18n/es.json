@@ -1,8 +1,22 @@
 {
   "app": { "title": "Delegation Poker", "tagline": "Decidid juntos el nivel de delegación adecuado." },
-  "nav": { "home": "Inicio", "features": "Funciones" },
+  "nav": { "home": "Inicio", "features": "Funciones", "teams": "Equipos" },
   "field": { "username": "Tu nombre" },
-  "action": { "cancel": "Cancelar", "save": "Guardar", "quit": "Salir" },
+  "action": { "cancel": "Cancelar", "save": "Guardar", "quit": "Salir", "back": "Volver" },
+  "teams": {
+    "title": "Equipos", "create": "Crear un equipo", "name": "Nombre del equipo",
+    "empty": "Aún no tienes ningún equipo. Crea uno para invitar a miembros.",
+    "members": "Miembros", "invitations": "Invitaciones", "invite": "Invitar",
+    "invited": "Invitación enviada.", "already_member": "Esa persona ya es miembro.",
+    "revoke": "Revocar", "remove": "Quitar", "manage": "Gestionar equipo",
+    "delete": "Eliminar equipo", "delete_confirm": "¿Eliminar definitivamente este equipo?",
+    "role": { "owner": "Propietario", "admin": "Admin", "member": "Miembro" },
+    "accept": {
+      "pending": "Aceptando la invitación…", "error_title": "Invitación no válida",
+      "error_lead": "Esta invitación no es válida, ha caducado o ya se ha usado.",
+      "email_mismatch": "Inicia sesión con el correo al que se envió la invitación."
+    }
+  },
   "home": {
     "eyebrow": "Management 3.0",
     "title": "Delegation Poker, en tiempo real",

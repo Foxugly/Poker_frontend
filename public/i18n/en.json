@@ -1,8 +1,22 @@
 {
   "app": { "title": "Delegation Poker", "tagline": "Decide the right level of delegation, together." },
-  "nav": { "home": "Home", "features": "Features" },
+  "nav": { "home": "Home", "features": "Features", "teams": "Teams" },
   "field": { "username": "Your name" },
-  "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave" },
+  "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave", "back": "Back" },
+  "teams": {
+    "title": "Teams", "create": "Create a team", "name": "Team name",
+    "empty": "You have no team yet. Create one to invite members.",
+    "members": "Members", "invitations": "Invitations", "invite": "Invite",
+    "invited": "Invitation sent.", "already_member": "That person is already a member.",
+    "revoke": "Revoke", "remove": "Remove", "manage": "Manage team",
+    "delete": "Delete team", "delete_confirm": "Permanently delete this team?",
+    "role": { "owner": "Owner", "admin": "Admin", "member": "Member" },
+    "accept": {
+      "pending": "Accepting the invitation…", "error_title": "Invalid invitation",
+      "error_lead": "This invitation is invalid, expired, or already used.",
+      "email_mismatch": "Sign in with the email the invitation was sent to."
+    }
+  },
   "home": {
     "eyebrow": "Management 3.0",
     "title": "Delegation Poker, in real time",

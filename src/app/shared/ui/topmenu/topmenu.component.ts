@@ -26,6 +26,9 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
           {{ 'nav.home' | transloco }}
         </a>
         <a routerLink="/features" routerLinkActive="active">{{ 'nav.features' | transloco }}</a>
+        @if (auth.isAuthenticated()) {
+          <a routerLink="/teams" routerLinkActive="active">{{ 'nav.teams' | transloco }}</a>
+        }
       </nav>
       <div class="actions">
         <app-theme-toggle />

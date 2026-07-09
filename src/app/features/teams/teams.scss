@@ -1,0 +1,93 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--s-4);
+}
+.team-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s-4);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.team-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--fox-primary);
+  box-shadow: var(--shadow-card);
+}
+.team-card h3 {
+  margin: 0 0 var(--s-2);
+  color: var(--text-strong);
+}
+.team-card .meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.create-row {
+  display: flex;
+  gap: var(--s-2);
+  margin-bottom: var(--s-6);
+  max-width: 460px;
+}
+.create-row input {
+  flex: 1;
+}
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.member-row .who {
+  flex: 1;
+  min-width: 0;
+}
+.member-row .name {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+.member-row .email {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.section {
+  margin-top: var(--s-6);
+}
+.section h3 {
+  color: var(--text-strong);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--s-2);
+}
+.invite-row {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: var(--s-3);
+}
+.pending {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-2) 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+}

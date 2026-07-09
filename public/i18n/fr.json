@@ -1,8 +1,22 @@
 {
   "app": { "title": "Delegation Poker", "tagline": "Décidez ensemble du bon niveau de délégation." },
-  "nav": { "home": "Accueil", "features": "Fonctionnalités" },
+  "nav": { "home": "Accueil", "features": "Fonctionnalités", "teams": "Équipes" },
   "field": { "username": "Votre nom" },
-  "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter" },
+  "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter", "back": "Retour" },
+  "teams": {
+    "title": "Équipes", "create": "Créer une équipe", "name": "Nom de l'équipe",
+    "empty": "Vous n'avez pas encore d'équipe. Créez-en une pour inviter des membres.",
+    "members": "Membres", "invitations": "Invitations", "invite": "Inviter",
+    "invited": "Invitation envoyée.", "already_member": "Cette personne est déjà membre.",
+    "revoke": "Révoquer", "remove": "Retirer", "manage": "Gérer l'équipe",
+    "delete": "Supprimer l'équipe", "delete_confirm": "Supprimer définitivement cette équipe ?",
+    "role": { "owner": "Propriétaire", "admin": "Admin", "member": "Membre" },
+    "accept": {
+      "pending": "Acceptation de l'invitation…", "error_title": "Invitation invalide",
+      "error_lead": "Cette invitation est invalide, expirée ou déjà utilisée.",
+      "email_mismatch": "Connectez-vous avec l'adresse à laquelle l'invitation a été envoyée."
+    }
+  },
   "home": {
     "eyebrow": "Management 3.0",
     "title": "Delegation Poker en temps réel",
