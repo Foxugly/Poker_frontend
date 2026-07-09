@@ -196,9 +196,17 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.socket.disconnect();
   }
 
-  saveSubject(): void {
+  addSubject(): void {
     const text = this.subjectDraft().trim();
-    if (text) this.socket.setSubject(text);
+    if (text) {
+      this.socket.addSubject(text);
+      this.subjectDraft.set('');
+    }
+  }
+
+  /** Resolve an agenda item's retained value to its translated level name (not the number). */
+  agendaResultName(value: string): string {
+    return this.cardName(this.cardByValue(value)) || value;
   }
 
   act(): void {

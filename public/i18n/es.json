@@ -111,6 +111,9 @@
     "your_hand": "Tu mano",
     "waiting_facilitator": "Esperando al facilitador",
     "scenario": "Escenario",
+    "agenda_empty": "Aún no hay temas. Añade uno para empezar.",
+    "add_subject": "Añadir un tema",
+    "add": "Añadir",
     "vote_title": "Título de la votación",
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado"

@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 
 import { getRuntimeConfig } from '../runtime-config';
 import {
+  AgendaItem,
   DeckSnapshot,
   Envelope,
   Participation,
@@ -41,6 +42,7 @@ export class RoomSocketService {
   readonly spread = signal<{ min: number | null; max: number | null }>({ min: null, max: null });
   readonly result = signal<string | null>(null);
   readonly facilitatorPresent = signal(true);
+  readonly agenda = signal<AgendaItem[]>([]);
   readonly myRole = signal<Role>('voter');
   readonly lastError = signal<RoomError | null>(null);
 
@@ -89,6 +91,8 @@ export class RoomSocketService {
 
   // --- intentions (contract §4) ---
   setSubject(text: string) { this.send('subject.set', { text }); }
+  addSubject(text: string) { this.send('subject.add', { text }); }
+  selectSubject(subjectId: number) { this.send('subject.select', { subjectId }); }
   openVote() { this.send('vote.open', {}); }
   castVote(cardValue: string) {
     // The caster may see its own choice immediately (not a secret from itself, §6.a).
@@ -132,6 +136,9 @@ export class RoomSocketService {
         return;
       }
       case 'participation.update': return this.participation.set(msg.payload as Participation);
+      case 'agenda.updated':
+        this.agenda.set((msg.payload as { agenda: AgendaItem[] }).agenda);
+        return;
       case 'subject.updated':
         this.subject.set((msg.payload as { text: string }).text);
         return;
@@ -183,6 +190,7 @@ export class RoomSocketService {
     this.myVote.set(s.myVote);
     this.result.set(s.result);
     this.facilitatorPresent.set(s.facilitatorPresent);
+    this.agenda.set(s.agenda ?? []);
     this.revealedVotes.set(s.votes ?? []);
   }
 }

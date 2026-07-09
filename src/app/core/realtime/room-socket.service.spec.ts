@@ -19,6 +19,7 @@ const SYNC: StateSync = {
   myVote: 'consult',
   result: null,
   facilitatorPresent: true,
+  agenda: [{ id: 1, text: 'Budget?', status: 'current', result: null }],
 };
 
 describe('RoomSocketService reducer', () => {
@@ -29,6 +30,21 @@ describe('RoomSocketService reducer', () => {
     expect(svc.subject()).toBe('Budget?');
     expect(svc.myVote()).toBe('consult');
     expect(svc.participants().length).toBe(1);
+    expect(svc.agenda().length).toBe(1);
+    expect(svc.agenda()[0].status).toBe('current');
+  });
+
+  it('updates the scenario agenda on agenda.updated', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'agenda.updated', {
+      agenda: [
+        { id: 1, text: 'Q1', status: 'done', result: '5' },
+        { id: 2, text: 'Q2', status: 'current', result: null },
+      ],
+    });
+    expect(svc.agenda().length).toBe(2);
+    expect(svc.agenda()[0].result).toBe('5');
+    expect(svc.agenda()[1].status).toBe('current');
   });
 
   it('keeps vote values secret in participation.update', () => {

@@ -72,14 +72,30 @@
         <aside class="fac-panel">
           <h3>{{ 'room.scenario' | transloco }}</h3>
 
-          <div class="panel-block">
-            <label>{{ 'room.vote_title' | transloco }}</label>
-            @if (state() === 'idle') {
-              <input pInputText [placeholder]="'room.set_subject' | transloco" [ngModel]="subjectDraft()" (ngModelChange)="subjectDraft.set($event)" />
-              <p-button [label]="'action.save' | transloco" icon="pi pi-save" size="small" (onClick)="saveSubject()" styleClass="w-full" />
-            } @else {
-              <p class="current-subject">{{ socket.subject() }}</p>
+          <ul class="agenda">
+            @for (item of socket.agenda(); track item.id) {
+              <li class="agenda-item" [class.current]="item.status === 'current'" [class.done]="item.status === 'done'">
+                <button type="button" class="agenda-line" [disabled]="item.status === 'current'"
+                        (click)="item.status !== 'current' && socket.selectSubject(item.id)">
+                  <i class="pi"
+                     [class.pi-caret-right]="item.status === 'current'"
+                     [class.pi-check-circle]="item.status === 'done'"
+                     [class.pi-circle]="item.status === 'pending'"></i>
+                  <span class="agenda-text">{{ item.text }}</span>
+                  @if (item.status === 'done' && item.result) {
+                    <span class="agenda-result">{{ agendaResultName(item.result) }}</span>
+                  }
+                </button>
+              </li>
+            } @empty {
+              <li class="agenda-empty">{{ 'room.agenda_empty' | transloco }}</li>
             }
+          </ul>
+
+          <div class="panel-block add-subject">
+            <input pInputText [placeholder]="'room.add_subject' | transloco" [ngModel]="subjectDraft()"
+                   (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" />
+            <p-button [label]="'room.add' | transloco" icon="pi pi-plus" size="small" (onClick)="addSubject()" styleClass="w-full" />
           </div>
 
           <div class="panel-block controls">

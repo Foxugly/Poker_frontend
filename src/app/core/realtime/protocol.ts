@@ -53,6 +53,14 @@ export interface RevealedVote {
   cardValue: string;
 }
 
+/** One line of the facilitator's scenario (agenda): a subject with its round status. */
+export interface AgendaItem {
+  id: number;
+  text: string;
+  status: 'current' | 'done' | 'pending';
+  result: string | null;
+}
+
 export interface StateSync {
   room: { code: string; title: string };
   protocolVersion: number;
@@ -63,6 +71,7 @@ export interface StateSync {
   myVote: string | null;
   result: string | null;
   facilitatorPresent: boolean;
+  agenda: AgendaItem[];
   votes?: RevealedVote[];
 }
 
