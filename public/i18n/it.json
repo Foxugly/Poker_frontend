@@ -134,6 +134,19 @@
     "code_copied": "Codice copiato",
     "link_copied": "Link copiato"
   },
+  "board": {
+    "title": "Delegation Board",
+    "topic": "Argomento",
+    "as_is": "AS-IS",
+    "to_be": "TO-BE",
+    "place": "Posiziona:",
+    "add_topic": "Aggiungi un argomento",
+    "add": "Aggiungi",
+    "empty": "Nessun argomento. Aggiungine uno e posiziona i post-it.",
+    "export_csv": "Esporta CSV",
+    "export_pdf": "Esporta PDF",
+    "export_failed": "Esportazione non riuscita."
+  },
   "history": {
     "title": "Cronologia",
     "empty": "Nessun risultato per ora.",

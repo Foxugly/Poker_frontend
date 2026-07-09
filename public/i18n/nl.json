@@ -134,6 +134,19 @@
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd"
   },
+  "board": {
+    "title": "Delegation Board",
+    "topic": "Onderwerp",
+    "as_is": "AS-IS",
+    "to_be": "TO-BE",
+    "place": "Plaatsen:",
+    "add_topic": "Onderwerp toevoegen",
+    "add": "Toevoegen",
+    "empty": "Nog geen onderwerpen. Voeg er een toe en plaats de post-its.",
+    "export_csv": "CSV exporteren",
+    "export_pdf": "PDF exporteren",
+    "export_failed": "Export mislukt."
+  },
   "history": {
     "title": "Geschiedenis",
     "empty": "Nog geen resultaten.",

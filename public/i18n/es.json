@@ -134,6 +134,19 @@
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado"
   },
+  "board": {
+    "title": "Delegation Board",
+    "topic": "Tema",
+    "as_is": "AS-IS",
+    "to_be": "TO-BE",
+    "place": "Colocar:",
+    "add_topic": "Añadir un tema",
+    "add": "Añadir",
+    "empty": "Aún no hay temas. Añade uno y coloca los post-its.",
+    "export_csv": "Exportar CSV",
+    "export_pdf": "Exportar PDF",
+    "export_failed": "La exportación ha fallado."
+  },
   "history": {
     "title": "Historial",
     "empty": "Aún no hay resultados.",

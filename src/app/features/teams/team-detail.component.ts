@@ -29,6 +29,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
       <section class="page">
         <app-page-header [icon]="'pi-users'" [title]="team.name">
           <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+          <p-button [label]="'board.title' | transloco" icon="pi pi-th-large" [outlined]="true" severity="secondary" (onClick)="openBoard()" />
           <p-button [label]="'history.title' | transloco" icon="pi pi-history" [outlined]="true" severity="secondary" (onClick)="openHistory()" />
           <p-button [label]="'teams.new_session' | transloco" icon="pi pi-play" severity="success" [loading]="starting()" (onClick)="startSession()" />
         </app-page-header>
@@ -134,6 +135,10 @@ export class TeamDetailComponent implements OnInit {
 
   openHistory(): void {
     this.router.navigate(['/teams', this.team()?.id, 'history']);
+  }
+
+  openBoard(): void {
+    this.router.navigate(['/teams', this.team()?.id, 'board']);
   }
 
   async startSession(): Promise<void> {
