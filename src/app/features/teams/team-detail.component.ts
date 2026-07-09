@@ -74,6 +74,27 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
           </div>
         }
 
+        <!-- Appearance (admin) — P2.6 -->
+        @if (isAdmin()) {
+          <div class="section">
+            <h3>{{ 'teams.appearance' | transloco }}</h3>
+            <div class="appearance-row">
+              <label>
+                <span>{{ 'teams.felt_color' | transloco }}</span>
+                <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
+              </label>
+              <label>
+                <span>{{ 'teams.back_color' | transloco }}</span>
+                <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
+              </label>
+              <span class="table-preview" [style.background]="feltColor()">
+                <span class="card-preview" [style.background]="backColor()"></span>
+              </span>
+              <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+            </div>
+          </div>
+        }
+
         <!-- Danger zone (owner) -->
         @if (isOwner()) {
           <div class="section">
@@ -111,6 +132,11 @@ export class TeamDetailComponent implements OnInit {
   inviteRole: TeamRole = 'member';
   renameValue = '';
 
+  // Appearance (P2.6)
+  readonly feltColor = signal('#10b981');
+  readonly backColor = signal('#143d2f');
+  readonly savingAppearance = signal(false);
+
   readonly roleOptions = [
     { value: 'member', label: this.transloco.translate('teams.role.member') },
     { value: 'admin', label: this.transloco.translate('teams.role.admin') },
@@ -122,6 +148,8 @@ export class TeamDetailComponent implements OnInit {
       const team = await this.teamsService.getTeam(this.id);
       this.team.set(team);
       this.renameValue = team.name;
+      this.feltColor.set(team.felt_color);
+      this.backColor.set(team.card_back_color);
       this.members.set(await this.teamsService.getMembers(this.id));
       if (this.isAdmin()) this.invitations.set(await this.teamsService.getInvitations(this.id));
     } catch {
@@ -139,6 +167,22 @@ export class TeamDetailComponent implements OnInit {
 
   openBoard(): void {
     this.router.navigate(['/teams', this.team()?.id, 'board']);
+  }
+
+  async saveAppearance(): Promise<void> {
+    this.savingAppearance.set(true);
+    try {
+      const team = await this.teamsService.setAppearance(this.id, {
+        felt_color: this.feltColor(),
+        card_back_color: this.backColor(),
+      });
+      this.team.set(team);
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingAppearance.set(false);
+    }
   }
 
   async startSession(): Promise<void> {

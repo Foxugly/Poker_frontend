@@ -91,3 +91,41 @@
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* Appearance (P2.6) */
+.appearance-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4);
+}
+.appearance-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.appearance-row input[type='color'] {
+  width: 48px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+}
+.table-preview {
+  display: inline-grid;
+  place-items: center;
+  width: 96px;
+  height: 56px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
+}
+.card-preview {
+  width: 20px;
+  height: 28px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}

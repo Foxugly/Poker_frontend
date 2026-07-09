@@ -22,6 +22,9 @@ export class TeamsService {
   renameTeam(id: number, name: string) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { name }));
   }
+  setAppearance(id: number, colors: { card_back_color: string; felt_color: string }) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, colors));
+  }
   deleteTeam(id: number) {
     return firstValueFrom(this.http.delete(`${this.base}/${id}/`));
   }

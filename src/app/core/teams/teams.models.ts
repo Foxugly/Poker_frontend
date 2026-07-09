@@ -7,6 +7,8 @@ export interface Team {
   created_at: string;
   my_role: TeamRole;
   member_count: number;
+  card_back_color: string;
+  felt_color: string;
 }
 
 export interface Membership {

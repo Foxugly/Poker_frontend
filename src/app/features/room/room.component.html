@@ -1,4 +1,4 @@
-<section class="page room">
+<section class="page room" [style.--table-felt]="feltColor()">
   <header class="room-header">
     <div class="rh-left">
       <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
@@ -35,7 +35,7 @@
                 </span>
                 <div class="seat-card">
                   @if (seat.show && seat.card) {
-                    <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [lang]="lang()" />
+                    <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
                   } @else {
                     <div class="empty-slot"></div>
                   }

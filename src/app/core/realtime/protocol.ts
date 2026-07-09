@@ -38,6 +38,7 @@ export interface DeckSnapshot {
   resolutionStrategy: string;
   deckId: number;
   cardBack: { image: string | null };
+  theme?: { cardBackColor: string; feltColor: string };
   cards: SnapshotCard[];
 }
 

@@ -9,6 +9,7 @@
     "members": "Members", "invitations": "Invitations", "invite": "Invite",
     "invited": "Invitation sent.", "already_member": "That person is already a member.",
     "revoke": "Revoke", "remove": "Remove", "manage": "Manage team",
+    "appearance": "Appearance", "felt_color": "Felt colour", "back_color": "Card-back colour", "appearance_saved": "Appearance saved.",
     "delete": "Delete team", "delete_confirm": "Permanently delete this team?",
     "role": { "owner": "Owner", "admin": "Admin", "member": "Member" },
     "accept": {

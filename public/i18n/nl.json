@@ -9,6 +9,7 @@
     "members": "Leden", "invitations": "Uitnodigingen", "invite": "Uitnodigen",
     "invited": "Uitnodiging verstuurd.", "already_member": "Deze persoon is al lid.",
     "revoke": "Intrekken", "remove": "Verwijderen", "manage": "Team beheren",
+    "appearance": "Uiterlijk", "felt_color": "Kleur van het laken", "back_color": "Kleur van de achterkant", "appearance_saved": "Uiterlijk opgeslagen.",
     "delete": "Team verwijderen", "delete_confirm": "Dit team definitief verwijderen?",
     "role": { "owner": "Eigenaar", "admin": "Admin", "member": "Lid" },
     "accept": {

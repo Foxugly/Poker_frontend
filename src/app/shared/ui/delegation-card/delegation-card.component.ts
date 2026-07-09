@@ -25,6 +25,7 @@ interface PositionedLayer {
       [class.disabled]="disabled()"
       [disabled]="disabled()"
       [style.background-image]="backgroundUrl()"
+      [style.background-color]="baseColor()"
     >
       @if (faceUp()) {
         @for (layer of layers(); track layer.style['top'] + layer.text) {
@@ -85,8 +86,13 @@ export class DelegationCardComponent {
   readonly disabled = input(false);
   readonly lang = input(FALLBACK_LANG as string);
   readonly cardBack = input<string | null>(null);
+  readonly cardBackColor = input<string | null>(null);
 
   readonly faceUp = computed(() => this.revealed());
+
+  /** Face-down cards take the (team-customizable) card-back colour; face-up keep the
+   * dark base so overlay text stays legible before/without artwork. */
+  readonly baseColor = computed(() => (this.faceUp() ? '#143d2f' : this.cardBackColor() || '#143d2f'));
 
   readonly backgroundUrl = computed(() => {
     const url = this.faceUp() ? this.card().background.image : this.cardBack();

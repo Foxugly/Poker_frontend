@@ -70,6 +70,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly canReveal = computed(() => this.state() === 'open' && this.socket.participation().voted >= 1);
   readonly votable = computed(() => this.state() === 'open');
 
+  // Team appearance (P2.6): felt recolours the table, card-back colours the face-down cards.
+  readonly feltColor = computed(() => this.socket.deckSnapshot()?.theme?.feltColor ?? null);
+  readonly cardBackColor = computed(() => this.socket.deckSnapshot()?.theme?.cardBackColor ?? null);
+
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
    * resolve the card's translated name (from the snapshot) in the current language. */

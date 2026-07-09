@@ -9,6 +9,7 @@
     "members": "Membres", "invitations": "Invitations", "invite": "Inviter",
     "invited": "Invitation envoyée.", "already_member": "Cette personne est déjà membre.",
     "revoke": "Révoquer", "remove": "Retirer", "manage": "Gérer l'équipe",
+    "appearance": "Apparence", "felt_color": "Couleur du feutre", "back_color": "Couleur du dos", "appearance_saved": "Apparence enregistrée.",
     "delete": "Supprimer l'équipe", "delete_confirm": "Supprimer définitivement cette équipe ?",
     "role": { "owner": "Propriétaire", "admin": "Admin", "member": "Membre" },
     "accept": {

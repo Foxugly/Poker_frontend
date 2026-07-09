@@ -2,8 +2,10 @@
    CSS variables (set on the room, later, from team branding). */
 :host {
   --table-felt: #10b981;
-  --table-felt-edge: #047857;
-  --table-rail: #064e3b;
+  /* Edges/rail derive from the felt so a custom team colour recolours the whole table
+     from a single override of --table-felt. */
+  --table-felt-edge: color-mix(in srgb, var(--table-felt) 68%, black);
+  --table-rail: color-mix(in srgb, var(--table-felt) 42%, black);
 }
 
 .room {
