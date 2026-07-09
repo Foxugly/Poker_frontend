@@ -11,7 +11,8 @@ import { TagModule } from 'primeng/tag';
 import { LanguageService } from '../../core/i18n/language.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { RoomSocketService } from '../../core/realtime/room-socket.service';
-import { RoundState } from '../../core/realtime/protocol';
+import { RoundState, SnapshotCard } from '../../core/realtime/protocol';
+import { DelegationCardComponent } from '../../shared/ui/delegation-card/delegation-card.component';
 import { DelegationDeckComponent } from '../../shared/ui/delegation-deck/delegation-deck.component';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
@@ -22,12 +23,23 @@ const BADGE_SEVERITY: Record<RoundState, 'secondary' | 'success' | 'warn' | 'inf
   acted: 'info',
 };
 
+interface Seat {
+  participantId: string;
+  username: string;
+  role: string;
+  x: number; // % position around the table
+  y: number;
+  card: SnapshotCard | null; // the card to render (face when revealed, any card for the back)
+  revealed: boolean;
+  show: boolean; // whether the seat has a card (voted) at all
+}
+
 @Component({
   selector: 'app-room',
   standalone: true,
   imports: [
     FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, TagModule,
-    PageHeaderComponent, DelegationDeckComponent,
+    PageHeaderComponent, DelegationDeckComponent, DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',
@@ -59,6 +71,39 @@ export class RoomComponent implements OnInit, OnDestroy {
     for (const v of this.socket.revealedVotes()) map.set(v.participantId, v.cardValue);
     return map;
   });
+
+  /** Seats laid out around the table (ellipse), each carrying its card state:
+   * empty (not voted) → back (voted, hidden) → face (revealed). */
+  readonly seats = computed<Seat[]>(() => {
+    const participants = this.socket.participants();
+    const deck = this.socket.deckSnapshot();
+    const revealed = this.state() === 'revealed' || this.state() === 'acted';
+    const revealedMap = this.revealedByParticipant();
+    const votedIds = new Set(this.socket.participation().votedIds);
+    const n = participants.length;
+    return participants.map((p, i) => {
+      const angle = -Math.PI / 2 + (i / Math.max(n, 1)) * 2 * Math.PI;
+      const faceValue = revealed ? revealedMap.get(p.participantId) : undefined;
+      const hasVoted = p.hasVoted || votedIds.has(p.participantId) || faceValue !== undefined;
+      let card: SnapshotCard | null = null;
+      if (faceValue !== undefined) card = this.cardByValue(faceValue);
+      else if (hasVoted && deck) card = deck.cards[0]; // back placeholder
+      return {
+        participantId: p.participantId,
+        username: p.username,
+        role: p.role,
+        x: 50 + 39 * Math.cos(angle),
+        y: 50 + 42 * Math.sin(angle),
+        card,
+        revealed: faceValue !== undefined,
+        show: hasVoted,
+      };
+    });
+  });
+
+  cardByValue(value: string): SnapshotCard | null {
+    return this.socket.deckSnapshot()?.cards.find((c) => c.value === value) ?? null;
+  }
 
   constructor() {
     // Surface server rejections / connection errors as toasts (pattern flotte).

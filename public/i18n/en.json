@@ -93,6 +93,8 @@
     "participants": "Participants",
     "facilitator_absent": "The facilitator is away.",
     "claim": "Take the role",
+    "your_hand": "Your hand",
+    "waiting_facilitator": "Waiting for the facilitator",
     "code_copied": "Code copied",
     "link_copied": "Link copied"
   },

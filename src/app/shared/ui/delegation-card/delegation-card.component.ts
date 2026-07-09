@@ -43,7 +43,9 @@ interface PositionedLayer {
         border: 2px solid var(--border);
         background-size: cover;
         background-position: center;
-        background-color: var(--surface);
+        /* Dark base so the white overlay text stays legible before/without artwork
+           (a missing OR broken image falls back to this); real art covers it. */
+        background-color: #143d2f;
         box-shadow: var(--shadow-card);
         cursor: pointer;
         transition: transform 0.12s ease, border-color 0.12s ease;

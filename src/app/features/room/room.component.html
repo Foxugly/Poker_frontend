@@ -1,108 +1,100 @@
-<section class="page">
+<section class="page room">
   <app-page-header [icon]="'pi-users'" [title]="socket.roomTitle() || ('room.untitled' | transloco)">
     <p-button [label]="'action.quit' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
     <p-button [label]="code()" icon="pi pi-copy" [outlined]="true" severity="secondary" (onClick)="copyCode()" />
     <p-button [label]="'room.share' | transloco" icon="pi pi-share-alt" [outlined]="true" severity="secondary" (onClick)="shareLink()" />
-
-    @if (isFacilitator()) {
-      @switch (state()) {
-        @case ('idle') {
-          <p-button [label]="'room.open_vote' | transloco" icon="pi pi-play" [disabled]="!canOpen()" (onClick)="socket.openVote()" />
-        }
-        @case ('open') {
-          <p-button [label]="'room.reveal' | transloco" icon="pi pi-eye" severity="warn" [disabled]="!canReveal()" (onClick)="socket.reveal()" />
-        }
-        @case ('revealed') {
-          <p-button [label]="'room.reset' | transloco" icon="pi pi-refresh" [text]="true" severity="secondary" (onClick)="socket.reset()" />
-        }
-        @case ('acted') {
-          <p-button [label]="'room.new_round' | transloco" icon="pi pi-refresh" (onClick)="socket.reset()" />
-        }
-      }
-    }
   </app-page-header>
 
-  <div class="body">
-    <div class="main-col">
-      <div class="subject-row">
-        <p-tag [severity]="badgeSeverity()" [value]="'vote_state.' + state() | transloco" />
-        <h2>{{ socket.subject() || ('room.no_subject' | transloco) }}</h2>
+  <!-- Subject, above the table -->
+  <div class="subject-bar">
+    <p-tag [severity]="badgeSeverity()" [value]="'vote_state.' + state() | transloco" />
+    <h2>{{ socket.subject() || ('room.no_subject' | transloco) }}</h2>
+    @if (isFacilitator() && state() === 'idle') {
+      <div class="subject-edit">
+        <input pInputText [placeholder]="'room.set_subject' | transloco" [ngModel]="subjectDraft()" (ngModelChange)="subjectDraft.set($event)" />
+        <p-button [label]="'action.save' | transloco" icon="pi pi-save" size="small" (onClick)="saveSubject()" />
       </div>
+    }
+  </div>
 
-      @if (isFacilitator() && state() === 'idle') {
-        <div class="card" style="margin-bottom: var(--s-4)">
-          <label class="meta-label">{{ 'room.set_subject' | transloco }}</label>
-          <div class="flex gap-2">
-            <input pInputText class="flex-1" [ngModel]="subjectDraft()" (ngModelChange)="subjectDraft.set($event)" />
-            <p-button [label]="'action.save' | transloco" icon="pi pi-save" (onClick)="saveSubject()" />
+  @if (socket.deckSnapshot(); as deck) {
+    <!-- The table: players seated around it -->
+    <div class="table-wrap">
+      <div class="felt">
+        @for (seat of seats(); track seat.participantId) {
+          <div class="seat" [style.left.%]="seat.x" [style.top.%]="seat.y">
+            <div class="seat-card">
+              @if (seat.show && seat.card) {
+                <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [lang]="lang()" />
+              } @else {
+                <div class="empty-slot"></div>
+              }
+            </div>
+            <span class="seat-name" [class.me-fac]="seat.role === 'facilitator'">
+              @if (seat.role === 'facilitator') { <i class="pi pi-star-fill"></i> }
+              {{ seat.username }}
+            </span>
           </div>
-        </div>
-      }
+        }
 
-      @if (state() === 'acted' && socket.result()) {
-        <div class="card result-card">
-          <span class="meta-label">{{ 'room.acted_result' | transloco }}</span>
-          <span class="result-value">{{ socket.result() }}</span>
+        <!-- Table centre: facilitator control / live count / result -->
+        <div class="table-center">
+          @switch (state()) {
+            @case ('idle') {
+              @if (isFacilitator()) {
+                <p-button [label]="'room.open_vote' | transloco" icon="pi pi-play" [disabled]="!canOpen()" (onClick)="socket.openVote()" />
+              } @else {
+                <span class="center-hint">{{ 'room.waiting_facilitator' | transloco }}</span>
+              }
+            }
+            @case ('open') {
+              <span class="count">{{ socket.participation().voted }} / {{ socket.participation().total }}</span>
+              @if (isFacilitator()) {
+                <p-button [label]="'room.reveal' | transloco" icon="pi pi-eye" severity="warn" [disabled]="!canReveal()" (onClick)="socket.reveal()" />
+              }
+            }
+            @case ('revealed') {
+              @if (isFacilitator()) {
+                <div class="act">
+                  <p-select [options]="cardValues()" [ngModel]="chosenValue()" (ngModelChange)="chosenValue.set($event)" appendTo="body" />
+                  <p-button [label]="'room.act' | transloco" icon="pi pi-check" severity="success" (onClick)="act()" />
+                  <p-button [label]="'room.reset' | transloco" icon="pi pi-refresh" [text]="true" severity="secondary" (onClick)="socket.reset()" />
+                </div>
+              } @else {
+                <span class="center-hint">{{ 'vote_state.revealed' | transloco }}</span>
+              }
+            }
+            @case ('acted') {
+              <div class="result">
+                <span class="result-label">{{ 'room.acted_result' | transloco }}</span>
+                <span class="result-value">{{ socket.result() }}</span>
+              </div>
+              @if (isFacilitator()) {
+                <p-button [label]="'room.new_round' | transloco" icon="pi pi-refresh" size="small" (onClick)="socket.reset()" />
+              }
+            }
+          }
         </div>
-      }
-
-      @if (socket.deckSnapshot(); as deck) {
-        <app-delegation-deck
-          [deck]="deck"
-          [lang]="lang()"
-          [myVote]="socket.myVote()"
-          [votable]="votable()"
-          (vote)="socket.castVote($event)"
-        />
-      }
-
-      @if (state() === 'revealed' && isFacilitator()) {
-        <div class="card act-bar">
-          <label class="meta-label">{{ 'room.choose_result' | transloco }}</label>
-          <div class="flex gap-2">
-            <p-select
-              [options]="cardValues()"
-              [ngModel]="chosenValue()"
-              (ngModelChange)="chosenValue.set($event)"
-              appendTo="body"
-            />
-            <p-button [label]="'room.act' | transloco" icon="pi pi-check" severity="success" (onClick)="act()" />
-          </div>
-        </div>
-      }
+      </div>
     </div>
 
-    <aside class="side-col">
-      <div class="card">
-        <div class="flex items-center justify-between">
-          <h3 style="margin: 0">{{ 'room.participants' | transloco }}</h3>
-          <p-tag [value]="socket.participation().voted + ' / ' + socket.participation().total" />
-        </div>
-        <ul class="participants">
-          @for (p of socket.participants(); track p.participantId) {
-            <li>
-              <span class="name">
-                @if (p.role === 'facilitator') { <i class="pi pi-star-fill" title="facilitator"></i> }
-                {{ p.username }}
-              </span>
-              @if (state() === 'revealed' && revealedByParticipant().get(p.participantId); as v) {
-                <span class="voted-value">{{ v }}</span>
-              } @else if (p.hasVoted || socket.participation().votedIds.includes(p.participantId)) {
-                <i class="pi pi-check voted-check"></i>
-              } @else {
-                <i class="pi pi-clock pending"></i>
-              }
-            </li>
-          }
-        </ul>
-      </div>
+    <!-- Your hand, always visible at the bottom -->
+    <div class="hand">
+      <span class="hand-label">{{ 'room.your_hand' | transloco }}</span>
+      <app-delegation-deck
+        [deck]="deck"
+        [lang]="lang()"
+        [myVote]="socket.myVote()"
+        [votable]="votable()"
+        (vote)="socket.castVote($event)"
+      />
+    </div>
 
-      @if (!socket.facilitatorPresent()) {
-        <div class="card guard">
-          <p>{{ 'room.facilitator_absent' | transloco }}</p>
-          <p-button [label]="'room.claim' | transloco" icon="pi pi-flag" size="small" (onClick)="socket.claimFacilitator()" />
-        </div>
-      }
-    </aside>
-  </div>
+    @if (!socket.facilitatorPresent()) {
+      <div class="guard">
+        <span>{{ 'room.facilitator_absent' | transloco }}</span>
+        <p-button [label]="'room.claim' | transloco" icon="pi pi-flag" size="small" (onClick)="socket.claimFacilitator()" />
+      </div>
+    }
+  }
 </section>

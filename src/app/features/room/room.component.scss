@@ -1,80 +1,168 @@
-.body {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: var(--s-6);
-  align-items: start;
+.room {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
 }
 
-.subject-row {
+/* --- Subject above the table --- */
+.subject-bar {
   display: flex;
   align-items: center;
   gap: var(--s-3);
-  margin-bottom: var(--s-4);
+  flex-wrap: wrap;
 
   h2 {
     margin: 0;
     font-size: 1.15rem;
     color: var(--text-strong);
   }
+  .subject-edit {
+    display: flex;
+    gap: var(--s-2);
+    flex: 1;
+    min-width: 240px;
+  }
+  .subject-edit input {
+    flex: 1;
+  }
 }
 
-.result-card {
+/* --- The table --- */
+.table-wrap {
+  display: flex;
+  justify-content: center;
+}
+.felt {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  aspect-ratio: 1.4;
+  margin: var(--s-4) 0;
+}
+/* the felt surface (a poker table reads dark green in both themes) */
+.felt::before {
+  content: '';
+  position: absolute;
+  inset: 14% 6%;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, #14624a 0%, #0c3f30 70%, #0a3327 100%);
+  border: 10px solid #1f2a24;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.45), var(--shadow-card);
+}
+
+.seat {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 62px;
+}
+.seat-card {
+  width: 100%;
+}
+.empty-slot {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border: 1.5px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.seat-name {
+  font-size: 0.78rem;
+  color: var(--text-strong);
+  max-width: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: var(--s-3);
-  margin-bottom: var(--s-4);
+  gap: 3px;
+}
+.seat-name .pi-star-fill {
+  color: var(--fox-primary);
+  font-size: 0.7rem;
+}
 
-  .result-value {
+/* --- Table centre: control / count / result --- */
+.table-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  text-align: center;
+
+  .count {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--fox-primary);
+    color: #fff;
+    font-variant-numeric: tabular-nums;
   }
-}
-
-.act-bar {
-  margin-top: var(--s-4);
-}
-
-.participants {
-  list-style: none;
-  margin: var(--s-3) 0 0;
-  padding: 0;
-
-  li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--s-2) 0;
-    border-bottom: 1px solid var(--border);
+  .center-hint {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
   }
-  .name {
+  .act {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--s-2);
+    align-items: center;
   }
-  .name .pi-star-fill {
+  .result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .result-label {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.75rem;
+  }
+  .result-value {
+    font-size: 2rem;
+    font-weight: 800;
     color: var(--fox-primary);
-    font-size: 0.8rem;
   }
-  .voted-check {
-    color: var(--fox-primary);
-  }
-  .pending {
-    color: var(--muted);
-  }
-  .voted-value {
-    font-weight: 700;
-    color: var(--text-strong);
-  }
+}
+
+/* --- Your hand at the bottom --- */
+.hand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hand-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .guard {
-  margin-top: var(--s-4);
-  border-color: #f59e0b;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  justify-content: center;
+  padding: var(--s-3);
+  border: 1px solid #f59e0b;
+  border-radius: var(--radius);
+  color: var(--text);
 }
 
-@media (max-width: 900px) {
-  .body {
-    grid-template-columns: 1fr;
+@media (max-width: 560px) {
+  .felt {
+    aspect-ratio: 1;
+  }
+  .seat {
+    width: 48px;
   }
 }
