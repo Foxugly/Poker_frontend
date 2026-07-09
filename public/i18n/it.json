@@ -39,17 +39,17 @@
       "features": { "title": "Nuove funzionalità", "desc": "Ogni contributo accelera lo sviluppo." }
     },
     "cta_title": "Fare una donazione",
-    "cta_desc": "Le donazioni passano da GitHub Sponsors — una tantum o ricorrenti.",
+    "cta_desc": "Le donazioni passano da GitHub Sponsors: un gesto una tantum o un sostegno regolare, al tuo ritmo.",
     "cta_button": "Sostieni su GitHub Sponsors",
     "cta_note": "Sarai reindirizzato a GitHub Sponsors in una nuova scheda.",
     "thanks_title": "Grazie!",
-    "thanks_desc": "Ogni contributo, anche piccolo, fa la differenza."
+    "thanks_desc": "Grazie per mantenere vivo uno strumento indipendente — senza pubblicità né tracciamento."
   },
   "pricing": {
     "title": "Prezzi",
-    "intro": "Gratis per le stanze anonime. Passa a pagamento per creare e gestire i team.",
+    "intro": "Crea una stanza gratis in pochi secondi. Passa a un piano team per il Delegation Board, la cronologia e l'aspetto personalizzato.",
     "free_title": "Gratis",
-    "free_f1": "Stanze anonime in tempo reale",
+    "free_f1": "Delegation Poker e Poker Planning in tempo reale",
     "free_f2": "Fino a 20 persone per stanza",
     "free_f3": "Nessun account richiesto",
     "team1_title": "1 team",
@@ -57,6 +57,7 @@
     "team5_f1": "Fino a 5 team",
     "per_month": "/mese",
     "per_year": "/anno",
+    "save": "2 mesi gratis",
     "or": "o",
     "paid_f1": "Delegation Board (AS-IS / TO-BE)",
     "paid_f2": "Cronologia + invio email",
@@ -64,7 +65,7 @@
     "paid_f4": "Fino a 20 membri per team",
     "note": "Massimo 20 persone per stanza · massimo 20 membri per team.",
     "cta_free": "Crea una stanza",
-    "cta_paid": "Scegli"
+    "cta_paid": "Abbonati"
   },
   "about": {
     "title": "Info",

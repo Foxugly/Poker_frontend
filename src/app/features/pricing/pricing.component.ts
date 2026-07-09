@@ -12,7 +12,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
   imports: [RouterLink, TranslocoModule, PageHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="page page--narrow pricing-page">
+    <section class="page pricing-page">
       <app-page-header [icon]="'pi-tag'" [title]="'pricing.title' | transloco" />
       <p class="lead">{{ 'pricing.intro' | transloco }}</p>
 
@@ -33,7 +33,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         <article class="tier featured">
           <h3>{{ 'pricing.team1_title' | transloco }}</h3>
           <div class="price">5 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-          <div class="price-alt">{{ 'pricing.or' | transloco }} 50 €{{ 'pricing.per_year' | transloco }}</div>
+          <div class="price-alt">{{ 'pricing.or' | transloco }} 50 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
           <ul>
             <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
             <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
@@ -47,7 +47,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         <article class="tier">
           <h3>{{ 'pricing.team5_title' | transloco }}</h3>
           <div class="price">20 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-          <div class="price-alt">{{ 'pricing.or' | transloco }} 200 €{{ 'pricing.per_year' | transloco }}</div>
+          <div class="price-alt">{{ 'pricing.or' | transloco }} 200 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
           <ul>
             <li><i class="pi pi-check"></i>{{ 'pricing.team5_f1' | transloco }}</li>
             <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
@@ -66,26 +66,35 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       .pricing-page {
         display: flex;
         flex-direction: column;
-        gap: var(--s-4);
+        gap: var(--s-6);
+        padding-top: 40px;
+        padding-bottom: 40px;
       }
       .lead {
         margin: 0;
         color: var(--muted);
+        font-size: 1.05rem;
       }
       .tiers {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--s-4);
-        align-items: start;
+        gap: var(--s-6);
+        align-items: stretch;
+        width: 100%;
+        max-width: 100%;
       }
       .tier {
         border: 1px solid var(--border);
         border-radius: var(--radius);
         background: var(--surface);
         box-shadow: var(--shadow-card);
-        padding: var(--s-5) var(--s-4);
-        display: grid;
-        gap: var(--s-3);
+        padding: var(--s-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-4);
+      }
+      .tier-cta {
+        margin-top: auto;
       }
       .tier.featured {
         border-color: var(--fox-primary);
@@ -109,6 +118,16 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         margin-top: -8px;
         font-size: 0.85rem;
         color: var(--muted);
+      }
+      .save {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--fox-primary);
+        background: color-mix(in srgb, var(--fox-primary) 14%, transparent);
+        padding: 1px 7px;
+        border-radius: 999px;
+        margin-left: 4px;
       }
       .tier ul {
         list-style: none;

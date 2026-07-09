@@ -45,7 +45,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       .support-page {
         display: flex;
         flex-direction: column;
-        gap: var(--s-5);
+        gap: var(--s-6);
       }
       .why {
         margin: 0;

@@ -39,17 +39,17 @@
       "features": { "title": "Nuevas funciones", "desc": "Cada contribución acelera el desarrollo." }
     },
     "cta_title": "Hacer una donación",
-    "cta_desc": "Las donaciones se gestionan con GitHub Sponsors — puntual o recurrente.",
+    "cta_desc": "Las donaciones se gestionan con GitHub Sponsors: un gesto puntual o un apoyo regular, a tu ritmo.",
     "cta_button": "Apoyar en GitHub Sponsors",
     "cta_note": "Se te redirigirá a GitHub Sponsors en una pestaña nueva.",
     "thanks_title": "¡Gracias!",
-    "thanks_desc": "Cada contribución, por pequeña que sea, marca la diferencia."
+    "thanks_desc": "Gracias por mantener vivo una herramienta independiente — sin publicidad ni rastreo."
   },
   "pricing": {
     "title": "Precios",
-    "intro": "Gratis para las salas anónimas. Pasa a la versión de pago para crear y gestionar equipos.",
+    "intro": "Crea una sala gratis en segundos. Pasa a un plan de equipo para el Delegation Board, el historial y la apariencia personalizada.",
     "free_title": "Gratis",
-    "free_f1": "Salas anónimas en tiempo real",
+    "free_f1": "Delegation Poker y Poker Planning en tiempo real",
     "free_f2": "Hasta 20 personas por sala",
     "free_f3": "Sin cuenta",
     "team1_title": "1 equipo",
@@ -57,6 +57,7 @@
     "team5_f1": "Hasta 5 equipos",
     "per_month": "/mes",
     "per_year": "/año",
+    "save": "2 meses gratis",
     "or": "o",
     "paid_f1": "Delegation Board (AS-IS / TO-BE)",
     "paid_f2": "Historial + envío por correo",
@@ -64,7 +65,7 @@
     "paid_f4": "Hasta 20 miembros por equipo",
     "note": "Máximo 20 personas por sala · máximo 20 miembros por equipo.",
     "cta_free": "Crear una sala",
-    "cta_paid": "Elegir"
+    "cta_paid": "Suscribirse"
   },
   "about": {
     "title": "Acerca de",
