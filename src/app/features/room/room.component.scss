@@ -1,15 +1,50 @@
-/* Neutral table felt by default — overridable per team in the paid tier via these
+/* Emerald table felt by default — overridable per team in the paid tier via these
    CSS variables (set on the room, later, from team branding). */
 :host {
-  --table-felt: #4c5651;
-  --table-felt-edge: #363d39;
-  --table-rail: #2b302d;
+  --table-felt: #10b981;
+  --table-felt-edge: #047857;
+  --table-rail: #064e3b;
 }
 
 .room {
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
+}
+
+/* --- Room header: back left, title centred, actions right --- */
+.room-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--s-3);
+}
+.rh-left {
+  justify-self: start;
+}
+.rh-right {
+  justify-self: end;
+  display: flex;
+  gap: var(--s-2);
+}
+.rh-title {
+  margin: 0;
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .room-header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .rh-left,
+  .rh-right {
+    justify-self: center;
+  }
 }
 
 .room-body {
@@ -56,9 +91,9 @@
 .felt {
   position: relative;
   width: 100%;
-  max-width: 560px;
-  aspect-ratio: 1.32;
-  margin: var(--s-6) 0;
+  max-width: 600px;
+  aspect-ratio: 1.85;
+  margin: var(--s-4) 0;
 }
 .felt::before {
   content: '';
@@ -226,6 +261,19 @@
   border-radius: var(--radius);
   padding: var(--s-3);
   gap: var(--s-2);
+}
+
+/* Inline rows: an input/select that grows + a compact action button beside it. */
+.add-subject-row,
+.act-row {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--s-2);
+}
+.add-subject-row .grow,
+.act-row .grow {
+  flex: 1;
+  min-width: 0;
 }
 
 /* --- Scenario agenda --- */

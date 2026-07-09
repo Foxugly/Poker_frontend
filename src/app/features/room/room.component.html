@@ -1,9 +1,14 @@
 <section class="page room">
-  <app-page-header [icon]="'pi-users'" [title]="socket.roomTitle() || ('room.untitled' | transloco)">
-    <p-button [label]="'action.quit' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
-    <p-button [label]="code()" icon="pi pi-copy" [outlined]="true" severity="secondary" (onClick)="copyCode()" />
-    <p-button [label]="'room.share' | transloco" icon="pi pi-share-alt" [outlined]="true" severity="secondary" (onClick)="shareLink()" />
-  </app-page-header>
+  <header class="room-header">
+    <div class="rh-left">
+      <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
+    </div>
+    <h1 class="rh-title">{{ socket.roomTitle() || ('room.untitled' | transloco) }}</h1>
+    <div class="rh-right">
+      <p-button [label]="code()" icon="pi pi-copy" [outlined]="true" severity="secondary" (onClick)="copyCode()" />
+      <p-button [label]="'room.share' | transloco" icon="pi pi-share-alt" [outlined]="true" severity="secondary" (onClick)="shareLink()" />
+    </div>
+  </header>
 
   @if (socket.deckSnapshot(); as deck) {
     <div class="room-body" [class.has-panel]="isFacilitator()">
@@ -92,10 +97,10 @@
             }
           </ul>
 
-          <div class="panel-block add-subject">
-            <input pInputText [placeholder]="'room.add_subject' | transloco" [ngModel]="subjectDraft()"
+          <div class="panel-block add-subject-row">
+            <input pInputText class="grow" [placeholder]="'room.add_subject' | transloco" [ngModel]="subjectDraft()"
                    (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" />
-            <p-button [label]="'room.add' | transloco" icon="pi pi-plus" size="small" (onClick)="addSubject()" styleClass="w-full" />
+            <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="!subjectDraft().trim()" (onClick)="addSubject()" />
           </div>
 
           <div class="panel-block controls">
@@ -107,9 +112,10 @@
                 <p-button [label]="'room.reveal' | transloco" icon="pi pi-eye" severity="warn" [disabled]="!canReveal()" (onClick)="socket.reveal()" styleClass="w-full" />
               }
               @case ('revealed') {
-                <label>{{ 'room.choose_result' | transloco }}</label>
-                <p-select [options]="cardOptions()" optionLabel="label" optionValue="value" [ngModel]="chosenValue()" (ngModelChange)="chosenValue.set($event)" appendTo="body" styleClass="w-full" />
-                <p-button [label]="'room.act' | transloco" icon="pi pi-check" severity="success" (onClick)="act()" styleClass="w-full" />
+                <div class="act-row">
+                  <p-select [options]="cardOptions()" optionLabel="label" optionValue="value" [ngModel]="chosenValue()" (ngModelChange)="chosenValue.set($event)" appendTo="body" styleClass="grow" />
+                  <p-button icon="pi pi-check" [ariaLabel]="'room.act' | transloco" [disabled]="!chosenValue()" severity="success" (onClick)="act()" />
+                </div>
                 <p-button [label]="'room.reset' | transloco" icon="pi pi-refresh" [text]="true" severity="secondary" (onClick)="socket.reset()" styleClass="w-full" />
               }
               @case ('acted') {

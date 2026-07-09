@@ -14,6 +14,7 @@ import { IdentityService } from '../../core/identity/identity.service';
   standalone: true,
   imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule],
   templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   private api = inject(RoomApiService);
@@ -26,6 +27,12 @@ export class HomeComponent {
   readonly title = signal('');
   readonly creating = signal(false);
   readonly submitted = signal(false);
+
+  // Join (inline on the home, both actions in evidence).
+  readonly joinCode = signal('');
+  readonly joinName = signal(this.identity.username);
+  readonly joining = signal(false);
+  readonly joinSubmitted = signal(false);
 
   createRoom(): void {
     this.submitted.set(true);
@@ -45,7 +52,26 @@ export class HomeComponent {
     });
   }
 
-  goJoin(): void {
-    this.router.navigate(['/join']);
+  onJoinCode(value: string): void {
+    this.joinCode.set(value.toUpperCase());
+  }
+
+  joinRoom(): void {
+    this.joinSubmitted.set(true);
+    const name = this.joinName().trim();
+    const code = this.joinCode().trim().toUpperCase();
+    if (!name || !code) return;
+    this.identity.username = name;
+    this.joining.set(true);
+    this.api.joinRoom(code, name).subscribe({
+      next: (res) => {
+        this.identity.saveSession({ code: res.code, token: res.participantToken, role: res.role });
+        this.router.navigate(['/room', res.code]);
+      },
+      error: () => {
+        this.joining.set(false);
+        this.messages.add({ severity: 'error', summary: this.transloco.translate('errors.room_not_found') });
+      },
+    });
   }
 }

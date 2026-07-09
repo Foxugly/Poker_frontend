@@ -1,6 +1,6 @@
 {
-  "app": { "title": "Delegation Poker", "tagline": "Decidid juntos el nivel de delegación adecuado." },
-  "nav": { "home": "Inicio", "features": "Funciones", "teams": "Equipos" },
+  "app": { "title": "Poker", "tagline": "Decisiones compartidas, en tiempo real — Poker Planning y Delegation Poker." },
+  "nav": { "home": "Inicio", "features": "Funciones", "support": "Apoyar", "about": "Acerca de", "teams": "Equipos" },
   "field": { "username": "Tu nombre" },
   "action": { "cancel": "Cancelar", "save": "Guardar", "quit": "Salir", "back": "Volver" },
   "teams": {
@@ -18,15 +18,30 @@
     }
   },
   "home": {
-    "eyebrow": "Management 3.0",
-    "title": "Delegation Poker, en tiempo real",
-    "intro": "Crea una sala, invita a tu equipo, vota un nivel de delegación y revelad los votos juntos.",
+    "eyebrow": "Decisiones compartidas",
+    "title": "Decidid juntos, en tiempo real",
+    "intro": "Poker reúne Poker Planning y Delegation Poker: crea una sala, invita a tu equipo, votad y revelad los resultados juntos.",
     "create_title": "Crear una sala",
     "room_title": "Título de la sala (opcional)",
-    "create_cta": "Crear",
+    "create_cta": "Crear la sala",
     "join_title": "Unirse a una sala",
     "join_intro": "¿Tienes un código de sala o un enlace? Únete a la partida en curso.",
     "join_cta": "Unirse"
+  },
+  "support": {
+    "title": "Apoyar",
+    "lead": "Poker es gratis para las salas anónimas.",
+    "body": "Si te resulta útil, tu apoyo nos ayuda a cubrir el alojamiento y a seguir mejorándolo.",
+    "cta": "Apóyanos"
+  },
+  "about": {
+    "title": "Acerca de",
+    "tab_company": "Empresa",
+    "tab_legal": "Aviso legal",
+    "tab_technical": "Técnica",
+    "company_body": "Poker está editado por Foxugly SRL, una empresa belga. Creamos herramientas sencillas para equipos que deciden juntos.",
+    "legal_body": "Editor: Foxugly SRL — Bélgica. Contacto: hello@foxugly.com. Alojamiento: Amazon Web Services (Irlanda, región eu-west-1). Las salas anónimas son temporales y caducan tras un periodo de inactividad.",
+    "technical_body": "Aplicación en tiempo real: backend con Django y Django Channels (WebSocket), frontend con Angular y PrimeNG. Multilingüe (5 idiomas), temas claro y oscuro."
   },
   "join": { "title": "Unirse a una sala", "code": "Código de sala", "cta": "Unirse" },
   "features": {
@@ -114,6 +129,7 @@
     "agenda_empty": "Aún no hay temas. Añade uno para empezar.",
     "add_subject": "Añadir un tema",
     "add": "Añadir",
+    "send": "Enviar",
     "vote_title": "Título de la votación",
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado"

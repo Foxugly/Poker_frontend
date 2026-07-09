@@ -1,6 +1,6 @@
 {
-  "app": { "title": "Delegation Poker", "tagline": "Decidete insieme il giusto livello di delega." },
-  "nav": { "home": "Home", "features": "Funzionalità", "teams": "Team" },
+  "app": { "title": "Poker", "tagline": "Decisioni condivise, in tempo reale — Poker Planning e Delegation Poker." },
+  "nav": { "home": "Home", "features": "Funzionalità", "support": "Sostieni", "about": "Info", "teams": "Team" },
   "field": { "username": "Il tuo nome" },
   "action": { "cancel": "Annulla", "save": "Salva", "quit": "Esci", "back": "Indietro" },
   "teams": {
@@ -18,15 +18,30 @@
     }
   },
   "home": {
-    "eyebrow": "Management 3.0",
-    "title": "Delegation Poker, in tempo reale",
-    "intro": "Crea una stanza, invita il team, vota un livello di delega e rivela i voti insieme.",
+    "eyebrow": "Decisioni condivise",
+    "title": "Decidete insieme, in tempo reale",
+    "intro": "Poker unisce Poker Planning e Delegation Poker: crea una stanza, invita il team, votate e rivelate i risultati insieme.",
     "create_title": "Crea una stanza",
     "room_title": "Titolo della stanza (opzionale)",
-    "create_cta": "Crea",
+    "create_cta": "Crea la stanza",
     "join_title": "Entra in una stanza",
     "join_intro": "Hai un codice stanza o un link? Unisciti alla partita in corso.",
     "join_cta": "Entra"
+  },
+  "support": {
+    "title": "Sostieni",
+    "lead": "Poker è gratuito per le stanze anonime.",
+    "body": "Se lo trovi utile, il tuo sostegno ci aiuta a coprire l'hosting e a continuare a migliorarlo.",
+    "cta": "Sostienici"
+  },
+  "about": {
+    "title": "Info",
+    "tab_company": "Società",
+    "tab_legal": "Note legali",
+    "tab_technical": "Tecnica",
+    "company_body": "Poker è pubblicato da Foxugly SRL, una società belga. Costruiamo strumenti semplici per i team che decidono insieme.",
+    "legal_body": "Editore: Foxugly SRL — Belgio. Contatto: hello@foxugly.com. Hosting: Amazon Web Services (Irlanda, regione eu-west-1). Le stanze anonime sono temporanee e scadono dopo un periodo di inattività.",
+    "technical_body": "Applicazione in tempo reale: backend Django e Django Channels (WebSocket), frontend Angular e PrimeNG. Multilingue (5 lingue), temi chiaro e scuro."
   },
   "join": { "title": "Entra in una stanza", "code": "Codice stanza", "cta": "Entra" },
   "features": {
@@ -114,6 +129,7 @@
     "agenda_empty": "Nessun argomento. Aggiungine uno per iniziare.",
     "add_subject": "Aggiungi un argomento",
     "add": "Aggiungi",
+    "send": "Invia",
     "vote_title": "Titolo del voto",
     "code_copied": "Codice copiato",
     "link_copied": "Link copiato"

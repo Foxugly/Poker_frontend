@@ -14,14 +14,25 @@ import { AVAILABLE_LANGS, AppLang, LANG_LABELS } from '../../../core/i18n/availa
       [options]="options"
       [ngModel]="lang.active()"
       (ngModelChange)="lang.set($event)"
-      optionLabel="label"
+      optionLabel="short"
       optionValue="value"
-      [style]="{ minWidth: '9rem' }"
+      [style]="{ minWidth: '4.25rem' }"
       appendTo="body"
-    />
+    >
+      <ng-template #selectedItem let-item>{{ item.short }}</ng-template>
+      <ng-template #item let-item>
+        <span class="lang-opt"><b>{{ item.short }}</b> · {{ item.label }}</span>
+      </ng-template>
+    </p-select>
   `,
+  styles: [`.lang-opt { font-size: 0.9rem; }`],
 })
 export class LanguageSwitcherComponent {
   readonly lang = inject(LanguageService);
-  readonly options = AVAILABLE_LANGS.map((code) => ({ value: code as AppLang, label: LANG_LABELS[code] }));
+  // Trigger shows just the 2-letter code; the open list adds the full name for clarity.
+  readonly options = AVAILABLE_LANGS.map((code) => ({
+    value: code as AppLang,
+    short: code.toUpperCase(),
+    label: LANG_LABELS[code],
+  }));
 }

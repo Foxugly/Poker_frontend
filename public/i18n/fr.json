@@ -1,6 +1,6 @@
 {
-  "app": { "title": "Delegation Poker", "tagline": "Décidez ensemble du bon niveau de délégation." },
-  "nav": { "home": "Accueil", "features": "Fonctionnalités", "teams": "Équipes" },
+  "app": { "title": "Poker", "tagline": "La prise de décision commune, en temps réel — Poker Planning & Delegation Poker." },
+  "nav": { "home": "Accueil", "features": "Fonctionnalités", "support": "Soutenir", "about": "À propos", "teams": "Équipes" },
   "field": { "username": "Votre nom" },
   "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter", "back": "Retour" },
   "teams": {
@@ -18,15 +18,30 @@
     }
   },
   "home": {
-    "eyebrow": "Management 3.0",
-    "title": "Delegation Poker en temps réel",
-    "intro": "Créez une salle, invitez votre équipe, votez sur un niveau de délégation et révélez les votes ensemble.",
+    "eyebrow": "Prise de décision commune",
+    "title": "Décidez ensemble, en temps réel",
+    "intro": "Poker réunit Poker Planning et Delegation Poker : créez une salle, invitez votre équipe, votez et révélez les résultats ensemble.",
     "create_title": "Créer une salle",
     "room_title": "Titre de la salle (optionnel)",
-    "create_cta": "Créer",
+    "create_cta": "Créer la salle",
     "join_title": "Rejoindre une salle",
     "join_intro": "Vous avez un code de salle ou un lien ? Rejoignez la partie en cours.",
     "join_cta": "Rejoindre"
+  },
+  "support": {
+    "title": "Soutenir",
+    "lead": "Poker est gratuit pour les salles anonymes.",
+    "body": "Si l'outil vous est utile, un soutien nous aide à couvrir l'hébergement et à continuer de l'améliorer.",
+    "cta": "Nous soutenir"
+  },
+  "about": {
+    "title": "À propos",
+    "tab_company": "Société",
+    "tab_legal": "Mentions légales",
+    "tab_technical": "Technique",
+    "company_body": "Poker est édité par Foxugly SRL, une société belge. Nous construisons des outils simples pour les équipes qui décident ensemble.",
+    "legal_body": "Éditeur : Foxugly SRL — Belgique. Contact : hello@foxugly.com. Hébergement : Amazon Web Services (Irlande, région eu-west-1). Les salles anonymes sont temporaires et expirent après une période d'inactivité.",
+    "technical_body": "Application temps réel : backend Django et Django Channels (WebSocket), frontend Angular et PrimeNG. Multilingue (5 langues), thèmes clair et sombre."
   },
   "join": { "title": "Rejoindre une salle", "code": "Code de salle", "cta": "Rejoindre" },
   "features": {
@@ -114,6 +129,7 @@
     "agenda_empty": "Aucun sujet. Ajoutez-en un pour démarrer.",
     "add_subject": "Ajouter un sujet",
     "add": "Ajouter",
+    "send": "Envoyer",
     "vote_title": "Titre du vote",
     "code_copied": "Code copié",
     "link_copied": "Lien copié"

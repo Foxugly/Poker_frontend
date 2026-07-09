@@ -1,6 +1,6 @@
 {
-  "app": { "title": "Delegation Poker", "tagline": "Decide the right level of delegation, together." },
-  "nav": { "home": "Home", "features": "Features", "teams": "Teams" },
+  "app": { "title": "Poker", "tagline": "Shared decision-making, in real time — Poker Planning & Delegation Poker." },
+  "nav": { "home": "Home", "features": "Features", "support": "Support", "about": "About", "teams": "Teams" },
   "field": { "username": "Your name" },
   "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave", "back": "Back" },
   "teams": {
@@ -18,15 +18,30 @@
     }
   },
   "home": {
-    "eyebrow": "Management 3.0",
-    "title": "Delegation Poker, in real time",
-    "intro": "Create a room, invite your team, vote on a delegation level and reveal the votes together.",
+    "eyebrow": "Shared decision-making",
+    "title": "Decide together, in real time",
+    "intro": "Poker brings together Poker Planning and Delegation Poker: create a room, invite your team, vote and reveal the results together.",
     "create_title": "Create a room",
     "room_title": "Room title (optional)",
-    "create_cta": "Create",
+    "create_cta": "Create the room",
     "join_title": "Join a room",
     "join_intro": "Got a room code or a link? Jump into the ongoing game.",
     "join_cta": "Join"
+  },
+  "support": {
+    "title": "Support",
+    "lead": "Poker is free for anonymous rooms.",
+    "body": "If you find it useful, supporting us helps cover hosting and keep improving it.",
+    "cta": "Support us"
+  },
+  "about": {
+    "title": "About",
+    "tab_company": "Company",
+    "tab_legal": "Legal notice",
+    "tab_technical": "Technical",
+    "company_body": "Poker is published by Foxugly SRL, a Belgian company. We build simple tools for teams that decide together.",
+    "legal_body": "Publisher: Foxugly SRL — Belgium. Contact: hello@foxugly.com. Hosting: Amazon Web Services (Ireland, eu-west-1 region). Anonymous rooms are temporary and expire after a period of inactivity.",
+    "technical_body": "A real-time application: Django and Django Channels (WebSocket) backend, Angular and PrimeNG frontend. Multilingual (5 languages), light and dark themes."
   },
   "join": { "title": "Join a room", "code": "Room code", "cta": "Join" },
   "features": {
@@ -114,6 +129,7 @@
     "agenda_empty": "No subjects yet. Add one to get started.",
     "add_subject": "Add a subject",
     "add": "Add",
+    "send": "Send",
     "vote_title": "Vote title",
     "code_copied": "Code copied",
     "link_copied": "Link copied"

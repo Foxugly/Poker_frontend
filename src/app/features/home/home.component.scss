@@ -1,0 +1,37 @@
+.hero {
+  text-align: center;
+  margin-bottom: var(--s-6);
+}
+
+.card--action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.card--action:hover {
+  border-color: var(--fox-primary);
+}
+.card--action h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+}
+.card--action h2 i {
+  color: var(--fox-primary);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.code-input {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}

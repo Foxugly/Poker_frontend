@@ -18,7 +18,6 @@ import { RoomSocketService } from '../../core/realtime/room-socket.service';
 import { RoundState, SnapshotCard } from '../../core/realtime/protocol';
 import { DelegationCardComponent } from '../../shared/ui/delegation-card/delegation-card.component';
 import { DelegationDeckComponent } from '../../shared/ui/delegation-deck/delegation-deck.component';
-import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 const BADGE_SEVERITY: Record<RoundState, 'secondary' | 'success' | 'warn' | 'info'> = {
   idle: 'secondary',
@@ -43,7 +42,7 @@ interface Seat {
   standalone: true,
   imports: [
     FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, TagModule,
-    PageHeaderComponent, DelegationDeckComponent, DelegationCardComponent,
+    DelegationDeckComponent, DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',

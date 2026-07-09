@@ -69,6 +69,11 @@ interface PositionedLayer {
         transform: translate(-50%, -50%);
         white-space: nowrap;
         line-height: 1;
+        /* Modern, clean type for the card text — the same family as the app UI,
+           overriding whatever font the deck snapshot carries. */
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        letter-spacing: 0.01em;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
       }
     `,
   ],
@@ -105,7 +110,6 @@ export class DelegationCardComponent {
       top: `${layer.y}%`,
       // font-size in % of card height (cqh); container-query unit keeps it responsive.
       'font-size': `${layer.size}cqh`,
-      'font-family': layer.font,
       'font-weight': String(layer.weight),
       color: layer.color,
       'text-align': layer.align,

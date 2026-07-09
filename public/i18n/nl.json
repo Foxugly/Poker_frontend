@@ -1,6 +1,6 @@
 {
-  "app": { "title": "Delegation Poker", "tagline": "Bepaal samen het juiste delegatieniveau." },
-  "nav": { "home": "Home", "features": "Functies", "teams": "Teams" },
+  "app": { "title": "Poker", "tagline": "Samen beslissen, in realtime — Poker Planning & Delegation Poker." },
+  "nav": { "home": "Home", "features": "Functies", "support": "Steunen", "about": "Over", "teams": "Teams" },
   "field": { "username": "Je naam" },
   "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten", "back": "Terug" },
   "teams": {
@@ -18,15 +18,30 @@
     }
   },
   "home": {
-    "eyebrow": "Management 3.0",
-    "title": "Delegation Poker, in realtime",
-    "intro": "Maak een kamer, nodig je team uit, stem over een delegatieniveau en onthul de stemmen samen.",
+    "eyebrow": "Samen beslissen",
+    "title": "Beslis samen, in realtime",
+    "intro": "Poker verenigt Poker Planning en Delegation Poker: maak een kamer, nodig je team uit, stem en onthul de resultaten samen.",
     "create_title": "Kamer maken",
     "room_title": "Kamertitel (optioneel)",
-    "create_cta": "Maken",
+    "create_cta": "Kamer maken",
     "join_title": "Kamer binnengaan",
     "join_intro": "Heb je een kamercode of link? Doe mee met het lopende spel.",
     "join_cta": "Deelnemen"
+  },
+  "support": {
+    "title": "Steunen",
+    "lead": "Poker is gratis voor anonieme kamers.",
+    "body": "Vind je het nuttig? Je steun helpt de hosting te dekken en Poker te blijven verbeteren.",
+    "cta": "Steun ons"
+  },
+  "about": {
+    "title": "Over",
+    "tab_company": "Bedrijf",
+    "tab_legal": "Juridische vermeldingen",
+    "tab_technical": "Technisch",
+    "company_body": "Poker wordt uitgegeven door Foxugly SRL, een Belgisch bedrijf. Wij bouwen eenvoudige tools voor teams die samen beslissen.",
+    "legal_body": "Uitgever: Foxugly SRL — België. Contact: hello@foxugly.com. Hosting: Amazon Web Services (Ierland, regio eu-west-1). Anonieme kamers zijn tijdelijk en verlopen na een periode van inactiviteit.",
+    "technical_body": "Een realtime-applicatie: backend met Django en Django Channels (WebSocket), frontend met Angular en PrimeNG. Meertalig (5 talen), lichte en donkere thema's."
   },
   "join": { "title": "Kamer binnengaan", "code": "Kamercode", "cta": "Deelnemen" },
   "features": {
@@ -114,6 +129,7 @@
     "agenda_empty": "Nog geen onderwerpen. Voeg er een toe om te starten.",
     "add_subject": "Onderwerp toevoegen",
     "add": "Toevoegen",
+    "send": "Versturen",
     "vote_title": "Titel van de stemming",
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd"
