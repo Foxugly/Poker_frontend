@@ -22,7 +22,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
     <header class="topbar" #root>
       <div class="topbar__inner" [class.open]="mobileOpen()">
         <a routerLink="/" class="brand">
-          <span class="brand__mark"><i class="pi pi-th-large"></i></span>
+          <span class="brand__mark"><img src="logo.png" alt="" /></span>
           <span class="brand__name">{{ 'app.title' | transloco }}</span>
         </a>
 
@@ -107,13 +107,15 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
         justify-content: center;
         width: 42px;
         height: 42px;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
       }
-      .brand__mark i {
-        color: var(--fox-primary);
-        font-size: 1.1rem;
+      .brand__mark img {
+        width: 28px;
+        height: 28px;
+        display: block;
       }
       .brand__name {
         font-size: 1.1rem;
