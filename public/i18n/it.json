@@ -118,6 +118,13 @@
     "code_copied": "Codice copiato",
     "link_copied": "Link copiato"
   },
+  "history": {
+    "title": "Cronologia",
+    "empty": "Nessun risultato per ora.",
+    "results": "risultati",
+    "email": "Invia via email",
+    "email_sent": "Cronologia inviata a {{count}} membro/i."
+  },
   "errors": {
     "username_required": "Il tuo nome è obbligatorio.",
     "code_required": "Il codice stanza è obbligatorio.",

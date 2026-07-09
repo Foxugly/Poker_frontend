@@ -118,6 +118,13 @@
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado"
   },
+  "history": {
+    "title": "Historial",
+    "empty": "Aún no hay resultados.",
+    "results": "resultados",
+    "email": "Enviar por correo",
+    "email_sent": "Historial enviado a {{count}} miembro(s)."
+  },
   "errors": {
     "username_required": "Tu nombre es obligatorio.",
     "code_required": "El código de sala es obligatorio.",

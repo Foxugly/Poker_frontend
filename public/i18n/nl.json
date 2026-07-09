@@ -118,6 +118,13 @@
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd"
   },
+  "history": {
+    "title": "Geschiedenis",
+    "empty": "Nog geen resultaten.",
+    "results": "resultaten",
+    "email": "Per e-mail versturen",
+    "email_sent": "Geschiedenis verzonden naar {{count}} lid/leden."
+  },
   "errors": {
     "username_required": "Je naam is verplicht.",
     "code_required": "De kamercode is verplicht.",

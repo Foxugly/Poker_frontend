@@ -118,6 +118,13 @@
     "code_copied": "Code copied",
     "link_copied": "Link copied"
   },
+  "history": {
+    "title": "History",
+    "empty": "No results yet.",
+    "results": "results",
+    "email": "Send by email",
+    "email_sent": "History sent to {{count}} member(s)."
+  },
   "errors": {
     "username_required": "Your name is required.",
     "code_required": "The room code is required.",

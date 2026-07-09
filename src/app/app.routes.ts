@@ -20,6 +20,8 @@ export const routes: Routes = [
       { path: 'teams', canActivate: [authGuard], loadComponent: () => import('./features/teams/teams-list.component').then((m) => m.TeamsListComponent) },
       { path: 'teams/join/:token', canActivate: [authGuard], loadComponent: () => import('./features/teams/accept-invite.component').then((m) => m.AcceptInviteComponent) },
       { path: 'teams/:id', canActivate: [authGuard], loadComponent: () => import('./features/teams/team-detail.component').then((m) => m.TeamDetailComponent) },
+      { path: 'teams/:id/history', canActivate: [authGuard], loadComponent: () => import('./features/history/history-list.component').then((m) => m.HistoryListComponent) },
+      { path: 'teams/:id/history/:date', canActivate: [authGuard], loadComponent: () => import('./features/history/history-detail.component').then((m) => m.HistoryDetailComponent) },
       { path: 'join', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'join/:code', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'room/:code', loadComponent: () => import('./features/room/room.component').then((m) => m.RoomComponent) },
