@@ -135,6 +135,15 @@
     "code_copied": "Code copié",
     "link_copied": "Lien copié"
   },
+  "billing": {
+    "title": "Abonnement",
+    "active": "Abonnement actif.",
+    "inactive": "Aucun abonnement actif.",
+    "subscribe": "S'abonner",
+    "manage": "Gérer l'abonnement",
+    "success": "Merci ! Votre abonnement est actif.",
+    "canceled": "Paiement annulé."
+  },
   "board": {
     "title": "Delegation Board",
     "topic": "Sujet",

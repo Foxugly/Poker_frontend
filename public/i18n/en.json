@@ -135,6 +135,15 @@
     "code_copied": "Code copied",
     "link_copied": "Link copied"
   },
+  "billing": {
+    "title": "Subscription",
+    "active": "Subscription active.",
+    "inactive": "No active subscription.",
+    "subscribe": "Subscribe",
+    "manage": "Manage subscription",
+    "success": "Thank you! Your subscription is active.",
+    "canceled": "Payment canceled."
+  },
   "board": {
     "title": "Delegation Board",
     "topic": "Subject",

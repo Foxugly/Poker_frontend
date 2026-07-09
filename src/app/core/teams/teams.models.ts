@@ -9,6 +9,9 @@ export interface Team {
   member_count: number;
   card_back_color: string;
   felt_color: string;
+  is_paid: boolean;
+  billing_enabled: boolean;
+  subscription_status: string;
 }
 
 export interface Membership {

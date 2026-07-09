@@ -11,6 +11,7 @@ import { TagModule } from 'primeng/tag';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { BillingService } from '../../core/billing/billing.service';
 import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { TeamsService } from '../../core/teams/teams.service';
@@ -95,6 +96,24 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
           </div>
         }
 
+        <!-- Subscription (admin) — P2.7, shown only once billing is live -->
+        @if (isAdmin() && team.billing_enabled) {
+          <div class="section">
+            <h3>{{ 'billing.title' | transloco }}</h3>
+            @if (team.is_paid) {
+              <div class="invite-row">
+                <span class="meta">{{ 'billing.active' | transloco }}</span>
+                <p-button [label]="'billing.manage' | transloco" icon="pi pi-credit-card" [outlined]="true" [loading]="billingBusy()" (onClick)="manageBilling()" />
+              </div>
+            } @else {
+              <div class="invite-row">
+                <span class="meta">{{ 'billing.inactive' | transloco }}</span>
+                <p-button [label]="'billing.subscribe' | transloco" icon="pi pi-star" severity="success" [loading]="billingBusy()" (onClick)="subscribe()" />
+              </div>
+            }
+          </div>
+        }
+
         <!-- Danger zone (owner) -->
         @if (isOwner()) {
           <div class="section">
@@ -119,6 +138,7 @@ export class TeamDetailComponent implements OnInit {
   private auth = inject(AuthService);
   private roomApi = inject(RoomApiService);
   private identity = inject(IdentityService);
+  private billing = inject(BillingService);
 
   private id = 0;
   readonly starting = signal(false);
@@ -137,6 +157,9 @@ export class TeamDetailComponent implements OnInit {
   readonly backColor = signal('#143d2f');
   readonly savingAppearance = signal(false);
 
+  // Billing (P2.7)
+  readonly billingBusy = signal(false);
+
   readonly roleOptions = [
     { value: 'member', label: this.transloco.translate('teams.role.member') },
     { value: 'admin', label: this.transloco.translate('teams.role.admin') },
@@ -154,6 +177,34 @@ export class TeamDetailComponent implements OnInit {
       if (this.isAdmin()) this.invitations.set(await this.teamsService.getInvitations(this.id));
     } catch {
       this.router.navigate(['/teams']);
+      return;
+    }
+    // Feedback after returning from Stripe Checkout (P2.7).
+    const billing = this.route.snapshot.queryParamMap.get('billing');
+    if (billing === 'success') {
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('billing.success') });
+    } else if (billing === 'cancel') {
+      this.messages.add({ severity: 'info', summary: this.transloco.translate('billing.canceled') });
+    }
+  }
+
+  async subscribe(): Promise<void> {
+    this.billingBusy.set(true);
+    try {
+      await this.billing.subscribe(this.id);
+    } catch {
+      this.billingBusy.set(false);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async manageBilling(): Promise<void> {
+    this.billingBusy.set(true);
+    try {
+      await this.billing.manage(this.id);
+    } catch {
+      this.billingBusy.set(false);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
     }
   }
 

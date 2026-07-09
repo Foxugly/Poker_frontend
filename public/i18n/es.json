@@ -135,6 +135,15 @@
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado"
   },
+  "billing": {
+    "title": "Suscripción",
+    "active": "Suscripción activa.",
+    "inactive": "Sin suscripción activa.",
+    "subscribe": "Suscribirse",
+    "manage": "Gestionar suscripción",
+    "success": "¡Gracias! Tu suscripción está activa.",
+    "canceled": "Pago cancelado."
+  },
   "board": {
     "title": "Delegation Board",
     "topic": "Tema",

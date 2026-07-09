@@ -135,6 +135,15 @@
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd"
   },
+  "billing": {
+    "title": "Abonnement",
+    "active": "Abonnement actief.",
+    "inactive": "Geen actief abonnement.",
+    "subscribe": "Abonneren",
+    "manage": "Abonnement beheren",
+    "success": "Bedankt! Je abonnement is actief.",
+    "canceled": "Betaling geannuleerd."
+  },
   "board": {
     "title": "Delegation Board",
     "topic": "Onderwerp",
