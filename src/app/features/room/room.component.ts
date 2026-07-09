@@ -66,6 +66,40 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly votable = computed(() => this.state() === 'open');
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
+  /** Act/globalise on the level NAME, not the number. Options + the acted result
+   * resolve the card's translated name (from the snapshot) in the current language. */
+  readonly cardOptions = computed(() =>
+    (this.socket.deckSnapshot()?.cards ?? []).map((c) => ({ value: c.value, label: this.cardName(c) })),
+  );
+  readonly resultName = computed(() => {
+    const v = this.socket.result();
+    return v ? this.cardName(this.cardByValue(v)) || v : '';
+  });
+
+  cardName(card: SnapshotCard | null): string {
+    if (!card) return '';
+    const layer = card.layers.find((l) => l.kind === 'i18n');
+    if (!layer) return card.value;
+    const t = layer.text;
+    if (typeof t === 'string') return t;
+    return t[this.lang()] ?? t['en'] ?? Object.values(t)[0] ?? card.value;
+  }
+
+  // --- Imposed avatar (free): deterministic initials + colour. Custom upload = Phase 2 (paid).
+  private readonly AVATAR_COLORS = [
+    '#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1',
+  ];
+  initials(name: string): string {
+    const parts = (name || '?').trim().split(/\s+/);
+    const a = parts[0]?.[0] ?? '?';
+    const b = parts.length > 1 ? parts[1][0] : parts[0]?.[1] ?? '';
+    return (a + b).toUpperCase();
+  }
+  avatarColor(seed: string): string {
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    return this.AVATAR_COLORS[h % this.AVATAR_COLORS.length];
+  }
   readonly revealedByParticipant = computed(() => {
     const map = new Map<string, string>();
     for (const v of this.socket.revealedVotes()) map.set(v.participantId, v.cardValue);
