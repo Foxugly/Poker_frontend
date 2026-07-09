@@ -142,7 +142,13 @@
     "subscribe": "Abbonati",
     "manage": "Gestisci abbonamento",
     "success": "Grazie! Il tuo abbonamento è attivo.",
-    "canceled": "Pagamento annullato."
+    "canceled": "Pagamento annullato.",
+    "choose": "Scegli un piano per creare e gestire i team.",
+    "teams": "team",
+    "per_month": "mese",
+    "per_year": "anno",
+    "quota": "Team",
+    "quota_reached": "quota raggiunta"
   },
   "board": {
     "title": "Delegation Board",

@@ -142,7 +142,13 @@
     "subscribe": "S'abonner",
     "manage": "Gérer l'abonnement",
     "success": "Merci ! Votre abonnement est actif.",
-    "canceled": "Paiement annulé."
+    "canceled": "Paiement annulé.",
+    "choose": "Choisissez une formule pour créer et gérer des équipes.",
+    "teams": "équipe(s)",
+    "per_month": "mois",
+    "per_year": "an",
+    "quota": "Équipes",
+    "quota_reached": "quota atteint"
   },
   "board": {
     "title": "Delegation Board",

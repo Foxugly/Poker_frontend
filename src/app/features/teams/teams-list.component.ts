@@ -1,14 +1,24 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { TranslocoModule } from '@jsverse/transloco';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 
+import { BillingService, Interval, Plan, SubscriptionStatus } from '../../core/billing/billing.service';
 import { TeamsService } from '../../core/teams/teams.service';
 import { Team } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
+
+interface PlanOption {
+  plan: Plan;
+  interval: Interval;
+  price: string;
+  per: string;
+  quota: number;
+}
 
 @Component({
   selector: 'app-teams-list',
@@ -18,47 +28,111 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
   template: `
     <section class="page">
       <app-page-header [icon]="'pi-users'" [title]="'teams.title' | transloco">
-        <p-button [label]="'teams.create' | transloco" icon="pi pi-plus" severity="success" (onClick)="toggleCreate()" />
+        @if (canCreate()) {
+          <p-button [label]="'teams.create' | transloco" icon="pi pi-plus" severity="success" (onClick)="toggleCreate()" />
+        }
+        @if (sub()?.canManage) {
+          <p-button [label]="'billing.manage' | transloco" icon="pi pi-credit-card" [outlined]="true" severity="secondary" (onClick)="manage()" />
+        }
       </app-page-header>
 
-      @if (showCreate()) {
-        <div class="create-row">
-          <input pInputText [placeholder]="'teams.name' | transloco" [(ngModel)]="name" (keyup.enter)="create()" />
-          <p-button [label]="'teams.create' | transloco" [loading]="busy()" (onClick)="create()" />
-        </div>
-      }
-
-      @if (loading()) {
-        <p class="meta">…</p>
-      } @else if (teams().length === 0) {
-        <p style="color: var(--muted)">{{ 'teams.empty' | transloco }}</p>
-      } @else {
+      <!-- No subscription yet (billing live): show the plans -->
+      @if (needsSubscription()) {
+        <p class="lead" style="margin-bottom: var(--s-4)">{{ 'billing.choose' | transloco }}</p>
         <div class="grid">
-          @for (team of teams(); track team.id) {
-            <a class="team-card" [routerLink]="['/teams', team.id]">
-              <h3>{{ team.name }}</h3>
-              <div class="meta">
-                <p-tag [value]="'teams.role.' + team.my_role | transloco" severity="secondary" />
-                <span>{{ team.member_count }} {{ 'teams.members' | transloco }}</span>
-              </div>
-            </a>
+          @for (p of plans; track p.plan + p.interval) {
+            <div class="plan-card">
+              <span class="plan-quota"><i class="pi pi-users"></i> {{ p.quota }} {{ 'billing.teams' | transloco }}</span>
+              <div class="plan-price">{{ p.price }}<span class="plan-per">/{{ p.per | transloco }}</span></div>
+              <p-button [label]="'billing.subscribe' | transloco" icon="pi pi-star" severity="success" styleClass="w-full"
+                        [loading]="busy()" (onClick)="subscribe(p)" />
+            </div>
           }
         </div>
+      } @else {
+        @if (showCreate()) {
+          <div class="create-row">
+            <input pInputText [placeholder]="'teams.name' | transloco" [(ngModel)]="name" (keyup.enter)="create()" />
+            <p-button [label]="'teams.create' | transloco" [loading]="busy()" (onClick)="create()" />
+          </div>
+        }
+
+        @if (sub()?.billingEnabled && sub()?.isPaid) {
+          <p class="meta quota-line">
+            {{ 'billing.quota' | transloco }}: {{ sub()!.teamsUsed }} / {{ sub()!.quota }}
+            @if (quotaReached()) { · {{ 'billing.quota_reached' | transloco }} }
+          </p>
+        }
+
+        @if (loading()) {
+          <p class="meta">…</p>
+        } @else if (teams().length === 0) {
+          <p style="color: var(--muted)">{{ 'teams.empty' | transloco }}</p>
+        } @else {
+          <div class="grid">
+            @for (team of teams(); track team.id) {
+              <a class="team-card" [routerLink]="['/teams', team.id]">
+                <h3>{{ team.name }}</h3>
+                <div class="meta">
+                  <p-tag [value]="'teams.role.' + team.my_role | transloco" severity="secondary" />
+                  <span>{{ team.member_count }} {{ 'teams.members' | transloco }}</span>
+                </div>
+              </a>
+            }
+          </div>
+        }
       }
     </section>
   `,
 })
 export class TeamsListComponent implements OnInit {
   private teamsService = inject(TeamsService);
+  private billing = inject(BillingService);
+  private route = inject(ActivatedRoute);
+  private messages = inject(MessageService);
+  private transloco = inject(TranslocoService);
+
   readonly teams = signal<Team[]>([]);
+  readonly sub = signal<SubscriptionStatus | null>(null);
   readonly loading = signal(true);
   readonly showCreate = signal(false);
   readonly busy = signal(false);
   name = '';
 
+  readonly plans: PlanOption[] = [
+    { plan: 'team1', interval: 'monthly', price: '5 €', per: 'billing.per_month', quota: 1 },
+    { plan: 'team1', interval: 'yearly', price: '50 €', per: 'billing.per_year', quota: 1 },
+    { plan: 'team5', interval: 'monthly', price: '20 €', per: 'billing.per_month', quota: 5 },
+    { plan: 'team5', interval: 'yearly', price: '200 €', per: 'billing.per_year', quota: 5 },
+  ];
+
+  // Show plans only when billing is live and the account has no active subscription.
+  readonly needsSubscription = computed(() => this.sub()?.billingEnabled === true && this.sub()?.isPaid === false);
+  readonly quotaReached = computed(() => {
+    const s = this.sub();
+    return !!s && s.billingEnabled && s.teamsUsed >= s.quota;
+  });
+  readonly canCreate = computed(() => !this.needsSubscription() && !this.quotaReached());
+
   async ngOnInit(): Promise<void> {
-    this.teams.set(await this.teamsService.listTeams());
-    this.loading.set(false);
+    await this.reload();
+    const billing = this.route.snapshot.queryParamMap.get('billing');
+    if (billing === 'success') {
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('billing.success') });
+    } else if (billing === 'cancel') {
+      this.messages.add({ severity: 'info', summary: this.transloco.translate('billing.canceled') });
+    }
+  }
+
+  private async reload(): Promise<void> {
+    this.loading.set(true);
+    try {
+      const [teams, sub] = await Promise.all([this.teamsService.listTeams(), this.billing.status()]);
+      this.teams.set(teams);
+      this.sub.set(sub);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   toggleCreate(): void {
@@ -74,8 +148,31 @@ export class TeamsListComponent implements OnInit {
       this.teams.update((list) => [...list, team]);
       this.name = '';
       this.showCreate.set(false);
+      await this.reload();
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
     } finally {
       this.busy.set(false);
+    }
+  }
+
+  async subscribe(p: PlanOption): Promise<void> {
+    this.busy.set(true);
+    try {
+      await this.billing.subscribe(p.plan, p.interval);
+    } catch {
+      this.busy.set(false);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async manage(): Promise<void> {
+    this.busy.set(true);
+    try {
+      await this.billing.manage();
+    } catch {
+      this.busy.set(false);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
     }
   }
 }

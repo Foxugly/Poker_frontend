@@ -142,7 +142,13 @@
     "subscribe": "Abonneren",
     "manage": "Abonnement beheren",
     "success": "Bedankt! Je abonnement is actief.",
-    "canceled": "Betaling geannuleerd."
+    "canceled": "Betaling geannuleerd.",
+    "choose": "Kies een formule om teams te maken en te beheren.",
+    "teams": "team(s)",
+    "per_month": "maand",
+    "per_year": "jaar",
+    "quota": "Teams",
+    "quota_reached": "quota bereikt"
   },
   "board": {
     "title": "Delegation Board",

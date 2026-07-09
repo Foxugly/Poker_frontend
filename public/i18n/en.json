@@ -142,7 +142,13 @@
     "subscribe": "Subscribe",
     "manage": "Manage subscription",
     "success": "Thank you! Your subscription is active.",
-    "canceled": "Payment canceled."
+    "canceled": "Payment canceled.",
+    "choose": "Pick a plan to create and manage teams.",
+    "teams": "team(s)",
+    "per_month": "month",
+    "per_year": "year",
+    "quota": "Teams",
+    "quota_reached": "quota reached"
   },
   "board": {
     "title": "Delegation Board",
