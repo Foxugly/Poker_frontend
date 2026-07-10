@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
@@ -62,6 +62,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private roomApi = inject(RoomApiService);
   private auth = inject(AuthService);
 
+  @ViewChild('roomEl') private roomEl?: ElementRef<HTMLElement>;
   readonly code = signal('');
   readonly isFullscreen = signal(false);
   readonly subjectDraft = signal('');
@@ -218,7 +219,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   async toggleFullscreen(): Promise<void> {
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
-      else await document.documentElement.requestFullscreen();
+      // Fullscreen the room only (no top menu / footer) so nothing scrolls.
+      else await this.roomEl?.nativeElement.requestFullscreen();
     } catch {
       /* fullscreen may be blocked; ignore */
     }

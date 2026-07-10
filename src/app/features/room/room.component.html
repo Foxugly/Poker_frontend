@@ -1,4 +1,4 @@
-<section class="page room" [style.--table-felt]="feltColor()">
+<section class="page room" #roomEl [style.--table-felt]="feltColor()">
   <header class="room-header">
     <div class="rh-left">
       <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
