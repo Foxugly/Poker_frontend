@@ -14,6 +14,8 @@
   gap: var(--s-4);
   /* A bit wider than the standard page so the table has more room. */
   max-width: 1400px;
+  /* Trim the space below the hand (the .page default is larger). */
+  padding-bottom: var(--s-2);
 }
 
 /* Fullscreen: the room fills the screen exactly — no page scroll. */
@@ -244,7 +246,7 @@
   /* Pinned to the bottom of the stage, with a comfortable bottom margin. */
   margin-top: auto;
   padding-top: var(--s-3);
-  padding-bottom: var(--s-3);
+  padding-bottom: 0;
   border-top: 1px solid var(--border);
 }
 /* The deck host is inline by default — force a full-width (capped, centred) block
