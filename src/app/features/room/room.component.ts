@@ -63,6 +63,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private auth = inject(AuthService);
 
   readonly code = signal('');
+  readonly isFullscreen = signal(false);
   readonly subjectDraft = signal('');
   readonly chosenValue = signal<string | null>(null);
   readonly lang = this.language.active;
@@ -179,6 +180,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    document.addEventListener('fullscreenchange', this.onFsChange);
     const code = (this.route.snapshot.paramMap.get('code') ?? '').toUpperCase();
     this.code.set(code);
     const session = this.identity.sessionFor(code);
@@ -211,7 +213,19 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.socket.transferFacilitator(participantId);
   }
 
+  private readonly onFsChange = () => this.isFullscreen.set(!!document.fullscreenElement);
+
+  async toggleFullscreen(): Promise<void> {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+    } catch {
+      /* fullscreen may be blocked; ignore */
+    }
+  }
+
   ngOnDestroy(): void {
+    document.removeEventListener('fullscreenchange', this.onFsChange);
     this.socket.disconnect();
   }
 

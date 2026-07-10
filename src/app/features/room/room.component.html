@@ -7,6 +7,9 @@
     <div class="rh-right">
       <p-button [label]="code()" icon="pi pi-copy" [outlined]="true" severity="secondary" (onClick)="copyCode()" />
       <p-button [label]="'room.share' | transloco" icon="pi pi-share-alt" [outlined]="true" severity="secondary" (onClick)="shareLink()" />
+      <p-button [icon]="isFullscreen() ? 'pi pi-window-minimize' : 'pi pi-window-maximize'"
+                [ariaLabel]="(isFullscreen() ? 'room.exit_fullscreen' : 'room.fullscreen') | transloco"
+                [outlined]="true" severity="secondary" (onClick)="toggleFullscreen()" />
     </div>
   </header>
 

@@ -165,7 +165,9 @@
     "send": "Enviar",
     "vote_title": "Título de la votación",
     "code_copied": "Código copiado",
-    "link_copied": "Enlace copiado"
+    "link_copied": "Enlace copiado",
+    "fullscreen": "Pantalla completa",
+    "exit_fullscreen": "Salir de pantalla completa"
   },
   "billing": {
     "title": "Suscripción",

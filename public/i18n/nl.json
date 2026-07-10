@@ -165,7 +165,9 @@
     "send": "Versturen",
     "vote_title": "Titel van de stemming",
     "code_copied": "Code gekopieerd",
-    "link_copied": "Link gekopieerd"
+    "link_copied": "Link gekopieerd",
+    "fullscreen": "Volledig scherm",
+    "exit_fullscreen": "Volledig scherm sluiten"
   },
   "billing": {
     "title": "Abonnement",

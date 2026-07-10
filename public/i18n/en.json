@@ -165,7 +165,9 @@
     "send": "Send",
     "vote_title": "Vote title",
     "code_copied": "Code copied",
-    "link_copied": "Link copied"
+    "link_copied": "Link copied",
+    "fullscreen": "Fullscreen",
+    "exit_fullscreen": "Exit fullscreen"
   },
   "billing": {
     "title": "Subscription",

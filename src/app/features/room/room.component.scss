@@ -12,6 +12,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--s-4);
+  /* A bit wider than the standard page so the table has more room. */
+  max-width: 1400px;
 }
 
 /* --- Room header: back left, title centred, actions right --- */
@@ -69,6 +71,8 @@
   flex-direction: column;
   gap: var(--s-4);
   min-width: 0;
+  /* Fill the viewport so the table can breathe and the hand pins to the bottom. */
+  min-height: calc(100dvh - 150px);
 }
 
 /* --- Subject (read-only, everyone) --- */
@@ -89,6 +93,8 @@
 .table-wrap {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex: 1; /* take the free vertical space so the table looks airy */
 }
 .felt {
   position: relative;
@@ -213,8 +219,14 @@
 .hand {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--s-2);
   width: 100%;
+  /* Pinned to the bottom of the stage, with a comfortable bottom margin. */
+  margin-top: auto;
+  padding-top: var(--s-3);
+  padding-bottom: var(--s-6);
+  border-top: 1px solid var(--border);
 }
 .hand-label {
   font-size: 0.8rem;
