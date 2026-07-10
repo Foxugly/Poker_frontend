@@ -142,10 +142,11 @@ export class RoomComponent implements OnInit, OnDestroy {
         username: p.username,
         role: p.role,
         // Card near the table edge; person one ring further out — same angle (radial).
-        cardX: 50 + 33 * cx,
-        cardY: 50 + 30 * sy,
-        personX: 50 + 47 * cx,
-        personY: 50 + 45 * sy,
+        // Rings are well separated so the name never overlaps the card.
+        cardX: 50 + 30 * cx,
+        cardY: 50 + 25 * sy,
+        personX: 50 + 49 * cx,
+        personY: 50 + 49 * sy,
         card,
         revealed: faceValue !== undefined,
         show: hasVoted,
@@ -155,9 +156,9 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   /** The table grows wider with more players (kept short via a rising aspect ratio),
    * bounded for up to 20 participants; seat cards shrink as the table fills. */
-  readonly feltWidth = computed(() => Math.min(760, 380 + this.socket.participants().length * 24));
-  readonly feltAspect = computed(() => Math.min(3.2, 1.9 + this.socket.participants().length * 0.09).toFixed(2));
-  readonly seatCardWidth = computed(() => Math.round(Math.max(34, 62 - this.socket.participants().length * 1.4)));
+  readonly feltWidth = computed(() => Math.min(760, 380 + this.socket.participants().length * 22));
+  readonly feltAspect = computed(() => Math.min(2.6, 1.8 + this.socket.participants().length * 0.08).toFixed(2));
+  readonly seatCardWidth = computed(() => Math.round(Math.max(30, 50 - this.socket.participants().length * 1.1)));
 
   cardByValue(value: string): SnapshotCard | null {
     return this.socket.deckSnapshot()?.cards.find((c) => c.value === value) ?? null;

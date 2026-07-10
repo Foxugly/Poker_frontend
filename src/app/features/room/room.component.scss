@@ -95,7 +95,7 @@
   width: 100%;
   max-width: 560px;
   aspect-ratio: 2.6;
-  margin: var(--s-2) 0;
+  margin: var(--s-6) 0;
 }
 .felt::before {
   content: '';
@@ -116,25 +116,25 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  width: 84px;
+  width: 78px;
 }
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   color: #fff;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   border: 2px solid var(--surface);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
 }
 .seat-name {
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: var(--text-strong);
-  max-width: 100px;
+  max-width: 84px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
