@@ -228,6 +228,13 @@
   padding-bottom: var(--s-6);
   border-top: 1px solid var(--border);
 }
+/* The deck host is inline by default — force a full-width (capped, centred) block
+   so its 7 fr-columns don't collapse. */
+.hand app-delegation-deck {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+}
 .hand-label {
   font-size: 0.8rem;
   color: var(--muted);
