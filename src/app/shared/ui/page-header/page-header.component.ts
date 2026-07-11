@@ -1,51 +1,78 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
- * The single shared in-page header (§3.15): [icon] emerald + <h1> left, actions
- * projected right via <ng-content>. There is NO separate detail-header component.
+ * The single shared in-page header (fleet standard) : 3-column grid
+ * (1fr · auto · 1fr). Left slot = Back button / breadcrumbs ([slot=left]),
+ * centre = emerald icon + centered <h1> (+ [slot=title-after] for a chip),
+ * right slot = page actions ([slot=right]). No separate detail-header.
+ * Collapses to a single column under 640px.
  */
 @Component({
   selector: 'app-page-header',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page-header">
-      <div class="title">
-        <i class="pi {{ icon() }}"></i>
-        <h1>{{ title() }}</h1>
+      <div class="page-header__side page-header__side--left">
+        <ng-content select="[slot=left]"></ng-content>
       </div>
-      <div class="actions">
-        <ng-content></ng-content>
+      <div class="page-header__center">
+        <i class="pi {{ icon() }}" aria-hidden="true"></i>
+        <h1>{{ title() }}</h1>
+        <ng-content select="[slot=title-after]"></ng-content>
+      </div>
+      <div class="page-header__side page-header__side--right">
+        <ng-content select="[slot=right]"></ng-content>
       </div>
     </div>
   `,
   styles: [
     `
       .page-header {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        gap: var(--s-4);
-        margin-bottom: var(--s-6);
+        gap: var(--s-3);
+        margin-bottom: 1.25rem;
       }
-      .title {
-        display: flex;
+      .page-header__center {
+        display: inline-flex;
         align-items: center;
         gap: var(--s-2);
+        justify-self: center;
       }
-      .title i {
+      .page-header__center i {
         color: var(--accent);
         font-size: 1.25rem;
       }
-      h1 {
+      .page-header__center h1 {
         margin: 0;
         font-size: 1.4rem;
         color: var(--ink);
+        text-align: center;
       }
-      .actions {
+      .page-header__side {
         display: flex;
         align-items: center;
         gap: var(--s-2);
-        margin-left: auto;
         flex-wrap: wrap;
+      }
+      .page-header__side--right {
+        justify-content: flex-end;
+      }
+      @media (max-width: 640px) {
+        .page-header {
+          grid-template-columns: 1fr;
+        }
+        .page-header__center {
+          justify-self: start;
+        }
+        .page-header__center h1 {
+          text-align: left;
+        }
+        .page-header__side--right {
+          justify-content: flex-start;
+        }
       }
     `,
   ],
