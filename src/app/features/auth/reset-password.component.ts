@@ -14,6 +14,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './auth.scss',
   template: `
     <section class="auth">
+      <i class="pi pi-lock auth__icon" aria-hidden="true"></i>
       <h1>{{ 'auth.reset.title' | transloco }}</h1>
       @if (done()) {
         <p class="lead ok">{{ 'auth.reset.done' | transloco }}</p>

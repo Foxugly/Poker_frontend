@@ -11,6 +11,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './auth.scss',
   template: `
     <section class="auth">
+      <i class="pi pi-check-circle auth__icon" aria-hidden="true"></i>
       @switch (state()) {
         @case ('pending') { <h1>{{ 'auth.confirm.pending' | transloco }}</h1> }
         @case ('ok') {
