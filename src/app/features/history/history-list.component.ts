@@ -17,7 +17,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
   template: `
     <section class="page">
       <app-page-header [icon]="'pi-history'" [title]="'history.title' | transloco">
-        <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+        <p-button slot="left" [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
       </app-page-header>
 
       @if (loading()) {

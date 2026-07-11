@@ -1,8 +1,8 @@
 // Fleet layout primitives (mirrors trainingmanager/quizonline conventions, §3.15).
 .page {
-  max-width: 1120px;
+  max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--s-6) var(--s-4);
+  padding: var(--s-6) var(--content-pad);
 }
 
 .page--narrow {

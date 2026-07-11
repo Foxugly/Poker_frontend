@@ -41,10 +41,10 @@ interface PlanOption {
     <section class="page">
       <app-page-header [icon]="'pi-users'" [title]="'teams.title' | transloco">
         @if (canCreate()) {
-          <p-button [label]="'teams.create' | transloco" icon="pi pi-plus" severity="success" (onClick)="toggleCreate()" />
+          <p-button slot="right" [label]="'teams.create' | transloco" icon="pi pi-plus" severity="success" (onClick)="toggleCreate()" />
         }
         @if (sub()?.canManage) {
-          <p-button [label]="'billing.manage' | transloco" icon="pi pi-credit-card" [outlined]="true" severity="secondary" (onClick)="manage()" />
+          <p-button slot="right" [label]="'billing.manage' | transloco" icon="pi pi-credit-card" [outlined]="true" severity="secondary" (onClick)="manage()" />
         }
       </app-page-header>
 
