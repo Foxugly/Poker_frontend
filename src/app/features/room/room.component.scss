@@ -26,7 +26,7 @@
   overflow: hidden;
   box-sizing: border-box;
   padding: var(--s-4);
-  background: var(--surface-soft);
+  background: var(--surface-2);
 }
 .room:fullscreen .room-body {
   flex: 1;
@@ -56,7 +56,7 @@
   margin: 0;
   text-align: center;
   font-size: 1.25rem;
-  color: var(--text-strong);
+  color: var(--ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -106,7 +106,7 @@
   h2 {
     margin: 0;
     font-size: 1.2rem;
-    color: var(--text-strong);
+    color: var(--ink);
   }
 }
 
@@ -160,7 +160,7 @@
 .seat-name {
   font-size: 0.76rem;
   font-weight: 600;
-  color: var(--text-strong);
+  color: var(--ink);
   max-width: 84px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -170,7 +170,7 @@
   gap: 4px;
 }
 .seat-name .pi-star-fill {
-  color: var(--fox-primary);
+  color: var(--accent);
   font-size: 0.72rem;
 }
 .seat-transfer {
@@ -182,7 +182,7 @@
   font-size: 0.72rem;
 }
 .seat-transfer:hover {
-  color: var(--fox-primary);
+  color: var(--accent);
 }
 /* Card near the table (radially inside the participant). */
 .seat-card {
@@ -280,7 +280,7 @@
   h3 {
     margin: 0;
     font-size: 1rem;
-    color: var(--text-strong);
+    color: var(--ink);
     padding-bottom: var(--s-2);
     border-bottom: 1px solid var(--border);
   }
@@ -299,7 +299,7 @@
   }
   .current-subject {
     margin: 0;
-    color: var(--text-strong);
+    color: var(--ink);
     font-weight: 600;
   }
 }
@@ -349,7 +349,7 @@
   padding: var(--s-2);
   cursor: pointer;
   text-align: left;
-  color: var(--text);
+  color: var(--ink);
   font-size: 0.9rem;
 
   &:hover:not(:disabled) {
@@ -367,7 +367,7 @@
     color: var(--muted);
   }
   .pi-check-circle {
-    color: var(--fox-primary);
+    color: var(--accent);
   }
 }
 .agenda-text {
@@ -377,12 +377,12 @@
   white-space: nowrap;
 }
 .agenda-item.current .agenda-line {
-  background: color-mix(in srgb, var(--fox-primary) 12%, transparent);
-  color: var(--text-strong);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--ink);
   font-weight: 600;
 
   .pi-caret-right {
-    color: var(--fox-primary);
+    color: var(--accent);
   }
 }
 .agenda-item.done .agenda-text {
@@ -392,8 +392,8 @@
   flex-shrink: 0;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--fox-primary);
-  background: color-mix(in srgb, var(--fox-primary) 14%, transparent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   padding: 1px 7px;
   border-radius: 999px;
   max-width: 90px;

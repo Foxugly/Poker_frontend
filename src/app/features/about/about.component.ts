@@ -135,12 +135,12 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
       .tab-content h2 {
         margin: 0 0 0.75rem;
         font-size: 1.3rem;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .tab-content h3 {
         margin: 0 0 0.5rem;
         font-size: 1.05rem;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .tab-intro {
         margin: 0 0 1.25rem;
@@ -164,7 +164,7 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
         padding-top: 0.15rem;
       }
       .company-list dd {
-        color: var(--text-strong);
+        color: var(--ink);
         margin: 0;
         line-height: 1.55;
       }
@@ -176,7 +176,7 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
       }
       .contact-btn {
         align-items: center;
-        background: var(--fox-primary);
+        background: var(--accent);
         border: 0;
         border-radius: 999px;
         color: #05261c;
@@ -202,12 +202,12 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
         background: var(--surface);
       }
       .legal-block h3 {
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .legal-block ul {
         margin: 0;
         padding-left: 1.2rem;
-        color: var(--text);
+        color: var(--ink);
       }
       .legal-block li + li {
         margin-top: 0.4rem;
@@ -234,7 +234,7 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
       .tech-card ul {
         margin: 0;
         padding-left: 1.2rem;
-        color: var(--text);
+        color: var(--ink);
       }
       .tech-card li + li {
         margin-top: 0.35rem;
@@ -248,16 +248,16 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
         font-weight: 700;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        color: var(--fox-primary);
+        color: var(--accent);
       }
       .mono {
         font-family: 'Consolas', 'Courier New', monospace;
         word-break: break-all;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .mono-link {
         text-decoration: none;
-        color: var(--fox-primary);
+        color: var(--accent);
       }
       .mono-link:hover {
         text-decoration: underline;

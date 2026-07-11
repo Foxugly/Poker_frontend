@@ -196,7 +196,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
         white-space: nowrap;
       }
       .user i {
-        color: var(--fox-primary);
+        color: var(--accent);
       }
       .signin {
         display: inline-flex;
@@ -207,15 +207,15 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
         font-size: 0.9rem;
         font-weight: 600;
         padding: 0.45rem 0.9rem;
-        border: 1px solid var(--fox-primary);
+        border: 1px solid var(--accent);
         border-radius: 999px;
       }
       .signin i {
-        color: var(--fox-primary);
+        color: var(--accent);
         font-size: 0.8rem;
       }
       .signin:hover {
-        background: var(--fox-primary);
+        background: var(--accent);
         color: #05261c;
       }
       .signin:hover i {

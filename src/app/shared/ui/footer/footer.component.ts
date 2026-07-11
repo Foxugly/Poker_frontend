@@ -26,7 +26,7 @@ import { TranslocoModule } from '@jsverse/transloco';
       }
       .brand {
         font-weight: 600;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .spacer {
         flex: 1;

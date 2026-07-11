@@ -58,8 +58,8 @@ interface PositionedLayer {
         transform: translateY(-4px);
       }
       .card-face.selected {
-        border-color: var(--fox-primary);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--fox-primary) 40%, transparent);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent);
       }
       .card-face.disabled {
         opacity: 0.65;

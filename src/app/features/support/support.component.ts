@@ -49,7 +49,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       }
       .why {
         margin: 0;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .reasons {
         display: grid;
@@ -67,12 +67,12 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       }
       .reason i {
         font-size: 1.4rem;
-        color: var(--fox-primary);
+        color: var(--accent);
       }
       .reason h3 {
         margin: 4px 0 0;
         font-size: 1.05rem;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .reason p {
         margin: 0;
@@ -83,7 +83,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         text-align: center;
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        background: color-mix(in srgb, var(--fox-primary) 8%, var(--surface));
+        background: color-mix(in srgb, var(--accent) 8%, var(--surface));
         box-shadow: var(--shadow-card);
         padding: var(--s-6) var(--s-4);
         display: grid;
@@ -92,7 +92,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       }
       .cta-card h2 {
         margin: 0;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .cta-card p {
         margin: 0;
@@ -103,7 +103,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: var(--fox-primary);
+        background: var(--accent);
         color: #05261c;
         font-weight: 700;
         text-decoration: none;
@@ -121,7 +121,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       }
       .thanks h2 {
         margin: 0 0 var(--s-2);
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .thanks p {
         margin: 0;
