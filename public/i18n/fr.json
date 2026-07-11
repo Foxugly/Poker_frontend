@@ -3,6 +3,12 @@
     "title": "Poker",
     "tagline": "La prise de décision commune, en temps réel — Poker Planning & Delegation Poker."
   },
+  "footer": {
+    "version_label": "Version {{version}}",
+    "author": "Foxugly",
+    "privacy": "Confidentialité",
+    "rights": "Tous droits réservés."
+  },
   "nav": {
     "home": "Accueil",
     "features": "Fonctionnalités",
@@ -158,6 +164,9 @@
     "display_name": "Nom affiché",
     "logout": "Se déconnecter",
     "back_to_login": "Retour à la connexion",
+    "back_to_password": "Retour au mot de passe",
+    "remember_me": "Se souvenir de moi",
+    "or": "ou",
     "login": {
       "title": "Se connecter",
       "lead": "Accédez à votre équipe et votre historique.",

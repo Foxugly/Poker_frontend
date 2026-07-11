@@ -3,6 +3,12 @@
     "title": "Poker",
     "tagline": "Samen beslissen, in realtime — Poker Planning & Delegation Poker."
   },
+  "footer": {
+    "version_label": "Versie {{version}}",
+    "author": "Foxugly",
+    "privacy": "Privacy",
+    "rights": "Alle rechten voorbehouden."
+  },
   "nav": {
     "home": "Home",
     "features": "Functies",
@@ -158,6 +164,9 @@
     "display_name": "Weergavenaam",
     "logout": "Afmelden",
     "back_to_login": "Terug naar aanmelden",
+    "back_to_password": "Terug naar wachtwoord",
+    "remember_me": "Onthoud mij",
+    "or": "of",
     "login": {
       "title": "Aanmelden",
       "lead": "Toegang tot je team en geschiedenis.",

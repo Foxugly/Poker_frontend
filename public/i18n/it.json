@@ -3,6 +3,12 @@
     "title": "Poker",
     "tagline": "Decisioni condivise, in tempo reale — Poker Planning e Delegation Poker."
   },
+  "footer": {
+    "version_label": "Versione {{version}}",
+    "author": "Foxugly",
+    "privacy": "Privacy",
+    "rights": "Tutti i diritti riservati."
+  },
   "nav": {
     "home": "Home",
     "features": "Funzionalità",
@@ -158,6 +164,9 @@
     "display_name": "Nome visualizzato",
     "logout": "Esci",
     "back_to_login": "Torna all'accesso",
+    "back_to_password": "Torna alla password",
+    "remember_me": "Ricordami",
+    "or": "o",
     "login": {
       "title": "Accedi",
       "lead": "Accedi al tuo team e alla cronologia.",

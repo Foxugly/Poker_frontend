@@ -9,7 +9,10 @@ const ACCESS_KEY = 'poker.access';
 const REFRESH_KEY = 'poker.refresh';
 
 /**
- * Email-only authentication (Phase 2). Tokens live in localStorage; the rotated
+ * Email-only authentication (Phase 2). "Remember me" governs where the token
+ * pair is persisted: localStorage (survives browser restarts) when checked,
+ * sessionStorage (cleared with the tab) when not — a client-side choice. Startup
+ * and token refresh read from whichever store currently holds them. The rotated
  * refresh token MUST be persisted on every refresh (the backend blacklists the
  * old one — fleet JWT-rotation rule). `currentUser` is a signal the UI reacts to.
  */
@@ -22,22 +25,33 @@ export class AuthService {
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
 
   get accessToken(): string | null {
-    return localStorage.getItem(ACCESS_KEY);
+    return localStorage.getItem(ACCESS_KEY) ?? sessionStorage.getItem(ACCESS_KEY);
   }
   get refreshToken(): string | null {
-    return localStorage.getItem(REFRESH_KEY);
+    return localStorage.getItem(REFRESH_KEY) ?? sessionStorage.getItem(REFRESH_KEY);
   }
 
-  private storeTokens(access: string, refresh: string): void {
-    localStorage.setItem(ACCESS_KEY, access);
-    localStorage.setItem(REFRESH_KEY, refresh);
+  /** The store the session currently lives in (session takes precedence when
+   * present, i.e. an un-remembered login), else localStorage by default. */
+  private activeStore(): Storage {
+    return sessionStorage.getItem(REFRESH_KEY) !== null ? sessionStorage : localStorage;
+  }
+
+  private storeTokens(access: string, refresh: string, store: Storage = this.activeStore()): void {
+    const other = store === localStorage ? sessionStorage : localStorage;
+    other.removeItem(ACCESS_KEY);
+    other.removeItem(REFRESH_KEY);
+    store.setItem(ACCESS_KEY, access);
+    store.setItem(REFRESH_KEY, refresh);
   }
   private clearTokens(): void {
     localStorage.removeItem(ACCESS_KEY);
     localStorage.removeItem(REFRESH_KEY);
+    sessionStorage.removeItem(ACCESS_KEY);
+    sessionStorage.removeItem(REFRESH_KEY);
   }
-  private adopt(pair: TokenPair): AuthUser {
-    this.storeTokens(pair.access, pair.refresh);
+  private adopt(pair: TokenPair, store?: Storage): AuthUser {
+    this.storeTokens(pair.access, pair.refresh, store ?? this.activeStore());
     this.currentUser.set(pair.user);
     return pair.user;
   }
@@ -51,8 +65,11 @@ export class AuthService {
     );
   }
 
-  async login(email: string, password: string): Promise<AuthUser> {
-    return this.adopt(await firstValueFrom(this.http.post<TokenPair>(`${this.base}/login/`, { email, password })));
+  /** `remember` (default true) → refresh token in localStorage; false →
+   * sessionStorage (cleared when the tab closes). */
+  async login(email: string, password: string, remember = true): Promise<AuthUser> {
+    const pair = await firstValueFrom(this.http.post<TokenPair>(`${this.base}/login/`, { email, password }));
+    return this.adopt(pair, remember ? localStorage : sessionStorage);
   }
 
   async confirmEmail(uid: string, token: string): Promise<AuthUser> {

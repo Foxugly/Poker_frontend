@@ -6,16 +6,15 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule],
+  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule, AuthCardComponent],
   styleUrl: './auth.scss',
   template: `
-    <section class="auth">
-      <i class="pi pi-key auth__icon" aria-hidden="true"></i>
-      <h1>{{ 'auth.forgot.title' | transloco }}</h1>
+    <app-auth-card icon="pi pi-key" [title]="'auth.forgot.title' | transloco">
       @if (sent()) {
         <p class="lead ok">{{ 'auth.forgot.sent' | transloco }}</p>
         <div class="links"><a routerLink="/login">{{ 'auth.back_to_login' | transloco }}</a></div>
@@ -30,7 +29,7 @@ import { AuthService } from '../../core/auth/auth.service';
         </div>
         <div class="links"><a routerLink="/login">{{ 'auth.back_to_login' | transloco }}</a></div>
       }
-    </section>
+    </app-auth-card>
   `,
 })
 export class ForgotPasswordComponent {

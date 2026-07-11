@@ -3,6 +3,12 @@
     "title": "Poker",
     "tagline": "Shared decision-making, in real time — Poker Planning & Delegation Poker."
   },
+  "footer": {
+    "version_label": "Version {{version}}",
+    "author": "Foxugly",
+    "privacy": "Privacy",
+    "rights": "All rights reserved."
+  },
   "nav": {
     "home": "Home",
     "features": "Features",
@@ -158,6 +164,9 @@
     "display_name": "Display name",
     "logout": "Sign out",
     "back_to_login": "Back to sign in",
+    "back_to_password": "Back to password",
+    "remember_me": "Remember me",
+    "or": "or",
     "login": {
       "title": "Sign in",
       "lead": "Access your team and history.",

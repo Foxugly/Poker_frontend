@@ -28,18 +28,15 @@ import { ThemeService } from '../../theme/theme.service';
         justify-content: center;
         width: 2.35rem;
         height: 2.35rem;
-        border: 1px solid rgba(255, 255, 255, 0.16);
+        border: none;
         border-radius: var(--radius);
-        background: rgba(255, 255, 255, 0.06);
+        background: transparent;
         color: var(--chrome-ink);
         cursor: pointer;
-        transition:
-          background 160ms ease,
-          border-color 160ms ease;
+        transition: background 160ms ease;
       }
       .theme-toggle:hover {
         background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.24);
         color: var(--chrome-ink-strong);
       }
     `,

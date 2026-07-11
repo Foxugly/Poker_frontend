@@ -6,21 +6,22 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule],
+  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule, AuthCardComponent],
   styleUrl: './auth.scss',
   template: `
-    <section class="auth">
-      <i class="pi pi-user-plus auth__icon" aria-hidden="true"></i>
+    <app-auth-card
+      icon="pi pi-user-plus"
+      [title]="(done() ? 'auth.register.done_title' : 'auth.register.title') | transloco"
+    >
       @if (done()) {
-        <h1>{{ 'auth.register.done_title' | transloco }}</h1>
         <p class="lead">{{ 'auth.register.done_lead' | transloco }}</p>
         <div class="links"><a routerLink="/login">{{ 'auth.login.cta' | transloco }}</a></div>
       } @else {
-        <h1>{{ 'auth.register.title' | transloco }}</h1>
         <p class="lead">{{ 'auth.register.lead' | transloco }}</p>
         <div class="field">
           <label>{{ 'auth.display_name' | transloco }}</label>
@@ -41,7 +42,7 @@ import { AuthService } from '../../core/auth/auth.service';
         </div>
         <div class="links"><span>{{ 'auth.register.have_account' | transloco }} <a routerLink="/login">{{ 'auth.login.cta' | transloco }}</a></span></div>
       }
-    </section>
+    </app-auth-card>
   `,
 })
 export class RegisterComponent {

@@ -3,24 +3,23 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
 
 @Component({
   selector: 'app-magic-link-verify',
   standalone: true,
-  imports: [RouterLink, TranslocoModule],
+  imports: [RouterLink, TranslocoModule, AuthCardComponent],
   styleUrl: './auth.scss',
   template: `
-    <section class="auth">
-      <i class="pi pi-link auth__icon" aria-hidden="true"></i>
-      @switch (state()) {
-        @case ('pending') { <h1>{{ 'auth.magic.verifying' | transloco }}</h1> }
-        @case ('error') {
-          <h1>{{ 'auth.magic.error_title' | transloco }}</h1>
-          <p class="lead err">{{ 'auth.magic.error_lead' | transloco }}</p>
-          <div class="links"><a routerLink="/auth/magic-link">{{ 'auth.magic.request_new' | transloco }}</a></div>
-        }
+    <app-auth-card
+      icon="pi pi-link"
+      [title]="(state() === 'error' ? 'auth.magic.error_title' : 'auth.magic.verifying') | transloco"
+    >
+      @if (state() === 'error') {
+        <p class="lead err">{{ 'auth.magic.error_lead' | transloco }}</p>
+        <div class="links"><a routerLink="/auth/magic-link">{{ 'auth.magic.request_new' | transloco }}</a></div>
       }
-    </section>
+    </app-auth-card>
   `,
 })
 export class MagicLinkVerifyComponent implements OnInit {
