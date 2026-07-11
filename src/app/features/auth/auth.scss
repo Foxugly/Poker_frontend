@@ -7,6 +7,13 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
 }
+.auth__icon {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: var(--s-2);
+}
 .auth h1 {
   margin: 0 0 var(--s-2);
   font-size: 1.5rem;

@@ -14,6 +14,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './auth.scss',
   template: `
     <section class="auth">
+      <i class="pi pi-envelope auth__icon" aria-hidden="true"></i>
       <h1>{{ 'auth.magic.title' | transloco }}</h1>
       @if (sent()) {
         <p class="lead ok">{{ 'auth.magic.sent' | transloco }}</p>

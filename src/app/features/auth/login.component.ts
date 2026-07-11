@@ -14,6 +14,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './auth.scss',
   template: `
     <section class="auth">
+      <i class="pi pi-sign-in auth__icon" aria-hidden="true"></i>
       <h1>{{ 'auth.login.title' | transloco }}</h1>
       <p class="lead">{{ 'auth.login.lead' | transloco }}</p>
 

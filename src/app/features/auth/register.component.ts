@@ -14,6 +14,7 @@ import { AuthService } from '../../core/auth/auth.service';
   styleUrl: './auth.scss',
   template: `
     <section class="auth">
+      <i class="pi pi-user-plus auth__icon" aria-hidden="true"></i>
       @if (done()) {
         <h1>{{ 'auth.register.done_title' | transloco }}</h1>
         <p class="lead">{{ 'auth.register.done_lead' | transloco }}</p>
