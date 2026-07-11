@@ -115,14 +115,14 @@
 }
 
 .nav__link--accent {
-  background: linear-gradient(135deg, #22c55e, #14b8a6);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   border-color: transparent;
   color: #052e16;
 }
 
 .nav__link--accent:hover,
 .nav__link--accent.nav__link--active {
-  background: linear-gradient(135deg, #4ade80, #2dd4bf);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
   color: #052e16;
 }
 

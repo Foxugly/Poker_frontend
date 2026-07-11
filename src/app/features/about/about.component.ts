@@ -262,7 +262,7 @@ import { CONTACT_INFO, emailDisplay, openContactEmail, phoneDisplay } from './co
       .mono-link:hover {
         text-decoration: underline;
       }
-      @media (max-width: 900px) {
+      @media (max-width: 1024px) {
         .tech-grid {
           grid-template-columns: 1fr;
         }

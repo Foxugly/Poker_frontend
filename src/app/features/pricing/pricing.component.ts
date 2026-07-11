@@ -175,7 +175,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       .cap-note i {
         color: var(--accent);
       }
-      @media (max-width: 820px) {
+      @media (max-width: 768px) {
         .tiers {
           grid-template-columns: 1fr;
         }

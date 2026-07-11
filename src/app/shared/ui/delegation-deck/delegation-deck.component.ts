@@ -35,12 +35,12 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
         grid-template-columns: repeat(7, minmax(0, 1fr));
         gap: var(--s-3);
       }
-      @media (max-width: 900px) {
+      @media (max-width: 1024px) {
         .deck {
           grid-template-columns: repeat(4, minmax(0, 1fr));
         }
       }
-      @media (max-width: 560px) {
+      @media (max-width: 640px) {
         .deck {
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
