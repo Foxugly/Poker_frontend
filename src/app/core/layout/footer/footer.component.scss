@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--s-4) var(--content-pad);
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer__brand {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.footer__spacer {
+  flex: 1;
+}
+
+.footer__version {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}

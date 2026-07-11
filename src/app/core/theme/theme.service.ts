@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-const THEME_KEY = 'poker.theme';
+const THEME_KEY = 'theme';
 type Theme = 'light' | 'dark';
 
 /** Dark/light toggle. Adds `.dark-mode` on <html> (PrimeNG darkModeSelector). */

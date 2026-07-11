@@ -1,0 +1,9 @@
+<footer class="footer">
+  <span class="footer__brand">{{ 'app.title' | transloco }}</span>
+  <span class="footer__tagline">{{ 'app.tagline' | transloco }}</span>
+  <span class="footer__spacer"></span>
+  @if (version) {
+    <span class="footer__version">v{{ version }}</span>
+  }
+  <span>© {{ year }} Foxugly</span>
+</footer>

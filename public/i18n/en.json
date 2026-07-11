@@ -1,19 +1,53 @@
 {
-  "app": { "title": "Poker", "tagline": "Shared decision-making, in real time — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Home", "features": "Features", "pricing": "Pricing", "support": "Support", "about": "About", "teams": "Teams" },
-  "field": { "username": "Your name" },
-  "action": { "cancel": "Cancel", "save": "Save", "quit": "Leave", "back": "Back" },
+  "app": {
+    "title": "Poker",
+    "tagline": "Shared decision-making, in real time — Poker Planning & Delegation Poker."
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "support": "Support",
+    "about": "About",
+    "teams": "Teams"
+  },
+  "field": {
+    "username": "Your name"
+  },
+  "action": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "quit": "Leave",
+    "back": "Back"
+  },
   "teams": {
-    "title": "Teams", "create": "Create a team", "new_session": "New session", "name": "Team name",
+    "title": "Teams",
+    "create": "Create a team",
+    "new_session": "New session",
+    "name": "Team name",
     "empty": "You have no team yet. Create one to invite members.",
-    "members": "Members", "invitations": "Invitations", "invite": "Invite",
-    "invited": "Invitation sent.", "already_member": "That person is already a member.",
-    "revoke": "Revoke", "remove": "Remove", "manage": "Manage team",
-    "appearance": "Appearance", "felt_color": "Felt colour", "back_color": "Card-back colour", "appearance_saved": "Appearance saved.",
-    "delete": "Delete team", "delete_confirm": "Permanently delete this team?",
-    "role": { "owner": "Owner", "admin": "Admin", "member": "Member" },
+    "members": "Members",
+    "invitations": "Invitations",
+    "invite": "Invite",
+    "invited": "Invitation sent.",
+    "already_member": "That person is already a member.",
+    "revoke": "Revoke",
+    "remove": "Remove",
+    "manage": "Manage team",
+    "appearance": "Appearance",
+    "felt_color": "Felt colour",
+    "back_color": "Card-back colour",
+    "appearance_saved": "Appearance saved.",
+    "delete": "Delete team",
+    "delete_confirm": "Permanently delete this team?",
+    "role": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member"
+    },
     "accept": {
-      "pending": "Accepting the invitation…", "error_title": "Invalid invitation",
+      "pending": "Accepting the invitation…",
+      "error_title": "Invalid invitation",
       "error_lead": "This invitation is invalid, expired, or already used.",
       "email_mismatch": "Sign in with the email the invitation was sent to."
     }
@@ -33,10 +67,22 @@
     "title": "Support",
     "why_title": "Why support Poker?",
     "reasons": {
-      "free": { "title": "Free for the essentials", "desc": "Real-time anonymous rooms stay free, no account needed." },
-      "infra": { "title": "Hosting & infrastructure", "desc": "Servers, SSL certificates and email delivery have a real cost." },
-      "maintenance": { "title": "Ongoing maintenance", "desc": "Security updates, bug fixes, compatibility." },
-      "features": { "title": "New features", "desc": "Every contribution accelerates development." }
+      "free": {
+        "title": "Free for the essentials",
+        "desc": "Real-time anonymous rooms stay free, no account needed."
+      },
+      "infra": {
+        "title": "Hosting & infrastructure",
+        "desc": "Servers, SSL certificates and email delivery have a real cost."
+      },
+      "maintenance": {
+        "title": "Ongoing maintenance",
+        "desc": "Security updates, bug fixes, compatibility."
+      },
+      "features": {
+        "title": "New features",
+        "desc": "Every contribution accelerates development."
+      }
     },
     "cta_title": "Make a donation",
     "cta_desc": "Donations go through GitHub Sponsors: a one-off gesture or regular support, at your own pace.",
@@ -76,7 +122,11 @@
     "legal_body": "Publisher: Foxugly SRL — Belgium. Contact: info@foxugly.com. Hosting: Amazon Web Services (Ireland, eu-west-1 region). Anonymous rooms are temporary and expire after a period of inactivity.",
     "technical_body": "A real-time application: Django and Django Channels (WebSocket) backend, Angular and PrimeNG frontend. Multilingual (5 languages), light and dark themes."
   },
-  "join": { "title": "Join a room", "code": "Room code", "cta": "Join" },
+  "join": {
+    "title": "Join a room",
+    "code": "Room code",
+    "cta": "Join"
+  },
   "features": {
     "eyebrow": "Free & Paid",
     "title": "Features",
@@ -109,37 +159,65 @@
     "logout": "Sign out",
     "back_to_login": "Back to sign in",
     "login": {
-      "title": "Sign in", "lead": "Access your team and history.", "cta": "Sign in",
-      "forgot": "Forgot your password?", "magic": "Email me a sign-in link",
-      "no_account": "No account yet?", "not_confirmed": "Please confirm your email first.",
-      "resend": "Resend the link", "resent": "If that account exists, a new link has been sent."
+      "title": "Sign in",
+      "lead": "Access your team and history.",
+      "cta": "Sign in",
+      "forgot": "Forgot your password?",
+      "magic": "Email me a sign-in link",
+      "no_account": "No account yet?",
+      "not_confirmed": "Please confirm your email first.",
+      "resend": "Resend the link",
+      "resent": "If that account exists, a new link has been sent."
     },
     "register": {
-      "title": "Create an account", "lead": "Create your account to manage a team.", "cta": "Create account",
-      "have_account": "Already have an account?", "done_title": "Check your inbox",
+      "title": "Create an account",
+      "lead": "Create your account to manage a team.",
+      "cta": "Create account",
+      "have_account": "Already have an account?",
+      "done_title": "Check your inbox",
       "done_lead": "We've sent you a link to confirm your address."
     },
     "forgot": {
-      "title": "Forgot password", "lead": "Enter your email to receive a reset link.",
-      "cta": "Send the link", "sent": "If that address exists, a reset link has been sent."
+      "title": "Forgot password",
+      "lead": "Enter your email to receive a reset link.",
+      "cta": "Send the link",
+      "sent": "If that address exists, a reset link has been sent."
     },
-    "reset": { "title": "Reset password", "cta": "Reset", "done": "Password reset. You can now sign in." },
+    "reset": {
+      "title": "Reset password",
+      "cta": "Reset",
+      "done": "Password reset. You can now sign in."
+    },
     "confirm": {
-      "pending": "Confirming…", "ok_title": "Email confirmed", "ok_lead": "Redirecting…",
-      "error_title": "Invalid link", "error_lead": "This confirmation link is invalid or has expired."
+      "pending": "Confirming…",
+      "ok_title": "Email confirmed",
+      "ok_lead": "Redirecting…",
+      "error_title": "Invalid link",
+      "error_lead": "This confirmation link is invalid or has expired."
     },
     "magic": {
-      "title": "Sign-in link", "lead": "Enter your email and we'll send you a link to sign in.",
-      "cta": "Send the link", "sent": "If that account exists, a sign-in link has been sent.",
-      "verifying": "Signing in…", "error_title": "Invalid link",
-      "error_lead": "This link is invalid, expired, or already used.", "request_new": "Request a new link"
+      "title": "Sign-in link",
+      "lead": "Enter your email and we'll send you a link to sign in.",
+      "cta": "Send the link",
+      "sent": "If that account exists, a sign-in link has been sent.",
+      "verifying": "Signing in…",
+      "error_title": "Invalid link",
+      "error_lead": "This link is invalid, expired, or already used.",
+      "request_new": "Request a new link"
     },
     "errors": {
-      "invalid_credentials": "Incorrect email or password.", "password_short": "At least 8 characters.",
-      "generic": "Something went wrong. Please try again.", "reset_invalid": "Invalid or expired link."
+      "invalid_credentials": "Incorrect email or password.",
+      "password_short": "At least 8 characters.",
+      "generic": "Something went wrong. Please try again.",
+      "reset_invalid": "Invalid or expired link."
     }
   },
-  "vote_state": { "idle": "Waiting", "open": "Vote open", "revealed": "Revealed", "acted": "Result set" },
+  "vote_state": {
+    "idle": "Waiting",
+    "open": "Vote open",
+    "revealed": "Revealed",
+    "acted": "Result set"
+  },
   "room": {
     "untitled": "Room",
     "no_subject": "No subject set",
@@ -210,5 +288,8 @@
     "create_room": "Could not create the room.",
     "room_not_found": "Room not found or expired.",
     "room_full": "This room is full (20 people maximum)."
+  },
+  "common": {
+    "skip_to_content": "Skip to content"
   }
 }

@@ -9,6 +9,17 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" type="image/png" sizes="32x32" href="logo-32.png">
   <link rel="apple-touch-icon" href="logo.png">
+  <script>
+    // Anti-FOUC: apply the persisted (or system) theme before Angular boots, so
+    // there's no light→dark flash on load. ThemeService reconciles afterwards.
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) document.documentElement.classList.add('dark-mode');
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>
