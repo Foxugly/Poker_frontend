@@ -10,20 +10,20 @@
 - `app-topmenu` · BEM `topbar__*` ; **toggle thème + `ThemeService`** ; **Transloco 5 langues**.
 - `app-page-header` présent (`shared/ui/`).
 
-## Phase 1 — structurel
-- [ ] **Emplacements** : déplacer `shared/ui/topmenu`, `shared/ui/footer`, `shared/ui/page-header` → **`core/layout/`** (topmenu/footer) et `shared/` page-header.
-- [ ] **Topmenu** : sortir le **template + styles inline** dans des **fichiers séparés**.
-- [ ] **User** : bouton **logout direct** → **`app-user-menu` dropdown** (Profil / … / Déconnexion).
-- [ ] **Login** : ancre `.signin` séparée → **intégrer dans `app-user-menu`** (« Se connecter »).
-- [ ] **Langue** : `p-select` brut → **`app-language-switcher`** (popup a11y, réf TM).
-- [ ] **Thème** : clé `poker.theme` → **`theme`** ; ajouter **anti-FOUC** inline.
-- [ ] **Topmenu** : drawer 960 → **1024**.
-- [ ] **Shell** : `public-layout` → ajouter **skip-link** + `main-container` + `<p-toast>` unique + tokens largeur `--content-max/--content-pad`.
-- [ ] **Footer** : `shared/ui/footer` → `core/layout/footer` + version runtime + dark.
-- [ ] **About** : about simple → **`p-tabs` Company / Legal / Technical** (Company+Legal = texte Foxugly standard).
-- [ ] **Empty-state** : **créer `app-empty-state`** (absent).
-- [ ] **Skeletons** : **ajouter** (absents).
-- [ ] **Breakpoints** : échelle standard.
+## Phase 1 — structurel — ✅ FAIT (branche `feat/layout-phase1`, 2026-07-11)
+- [x] **Emplacements** : `topmenu`, `footer`, `theme-toggle` → **`core/layout/`** ; `language-switcher` → **`core/i18n/`** ; `page-header` reste `shared/ui/`.
+- [x] **Topmenu** : template + styles inline extraits en **fichiers `.html`/`.scss`** séparés.
+- [x] **User** : logout direct → **`app-user-menu`** (dropdown ancré-droite nom + Déconnexion ; pas de page Profil/mdp côté poker).
+- [x] **Login** : ancre `.signin` → **intégrée dans `app-user-menu`** (« Se connecter » outlined).
+- [x] **Langue** : `p-select` brut → **`app-language-switcher`** popup a11y clavier (↓↑/Home/End/Enter/Échap, `pi-check` actif).
+- [x] **Thème** : clé `poker.theme` → **`theme`** ; **anti-FOUC** inline dans `index.html` ; toggle en `<button>` rectangulaire.
+- [x] **Topmenu** : drawer 960 → **1024** (breakpoint `lg`).
+- [x] **Shell** : `_shell.scss` (`fox-shell`/`main-container`/`fox-skip-link`) ; `public-layout` **skip-link** + `<main id>` + `<p-toast>` unique. (largeur : pages auto-contraintes, unification `--content-max` en suivi.)
+- [x] **Footer** : `core/layout/footer` + **version runtime** (`window.__POKER_VERSION`) + dark via tokens.
+- [x] **About** : **déjà** en `p-tabs` Company / Legal / Technical (identité Foxugly + `about.i18n`) — conforme.
+- [x] **Empty-state** : **`app-empty-state`** créé (`shared/ui/`) + câblé (teams / history).
+- [x] **Skeletons** : `p-skeleton` ajoutés aux vues liste (teams / history). *board/room temps-réel = suivi.*
+- [x] **Breakpoints** : `@media 1024px` (`lg`) sur le topmenu, aligné à l'échelle flotte.
 
 ## Phase 2 — CSS — ✅ FAIT (PR #1, branche `feat/scss-standard`, 2026-07-11)
 - [x] **Retirer Tailwind** → utilitaires résiduels (flex/grid/gap/justify-end/w-full) déplacés en

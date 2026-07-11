@@ -2,15 +2,17 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 
 import { HistoryService } from '../../core/history/history.service';
 import { HistoryDay } from '../../core/history/history.models';
+import { EmptyStateComponent } from '../../shared/ui/empty-state/empty-state.component';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 @Component({
   selector: 'app-history-list',
   standalone: true,
-  imports: [RouterLink, TranslocoModule, ButtonModule, PageHeaderComponent],
+  imports: [RouterLink, TranslocoModule, ButtonModule, SkeletonModule, PageHeaderComponent, EmptyStateComponent],
   styleUrl: '../teams/teams.scss',
   template: `
     <section class="page">
@@ -19,9 +21,16 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       </app-page-header>
 
       @if (loading()) {
-        <p class="meta">…</p>
+        <div class="grid">
+          @for (i of [1, 2, 3]; track i) {
+            <div class="team-card">
+              <p-skeleton width="50%" height="1.25rem" styleClass="skeleton-line" />
+              <p-skeleton width="35%" height="0.9rem" />
+            </div>
+          }
+        </div>
       } @else if (days().length === 0) {
-        <p style="color: var(--muted)">{{ 'history.empty' | transloco }}</p>
+        <app-empty-state icon="pi pi-history" [title]="'history.empty' | transloco" />
       } @else {
         <div class="grid">
           @for (d of days(); track d.date) {
