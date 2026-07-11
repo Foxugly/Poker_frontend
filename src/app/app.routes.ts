@@ -13,6 +13,7 @@ export const routes: Routes = [
       { path: 'pricing', loadComponent: () => import('./features/pricing/pricing.component').then((m) => m.PricingComponent) },
       { path: 'support', loadComponent: () => import('./features/support/support.component').then((m) => m.SupportComponent) },
       { path: 'about', loadComponent: () => import('./features/about/about.component').then((m) => m.AboutComponent) },
+      { path: 'privacy', loadComponent: () => import('./features/privacy/privacy.component').then((m) => m.PrivacyComponent) },
       { path: 'login', loadComponent: () => import('./features/auth/login.component').then((m) => m.LoginComponent) },
       { path: 'register', loadComponent: () => import('./features/auth/register.component').then((m) => m.RegisterComponent) },
       { path: 'forgot-password', loadComponent: () => import('./features/auth/forgot-password.component').then((m) => m.ForgotPasswordComponent) },

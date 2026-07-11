@@ -128,6 +128,31 @@
     "legal_body": "Uitgever: Foxugly SRL — België. Contact: info@foxugly.com. Hosting: Amazon Web Services (Ierland, regio eu-west-1). Anonieme kamers zijn tijdelijk en verlopen na een periode van inactiviteit.",
     "technical_body": "Een realtime-applicatie: backend met Django en Django Channels (WebSocket), frontend met Angular en PrimeNG. Meertalig (5 talen), lichte en donkere thema's."
   },
+  "privacy": {
+    "title": "Privacy",
+    "intro": "Deze verklaring legt uit welke gegevens Poker verwerkt, waarom en hoe we ze beschermen. Poker wordt beheerd door Foxugly SRL (België).",
+    "updated": "Laatst bijgewerkt: juli 2026.",
+    "sections": {
+      "data": {
+        "title": "Gegevens die we verwerken",
+        "body": "Anonieme kamers werken zonder account: we bewaren alleen een tijdelijke bijnaam en je stemmen voor de duur van de sessie. Als je een account aanmaakt, bewaren we je e-mailadres, weergavenaam en teams."
+      },
+      "usage": {
+        "title": "Gebruik van gegevens",
+        "body": "Je gegevens worden uitsluitend gebruikt om de dienst te laten werken: authenticatie, teambeheer, sessiegeschiedenis en transactionele e-mails. We verkopen of verhuren je gegevens nooit en tonen geen advertenties."
+      },
+      "retention": {
+        "title": "Bewaring en hosting",
+        "body": "Anonieme kamers zijn tijdelijk en verlopen na een periode van inactiviteit. Accountgegevens worden bewaard zolang het account bestaat. De hosting wordt verzorgd door Amazon Web Services binnen de Europese Unie (Ierland, regio eu-west-1)."
+      },
+      "rights": {
+        "title": "Je rechten",
+        "body": "Op grond van de AVG kun je toegang tot, correctie of verwijdering van je gegevens vragen, evenals het sluiten van je account. Neem contact met ons op om deze rechten uit te oefenen."
+      }
+    },
+    "contact_title": "Contact",
+    "contact_lead": "Voor vragen over privacy of om je rechten uit te oefenen, neem contact met ons op via:"
+  },
   "join": {
     "title": "Kamer binnengaan",
     "code": "Kamercode",

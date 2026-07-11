@@ -128,6 +128,31 @@
     "legal_body": "Éditeur : Foxugly SRL — Belgique. Contact : info@foxugly.com. Hébergement : Amazon Web Services (Irlande, région eu-west-1). Les salles anonymes sont temporaires et expirent après une période d'inactivité.",
     "technical_body": "Application temps réel : backend Django et Django Channels (WebSocket), frontend Angular et PrimeNG. Multilingue (5 langues), thèmes clair et sombre."
   },
+  "privacy": {
+    "title": "Confidentialité",
+    "intro": "Cette notice explique quelles données Poker traite, pourquoi, et comment nous les protégeons. Poker est édité par Foxugly SRL (Belgique).",
+    "updated": "Dernière mise à jour : juillet 2026.",
+    "sections": {
+      "data": {
+        "title": "Données que nous traitons",
+        "body": "Les salles anonymes fonctionnent sans compte : nous ne conservons qu'un pseudonyme temporaire et vos votes le temps de la session. Si vous créez un compte, nous stockons votre adresse e-mail, votre nom affiché et vos équipes."
+      },
+      "usage": {
+        "title": "Utilisation des données",
+        "body": "Vos données servent uniquement à faire fonctionner le service : authentification, gestion des équipes, historique des sessions et envoi d'e-mails transactionnels. Nous ne vendons ni ne louons vos données, et n'affichons aucune publicité."
+      },
+      "retention": {
+        "title": "Conservation et hébergement",
+        "body": "Les salles anonymes sont temporaires et expirent après une période d'inactivité. Les données de compte sont conservées tant que le compte existe. L'hébergement est assuré par Amazon Web Services dans l'Union européenne (Irlande, région eu-west-1)."
+      },
+      "rights": {
+        "title": "Vos droits",
+        "body": "Conformément au RGPD, vous pouvez demander l'accès, la rectification ou la suppression de vos données, ainsi que la clôture de votre compte. Écrivez-nous pour exercer ces droits."
+      }
+    },
+    "contact_title": "Contact",
+    "contact_lead": "Pour toute question relative à la confidentialité ou pour exercer vos droits, contactez-nous à :"
+  },
   "join": {
     "title": "Rejoindre une salle",
     "code": "Code de salle",

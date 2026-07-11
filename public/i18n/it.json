@@ -128,6 +128,31 @@
     "legal_body": "Editore: Foxugly SRL — Belgio. Contatto: info@foxugly.com. Hosting: Amazon Web Services (Irlanda, regione eu-west-1). Le stanze anonime sono temporanee e scadono dopo un periodo di inattività.",
     "technical_body": "Applicazione in tempo reale: backend Django e Django Channels (WebSocket), frontend Angular e PrimeNG. Multilingue (5 lingue), temi chiaro e scuro."
   },
+  "privacy": {
+    "title": "Privacy",
+    "intro": "Questa informativa spiega quali dati tratta Poker, perché e come li proteggiamo. Poker è gestito da Foxugly SRL (Belgio).",
+    "updated": "Ultimo aggiornamento: luglio 2026.",
+    "sections": {
+      "data": {
+        "title": "Dati che trattiamo",
+        "body": "Le stanze anonime funzionano senza account: conserviamo solo uno pseudonimo temporaneo e i tuoi voti per la durata della sessione. Se crei un account, memorizziamo il tuo indirizzo e-mail, il nome visualizzato e i tuoi team."
+      },
+      "usage": {
+        "title": "Utilizzo dei dati",
+        "body": "I tuoi dati servono esclusivamente a far funzionare il servizio: autenticazione, gestione dei team, cronologia delle sessioni e invio di e-mail transazionali. Non vendiamo né noleggiamo i tuoi dati e non mostriamo pubblicità."
+      },
+      "retention": {
+        "title": "Conservazione e hosting",
+        "body": "Le stanze anonime sono temporanee e scadono dopo un periodo di inattività. I dati dell'account vengono conservati finché l'account esiste. L'hosting è fornito da Amazon Web Services nell'Unione Europea (Irlanda, regione eu-west-1)."
+      },
+      "rights": {
+        "title": "I tuoi diritti",
+        "body": "In conformità al GDPR, puoi richiedere l'accesso, la rettifica o la cancellazione dei tuoi dati, nonché la chiusura del tuo account. Contattaci per esercitare questi diritti."
+      }
+    },
+    "contact_title": "Contatto",
+    "contact_lead": "Per qualsiasi domanda sulla privacy o per esercitare i tuoi diritti, contattaci a:"
+  },
   "join": {
     "title": "Entra in una stanza",
     "code": "Codice stanza",

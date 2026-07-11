@@ -128,6 +128,31 @@
     "legal_body": "Publisher: Foxugly SRL — Belgium. Contact: info@foxugly.com. Hosting: Amazon Web Services (Ireland, eu-west-1 region). Anonymous rooms are temporary and expire after a period of inactivity.",
     "technical_body": "A real-time application: Django and Django Channels (WebSocket) backend, Angular and PrimeNG frontend. Multilingual (5 languages), light and dark themes."
   },
+  "privacy": {
+    "title": "Privacy",
+    "intro": "This notice explains what data Poker handles, why, and how we protect it. Poker is operated by Foxugly SRL (Belgium).",
+    "updated": "Last updated: July 2026.",
+    "sections": {
+      "data": {
+        "title": "Data we handle",
+        "body": "Anonymous rooms work without an account: we only keep a temporary nickname and your votes for the duration of the session. If you create an account, we store your email address, display name and teams."
+      },
+      "usage": {
+        "title": "How we use data",
+        "body": "Your data is used solely to run the service: authentication, team management, session history and transactional emails. We never sell or rent your data, and we show no advertising."
+      },
+      "retention": {
+        "title": "Retention and hosting",
+        "body": "Anonymous rooms are temporary and expire after a period of inactivity. Account data is kept for as long as the account exists. Hosting is provided by Amazon Web Services within the European Union (Ireland, eu-west-1 region)."
+      },
+      "rights": {
+        "title": "Your rights",
+        "body": "Under the GDPR, you can request access to, correction or deletion of your data, as well as closure of your account. Contact us to exercise these rights."
+      }
+    },
+    "contact_title": "Contact",
+    "contact_lead": "For any privacy question or to exercise your rights, contact us at:"
+  },
   "join": {
     "title": "Join a room",
     "code": "Room code",

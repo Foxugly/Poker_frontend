@@ -128,6 +128,31 @@
     "legal_body": "Editor: Foxugly SRL — Bélgica. Contacto: info@foxugly.com. Alojamiento: Amazon Web Services (Irlanda, región eu-west-1). Las salas anónimas son temporales y caducan tras un periodo de inactividad.",
     "technical_body": "Aplicación en tiempo real: backend con Django y Django Channels (WebSocket), frontend con Angular y PrimeNG. Multilingüe (5 idiomas), temas claro y oscuro."
   },
+  "privacy": {
+    "title": "Privacidad",
+    "intro": "Este aviso explica qué datos trata Poker, por qué y cómo los protegemos. Poker es gestionado por Foxugly SRL (Bélgica).",
+    "updated": "Última actualización: julio de 2026.",
+    "sections": {
+      "data": {
+        "title": "Datos que tratamos",
+        "body": "Las salas anónimas funcionan sin cuenta: solo conservamos un seudónimo temporal y tus votos durante la sesión. Si creas una cuenta, almacenamos tu dirección de correo, tu nombre visible y tus equipos."
+      },
+      "usage": {
+        "title": "Uso de los datos",
+        "body": "Tus datos se utilizan únicamente para que el servicio funcione: autenticación, gestión de equipos, historial de sesiones y envío de correos transaccionales. Nunca vendemos ni alquilamos tus datos, y no mostramos publicidad."
+      },
+      "retention": {
+        "title": "Conservación y alojamiento",
+        "body": "Las salas anónimas son temporales y caducan tras un periodo de inactividad. Los datos de la cuenta se conservan mientras exista la cuenta. El alojamiento corre a cargo de Amazon Web Services dentro de la Unión Europea (Irlanda, región eu-west-1)."
+      },
+      "rights": {
+        "title": "Tus derechos",
+        "body": "Conforme al RGPD, puedes solicitar el acceso, la rectificación o la supresión de tus datos, así como el cierre de tu cuenta. Escríbenos para ejercer estos derechos."
+      }
+    },
+    "contact_title": "Contacto",
+    "contact_lead": "Para cualquier consulta sobre privacidad o para ejercer tus derechos, contáctanos en:"
+  },
   "join": {
     "title": "Unirse a una sala",
     "code": "Código de sala",
