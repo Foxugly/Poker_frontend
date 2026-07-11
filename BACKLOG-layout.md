@@ -25,12 +25,13 @@
 - [ ] **Skeletons** : **ajouter** (absents).
 - [ ] **Breakpoints** : échelle standard.
 
-## Phase 2 — CSS
-- [ ] **Retirer Tailwind** → SCSS/BEM + CSS moderne (Features en Tailwind → grille CSS-grid native).
-- [ ] **Aligner les noms de tokens sur le standard** : `_tokens.scss` de poker utilise `--text` /
-  `--surface-soft` / … → migrer vers les noms canoniques (`--ink`, `--surface`, `--surface-2`,
-  `--accent`, `--muted`, `--border`, `--content-max`, `--content-pad`, `--radius`…) du bloc
-  `foxugly-ops/STANDARD-frontend-layout.md` (§ Design tokens). Renommer les usages en conséquence.
+## Phase 2 — CSS — ✅ FAIT (PR #1, branche `feat/scss-standard`, 2026-07-11)
+- [x] **Retirer Tailwind** → utilitaires résiduels (flex/grid/gap/justify-end/w-full) déplacés en
+  primitives locales `_layout.scss` ; `@import "tailwindcss"`, `@tailwindcss/postcss` et les 2 deps retirés.
+- [x] **Aligner les noms de tokens sur le standard** : `_tokens.scss` remplacé par le set canonique
+  (`--accent*`/`--ink*`/`--surface-2`/`--chrome-*`/`--success|warn|danger`/`--content-max`/`--content-pad`),
+  extras app gardés (`--s-N`, `--shadow-card`). Usages renommés (15 fichiers) :
+  `--fox-primary→--accent`, `--text/--text-strong→--ink`, `--surface-soft→--surface-2`.
 
 ## i18n
 - [ ] ✅ Déjà Transloco — juste aligner l'UI du switcher.
