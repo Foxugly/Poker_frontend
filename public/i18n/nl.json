@@ -1,19 +1,53 @@
 {
-  "app": { "title": "Poker", "tagline": "Samen beslissen, in realtime — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Home", "features": "Functies", "pricing": "Tarieven", "support": "Steunen", "about": "Over", "teams": "Teams" },
-  "field": { "username": "Je naam" },
-  "action": { "cancel": "Annuleren", "save": "Opslaan", "quit": "Verlaten", "back": "Terug" },
+  "app": {
+    "title": "Poker",
+    "tagline": "Samen beslissen, in realtime — Poker Planning & Delegation Poker."
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Functies",
+    "pricing": "Tarieven",
+    "support": "Steunen",
+    "about": "Over",
+    "teams": "Teams"
+  },
+  "field": {
+    "username": "Je naam"
+  },
+  "action": {
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "quit": "Verlaten",
+    "back": "Terug"
+  },
   "teams": {
-    "title": "Teams", "create": "Team aanmaken", "new_session": "Nieuwe sessie", "name": "Teamnaam",
+    "title": "Teams",
+    "create": "Team aanmaken",
+    "new_session": "Nieuwe sessie",
+    "name": "Teamnaam",
     "empty": "Je hebt nog geen team. Maak er een om leden uit te nodigen.",
-    "members": "Leden", "invitations": "Uitnodigingen", "invite": "Uitnodigen",
-    "invited": "Uitnodiging verstuurd.", "already_member": "Deze persoon is al lid.",
-    "revoke": "Intrekken", "remove": "Verwijderen", "manage": "Team beheren",
-    "appearance": "Uiterlijk", "felt_color": "Kleur van het laken", "back_color": "Kleur van de achterkant", "appearance_saved": "Uiterlijk opgeslagen.",
-    "delete": "Team verwijderen", "delete_confirm": "Dit team definitief verwijderen?",
-    "role": { "owner": "Eigenaar", "admin": "Admin", "member": "Lid" },
+    "members": "Leden",
+    "invitations": "Uitnodigingen",
+    "invite": "Uitnodigen",
+    "invited": "Uitnodiging verstuurd.",
+    "already_member": "Deze persoon is al lid.",
+    "revoke": "Intrekken",
+    "remove": "Verwijderen",
+    "manage": "Team beheren",
+    "appearance": "Uiterlijk",
+    "felt_color": "Kleur van het laken",
+    "back_color": "Kleur van de achterkant",
+    "appearance_saved": "Uiterlijk opgeslagen.",
+    "delete": "Team verwijderen",
+    "delete_confirm": "Dit team definitief verwijderen?",
+    "role": {
+      "owner": "Eigenaar",
+      "admin": "Admin",
+      "member": "Lid"
+    },
     "accept": {
-      "pending": "Uitnodiging accepteren…", "error_title": "Ongeldige uitnodiging",
+      "pending": "Uitnodiging accepteren…",
+      "error_title": "Ongeldige uitnodiging",
       "error_lead": "Deze uitnodiging is ongeldig, verlopen of al gebruikt.",
       "email_mismatch": "Meld je aan met het e-mailadres waarnaar de uitnodiging is gestuurd."
     }
@@ -33,10 +67,22 @@
     "title": "Steunen",
     "why_title": "Waarom Poker steunen?",
     "reasons": {
-      "free": { "title": "Gratis voor het essentiële", "desc": "Realtime anonieme kamers blijven gratis, zonder account." },
-      "infra": { "title": "Hosting & infrastructuur", "desc": "Servers, SSL-certificaten en e-mailbezorging brengen reële kosten mee." },
-      "maintenance": { "title": "Doorlopend onderhoud", "desc": "Beveiligingsupdates, bugfixes, compatibiliteit." },
-      "features": { "title": "Nieuwe functies", "desc": "Elke bijdrage versnelt de ontwikkeling." }
+      "free": {
+        "title": "Gratis voor het essentiële",
+        "desc": "Realtime anonieme kamers blijven gratis, zonder account."
+      },
+      "infra": {
+        "title": "Hosting & infrastructuur",
+        "desc": "Servers, SSL-certificaten en e-mailbezorging brengen reële kosten mee."
+      },
+      "maintenance": {
+        "title": "Doorlopend onderhoud",
+        "desc": "Beveiligingsupdates, bugfixes, compatibiliteit."
+      },
+      "features": {
+        "title": "Nieuwe functies",
+        "desc": "Elke bijdrage versnelt de ontwikkeling."
+      }
     },
     "cta_title": "Een gift doen",
     "cta_desc": "Giften verlopen via GitHub Sponsors: een eenmalig gebaar of regelmatige steun, in jouw tempo.",
@@ -76,7 +122,11 @@
     "legal_body": "Uitgever: Foxugly SRL — België. Contact: info@foxugly.com. Hosting: Amazon Web Services (Ierland, regio eu-west-1). Anonieme kamers zijn tijdelijk en verlopen na een periode van inactiviteit.",
     "technical_body": "Een realtime-applicatie: backend met Django en Django Channels (WebSocket), frontend met Angular en PrimeNG. Meertalig (5 talen), lichte en donkere thema's."
   },
-  "join": { "title": "Kamer binnengaan", "code": "Kamercode", "cta": "Deelnemen" },
+  "join": {
+    "title": "Kamer binnengaan",
+    "code": "Kamercode",
+    "cta": "Deelnemen"
+  },
   "features": {
     "eyebrow": "Gratis & Betaald",
     "title": "Functies",
@@ -109,37 +159,65 @@
     "logout": "Afmelden",
     "back_to_login": "Terug naar aanmelden",
     "login": {
-      "title": "Aanmelden", "lead": "Toegang tot je team en geschiedenis.", "cta": "Aanmelden",
-      "forgot": "Wachtwoord vergeten?", "magic": "Stuur me een aanmeldlink per e-mail",
-      "no_account": "Nog geen account?", "not_confirmed": "Bevestig eerst je e-mail.",
-      "resend": "Link opnieuw sturen", "resent": "Als dat account bestaat, is een nieuwe link verstuurd."
+      "title": "Aanmelden",
+      "lead": "Toegang tot je team en geschiedenis.",
+      "cta": "Aanmelden",
+      "forgot": "Wachtwoord vergeten?",
+      "magic": "Stuur me een aanmeldlink per e-mail",
+      "no_account": "Nog geen account?",
+      "not_confirmed": "Bevestig eerst je e-mail.",
+      "resend": "Link opnieuw sturen",
+      "resent": "Als dat account bestaat, is een nieuwe link verstuurd."
     },
     "register": {
-      "title": "Account aanmaken", "lead": "Maak je account om een team te beheren.", "cta": "Account aanmaken",
-      "have_account": "Heb je al een account?", "done_title": "Controleer je inbox",
+      "title": "Account aanmaken",
+      "lead": "Maak je account om een team te beheren.",
+      "cta": "Account aanmaken",
+      "have_account": "Heb je al een account?",
+      "done_title": "Controleer je inbox",
       "done_lead": "We hebben je een link gestuurd om je adres te bevestigen."
     },
     "forgot": {
-      "title": "Wachtwoord vergeten", "lead": "Voer je e-mail in om een herstellink te ontvangen.",
-      "cta": "Link versturen", "sent": "Als dat adres bestaat, is een herstellink verstuurd."
+      "title": "Wachtwoord vergeten",
+      "lead": "Voer je e-mail in om een herstellink te ontvangen.",
+      "cta": "Link versturen",
+      "sent": "Als dat adres bestaat, is een herstellink verstuurd."
     },
-    "reset": { "title": "Wachtwoord opnieuw instellen", "cta": "Opnieuw instellen", "done": "Wachtwoord opnieuw ingesteld. Je kunt je nu aanmelden." },
+    "reset": {
+      "title": "Wachtwoord opnieuw instellen",
+      "cta": "Opnieuw instellen",
+      "done": "Wachtwoord opnieuw ingesteld. Je kunt je nu aanmelden."
+    },
     "confirm": {
-      "pending": "Bevestigen…", "ok_title": "E-mail bevestigd", "ok_lead": "Doorverwijzen…",
-      "error_title": "Ongeldige link", "error_lead": "Deze bevestigingslink is ongeldig of verlopen."
+      "pending": "Bevestigen…",
+      "ok_title": "E-mail bevestigd",
+      "ok_lead": "Doorverwijzen…",
+      "error_title": "Ongeldige link",
+      "error_lead": "Deze bevestigingslink is ongeldig of verlopen."
     },
     "magic": {
-      "title": "Aanmeldlink", "lead": "Voer je e-mail in en we sturen je een link om je aan te melden.",
-      "cta": "Link versturen", "sent": "Als dat account bestaat, is een aanmeldlink verstuurd.",
-      "verifying": "Aanmelden…", "error_title": "Ongeldige link",
-      "error_lead": "Deze link is ongeldig, verlopen of al gebruikt.", "request_new": "Nieuwe link aanvragen"
+      "title": "Aanmeldlink",
+      "lead": "Voer je e-mail in en we sturen je een link om je aan te melden.",
+      "cta": "Link versturen",
+      "sent": "Als dat account bestaat, is een aanmeldlink verstuurd.",
+      "verifying": "Aanmelden…",
+      "error_title": "Ongeldige link",
+      "error_lead": "Deze link is ongeldig, verlopen of al gebruikt.",
+      "request_new": "Nieuwe link aanvragen"
     },
     "errors": {
-      "invalid_credentials": "Onjuist e-mailadres of wachtwoord.", "password_short": "Minstens 8 tekens.",
-      "generic": "Er ging iets mis. Probeer opnieuw.", "reset_invalid": "Ongeldige of verlopen link."
+      "invalid_credentials": "Onjuist e-mailadres of wachtwoord.",
+      "password_short": "Minstens 8 tekens.",
+      "generic": "Er ging iets mis. Probeer opnieuw.",
+      "reset_invalid": "Ongeldige of verlopen link."
     }
   },
-  "vote_state": { "idle": "Wachten", "open": "Stemming open", "revealed": "Onthuld", "acted": "Resultaat vastgelegd" },
+  "vote_state": {
+    "idle": "Wachten",
+    "open": "Stemming open",
+    "revealed": "Onthuld",
+    "acted": "Resultaat vastgelegd"
+  },
   "room": {
     "untitled": "Kamer",
     "no_subject": "Geen onderwerp ingesteld",
@@ -210,5 +288,8 @@
     "create_room": "Kan de kamer niet maken.",
     "room_not_found": "Kamer niet gevonden of verlopen.",
     "room_full": "Deze kamer is vol (maximaal 20 personen)."
+  },
+  "common": {
+    "skip_to_content": "Naar de inhoud"
   }
 }

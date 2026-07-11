@@ -1,19 +1,53 @@
 {
-  "app": { "title": "Poker", "tagline": "La prise de décision commune, en temps réel — Poker Planning & Delegation Poker." },
-  "nav": { "home": "Accueil", "features": "Fonctionnalités", "pricing": "Tarifs", "support": "Soutenir", "about": "À propos", "teams": "Équipes" },
-  "field": { "username": "Votre nom" },
-  "action": { "cancel": "Annuler", "save": "Enregistrer", "quit": "Quitter", "back": "Retour" },
+  "app": {
+    "title": "Poker",
+    "tagline": "La prise de décision commune, en temps réel — Poker Planning & Delegation Poker."
+  },
+  "nav": {
+    "home": "Accueil",
+    "features": "Fonctionnalités",
+    "pricing": "Tarifs",
+    "support": "Soutenir",
+    "about": "À propos",
+    "teams": "Équipes"
+  },
+  "field": {
+    "username": "Votre nom"
+  },
+  "action": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "quit": "Quitter",
+    "back": "Retour"
+  },
   "teams": {
-    "title": "Équipes", "create": "Créer une équipe", "new_session": "Nouvelle session", "name": "Nom de l'équipe",
+    "title": "Équipes",
+    "create": "Créer une équipe",
+    "new_session": "Nouvelle session",
+    "name": "Nom de l'équipe",
     "empty": "Vous n'avez pas encore d'équipe. Créez-en une pour inviter des membres.",
-    "members": "Membres", "invitations": "Invitations", "invite": "Inviter",
-    "invited": "Invitation envoyée.", "already_member": "Cette personne est déjà membre.",
-    "revoke": "Révoquer", "remove": "Retirer", "manage": "Gérer l'équipe",
-    "appearance": "Apparence", "felt_color": "Couleur du feutre", "back_color": "Couleur du dos", "appearance_saved": "Apparence enregistrée.",
-    "delete": "Supprimer l'équipe", "delete_confirm": "Supprimer définitivement cette équipe ?",
-    "role": { "owner": "Propriétaire", "admin": "Admin", "member": "Membre" },
+    "members": "Membres",
+    "invitations": "Invitations",
+    "invite": "Inviter",
+    "invited": "Invitation envoyée.",
+    "already_member": "Cette personne est déjà membre.",
+    "revoke": "Révoquer",
+    "remove": "Retirer",
+    "manage": "Gérer l'équipe",
+    "appearance": "Apparence",
+    "felt_color": "Couleur du feutre",
+    "back_color": "Couleur du dos",
+    "appearance_saved": "Apparence enregistrée.",
+    "delete": "Supprimer l'équipe",
+    "delete_confirm": "Supprimer définitivement cette équipe ?",
+    "role": {
+      "owner": "Propriétaire",
+      "admin": "Admin",
+      "member": "Membre"
+    },
     "accept": {
-      "pending": "Acceptation de l'invitation…", "error_title": "Invitation invalide",
+      "pending": "Acceptation de l'invitation…",
+      "error_title": "Invitation invalide",
       "error_lead": "Cette invitation est invalide, expirée ou déjà utilisée.",
       "email_mismatch": "Connectez-vous avec l'adresse à laquelle l'invitation a été envoyée."
     }
@@ -33,10 +67,22 @@
     "title": "Soutenir",
     "why_title": "Pourquoi soutenir Poker ?",
     "reasons": {
-      "free": { "title": "Gratuit pour l'essentiel", "desc": "Les salles anonymes en temps réel restent gratuites, sans compte." },
-      "infra": { "title": "Hébergement & infrastructure", "desc": "Serveurs, certificats SSL et envoi d'emails ont un coût réel." },
-      "maintenance": { "title": "Maintenance continue", "desc": "Mises à jour de sécurité, corrections de bugs, compatibilité." },
-      "features": { "title": "Nouvelles fonctionnalités", "desc": "Chaque contribution accélère le développement." }
+      "free": {
+        "title": "Gratuit pour l'essentiel",
+        "desc": "Les salles anonymes en temps réel restent gratuites, sans compte."
+      },
+      "infra": {
+        "title": "Hébergement & infrastructure",
+        "desc": "Serveurs, certificats SSL et envoi d'emails ont un coût réel."
+      },
+      "maintenance": {
+        "title": "Maintenance continue",
+        "desc": "Mises à jour de sécurité, corrections de bugs, compatibilité."
+      },
+      "features": {
+        "title": "Nouvelles fonctionnalités",
+        "desc": "Chaque contribution accélère le développement."
+      }
     },
     "cta_title": "Faire un don",
     "cta_desc": "Les dons passent par GitHub Sponsors : un geste ponctuel ou un soutien régulier, à votre rythme.",
@@ -76,7 +122,11 @@
     "legal_body": "Éditeur : Foxugly SRL — Belgique. Contact : info@foxugly.com. Hébergement : Amazon Web Services (Irlande, région eu-west-1). Les salles anonymes sont temporaires et expirent après une période d'inactivité.",
     "technical_body": "Application temps réel : backend Django et Django Channels (WebSocket), frontend Angular et PrimeNG. Multilingue (5 langues), thèmes clair et sombre."
   },
-  "join": { "title": "Rejoindre une salle", "code": "Code de salle", "cta": "Rejoindre" },
+  "join": {
+    "title": "Rejoindre une salle",
+    "code": "Code de salle",
+    "cta": "Rejoindre"
+  },
   "features": {
     "eyebrow": "Gratuit & Payant",
     "title": "Fonctionnalités",
@@ -109,37 +159,65 @@
     "logout": "Se déconnecter",
     "back_to_login": "Retour à la connexion",
     "login": {
-      "title": "Se connecter", "lead": "Accédez à votre équipe et votre historique.", "cta": "Se connecter",
-      "forgot": "Mot de passe oublié ?", "magic": "Recevoir un lien de connexion par e-mail",
-      "no_account": "Pas encore de compte ?", "not_confirmed": "Confirmez d'abord votre e-mail.",
-      "resend": "Renvoyer le lien", "resent": "Si ce compte existe, un nouveau lien a été envoyé."
+      "title": "Se connecter",
+      "lead": "Accédez à votre équipe et votre historique.",
+      "cta": "Se connecter",
+      "forgot": "Mot de passe oublié ?",
+      "magic": "Recevoir un lien de connexion par e-mail",
+      "no_account": "Pas encore de compte ?",
+      "not_confirmed": "Confirmez d'abord votre e-mail.",
+      "resend": "Renvoyer le lien",
+      "resent": "Si ce compte existe, un nouveau lien a été envoyé."
     },
     "register": {
-      "title": "Créer un compte", "lead": "Créez votre compte pour gérer une équipe.", "cta": "Créer le compte",
-      "have_account": "Déjà un compte ?", "done_title": "Vérifiez votre boîte mail",
+      "title": "Créer un compte",
+      "lead": "Créez votre compte pour gérer une équipe.",
+      "cta": "Créer le compte",
+      "have_account": "Déjà un compte ?",
+      "done_title": "Vérifiez votre boîte mail",
       "done_lead": "Nous vous avons envoyé un lien pour confirmer votre adresse."
     },
     "forgot": {
-      "title": "Mot de passe oublié", "lead": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
-      "cta": "Envoyer le lien", "sent": "Si cette adresse existe, un lien de réinitialisation a été envoyé."
+      "title": "Mot de passe oublié",
+      "lead": "Entrez votre e-mail pour recevoir un lien de réinitialisation.",
+      "cta": "Envoyer le lien",
+      "sent": "Si cette adresse existe, un lien de réinitialisation a été envoyé."
     },
-    "reset": { "title": "Réinitialiser le mot de passe", "cta": "Réinitialiser", "done": "Mot de passe réinitialisé. Vous pouvez vous connecter." },
+    "reset": {
+      "title": "Réinitialiser le mot de passe",
+      "cta": "Réinitialiser",
+      "done": "Mot de passe réinitialisé. Vous pouvez vous connecter."
+    },
     "confirm": {
-      "pending": "Confirmation en cours…", "ok_title": "E-mail confirmé", "ok_lead": "Redirection…",
-      "error_title": "Lien invalide", "error_lead": "Ce lien de confirmation est invalide ou expiré."
+      "pending": "Confirmation en cours…",
+      "ok_title": "E-mail confirmé",
+      "ok_lead": "Redirection…",
+      "error_title": "Lien invalide",
+      "error_lead": "Ce lien de confirmation est invalide ou expiré."
     },
     "magic": {
-      "title": "Lien de connexion", "lead": "Entrez votre e-mail, on vous envoie un lien pour vous connecter.",
-      "cta": "Envoyer le lien", "sent": "Si ce compte existe, un lien de connexion a été envoyé.",
-      "verifying": "Connexion en cours…", "error_title": "Lien invalide",
-      "error_lead": "Ce lien est invalide, expiré ou déjà utilisé.", "request_new": "Demander un nouveau lien"
+      "title": "Lien de connexion",
+      "lead": "Entrez votre e-mail, on vous envoie un lien pour vous connecter.",
+      "cta": "Envoyer le lien",
+      "sent": "Si ce compte existe, un lien de connexion a été envoyé.",
+      "verifying": "Connexion en cours…",
+      "error_title": "Lien invalide",
+      "error_lead": "Ce lien est invalide, expiré ou déjà utilisé.",
+      "request_new": "Demander un nouveau lien"
     },
     "errors": {
-      "invalid_credentials": "E-mail ou mot de passe incorrect.", "password_short": "Au moins 8 caractères.",
-      "generic": "Une erreur est survenue. Réessayez.", "reset_invalid": "Lien invalide ou expiré."
+      "invalid_credentials": "E-mail ou mot de passe incorrect.",
+      "password_short": "Au moins 8 caractères.",
+      "generic": "Une erreur est survenue. Réessayez.",
+      "reset_invalid": "Lien invalide ou expiré."
     }
   },
-  "vote_state": { "idle": "En attente", "open": "Vote ouvert", "revealed": "Révélé", "acted": "Résultat acté" },
+  "vote_state": {
+    "idle": "En attente",
+    "open": "Vote ouvert",
+    "revealed": "Révélé",
+    "acted": "Résultat acté"
+  },
   "room": {
     "untitled": "Salle",
     "no_subject": "Aucun sujet défini",
@@ -210,5 +288,8 @@
     "create_room": "Impossible de créer la salle.",
     "room_not_found": "Salle introuvable ou expirée.",
     "room_full": "Cette salle est pleine (20 personnes maximum)."
+  },
+  "common": {
+    "skip_to_content": "Aller au contenu"
   }
 }

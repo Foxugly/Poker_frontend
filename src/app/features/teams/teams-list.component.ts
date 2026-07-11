@@ -5,11 +5,13 @@ import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 
 import { BillingService, Interval, Plan, SubscriptionStatus } from '../../core/billing/billing.service';
 import { TeamsService } from '../../core/teams/teams.service';
 import { Team } from '../../core/teams/teams.models';
+import { EmptyStateComponent } from '../../shared/ui/empty-state/empty-state.component';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 interface PlanOption {
@@ -23,7 +25,17 @@ interface PlanOption {
 @Component({
   selector: 'app-teams-list',
   standalone: true,
-  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule, TagModule, PageHeaderComponent],
+  imports: [
+    FormsModule,
+    RouterLink,
+    TranslocoModule,
+    ButtonModule,
+    InputTextModule,
+    SkeletonModule,
+    TagModule,
+    PageHeaderComponent,
+    EmptyStateComponent,
+  ],
   styleUrl: './teams.scss',
   template: `
     <section class="page">
@@ -65,9 +77,16 @@ interface PlanOption {
         }
 
         @if (loading()) {
-          <p class="meta">…</p>
+          <div class="grid">
+            @for (i of [1, 2, 3]; track i) {
+              <div class="team-card">
+                <p-skeleton width="60%" height="1.25rem" styleClass="skeleton-line" />
+                <p-skeleton width="40%" height="0.9rem" />
+              </div>
+            }
+          </div>
         } @else if (teams().length === 0) {
-          <p style="color: var(--muted)">{{ 'teams.empty' | transloco }}</p>
+          <app-empty-state icon="pi pi-users" [title]="'teams.empty' | transloco" />
         } @else {
           <div class="grid">
             @for (team of teams(); track team.id) {

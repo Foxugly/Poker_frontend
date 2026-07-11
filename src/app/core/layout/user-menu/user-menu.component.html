@@ -1,0 +1,29 @@
+@if (auth.isAuthenticated()) {
+  <div class="user-menu">
+    <button
+      type="button"
+      class="user-menu__trigger"
+      [attr.aria-expanded]="open()"
+      aria-haspopup="menu"
+      (click)="toggle()"
+    >
+      <i class="pi pi-user"></i>
+      <span class="user-menu__name">{{
+        auth.currentUser()?.display_name || auth.currentUser()?.email
+      }}</span>
+      <i class="pi pi-angle-down user-menu__caret"></i>
+    </button>
+
+    @if (open()) {
+      <div class="user-menu__panel" role="menu">
+        <button type="button" role="menuitem" class="user-menu__item user-menu__item--danger" (click)="logout()">
+          <i class="pi pi-sign-out"></i>{{ 'auth.logout' | transloco }}
+        </button>
+      </div>
+    }
+  </div>
+} @else {
+  <a routerLink="/login" class="user-menu__signin">
+    <i class="pi pi-sign-in"></i>{{ 'auth.login.cta' | transloco }}
+  </a>
+}

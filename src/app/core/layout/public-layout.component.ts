@@ -1,33 +1,26 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ToastModule } from 'primeng/toast';
 
-import { FooterComponent } from '../../shared/ui/footer/footer.component';
-import { TopmenuComponent } from '../../shared/ui/topmenu/topmenu.component';
+import { FooterComponent } from './footer/footer.component';
+import { TopmenuComponent } from './topmenu/topmenu.component';
 
 @Component({
   selector: 'app-public-layout',
   standalone: true,
-  imports: [RouterOutlet, ToastModule, TopmenuComponent, FooterComponent],
+  imports: [RouterOutlet, TranslocoModule, ToastModule, TopmenuComponent, FooterComponent],
   template: `
-    <div class="shell">
+    <div class="fox-shell">
+      <a href="#main-content" class="fox-skip-link">{{ 'common.skip_to_content' | transloco }}</a>
       <app-topmenu />
-      <main><router-outlet /></main>
+      <main id="main-content" tabindex="-1" class="main-container">
+        <router-outlet />
+      </main>
       <app-footer />
       <p-toast />
     </div>
   `,
-  styles: [
-    `
-      .shell {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
-      main {
-        flex: 1;
-      }
-    `,
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicLayoutComponent {}
