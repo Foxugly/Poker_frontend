@@ -32,13 +32,13 @@ import { Component, input } from '@angular/core';
         gap: var(--s-2);
       }
       .title i {
-        color: var(--fox-primary);
+        color: var(--accent);
         font-size: 1.25rem;
       }
       h1 {
         margin: 0;
         font-size: 1.4rem;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .actions {
         display: flex;

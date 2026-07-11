@@ -6,7 +6,7 @@
   margin: 0 0 var(--s-3);
   font-size: clamp(1.9rem, 3.2vw, 2.7rem);
   line-height: 1.1;
-  color: var(--text-strong);
+  color: var(--ink);
 }
 
 .card--action {
@@ -18,7 +18,7 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .card--action:hover {
-  border-color: var(--fox-primary);
+  border-color: var(--accent);
 }
 .card--action h2 {
   display: flex;
@@ -27,7 +27,7 @@
   margin: 0;
 }
 .card--action h2 i {
-  color: var(--fox-primary);
+  color: var(--accent);
 }
 
 .fields {

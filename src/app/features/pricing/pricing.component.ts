@@ -97,17 +97,17 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         margin-top: auto;
       }
       .tier.featured {
-        border-color: var(--fox-primary);
-        box-shadow: 0 0 0 2px color-mix(in srgb, var(--fox-primary) 30%, transparent), var(--shadow-card);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent), var(--shadow-card);
       }
       .tier h3 {
         margin: 0;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .price {
         font-size: 2rem;
         font-weight: 800;
-        color: var(--text-strong);
+        color: var(--ink);
       }
       .price span {
         font-size: 0.9rem;
@@ -123,8 +123,8 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         display: inline-block;
         font-size: 0.72rem;
         font-weight: 700;
-        color: var(--fox-primary);
-        background: color-mix(in srgb, var(--fox-primary) 14%, transparent);
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
         padding: 1px 7px;
         border-radius: 999px;
         margin-left: 4px;
@@ -140,11 +140,11 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         display: flex;
         align-items: flex-start;
         gap: 8px;
-        color: var(--text);
+        color: var(--ink);
         line-height: 1.45;
       }
       .tier li i {
-        color: var(--fox-primary);
+        color: var(--accent);
         font-size: 0.8rem;
         margin-top: 4px;
       }
@@ -154,13 +154,13 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         font-weight: 700;
         padding: 0.65rem 1rem;
         border-radius: 999px;
-        background: var(--fox-primary);
+        background: var(--accent);
         color: #05261c;
       }
       .tier-cta.ghost {
         background: transparent;
-        color: var(--fox-primary);
-        border: 1px solid var(--fox-primary);
+        color: var(--accent);
+        border: 1px solid var(--accent);
       }
       .tier-cta:hover {
         filter: brightness(1.08);
@@ -173,7 +173,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         font-size: 0.9rem;
       }
       .cap-note i {
-        color: var(--fox-primary);
+        color: var(--accent);
       }
       @media (max-width: 820px) {
         .tiers {

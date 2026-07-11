@@ -35,7 +35,29 @@
 }
 
 .meta-hint--error {
-  color: #dc2626;
+  color: var(--danger);
   font-size: 0.8rem;
   margin-top: var(--s-1);
+}
+
+// Minimal layout utilities (replaces the few Tailwind classes still in
+// templates after the framework was dropped — flotte n'utilise pas de
+// framework utilitaire, cf. STANDARD-frontend-layout.md).
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+.gap-2 {
+  gap: var(--s-2);
+}
+.gap-4 {
+  gap: var(--s-4);
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.w-full {
+  width: 100%;
 }

@@ -6,7 +6,7 @@
 .auth h1 {
   margin: 0 0 var(--s-2);
   font-size: 1.5rem;
-  color: var(--text-strong);
+  color: var(--ink);
 }
 .auth .lead {
   color: var(--muted);
@@ -35,7 +35,7 @@
   font-size: 0.9rem;
 }
 .auth .links a {
-  color: var(--fox-primary);
+  color: var(--accent);
   cursor: pointer;
   text-decoration: none;
 }
@@ -48,5 +48,5 @@
   margin-top: var(--s-1);
 }
 .auth .ok {
-  color: var(--fox-primary);
+  color: var(--accent);
 }
