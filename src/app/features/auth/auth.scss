@@ -1,16 +1,22 @@
 .auth {
-  max-width: 440px;
-  margin: 0 auto;
-  padding: var(--s-6) var(--s-4);
+  max-width: 420px;
+  margin: var(--s-6) auto;
+  padding: var(--s-6);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 .auth h1 {
   margin: 0 0 var(--s-2);
   font-size: 1.5rem;
   color: var(--ink);
+  text-align: center;
 }
 .auth .lead {
   color: var(--muted);
   margin: 0 0 var(--s-6);
+  text-align: center;
 }
 .auth .field {
   margin-bottom: var(--s-4);
@@ -43,7 +49,7 @@
   text-decoration: underline;
 }
 .auth .err {
-  color: #dc2626;
+  color: var(--danger);
   font-size: 0.85rem;
   margin-top: var(--s-1);
 }
