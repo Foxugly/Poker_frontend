@@ -41,3 +41,9 @@
   letter-spacing: 0.12em;
   font-weight: 700;
 }
+
+.home-actions {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}

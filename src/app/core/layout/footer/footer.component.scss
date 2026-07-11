@@ -1,13 +1,19 @@
+// Fond pleine largeur (bord à bord) ; le contenu est capé dans .footer-inner
+// sur la grille de contenu (standard §Footer).
 .footer {
+  width: 100%;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-inner {
   display: flex;
   align-items: center;
   gap: var(--s-3);
   max-width: var(--content-max);
   margin: 0 auto;
   padding: var(--s-4) var(--content-pad);
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.85rem;
 }
 
 .footer__brand {
