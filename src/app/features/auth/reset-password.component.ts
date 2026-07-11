@@ -6,16 +6,15 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule],
+  imports: [FormsModule, RouterLink, TranslocoModule, ButtonModule, InputTextModule, AuthCardComponent],
   styleUrl: './auth.scss',
   template: `
-    <section class="auth">
-      <i class="pi pi-lock auth__icon" aria-hidden="true"></i>
-      <h1>{{ 'auth.reset.title' | transloco }}</h1>
+    <app-auth-card icon="pi pi-lock" [title]="'auth.reset.title' | transloco">
       @if (done()) {
         <p class="lead ok">{{ 'auth.reset.done' | transloco }}</p>
         <div class="links"><a routerLink="/login">{{ 'auth.login.cta' | transloco }}</a></div>
@@ -30,7 +29,7 @@ import { AuthService } from '../../core/auth/auth.service';
           <p-button [label]="'auth.reset.cta' | transloco" [loading]="busy()" (onClick)="submit()" styleClass="w-full" />
         </div>
       }
-    </section>
+    </app-auth-card>
   `,
 })
 export class ResetPasswordComponent implements OnInit {
