@@ -1,8 +1,10 @@
 # Backlog — harmonisation layout · Poker_frontend
 
 > **Cible :** `STANDARD-frontend-layout.md` (repo `foxugly-ops`).
-> Bon socle (thème + Transloco déjà là) ; écart = **emplacements/API + retrait Tailwind + About**.
-> **Statut :** à faire (audit 2026-07-10).
+> Bon socle (thème + Transloco déjà là) ; écart = **emplacements/API + retrait Tailwind + About + noms de tokens**.
+> **Statut :** standard **VALIDÉ 2026-07-11** (réf complète : `FoxRunner_frontend`). Travailler sur
+> branche **`feat/scss-standard`** — **jamais `main`** (auto-deploy prod). `_breakpoints.scss` de la
+> flotte ajouté (inutilisé pour l'instant).
 
 ## ✅ Déjà conforme
 - `app-topmenu` · BEM `topbar__*` ; **toggle thème + `ThemeService`** ; **Transloco 5 langues**.
@@ -25,6 +27,10 @@
 
 ## Phase 2 — CSS
 - [ ] **Retirer Tailwind** → SCSS/BEM + CSS moderne (Features en Tailwind → grille CSS-grid native).
+- [ ] **Aligner les noms de tokens sur le standard** : `_tokens.scss` de poker utilise `--text` /
+  `--surface-soft` / … → migrer vers les noms canoniques (`--ink`, `--surface`, `--surface-2`,
+  `--accent`, `--muted`, `--border`, `--content-max`, `--content-pad`, `--radius`…) du bloc
+  `foxugly-ops/STANDARD-frontend-layout.md` (§ Design tokens). Renommer les usages en conséquence.
 
 ## i18n
 - [ ] ✅ Déjà Transloco — juste aligner l'UI du switcher.
