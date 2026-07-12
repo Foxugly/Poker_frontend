@@ -17,7 +17,7 @@ import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.c
     >
       @if (state() === 'error') {
         <p class="lead err">{{ 'auth.magic.error_lead' | transloco }}</p>
-        <div class="links"><a routerLink="/auth/magic-link">{{ 'auth.magic.request_new' | transloco }}</a></div>
+        <div class="links"><a routerLink="/login">{{ 'auth.magic.request_new' | transloco }}</a></div>
       }
     </app-auth-card>
   `,

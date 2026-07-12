@@ -8,7 +8,8 @@ export const routes: Routes = [
     path: '',
     component: PublicLayoutComponent,
     children: [
-      { path: '', loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent) },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent) },
       { path: 'features', loadComponent: () => import('./features/features/features.component').then((m) => m.FeaturesComponent) },
       { path: 'pricing', loadComponent: () => import('./features/pricing/pricing.component').then((m) => m.PricingComponent) },
       { path: 'support', loadComponent: () => import('./features/support/support.component').then((m) => m.SupportComponent) },
@@ -19,7 +20,6 @@ export const routes: Routes = [
       { path: 'forgot-password', loadComponent: () => import('./features/auth/forgot-password.component').then((m) => m.ForgotPasswordComponent) },
       { path: 'auth/confirm-email/:uid/:token', loadComponent: () => import('./features/auth/confirm-email.component').then((m) => m.ConfirmEmailComponent) },
       { path: 'auth/reset-password/:uid/:token', loadComponent: () => import('./features/auth/reset-password.component').then((m) => m.ResetPasswordComponent) },
-      { path: 'auth/magic-link', loadComponent: () => import('./features/auth/magic-link-request.component').then((m) => m.MagicLinkRequestComponent) },
       { path: 'auth/magic-link/:token', loadComponent: () => import('./features/auth/magic-link-verify.component').then((m) => m.MagicLinkVerifyComponent) },
       { path: 'teams', canActivate: [authGuard], loadComponent: () => import('./features/teams/teams-list.component').then((m) => m.TeamsListComponent) },
       { path: 'teams/join/:token', canActivate: [authGuard], loadComponent: () => import('./features/teams/accept-invite.component').then((m) => m.AcceptInviteComponent) },
