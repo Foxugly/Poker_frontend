@@ -243,7 +243,8 @@
       "invalid_credentials": "Onjuist e-mailadres of wachtwoord.",
       "password_short": "Minstens 8 tekens.",
       "generic": "Er ging iets mis. Probeer opnieuw.",
-      "reset_invalid": "Ongeldige of verlopen link."
+      "reset_invalid": "Ongeldige of verlopen link.",
+      "captcha": "Voltooi de captcha."
     }
   },
   "vote_state": {

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { AuthService } from '../../core/auth/auth.service';
 import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
+import { TurnstileController } from '../../shared/turnstile/turnstile';
 
 @Component({
   selector: 'app-register',
@@ -37,6 +38,7 @@ import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.c
           @if (submitted() && password.length < 8) { <p class="err">{{ 'auth.errors.password_short' | transloco }}</p> }
         </div>
         @if (error()) { <p class="err">{{ error()! | transloco }}</p> }
+        @if (turnstile.enabled) { <div #turnstileEl class="turnstile-widget"></div> }
         <div class="actions">
           <p-button [label]="'auth.register.cta' | transloco" severity="success" [loading]="busy()" (onClick)="submit()" styleClass="w-full" />
         </div>
@@ -45,8 +47,10 @@ import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.c
     </app-auth-card>
   `,
 })
-export class RegisterComponent {
+export class RegisterComponent implements AfterViewInit, OnDestroy {
   private auth = inject(AuthService);
+  protected readonly turnstile = new TurnstileController();
+  private readonly turnstileEl = viewChild<ElementRef<HTMLDivElement>>('turnstileEl');
   displayName = '';
   email = '';
   password = '';
@@ -55,15 +59,32 @@ export class RegisterComponent {
   readonly done = signal(false);
   readonly error = signal<string | null>(null);
 
+  ngAfterViewInit(): void {
+    this.turnstile.render(this.turnstileEl()?.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.turnstile.destroy();
+  }
+
   async submit(): Promise<void> {
     this.submitted.set(true);
     this.error.set(null);
     if (!this.email.trim() || this.password.length < 8) return;
+    let token = '';
+    if (this.turnstile.enabled) {
+      token = this.turnstile.readToken();
+      if (!token) { this.error.set('auth.errors.captcha'); return; }
+    }
     this.busy.set(true);
     try {
-      await this.auth.register(this.email.trim().toLowerCase(), this.password, this.displayName.trim());
+      await this.auth.register(
+        this.email.trim().toLowerCase(), this.password, this.displayName.trim(),
+        this.turnstile.enabled ? token : undefined,
+      );
       this.done.set(true);
-    } catch {
+    } catch (e) {
+      if (this.turnstile.enabled && (e as { error?: { code?: string } })?.error?.code === 'captcha_failed') this.turnstile.reset();
       this.error.set('auth.errors.generic');
     } finally {
       this.busy.set(false);
