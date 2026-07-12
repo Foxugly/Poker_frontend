@@ -2,22 +2,25 @@
 
 > **Cible :** `STANDARD-frontend-layout.md` (repo `foxugly-ops`) ; réf = `FoxRunner_frontend`
 > (+ app runnable `foxugly-ops/frontend-reference/foo-app`).
-> **Statut : ✅ conforme — DÉPLOYÉ** (poker.foxugly.com). Reste 1 item sécurité (Turnstile, besoin config).
+> **Statut : ✅ CONFORME — MERGÉ + DÉPLOYÉ** (poker.foxugly.com). Aucune tâche restante.
 
 ## ✅ Fait + déployé
-- Tokens sémantiques + retrait Tailwind ; chrome `core/layout` (`app-topmenu` BEM `[mode]`, `app-user-menu`,
+- Tokens sémantiques + retrait Tailwind ; chrome `core/layout` (`app-topmenu`, `app-user-menu`,
   `app-footer`) ; `app-language-switcher` (Transloco 5 langues) ; shell + skip-link ; empty-state + skeletons.
 - **Conformité 2026-07-12 (déployé)** :
-  - **Chrome** : triggers thème + langue **borderless** (plus de boîte outlined) ; **icône globe retirée**
-    du switcher (code langue seul).
-  - **`app-auth-card`** créé + **les 7 pages auth migrées** ; icône + titre centrés.
-  - **Login au gabarit de réf** : `p-password`, rangée **« Se souvenir » + « Oublié ? »** sur une ligne,
-    bouton emerald, **séparateur « ou » + bouton lien magique inline**, « Créer un compte » sous la carte.
-    `remember` → persistance du refresh token (localStorage/sessionStorage) dans `AuthService`.
-  - **Footer complet** : logo/lien Foxugly → foxugly.com, **Privacy**, rights, séparateurs `·` (+ logo asset).
-  - **Page `/privacy`** ajoutée (le footer y pointe).
+  - Chrome : triggers thème + langue **borderless** ; **icône globe retirée** du switcher (code langue seul).
+  - **`app-auth-card`** + **7 pages auth migrées** ; login au gabarit de réf (`p-password`, « Se souvenir »
+    + « Oublié ? » sur une ligne, bouton emerald, séparateur « ou » + **lien magique inline**, « Créer un compte »).
+    `remember` → persistance du refresh token dans `AuthService`.
+  - Footer complet (logo/lien Foxugly, **Privacy**, rights, séparateurs `·`) + page `/privacy`.
+  - **Turnstile (Cloudflare)** câblé + **LIVE** sur register + forgot-password + magic-link (widget
+    `shared/turnstile/`, clés SSM seedées, backend fail-closed). Cf. mémoire `fleet-turnstile-rollout`.
+- **Audit profond 2026-07-12 (déployé)** :
+  - Token **`--chrome-accent`** ajouté (lien nav actif = tint translucide `color-mix`).
+  - Topmenu → **BEM `topbar__*`** (classes lâches `.brand`/`.nav`/`.nav-cta` renommées).
+  - Home routée sur **`/home`** (+ redirect `''`→`home`, liens marque/nav mis à jour).
+  - Route `magic-link-request` **orpheline supprimée** (la demande de lien magique est inline depuis le login ;
+    page de vérification conservée).
+  - Fiche About : stack **« Tailwind » → « SCSS/BEM »** (5 langues) — mention obsolète corrigée.
 
-## Reste — sécurité auth (config backend/SSM, hors layout)
-- [ ] **Turnstile (Cloudflare)** sur **`register`** et **`forgot-password`** (convention flotte, standard
-  §Pages d'auth) — **absent** (aucun widget rendu). Réf composant : `PushIT_frontend/src/app/shared/turnstile/`
-  + clés `TURNSTILE_*` en SSM. Valider aussi le flux d'activation email du register.
+**Aucune tâche restante.**
