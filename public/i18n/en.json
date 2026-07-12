@@ -243,7 +243,8 @@
       "invalid_credentials": "Incorrect email or password.",
       "password_short": "At least 8 characters.",
       "generic": "Something went wrong. Please try again.",
-      "reset_invalid": "Invalid or expired link."
+      "reset_invalid": "Invalid or expired link.",
+      "captcha": "Please complete the captcha."
     }
   },
   "vote_state": {

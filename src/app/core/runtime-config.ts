@@ -11,6 +11,7 @@ export interface RuntimeSentry {
 export interface RuntimeConfig {
   apiBaseUrl: string;
   wsBaseUrl: string;
+  turnstileSiteKey: string;
   sentry: RuntimeSentry;
 }
 
@@ -19,6 +20,7 @@ declare global {
     __POKER__?: {
       apiBaseUrl?: string;
       wsBaseUrl?: string;
+      turnstileSiteKey?: string;
       sentry?: Partial<RuntimeSentry>;
     };
   }
@@ -33,6 +35,7 @@ export function getRuntimeConfig(): RuntimeConfig {
   return {
     apiBaseUrl,
     wsBaseUrl,
+    turnstileSiteKey: (injected.turnstileSiteKey ?? '').trim(),
     sentry: {
       dsn: (s.dsn ?? '').trim(),
       environment: (s.environment ?? 'production').trim(),

@@ -243,7 +243,8 @@
       "invalid_credentials": "Correo o contraseña incorrectos.",
       "password_short": "Al menos 8 caracteres.",
       "generic": "Algo salió mal. Inténtalo de nuevo.",
-      "reset_invalid": "Enlace no válido o caducado."
+      "reset_invalid": "Enlace no válido o caducado.",
+      "captcha": "Completa el captcha."
     }
   },
   "vote_state": {

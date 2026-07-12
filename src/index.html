@@ -20,6 +20,9 @@
       } catch (e) {}
     })();
   </script>
+  <!-- Cloudflare Turnstile (captcha register/forgot/magic-link). Inerte tant que
+       window.__POKER__.turnstileSiteKey est vide (host whitelisté dans la CSP). -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <app-root></app-root>

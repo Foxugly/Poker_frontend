@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, effect, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -9,6 +9,7 @@ import { PasswordModule } from 'primeng/password';
 
 import { AuthService } from '../../core/auth/auth.service';
 import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.component';
+import { TurnstileController } from '../../shared/turnstile/turnstile';
 
 @Component({
   selector: 'app-login',
@@ -87,6 +88,7 @@ import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.c
             <input id="magicEmail" pInputText type="email" formControlName="email" autocomplete="username" required />
           </div>
           @if (magicSent()) { <p class="note ok">{{ 'auth.magic.sent' | transloco }}</p> }
+          @if (turnstile.enabled) { <div #magicTurnstileEl class="turnstile-widget"></div> }
           <p-button
             type="submit"
             [label]="'auth.magic.cta' | transloco"
@@ -113,11 +115,29 @@ import { AuthCardComponent } from '../../shared/components/auth-card/auth-card.c
     </app-auth-card>
   `,
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+
+  protected readonly turnstile = new TurnstileController();
+  private readonly magicTurnstileEl = viewChild<ElementRef<HTMLDivElement>>('magicTurnstileEl');
+
+  constructor() {
+    // Le conteneur du widget n'existe qu'en mode magic (@if) ; on (re)rend dès
+    // qu'il apparaît. render() est idempotent (garde widgetId).
+    effect(() => {
+      if (this.magicMode() && this.turnstile.enabled) {
+        const el = this.magicTurnstileEl()?.nativeElement;
+        if (el) this.turnstile.render(el);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.turnstile.destroy();
+  }
 
   readonly busy = signal(false);
   readonly error = signal<string | null>(null);
@@ -171,14 +191,25 @@ export class LoginComponent {
 
   exitMagicMode(): void {
     this.magicMode.set(false);
+    this.turnstile.destroy();
   }
 
   async sendMagic(): Promise<void> {
     if (this.magicBusy() || this.magicForm.invalid) return;
+    let token = '';
+    if (this.turnstile.enabled) {
+      token = this.turnstile.readToken();
+      if (!token) return; // widget visible : l'utilisateur doit résoudre le captcha
+    }
     this.magicBusy.set(true);
     try {
-      await this.auth.requestMagicLink(this.magicForm.getRawValue().email.trim().toLowerCase());
+      await this.auth.requestMagicLink(
+        this.magicForm.getRawValue().email.trim().toLowerCase(),
+        this.turnstile.enabled ? token : undefined,
+      );
       this.magicSent.set(true);
+    } catch (e) {
+      if (this.turnstile.enabled && (e as { error?: { code?: string } })?.error?.code === 'captcha_failed') this.turnstile.reset();
     } finally {
       this.magicBusy.set(false);
     }

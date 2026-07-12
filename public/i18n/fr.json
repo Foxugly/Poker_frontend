@@ -243,7 +243,8 @@
       "invalid_credentials": "E-mail ou mot de passe incorrect.",
       "password_short": "Au moins 8 caractères.",
       "generic": "Une erreur est survenue. Réessayez.",
-      "reset_invalid": "Lien invalide ou expiré."
+      "reset_invalid": "Lien invalide ou expiré.",
+      "captcha": "Veuillez valider le captcha."
     }
   },
   "vote_state": {
