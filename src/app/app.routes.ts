@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { PublicLayoutComponent } from './core/layout/public-layout.component';
 import { authGuard } from './core/auth/auth.guard';
+import { superuserGuard } from './core/auth/superuser.guard';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,12 @@ export const routes: Routes = [
       { path: 'join', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'join/:code', loadComponent: () => import('./features/join/join.component').then((m) => m.JoinComponent) },
       { path: 'room/:code', loadComponent: () => import('./features/room/room.component').then((m) => m.RoomComponent) },
+      {
+        path: 'staff/users',
+        canActivate: [superuserGuard],
+        loadComponent: () =>
+          import('./features/staff/staff-users.component').then((m) => m.StaffUsersComponent),
+      },
     ],
   },
   { path: '**', redirectTo: '' },

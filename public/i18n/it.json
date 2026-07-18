@@ -319,6 +319,25 @@
     "email": "Invia via email",
     "email_sent": "Cronologia inviata a {{count}} membro/i."
   },
+  "staff": {
+    "nav": { "users": "Account" },
+    "users": {
+      "title": "Amministrazione account",
+      "search": "Cerca",
+      "search_placeholder": "Email o nome",
+      "fields": {
+        "email": "Email",
+        "name": "Nome",
+        "bypass": "Accesso offerto",
+        "note": "Motivo"
+      },
+      "actions": { "saved": "Account aggiornato." },
+      "errors": {
+        "load_failed": "Caricamento degli account non riuscito.",
+        "save_failed": "Aggiornamento dell'account non riuscito."
+      }
+    }
+  },
   "errors": {
     "username_required": "Il tuo nome è obbligatorio.",
     "code_required": "Il codice stanza è obbligatorio.",

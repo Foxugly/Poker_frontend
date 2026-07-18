@@ -319,6 +319,25 @@
     "email": "Send by email",
     "email_sent": "History sent to {{count}} member(s)."
   },
+  "staff": {
+    "nav": { "users": "Accounts" },
+    "users": {
+      "title": "Account administration",
+      "search": "Search",
+      "search_placeholder": "Email or name",
+      "fields": {
+        "email": "Email",
+        "name": "Name",
+        "bypass": "Offered access",
+        "note": "Reason"
+      },
+      "actions": { "saved": "Account updated." },
+      "errors": {
+        "load_failed": "Failed to load accounts.",
+        "save_failed": "Failed to update account."
+      }
+    }
+  },
   "errors": {
     "username_required": "Your name is required.",
     "code_required": "The room code is required.",

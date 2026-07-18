@@ -319,6 +319,25 @@
     "email": "Enviar por correo",
     "email_sent": "Historial enviado a {{count}} miembro(s)."
   },
+  "staff": {
+    "nav": { "users": "Cuentas" },
+    "users": {
+      "title": "Administración de cuentas",
+      "search": "Buscar",
+      "search_placeholder": "Email o nombre",
+      "fields": {
+        "email": "Email",
+        "name": "Nombre",
+        "bypass": "Acceso gratuito",
+        "note": "Motivo"
+      },
+      "actions": { "saved": "Cuenta actualizada." },
+      "errors": {
+        "load_failed": "Error al cargar las cuentas.",
+        "save_failed": "Error al actualizar la cuenta."
+      }
+    }
+  },
   "errors": {
     "username_required": "Tu nombre es obligatorio.",
     "code_required": "El código de sala es obligatorio.",

@@ -16,6 +16,11 @@
 
     @if (open()) {
       <div class="user-menu__panel" role="menu">
+        @if (auth.currentUser()?.is_superuser) {
+          <a class="user-menu__item" role="menuitem" [routerLink]="['/staff/users']" (click)="close()">
+            <i class="pi pi-shield"></i>{{ 'staff.nav.users' | transloco }}
+          </a>
+        }
         <button type="button" role="menuitem" class="user-menu__item user-menu__item--danger" (click)="logout()">
           <i class="pi pi-sign-out"></i>{{ 'auth.logout' | transloco }}
         </button>

@@ -319,6 +319,25 @@
     "email": "Per e-mail versturen",
     "email_sent": "Geschiedenis verzonden naar {{count}} lid/leden."
   },
+  "staff": {
+    "nav": { "users": "Accounts" },
+    "users": {
+      "title": "Accountbeheer",
+      "search": "Zoeken",
+      "search_placeholder": "E-mail of naam",
+      "fields": {
+        "email": "E-mail",
+        "name": "Naam",
+        "bypass": "Gratis toegang",
+        "note": "Reden"
+      },
+      "actions": { "saved": "Account bijgewerkt." },
+      "errors": {
+        "load_failed": "Laden van accounts mislukt.",
+        "save_failed": "Bijwerken van account mislukt."
+      }
+    }
+  },
   "errors": {
     "username_required": "Je naam is verplicht.",
     "code_required": "De kamercode is verplicht.",

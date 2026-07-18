@@ -319,6 +319,25 @@
     "email": "Envoyer par e-mail",
     "email_sent": "Historique envoyé à {{count}} membre(s)."
   },
+  "staff": {
+    "nav": { "users": "Comptes" },
+    "users": {
+      "title": "Administration des comptes",
+      "search": "Rechercher",
+      "search_placeholder": "Email ou nom",
+      "fields": {
+        "email": "Email",
+        "name": "Nom",
+        "bypass": "Accès offert",
+        "note": "Motif"
+      },
+      "actions": { "saved": "Compte mis à jour." },
+      "errors": {
+        "load_failed": "Échec du chargement des comptes.",
+        "save_failed": "Échec de la mise à jour du compte."
+      }
+    }
+  },
   "errors": {
     "username_required": "Votre nom est requis.",
     "code_required": "Le code de salle est requis.",
