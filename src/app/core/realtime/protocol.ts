@@ -49,9 +49,11 @@ export interface ParticipantView {
   hasVoted: boolean;
 }
 
-export interface RevealedVote {
-  participantId: string;
+/** Anonymous per-value vote count (contract §6.a): the server never emits a
+ * participant -> card link, only how many voters picked each value. */
+export interface VoteTally {
   cardValue: string;
+  count: number;
 }
 
 /** One line of the facilitator's scenario (agenda): a subject with its round status. */
@@ -80,7 +82,7 @@ export interface StateSync {
   result: string | null;
   facilitatorPresent: boolean;
   agenda: AgendaItem[];
-  votes?: RevealedVote[];
+  tally?: VoteTally[];
   deadline: string | null;
   timer: TimerSettings;
 }

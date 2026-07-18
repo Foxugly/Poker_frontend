@@ -260,6 +260,8 @@
     "share": "Compartir enlace",
     "open_vote": "Abrir votación",
     "reveal": "Revelar",
+    "reveal_votes_count": "{{count}} votos",
+    "reveal_anonymous_hint": "Los votos son anónimos",
     "reset": "Reiniciar",
     "new_round": "Nueva ronda",
     "acted_result": "Nivel elegido",

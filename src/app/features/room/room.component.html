@@ -33,7 +33,9 @@
               <!-- Card near the table -->
               <div class="seat-card" [style.left.%]="seat.cardX" [style.top.%]="seat.cardY">
                 @if (seat.show && seat.card) {
-                  <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
+                  <!-- Always face-down: the server never reveals who cast which value
+                       (contract §6.a) — the anonymous decompte below carries the values. -->
+                  <app-delegation-card [card]="seat.card" [revealed]="false" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
                 } @else {
                   <div class="empty-slot"></div>
                 }
@@ -56,6 +58,22 @@
             <div class="table-center">
               @switch (state()) {
                 @case ('open') { <span class="count">{{ socket.participation().voted }} / {{ socket.participation().total }}</span> }
+                @case ('revealed') {
+                  <!-- Anonymous decompte only: value + how many voters picked it, never who
+                       (contract §6.a). Spread stays, it is not nominative. -->
+                  <div class="reveal-summary">
+                    @for (t of socket.voteTally(); track t.cardValue) {
+                      <div class="tally-row">
+                        <span class="tally-label">{{ cardName(cardByValue(t.cardValue)) || t.cardValue }}</span>
+                        <span class="tally-count">{{ 'room.reveal_votes_count' | transloco: { count: t.count } }}</span>
+                      </div>
+                    }
+                    @if (socket.spread().min !== null && socket.spread().max !== null) {
+                      <div class="tally-spread">{{ socket.spread().min }} – {{ socket.spread().max }}</div>
+                    }
+                    <div class="tally-hint">{{ 'room.reveal_anonymous_hint' | transloco }}</div>
+                  </div>
+                }
                 @case ('acted') {
                   <div class="result">
                     <span class="result-label">{{ 'room.acted_result' | transloco }}</span>

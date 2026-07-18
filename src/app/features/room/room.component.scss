@@ -258,6 +258,41 @@
     font-weight: 800;
     color: #fff;
   }
+
+  .reveal-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    max-width: 210px;
+  }
+  .tally-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+    font-size: 0.85rem;
+  }
+  .tally-label {
+    font-weight: 700;
+    color: #fff;
+  }
+  .tally-count {
+    color: rgba(255, 255, 255, 0.75);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally-spread {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally-hint {
+    margin-top: 2px;
+    font-size: 0.68rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* --- Hand (bigger cards) --- */

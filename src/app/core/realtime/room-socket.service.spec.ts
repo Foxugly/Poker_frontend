@@ -66,7 +66,7 @@ describe('RoomSocketService reducer', () => {
   it('clears the deadline on vote.revealed, whatever the reason', () => {
     const svc = new RoomSocketService();
     feed(svc, 'vote.opened', { deadline: '2026-07-18T12:00:30Z' });
-    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 }, reason: 'timeout' });
+    feed(svc, 'vote.revealed', { tally: [{ cardValue: '5', count: 2 }], spread: { min: 5, max: 5 }, reason: 'timeout' });
     expect(svc.roundState()).toBe('revealed');
     expect(svc.deadline()).toBeNull();
   });
@@ -91,19 +91,41 @@ describe('RoomSocketService reducer', () => {
     expect(svc.participation().total).toBe(2);
   });
 
-  it('reveals values only on vote.revealed', () => {
+  it('reveals an anonymous tally (by value, no participant link) on vote.revealed', () => {
     const svc = new RoomSocketService();
-    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 } });
+    feed(svc, 'vote.revealed', {
+      tally: [
+        { cardValue: '5', count: 2 },
+        { cardValue: '8', count: 1 },
+      ],
+      spread: { min: 5, max: 8 },
+    });
     expect(svc.roundState()).toBe('revealed');
-    expect(svc.revealedVotes()[0].cardValue).toBe('5');
+    expect(svc.voteTally()).toEqual([
+      { cardValue: '5', count: 2 },
+      { cardValue: '8', count: 1 },
+    ]);
+    expect(svc.spread()).toEqual({ min: 5, max: 8 });
+    // Structural guarantee (not just "not displayed"): no entry in the exposed tally
+    // carries any participant identifier — the value is never re-attached to a voter.
+    for (const entry of svc.voteTally()) {
+      expect(Object.keys(entry).sort()).toEqual(['cardValue', 'count']);
+    }
+  });
+
+  it('carries the anonymous tally on state.sync for a latecomer joining a revealed round', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', { ...SYNC, roundState: 'revealed', tally: [{ cardValue: '3', count: 1 }] });
+    expect(svc.roundState()).toBe('revealed');
+    expect(svc.voteTally()).toEqual([{ cardValue: '3', count: 1 }]);
   });
 
   it('resets vote state on vote.wasReset', () => {
     const svc = new RoomSocketService();
-    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 } });
+    feed(svc, 'vote.revealed', { tally: [{ cardValue: '5', count: 1 }], spread: { min: 5, max: 5 } });
     feed(svc, 'vote.wasReset', { nextState: 'idle' });
     expect(svc.roundState()).toBe('idle');
-    expect(svc.revealedVotes().length).toBe(0);
+    expect(svc.voteTally().length).toBe(0);
     expect(svc.myVote()).toBeNull();
   });
 

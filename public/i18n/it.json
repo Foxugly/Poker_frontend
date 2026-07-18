@@ -260,6 +260,8 @@
     "share": "Condividi link",
     "open_vote": "Apri il voto",
     "reveal": "Rivela",
+    "reveal_votes_count": "{{count}} voti",
+    "reveal_anonymous_hint": "I voti sono anonimi",
     "reset": "Reimposta",
     "new_round": "Nuovo turno",
     "acted_result": "Livello scelto",

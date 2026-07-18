@@ -8,12 +8,12 @@ import {
   Participation,
   ParticipantView,
   PROTOCOL_VERSION,
-  RevealedVote,
   Role,
   RoomError,
   RoundState,
   StateSync,
   TimerSettings,
+  VoteTally,
 } from './protocol';
 
 /**
@@ -39,7 +39,9 @@ export class RoomSocketService {
   readonly participants = signal<ParticipantView[]>([]);
   readonly participation = signal<Participation>({ voted: 0, total: 0, votedIds: [] });
   readonly myVote = signal<string | null>(null);
-  readonly revealedVotes = signal<RevealedVote[]>([]);
+  /** Anonymous per-value vote count once a round is revealed (contract §6.a): the
+   * server never sends a participant -> card link, so none exists here either. */
+  readonly voteTally = signal<VoteTally[]>([]);
   readonly spread = signal<{ min: number | null; max: number | null }>({ min: null, max: null });
   readonly result = signal<string | null>(null);
   readonly facilitatorPresent = signal(true);
@@ -153,7 +155,7 @@ export class RoomSocketService {
       case 'vote.opened': {
         const p = msg.payload as { deadline: string | null };
         this.roundState.set('open');
-        this.revealedVotes.set([]);
+        this.voteTally.set([]);
         this.result.set(null);
         this.myVote.set(null);
         this.deadline.set(p?.deadline ?? null);
@@ -161,12 +163,12 @@ export class RoomSocketService {
       }
       case 'vote.revealed': {
         const p = msg.payload as {
-          votes: RevealedVote[];
+          tally: VoteTally[];
           spread: { min: number | null; max: number | null };
           reason?: 'timeout' | 'facilitator';
         };
         this.roundState.set('revealed');
-        this.revealedVotes.set(p.votes);
+        this.voteTally.set(p.tally);
         this.spread.set(p.spread);
         // The countdown is cosmetic only: whatever the reason, the round is over.
         this.deadline.set(null);
@@ -182,7 +184,7 @@ export class RoomSocketService {
       case 'vote.wasReset': {
         const next = (msg.payload as { nextState: RoundState }).nextState;
         this.roundState.set(next);
-        this.revealedVotes.set([]);
+        this.voteTally.set([]);
         this.result.set(null);
         this.myVote.set(null);
         this.deadline.set(null);
@@ -212,7 +214,7 @@ export class RoomSocketService {
     this.result.set(s.result);
     this.facilitatorPresent.set(s.facilitatorPresent);
     this.agenda.set(s.agenda ?? []);
-    this.revealedVotes.set(s.votes ?? []);
+    this.voteTally.set(s.tally ?? []);
     this.deadline.set(s.deadline ?? null);
     this.timer.set(s.timer ?? { enabled: false, seconds: 10 });
   }

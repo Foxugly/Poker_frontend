@@ -260,6 +260,8 @@
     "share": "Link delen",
     "open_vote": "Stemming openen",
     "reveal": "Onthullen",
+    "reveal_votes_count": "{{count}} stemmen",
+    "reveal_anonymous_hint": "Stemmen zijn anoniem",
     "reset": "Opnieuw",
     "new_round": "Nieuwe ronde",
     "acted_result": "Gekozen niveau",

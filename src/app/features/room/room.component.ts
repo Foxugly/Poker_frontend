@@ -42,8 +42,7 @@ interface Seat {
   cardY: number;
   personX: number;
   personY: number;
-  card: SnapshotCard | null; // the card to render (face when revealed, any card for the back)
-  revealed: boolean;
+  card: SnapshotCard | null; // the back placeholder to render, when the seat has voted
   show: boolean; // whether the seat has a card (voted) at all
 }
 
@@ -130,28 +129,20 @@ export class RoomComponent implements OnInit, OnDestroy {
     for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
     return this.AVATAR_COLORS[h % this.AVATAR_COLORS.length];
   }
-  readonly revealedByParticipant = computed(() => {
-    const map = new Map<string, string>();
-    for (const v of this.socket.revealedVotes()) map.set(v.participantId, v.cardValue);
-    return map;
-  });
-
   /** Seats laid out around the table (ellipse), each carrying its card state:
-   * empty (not voted) → back (voted, hidden) → face (revealed). */
+   * empty (not voted) → back (voted, hidden). Individual seats never flip to a face
+   * value — the server never tells the client who voted what (contract §6.a), so a
+   * voted seat only ever shows the card back; the anonymous decompte (see
+   * `socket.voteTally`) is what surfaces the actual values once revealed. */
   readonly seats = computed<Seat[]>(() => {
     const participants = this.socket.participants();
     const deck = this.socket.deckSnapshot();
-    const revealed = this.state() === 'revealed' || this.state() === 'acted';
-    const revealedMap = this.revealedByParticipant();
     const votedIds = new Set(this.socket.participation().votedIds);
     const n = participants.length;
     return participants.map((p, i) => {
       const angle = -Math.PI / 2 + (i / Math.max(n, 1)) * 2 * Math.PI;
-      const faceValue = revealed ? revealedMap.get(p.participantId) : undefined;
-      const hasVoted = p.hasVoted || votedIds.has(p.participantId) || faceValue !== undefined;
-      let card: SnapshotCard | null = null;
-      if (faceValue !== undefined) card = this.cardByValue(faceValue);
-      else if (hasVoted && deck) card = deck.cards[0]; // back placeholder
+      const hasVoted = p.hasVoted || votedIds.has(p.participantId);
+      const card = hasVoted && deck ? deck.cards[0] : null; // back placeholder only
       const cx = Math.cos(angle);
       const sy = Math.sin(angle);
       return {
@@ -165,7 +156,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         personX: 50 + 49 * cx,
         personY: 50 + 49 * sy,
         card,
-        revealed: faceValue !== undefined,
         show: hasVoted,
       };
     });
@@ -319,13 +309,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   private modeValue(): string | null {
-    const counts = new Map<string, number>();
-    for (const v of this.socket.revealedVotes()) counts.set(v.cardValue, (counts.get(v.cardValue) ?? 0) + 1);
     let best: string | null = null;
     let bestCount = -1;
-    for (const [value, count] of counts) {
+    for (const { cardValue, count } of this.socket.voteTally()) {
       if (count > bestCount) {
-        best = value;
+        best = cardValue;
         bestCount = count;
       }
     }
