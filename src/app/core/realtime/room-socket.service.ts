@@ -13,6 +13,7 @@ import {
   RoomError,
   RoundState,
   StateSync,
+  TimerSettings,
 } from './protocol';
 
 /**
@@ -45,6 +46,10 @@ export class RoomSocketService {
   readonly agenda = signal<AgendaItem[]>([]);
   readonly myRole = signal<Role>('voter');
   readonly lastError = signal<RoomError | null>(null);
+  /** Round timer (contract §timer): deadline is cosmetic-only, the server alone
+   * decides when it actually causes a reveal. */
+  readonly deadline = signal<string | null>(null);
+  readonly timer = signal<TimerSettings>({ enabled: false, seconds: 10 });
 
   connect(code: string, token: string, role: Role): void {
     this.code = code.toUpperCase();
@@ -104,6 +109,9 @@ export class RoomSocketService {
   reset() { this.send('vote.reset', {}); }
   claimFacilitator() { this.send('facilitator.claim', {}); }
   transferFacilitator(targetParticipantId: string) { this.send('facilitator.transfer', { targetParticipantId }); }
+  /** Facilitator-only server-side (contract §timer); the server normalises seconds
+   * (rounds then clamps) so the UI need not re-validate the grid it already offers. */
+  setTimer(enabled: boolean, seconds: number) { this.send('timer.set', { enabled, seconds }); }
 
   private send(type: string, payload: unknown): void {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
@@ -142,19 +150,31 @@ export class RoomSocketService {
       case 'subject.updated':
         this.subject.set((msg.payload as { text: string }).text);
         return;
-      case 'vote.opened':
+      case 'vote.opened': {
+        const p = msg.payload as { deadline: string | null };
         this.roundState.set('open');
         this.revealedVotes.set([]);
         this.result.set(null);
         this.myVote.set(null);
+        this.deadline.set(p?.deadline ?? null);
         return;
+      }
       case 'vote.revealed': {
-        const p = msg.payload as { votes: RevealedVote[]; spread: { min: number | null; max: number | null } };
+        const p = msg.payload as {
+          votes: RevealedVote[];
+          spread: { min: number | null; max: number | null };
+          reason?: 'timeout' | 'facilitator';
+        };
         this.roundState.set('revealed');
         this.revealedVotes.set(p.votes);
         this.spread.set(p.spread);
+        // The countdown is cosmetic only: whatever the reason, the round is over.
+        this.deadline.set(null);
         return;
       }
+      case 'timer.changed':
+        this.timer.set(msg.payload as TimerSettings);
+        return;
       case 'result.acted':
         this.roundState.set('acted');
         this.result.set((msg.payload as { chosenValue: string }).chosenValue);
@@ -165,6 +185,7 @@ export class RoomSocketService {
         this.revealedVotes.set([]);
         this.result.set(null);
         this.myVote.set(null);
+        this.deadline.set(null);
         return;
       }
       case 'facilitator.changed':
@@ -192,5 +213,7 @@ export class RoomSocketService {
     this.facilitatorPresent.set(s.facilitatorPresent);
     this.agenda.set(s.agenda ?? []);
     this.revealedVotes.set(s.votes ?? []);
+    this.deadline.set(s.deadline ?? null);
+    this.timer.set(s.timer ?? { enabled: false, seconds: 10 });
   }
 }

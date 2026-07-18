@@ -280,7 +280,13 @@
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd",
     "fullscreen": "Volledig scherm",
-    "exit_fullscreen": "Volledig scherm sluiten"
+    "exit_fullscreen": "Volledig scherm sluiten",
+    "timer": {
+      "label": "Timer",
+      "seconds": "Duur (seconden)",
+      "remaining": "Resterende tijd",
+      "expired": "Tijd is om"
+    }
   },
   "billing": {
     "title": "Abonnement",

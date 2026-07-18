@@ -20,6 +20,8 @@ const SYNC: StateSync = {
   result: null,
   facilitatorPresent: true,
   agenda: [{ id: 1, text: 'Budget?', status: 'current', result: null }],
+  deadline: null,
+  timer: { enabled: false, seconds: 10 },
 };
 
 describe('RoomSocketService reducer', () => {
@@ -32,6 +34,41 @@ describe('RoomSocketService reducer', () => {
     expect(svc.participants().length).toBe(1);
     expect(svc.agenda().length).toBe(1);
     expect(svc.agenda()[0].status).toBe('current');
+  });
+
+  it('applies the timer settings and deadline from state.sync', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', { ...SYNC, deadline: '2026-07-18T12:00:30Z', timer: { enabled: true, seconds: 20 } });
+    expect(svc.deadline()).toBe('2026-07-18T12:00:30Z');
+    expect(svc.timer()).toEqual({ enabled: true, seconds: 20 });
+  });
+
+  it('carries the deadline on vote.opened', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.opened', { deadline: '2026-07-18T12:00:30Z' });
+    expect(svc.roundState()).toBe('open');
+    expect(svc.deadline()).toBe('2026-07-18T12:00:30Z');
+  });
+
+  it('clears a stale deadline when vote.opened carries none', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.opened', { deadline: '2026-07-18T12:00:30Z' });
+    feed(svc, 'vote.opened', { deadline: null });
+    expect(svc.deadline()).toBeNull();
+  });
+
+  it('updates the timer settings on timer.changed', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'timer.changed', { enabled: true, seconds: 25 });
+    expect(svc.timer()).toEqual({ enabled: true, seconds: 25 });
+  });
+
+  it('clears the deadline on vote.revealed, whatever the reason', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.opened', { deadline: '2026-07-18T12:00:30Z' });
+    feed(svc, 'vote.revealed', { votes: [{ participantId: 'p1', cardValue: '5' }], spread: { min: 5, max: 5 }, reason: 'timeout' });
+    expect(svc.roundState()).toBe('revealed');
+    expect(svc.deadline()).toBeNull();
   });
 
   it('updates the scenario agenda on agenda.updated', () => {

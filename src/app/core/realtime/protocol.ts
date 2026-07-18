@@ -62,6 +62,13 @@ export interface AgendaItem {
   result: string | null;
 }
 
+/** Facilitator-controlled round timer (contract §timer): purely advisory to the UI —
+ * the server alone decides when a deadline actually causes a reveal. */
+export interface TimerSettings {
+  enabled: boolean;
+  seconds: number;
+}
+
 export interface StateSync {
   room: { code: string; title: string };
   protocolVersion: number;
@@ -74,6 +81,8 @@ export interface StateSync {
   facilitatorPresent: boolean;
   agenda: AgendaItem[];
   votes?: RevealedVote[];
+  deadline: string | null;
+  timer: TimerSettings;
 }
 
 export interface Participation {

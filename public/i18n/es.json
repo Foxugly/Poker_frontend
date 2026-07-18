@@ -280,7 +280,13 @@
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado",
     "fullscreen": "Pantalla completa",
-    "exit_fullscreen": "Salir de pantalla completa"
+    "exit_fullscreen": "Salir de pantalla completa",
+    "timer": {
+      "label": "Temporizador",
+      "seconds": "Duración (segundos)",
+      "remaining": "Tiempo restante",
+      "expired": "Se acabó el tiempo"
+    }
   },
   "billing": {
     "title": "Suscripción",

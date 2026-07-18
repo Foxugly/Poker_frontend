@@ -20,6 +20,11 @@
         <div class="subject-view">
           <p-tag [severity]="badgeSeverity()" [value]="'vote_state.' + state() | transloco" />
           <h2>{{ socket.subject() || ('room.no_subject' | transloco) }}</h2>
+          @if (remainingSeconds(); as remaining) {
+            <span class="timer-badge"><i class="pi pi-clock"></i>{{ 'room.timer.remaining' | transloco }}: {{ remaining }}s</span>
+          } @else if (remainingSeconds() === 0) {
+            <span class="timer-badge expired"><i class="pi pi-clock"></i>{{ 'room.timer.expired' | transloco }}</span>
+          }
         </div>
 
         <div class="table-wrap">
@@ -106,6 +111,16 @@
             <input pInputText class="grow" [placeholder]="'room.add_subject' | transloco" [ngModel]="subjectDraft()"
                    (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" />
             <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="!subjectDraft().trim()" (onClick)="addSubject()" />
+          </div>
+
+          <div class="panel-block timer-settings">
+            <label>{{ 'room.timer.label' | transloco }}</label>
+            <div class="timer-row">
+              <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" />
+              <p-select [options]="timerDurations" [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
+                        [disabled]="!timerEnabledDraft()" appendTo="body" styleClass="grow" />
+              <span class="timer-unit">{{ 'room.timer.seconds' | transloco }}</span>
+            </div>
           </div>
 
           <div class="panel-block controls">
