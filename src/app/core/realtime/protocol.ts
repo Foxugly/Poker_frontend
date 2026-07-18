@@ -49,9 +49,11 @@ export interface ParticipantView {
   hasVoted: boolean;
 }
 
-export interface RevealedVote {
-  participantId: string;
+/** Anonymous per-value vote count (contract §6.a): the server never emits a
+ * participant -> card link, only how many voters picked each value. */
+export interface VoteTally {
   cardValue: string;
+  count: number;
 }
 
 /** One line of the facilitator's scenario (agenda): a subject with its round status. */
@@ -60,6 +62,13 @@ export interface AgendaItem {
   text: string;
   status: 'current' | 'done' | 'pending';
   result: string | null;
+}
+
+/** Facilitator-controlled round timer (contract §timer): purely advisory to the UI —
+ * the server alone decides when a deadline actually causes a reveal. */
+export interface TimerSettings {
+  enabled: boolean;
+  seconds: number;
 }
 
 export interface StateSync {
@@ -73,7 +82,9 @@ export interface StateSync {
   result: string | null;
   facilitatorPresent: boolean;
   agenda: AgendaItem[];
-  votes?: RevealedVote[];
+  tally?: VoteTally[];
+  deadline: string | null;
+  timer: TimerSettings;
 }
 
 export interface Participation {

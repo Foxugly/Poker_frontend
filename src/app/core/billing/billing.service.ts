@@ -16,6 +16,8 @@ export interface SubscriptionStatus {
   quota: number;
   teamsUsed: number;
   canManage: boolean;
+  /** Accès offert : le compte a tous les droits payants sans souscription. */
+  bypass: boolean;
 }
 
 @Injectable({ providedIn: 'root' })

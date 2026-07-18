@@ -260,6 +260,8 @@
     "share": "Link delen",
     "open_vote": "Stemming openen",
     "reveal": "Onthullen",
+    "reveal_votes_count": "{{count}} stemmen",
+    "reveal_anonymous_hint": "Stemmen zijn anoniem",
     "reset": "Opnieuw",
     "new_round": "Nieuwe ronde",
     "acted_result": "Gekozen niveau",
@@ -280,7 +282,13 @@
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd",
     "fullscreen": "Volledig scherm",
-    "exit_fullscreen": "Volledig scherm sluiten"
+    "exit_fullscreen": "Volledig scherm sluiten",
+    "timer": {
+      "label": "Timer",
+      "seconds": "Duur (seconden)",
+      "remaining": "Resterende tijd",
+      "expired": "Tijd is om"
+    }
   },
   "billing": {
     "title": "Abonnement",
@@ -295,7 +303,9 @@
     "per_month": "maand",
     "per_year": "jaar",
     "quota": "Teams",
-    "quota_reached": "quota bereikt"
+    "quota_reached": "quota bereikt",
+    "offered_access": "Gratis toegang",
+    "offered_access_hint": "Je account heeft gratis toegang: er is geen abonnement nodig."
   },
   "board": {
     "title": "Delegation Board",
@@ -316,6 +326,26 @@
     "results": "resultaten",
     "email": "Per e-mail versturen",
     "email_sent": "Geschiedenis verzonden naar {{count}} lid/leden."
+  },
+  "staff": {
+    "nav": { "users": "Accounts" },
+    "users": {
+      "title": "Accountbeheer",
+      "search": "Zoeken",
+      "search_placeholder": "E-mail of naam",
+      "fields": {
+        "email": "E-mail",
+        "name": "Naam",
+        "bypass": "Gratis toegang",
+        "note": "Reden",
+        "note_placeholder": "Waarom deze toegang wordt aangeboden"
+      },
+      "actions": { "saved": "Account bijgewerkt." },
+      "errors": {
+        "load_failed": "Laden van accounts mislukt.",
+        "save_failed": "Bijwerken van account mislukt."
+      }
+    }
   },
   "errors": {
     "username_required": "Je naam is verplicht.",

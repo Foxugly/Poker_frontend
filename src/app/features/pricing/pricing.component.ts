@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
+import { MessageModule } from 'primeng/message';
 
+import { BillingService, SubscriptionStatus } from '../../core/billing/billing.service';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 /** Public pricing page: free anonymous rooms vs the two paid team plans (1 / 5 teams,
@@ -9,54 +11,58 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
 @Component({
   selector: 'app-pricing',
   standalone: true,
-  imports: [RouterLink, TranslocoModule, PageHeaderComponent],
+  imports: [RouterLink, TranslocoModule, MessageModule, PageHeaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="page pricing-page">
       <app-page-header [icon]="'pi-tag'" [title]="'pricing.title' | transloco" />
       <p class="lead">{{ 'pricing.intro' | transloco }}</p>
 
-      <div class="tiers">
-        <!-- Free -->
-        <article class="tier">
-          <h3>{{ 'pricing.free_title' | transloco }}</h3>
-          <div class="price">0 €</div>
-          <ul>
-            <li><i class="pi pi-check"></i>{{ 'pricing.free_f1' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.free_f2' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.free_f3' | transloco }}</li>
-          </ul>
-          <a class="tier-cta ghost" routerLink="/">{{ 'pricing.cta_free' | transloco }}</a>
-        </article>
+      @if (sub()?.bypass) {
+        <p-message severity="success" [text]="'billing.offered_access_hint' | transloco" />
+      } @else {
+        <div class="tiers">
+          <!-- Free -->
+          <article class="tier">
+            <h3>{{ 'pricing.free_title' | transloco }}</h3>
+            <div class="price">0 €</div>
+            <ul>
+              <li><i class="pi pi-check"></i>{{ 'pricing.free_f1' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.free_f2' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.free_f3' | transloco }}</li>
+            </ul>
+            <a class="tier-cta ghost" routerLink="/">{{ 'pricing.cta_free' | transloco }}</a>
+          </article>
 
-        <!-- 1 team -->
-        <article class="tier featured">
-          <h3>{{ 'pricing.team1_title' | transloco }}</h3>
-          <div class="price">5 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-          <div class="price-alt">{{ 'pricing.or' | transloco }} 50 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
-          <ul>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f3' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f4' | transloco }}</li>
-          </ul>
-          <a class="tier-cta" routerLink="/teams">{{ 'pricing.cta_paid' | transloco }}</a>
-        </article>
+          <!-- 1 team -->
+          <article class="tier featured">
+            <h3>{{ 'pricing.team1_title' | transloco }}</h3>
+            <div class="price">5 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
+            <div class="price-alt">{{ 'pricing.or' | transloco }} 50 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
+            <ul>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f3' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f4' | transloco }}</li>
+            </ul>
+            <a class="tier-cta" routerLink="/teams">{{ 'pricing.cta_paid' | transloco }}</a>
+          </article>
 
-        <!-- 5 teams -->
-        <article class="tier">
-          <h3>{{ 'pricing.team5_title' | transloco }}</h3>
-          <div class="price">20 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-          <div class="price-alt">{{ 'pricing.or' | transloco }} 200 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
-          <ul>
-            <li><i class="pi pi-check"></i>{{ 'pricing.team5_f1' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
-            <li><i class="pi pi-check"></i>{{ 'pricing.paid_f3' | transloco }}</li>
-          </ul>
-          <a class="tier-cta" routerLink="/teams">{{ 'pricing.cta_paid' | transloco }}</a>
-        </article>
-      </div>
+          <!-- 5 teams -->
+          <article class="tier">
+            <h3>{{ 'pricing.team5_title' | transloco }}</h3>
+            <div class="price">20 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
+            <div class="price-alt">{{ 'pricing.or' | transloco }} 200 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
+            <ul>
+              <li><i class="pi pi-check"></i>{{ 'pricing.team5_f1' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
+              <li><i class="pi pi-check"></i>{{ 'pricing.paid_f3' | transloco }}</li>
+            </ul>
+            <a class="tier-cta" routerLink="/teams">{{ 'pricing.cta_paid' | transloco }}</a>
+          </article>
+        </div>
+      }
 
       <p class="cap-note"><i class="pi pi-info-circle"></i>{{ 'pricing.note' | transloco }}</p>
     </section>
@@ -183,4 +189,15 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
     `,
   ],
 })
-export class PricingComponent {}
+export class PricingComponent implements OnInit {
+  private readonly billing = inject(BillingService);
+  protected readonly sub = signal<SubscriptionStatus | null>(null);
+
+  async ngOnInit(): Promise<void> {
+    try {
+      this.sub.set(await this.billing.status());
+    } catch {
+      // Anonymous visitors (or any lookup failure): keep sub null, pricing grid stays visible.
+    }
+  }
+}

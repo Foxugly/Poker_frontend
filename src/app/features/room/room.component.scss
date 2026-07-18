@@ -110,6 +110,30 @@
   }
 }
 
+/* --- Round timer (cosmetic countdown, next to the subject) --- */
+.timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px var(--s-2);
+
+  .pi-clock {
+    font-size: 0.72rem;
+  }
+}
+.timer-badge.expired {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
 /* --- Table (smaller, neutral) --- */
 .table-wrap {
   display: flex;
@@ -234,6 +258,41 @@
     font-weight: 800;
     color: #fff;
   }
+
+  .reveal-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    max-width: 210px;
+  }
+  .tally-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-2);
+    font-size: 0.85rem;
+  }
+  .tally-label {
+    font-weight: 700;
+    color: #fff;
+  }
+  .tally-count {
+    color: rgba(255, 255, 255, 0.75);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally-spread {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    font-variant-numeric: tabular-nums;
+  }
+  .tally-hint {
+    margin-top: 2px;
+    font-size: 0.68rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* --- Hand (bigger cards) --- */
@@ -312,15 +371,22 @@
 
 /* Inline rows: an input/select that grows + a compact action button beside it. */
 .add-subject-row,
-.act-row {
+.act-row,
+.timer-row {
   flex-direction: row;
   align-items: center;
   gap: var(--s-2);
 }
 .add-subject-row .grow,
-.act-row .grow {
+.act-row .grow,
+.timer-row .grow {
   flex: 1;
   min-width: 0;
+}
+.timer-unit {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 /* --- Scenario agenda --- */

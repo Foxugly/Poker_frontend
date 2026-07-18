@@ -9,6 +9,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 
 import { BillingService, Interval, Plan, SubscriptionStatus } from '../../core/billing/billing.service';
+import { needsSubscription as needsSubscriptionRule, quotaReached as quotaReachedRule } from '../../core/billing/gating';
 import { TeamsService } from '../../core/teams/teams.service';
 import { Team } from '../../core/teams/teams.models';
 import { EmptyStateComponent } from '../../shared/ui/empty-state/empty-state.component';
@@ -47,6 +48,10 @@ interface PlanOption {
           <p-button slot="right" [label]="'billing.manage' | transloco" icon="pi pi-credit-card" [outlined]="true" severity="secondary" (onClick)="manage()" />
         }
       </app-page-header>
+
+      @if (sub()?.bypass) {
+        <p-tag severity="success" icon="pi pi-gift" [value]="'billing.offered_access' | transloco" />
+      }
 
       <!-- No subscription yet (billing live): show the plans -->
       @if (needsSubscription()) {
@@ -126,11 +131,8 @@ export class TeamsListComponent implements OnInit {
   ];
 
   // Show plans only when billing is live and the account has no active subscription.
-  readonly needsSubscription = computed(() => this.sub()?.billingEnabled === true && this.sub()?.isPaid === false);
-  readonly quotaReached = computed(() => {
-    const s = this.sub();
-    return !!s && s.billingEnabled && s.teamsUsed >= s.quota;
-  });
+  readonly needsSubscription = computed(() => needsSubscriptionRule(this.sub()));
+  readonly quotaReached = computed(() => quotaReachedRule(this.sub()));
   readonly canCreate = computed(() => !this.needsSubscription() && !this.quotaReached());
 
   async ngOnInit(): Promise<void> {

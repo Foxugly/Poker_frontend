@@ -260,6 +260,8 @@
     "share": "Condividi link",
     "open_vote": "Apri il voto",
     "reveal": "Rivela",
+    "reveal_votes_count": "{{count}} voti",
+    "reveal_anonymous_hint": "I voti sono anonimi",
     "reset": "Reimposta",
     "new_round": "Nuovo turno",
     "acted_result": "Livello scelto",
@@ -280,7 +282,13 @@
     "code_copied": "Codice copiato",
     "link_copied": "Link copiato",
     "fullscreen": "Schermo intero",
-    "exit_fullscreen": "Esci da schermo intero"
+    "exit_fullscreen": "Esci da schermo intero",
+    "timer": {
+      "label": "Timer",
+      "seconds": "Durata (secondi)",
+      "remaining": "Tempo rimanente",
+      "expired": "Tempo scaduto"
+    }
   },
   "billing": {
     "title": "Abbonamento",
@@ -295,7 +303,9 @@
     "per_month": "mese",
     "per_year": "anno",
     "quota": "Team",
-    "quota_reached": "quota raggiunta"
+    "quota_reached": "quota raggiunta",
+    "offered_access": "Accesso offerto",
+    "offered_access_hint": "Il tuo account ha un accesso offerto: nessun abbonamento è necessario."
   },
   "board": {
     "title": "Delegation Board",
@@ -316,6 +326,26 @@
     "results": "risultati",
     "email": "Invia via email",
     "email_sent": "Cronologia inviata a {{count}} membro/i."
+  },
+  "staff": {
+    "nav": { "users": "Account" },
+    "users": {
+      "title": "Amministrazione account",
+      "search": "Cerca",
+      "search_placeholder": "Email o nome",
+      "fields": {
+        "email": "Email",
+        "name": "Nome",
+        "bypass": "Accesso offerto",
+        "note": "Motivo",
+        "note_placeholder": "Perché questo accesso è offerto"
+      },
+      "actions": { "saved": "Account aggiornato." },
+      "errors": {
+        "load_failed": "Caricamento degli account non riuscito.",
+        "save_failed": "Aggiornamento dell'account non riuscito."
+      }
+    }
   },
   "errors": {
     "username_required": "Il tuo nome è obbligatorio.",
