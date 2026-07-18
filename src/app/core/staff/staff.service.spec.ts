@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { of } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
+import { bypassPatch } from './bypass-patch';
 import { StaffService } from './staff.service';
 
 function serviceWith(http: { get: unknown; patch: unknown }) {
@@ -23,9 +24,6 @@ describe('StaffService', () => {
   it('setBypass envoie le flag et la note', () => {
     const patch = vi.fn().mockReturnValue(of({}));
     serviceWith({ get: vi.fn(), patch }).setBypass(7, true, 'asso X').subscribe();
-    expect(patch).toHaveBeenCalledWith(`${base}/7/`, {
-      subscription_bypass: true,
-      bypass_note: 'asso X',
-    });
+    expect(patch).toHaveBeenCalledWith(`${base}/7/`, bypassPatch(true, 'asso X'));
   });
 });

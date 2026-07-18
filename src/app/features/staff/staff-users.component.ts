@@ -8,6 +8,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
+import { bypassPatch } from '../../core/staff/bypass-patch';
 import { StaffService } from '../../core/staff/staff.service';
 import { StaffUser } from '../../core/staff/staff.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
@@ -72,7 +73,15 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
                 <p-tag severity="success" icon="pi pi-gift" [value]="'billing.offered_access' | transloco" />
               }
             </td>
-            <td>{{ user.bypass_note }}</td>
+            <td>
+              <input
+                pInputText
+                class="staff-users__note"
+                [ngModel]="noteFor(user.id)"
+                (ngModelChange)="setNote(user.id, $event)"
+                [placeholder]="'staff.users.fields.note_placeholder' | transloco"
+              />
+            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -87,6 +96,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
     `
       :host { display: block; }
       .staff-users__search { display: flex; gap: var(--s-2); margin-bottom: var(--s-4); }
+      .staff-users__note { width: 100%; min-width: 12rem; }
       .staff-users__empty { text-align: center; padding-block: var(--s-4); color: var(--muted); }
     `,
   ],
@@ -101,12 +111,17 @@ export class StaffUsersComponent {
   protected readonly users = signal<StaffUser[]>([]);
   protected readonly loading = signal(false);
   protected readonly busy = signal<number | null>(null);
+  // Motif en cours d'édition, indexé par id (jamais par position dans la
+  // liste) : préremplie depuis la note serveur à chaque recherche, pour
+  // qu'une bascule sans saisie renvoie la note existante au lieu de l'écraser.
+  protected readonly notes = signal<Record<number, string>>({});
 
   protected search(): void {
     this.loading.set(true);
     this.staff.search(this.query).subscribe({
       next: (users) => {
         this.users.set(users);
+        this.notes.set(Object.fromEntries(users.map((u) => [u.id, u.bypass_note ?? ''])));
         this.loading.set(false);
       },
       error: () => {
@@ -119,11 +134,21 @@ export class StaffUsersComponent {
     });
   }
 
+  protected noteFor(id: number): string {
+    return this.notes()[id] ?? '';
+  }
+
+  protected setNote(id: number, value: string): void {
+    this.notes.update((byId) => ({ ...byId, [id]: value }));
+  }
+
   protected toggle(user: StaffUser, next: boolean): void {
     this.busy.set(user.id);
-    this.staff.setBypass(user.id, next, user.bypass_note).subscribe({
+    const { subscription_bypass, bypass_note } = bypassPatch(next, this.noteFor(user.id));
+    this.staff.setBypass(user.id, subscription_bypass, bypass_note).subscribe({
       next: (updated) => {
         this.users.update((list) => list.map((u) => (u.id === updated.id ? updated : u)));
+        this.notes.update((byId) => ({ ...byId, [updated.id]: updated.bypass_note ?? '' }));
         this.busy.set(null);
         this.messages.add({
           severity: 'success',
