@@ -295,7 +295,9 @@
     "per_month": "mois",
     "per_year": "an",
     "quota": "Équipes",
-    "quota_reached": "quota atteint"
+    "quota_reached": "quota atteint",
+    "offered_access": "Accès offert",
+    "offered_access_hint": "Votre compte bénéficie d'un accès offert : aucun abonnement n'est nécessaire."
   },
   "board": {
     "title": "Delegation Board",

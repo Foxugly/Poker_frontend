@@ -295,7 +295,9 @@
     "per_month": "mes",
     "per_year": "año",
     "quota": "Equipos",
-    "quota_reached": "cuota alcanzada"
+    "quota_reached": "cuota alcanzada",
+    "offered_access": "Acceso gratuito",
+    "offered_access_hint": "Tu cuenta tiene acceso gratuito: no se necesita ninguna suscripción."
   },
   "board": {
     "title": "Delegation Board",

@@ -5,6 +5,7 @@ export interface AuthUser {
   email_confirmed: boolean;
   is_staff: boolean;
   is_superuser: boolean;
+  subscription_bypass: boolean;
 }
 
 export interface TokenPair {

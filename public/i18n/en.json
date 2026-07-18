@@ -295,7 +295,9 @@
     "per_month": "month",
     "per_year": "year",
     "quota": "Teams",
-    "quota_reached": "quota reached"
+    "quota_reached": "quota reached",
+    "offered_access": "Offered access",
+    "offered_access_hint": "Your account has offered access: no subscription is required."
   },
   "board": {
     "title": "Delegation Board",

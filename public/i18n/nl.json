@@ -295,7 +295,9 @@
     "per_month": "maand",
     "per_year": "jaar",
     "quota": "Teams",
-    "quota_reached": "quota bereikt"
+    "quota_reached": "quota bereikt",
+    "offered_access": "Gratis toegang",
+    "offered_access_hint": "Je account heeft gratis toegang: er is geen abonnement nodig."
   },
   "board": {
     "title": "Delegation Board",
