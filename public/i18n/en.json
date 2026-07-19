@@ -15,7 +15,8 @@
     "pricing": "Pricing",
     "support": "Support",
     "about": "About",
-    "teams": "Teams"
+    "teams": "Teams",
+    "account": "My account"
   },
   "field": {
     "username": "Your name"
@@ -398,5 +399,56 @@
   },
   "common": {
     "skip_to_content": "Skip to content"
+  },
+  "me": {
+    "title": "My account",
+    "identity": "Identity",
+    "email_confirmed": "Verified",
+    "email_unconfirmed": "Unverified",
+    "email_readonly": "Your email identifies the account; changing it requires a new verification.",
+    "role": "Role",
+    "staff": "Foxugly team",
+    "display_name": "Display name",
+    "display_name_hint": "The name other participants see in rooms.",
+    "saved": "Profile saved.",
+    "account": "My account",
+    "subscription_link": "Subscription"
+  },
+  "subscription": {
+    "title": "Subscription",
+    "loading": "Loading…",
+    "billing_off": "Billing is not active yet.",
+    "current": "Current subscription",
+    "none": "You have no subscription.",
+    "see_plans": "See plans",
+    "offered": "Complimentary access",
+    "offered_hint": "Your account has the paid features without a subscription.",
+    "plan": "Plan",
+    "status": "Status",
+    "quota": "Teams used",
+    "interval_monthly": "monthly",
+    "interval_yearly": "yearly",
+    "status_active": "Active",
+    "status_trialing": "Trial",
+    "status_canceled": "Cancelled",
+    "status_past_due": "Past due",
+    "status_incomplete": "Incomplete",
+    "status_unpaid": "Unpaid",
+    "history": "Subscription history",
+    "no_history": "No past subscription.",
+    "started": "Started",
+    "ended": "Ended",
+    "invoices": "Invoices",
+    "no_invoices": "No invoice.",
+    "invoice_number": "Number",
+    "date": "Date",
+    "amount": "Amount",
+    "invoice_paid": "Paid",
+    "invoice_open": "Open",
+    "invoice_draft": "Draft",
+    "invoice_void": "Void",
+    "invoice_uncollectible": "Uncollectible",
+    "pdf": "PDF",
+    "view": "View"
   }
 }

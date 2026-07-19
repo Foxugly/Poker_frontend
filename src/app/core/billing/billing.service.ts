@@ -20,6 +20,35 @@ export interface SubscriptionStatus {
   bypass: boolean;
 }
 
+/** Read live from Stripe — nothing about invoices is mirrored in our database. */
+export interface BillingSubscriptionEntry {
+  id: string;
+  status: string;
+  plan: string;
+  interval: string;
+  startedAt: string | null;
+  currentPeriodEnd: string | null;
+  canceledAt: string | null;
+}
+
+export interface BillingInvoice {
+  id: string;
+  number: string;
+  status: string;
+  /** In cents. */
+  amountPaid: number;
+  currency: string;
+  createdAt: string | null;
+  hostedUrl: string;
+  pdfUrl: string;
+}
+
+export interface BillingHistory {
+  billingEnabled: boolean;
+  subscriptions: BillingSubscriptionEntry[];
+  invoices: BillingInvoice[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class BillingService {
   private http = inject(HttpClient);
@@ -27,6 +56,10 @@ export class BillingService {
 
   status() {
     return firstValueFrom(this.http.get<SubscriptionStatus>(`${this.base}/subscription/`));
+  }
+
+  history() {
+    return firstValueFrom(this.http.get<BillingHistory>(`${this.base}/history/`));
   }
 
   /** Start a subscription for a plan+interval: redirects to Stripe Checkout. */

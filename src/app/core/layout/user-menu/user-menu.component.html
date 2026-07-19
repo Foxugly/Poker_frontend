@@ -16,6 +16,12 @@
 
     @if (open()) {
       <div class="user-menu__panel" role="menu">
+        <a class="user-menu__item" role="menuitem" [routerLink]="['/me']" (click)="close()">
+          <i class="pi pi-user"></i>{{ 'nav.account' | transloco }}
+        </a>
+        <a class="user-menu__item" role="menuitem" [routerLink]="['/subscription']" (click)="close()">
+          <i class="pi pi-credit-card"></i>{{ 'subscription.title' | transloco }}
+        </a>
         @if (auth.currentUser()?.is_superuser) {
           <a class="user-menu__item" role="menuitem" [routerLink]="['/staff/users']" (click)="close()">
             <i class="pi pi-shield"></i>{{ 'staff.nav.users' | transloco }}
