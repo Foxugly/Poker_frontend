@@ -33,11 +33,21 @@ export interface SnapshotCard {
   layers: TextLayer[];
 }
 
+/** How a surface is rendered. Both representations are always carried, so a team
+ * switching style needs no new room; `style` alone decides which one to draw. */
+export interface Surface {
+  style: 'color' | 'image';
+  image: string | null;
+  color: string;
+}
+
 export interface DeckSnapshot {
   voteType: string;
   resolutionStrategy: string;
   deckId: number;
-  cardBack: { image: string | null };
+  cardBack: Surface;
+  felt: Surface;
+  /** Legacy, pre-Surface. Kept only until every deployed client reads the above. */
   theme?: { cardBackColor: string; feltColor: string };
   cards: SnapshotCard[];
 }

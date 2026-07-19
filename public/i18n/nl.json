@@ -76,6 +76,12 @@
       "back_saved": "Achterkant opgeslagen.",
       "enabled": "Ingeschakeld",
       "none_enabled": "Geen type ingeschakeld: sessies gebruiken het standaardspel."
+    },
+    "surface": {
+      "felt": "Tafelkleed",
+      "style_color": "Effen kleur",
+      "style_image": "Afbeelding",
+      "no_felt": "Nog geen kleedafbeelding beschikbaar."
     }
   },
   "home": {

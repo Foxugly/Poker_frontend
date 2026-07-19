@@ -157,6 +157,20 @@
   border: 6px solid var(--table-rail);
   box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.4), var(--shadow-card);
 }
+/* Felt image, when the team picked one. Layered OVER the colour rather than
+   replacing it, so the rail and inner shadow still read the same, and a missing
+   or slow image degrades to the colour instead of a bare hole. */
+.felt::after {
+  content: '';
+  position: absolute;
+  inset: 13% 11%;
+  border-radius: 999px;
+  background-image: var(--table-felt-image, none);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
 
 /* Participant (avatar + name) on the OUTSIDE of the table. */
 .seat-person {

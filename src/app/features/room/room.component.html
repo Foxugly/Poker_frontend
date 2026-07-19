@@ -1,4 +1,4 @@
-<section class="page room" #roomEl [style.--table-felt]="feltColor()">
+<section class="page room" #roomEl [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltImage()">
   <header class="room-header">
     <div class="rh-left">
       <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />
@@ -41,7 +41,7 @@
                 @if (seat.show && seat.card) {
                   <!-- Face-down until revealed, and only flips in nominative mode:
                        an anonymous round sends no participant -> card link at all. -->
-                  <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
+                  <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="cardBackImage()" [cardBackColor]="cardBackColor()" [lang]="lang()" />
                 } @else {
                   <div class="empty-slot"></div>
                 }
