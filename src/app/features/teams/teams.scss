@@ -279,3 +279,21 @@
   width: 30px;
   height: 42px;
 }
+
+.style-row {
+  margin-bottom: var(--s-3);
+}
+/* Preview: the image, when picked, sits over the colour — same layering as the room. */
+.table-preview {
+  background-size: cover;
+  background-position: center;
+}
+.card-preview {
+  background-size: cover;
+  background-position: center;
+}
+.deck-card__mini--felt {
+  width: 56px;
+  height: 34px;
+  border-radius: 999px;
+}

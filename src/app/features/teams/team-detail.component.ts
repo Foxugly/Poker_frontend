@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabsModule } from 'primeng/tabs';
 import { TagModule } from 'primeng/tag';
 
@@ -16,7 +17,7 @@ import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { LanguageService } from '../../core/i18n/language.service';
 import { TeamsService } from '../../core/teams/teams.service';
-import { CardBack, Deck, Invitation, Membership, Team, TeamRole } from '../../core/teams/teams.models';
+import { CardBack, Deck, Felt, Invitation, Membership, SurfaceStyle, Team, TeamRole } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1'];
@@ -24,7 +25,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
 @Component({
   selector: 'app-team-detail',
   standalone: true,
-  imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, TabsModule, TagModule, PageHeaderComponent],
+  imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, SelectButtonModule, TabsModule, TagModule, PageHeaderComponent],
   styleUrl: './teams.scss',
   template: `
     @if (team(); as team) {
@@ -94,29 +95,89 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             <!-- Appearance (manager) — P2.6 -->
             @if (isManager()) {
               <p-tabpanel value="appearance">
+                <!-- Preview first: the two surfaces as the room will draw them. -->
                 <div class="section">
                   <h3>{{ 'teams.appearance' | transloco }}</h3>
-                  <div class="appearance-row">
-                    <label>
-                      <span>{{ 'teams.felt_color' | transloco }}</span>
-                      <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
-                    </label>
-                    <label>
-                      <span>{{ 'teams.back_color' | transloco }}</span>
-                      <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
-                    </label>
-                    <span class="table-preview" [style.background]="feltColor()">
-                      <span class="card-preview" [style.background]="backColor()"></span>
-                    </span>
-                    <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
-                  </div>
+                  <span
+                    class="table-preview"
+                    [style.background]="feltColor()"
+                    [style.background-image]="feltPreviewImage()"
+                  >
+                    <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                  </span>
                 </div>
 
-                <!-- Card backs live with the rest of the room's look -->
+                <!-- Felt -->
+                <div class="section">
+                  <h3>{{ 'teams.surface.felt' | transloco }}</h3>
+                  <div class="style-row">
+                    <p-selectbutton
+                      [options]="styleOptions()"
+                      optionLabel="label"
+                      optionValue="value"
+                      [ngModel]="feltStyle()"
+                      (ngModelChange)="setStyle('felt', $event)"
+                      [allowEmpty]="false"
+                    />
+                  </div>
+                  @if (feltStyle() === 'color') {
+                    <div class="appearance-row">
+                      <label>
+                        <span>{{ 'teams.felt_color' | transloco }}</span>
+                        <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
+                      </label>
+                      <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                    </div>
+                  } @else if (decksLoading()) {
+                    <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                  } @else if (!felts().length) {
+                    <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
+                  } @else {
+                    <div class="deck-grid">
+                      @for (f of felts(); track f.id) {
+                        <button type="button" class="deck-card"
+                                [class.deck-card--selected]="f.id === selectedFeltId()"
+                                [disabled]="savingFelt()" (click)="selectFelt(f)">
+                          <span class="deck-card__cards">
+                            <span class="deck-card__mini deck-card__mini--felt"
+                                  [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
+                          </span>
+                          <span class="deck-card__name">{{ f.name }}</span>
+                          @if (f.is_custom) {
+                            <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                          }
+                          @if (f.id === selectedFeltId()) {
+                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
+                          }
+                        </button>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Card back -->
                 <div class="section">
                   <h3>{{ 'teams.deck.backs_title' | transloco }}</h3>
                   <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
-                  @if (decksLoading()) {
+                  <div class="style-row">
+                    <p-selectbutton
+                      [options]="styleOptions()"
+                      optionLabel="label"
+                      optionValue="value"
+                      [ngModel]="cardBackStyle()"
+                      (ngModelChange)="setStyle('card_back', $event)"
+                      [allowEmpty]="false"
+                    />
+                  </div>
+                  @if (cardBackStyle() === 'color') {
+                    <div class="appearance-row">
+                      <label>
+                        <span>{{ 'teams.back_color' | transloco }}</span>
+                        <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
+                      </label>
+                      <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                    </div>
+                  } @else if (decksLoading()) {
                     <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
                   } @else {
                     <div class="deck-grid">
@@ -272,6 +333,29 @@ export class TeamDetailComponent implements OnInit {
   readonly savingDeck = signal(false);
   readonly savingBack = signal(false);
 
+  // Appearance styles: each surface renders either a flat colour or a catalogue
+  // image. The unpicked one is kept, so switching back and forth loses nothing.
+  readonly felts = signal<Felt[]>([]);
+  readonly selectedFeltId = signal<number | null>(null);
+  readonly feltStyle = signal<SurfaceStyle>('color');
+  readonly cardBackStyle = signal<SurfaceStyle>('color');
+  readonly savingFelt = signal(false);
+  readonly styleOptions = computed(() => {
+    this.language.active();
+    return [
+      { value: 'color' as SurfaceStyle, label: this.transloco.translate('teams.surface.style_color') },
+      { value: 'image' as SurfaceStyle, label: this.transloco.translate('teams.surface.style_image') },
+    ];
+  });
+  readonly feltPreviewImage = computed(() => {
+    const f = this.felts().find((x) => x.id === this.selectedFeltId());
+    return this.feltStyle() === 'image' && f?.image ? `url(${f.image})` : null;
+  });
+  readonly backPreviewImage = computed(() => {
+    const b = this.cardBacks().find((x) => x.id === this.selectedCardBackId());
+    return this.cardBackStyle() === 'image' && b?.image ? `url(${b.image})` : null;
+  });
+
 
   // Computed, not a field initialiser: translate() at construction runs before the
   // catalogue is loaded and bakes in the raw key — which is what the role selects
@@ -292,6 +376,8 @@ export class TeamDetailComponent implements OnInit {
       this.renameValue = team.name;
       this.feltColor.set(team.felt_color);
       this.backColor.set(team.card_back_color);
+      this.feltStyle.set(team.felt_style);
+      this.cardBackStyle.set(team.card_back_style);
       this.members.set(await this.teamsService.getMembers(this.id));
       if (this.isManager()) {
         this.invitations.set(await this.teamsService.getInvitations(this.id));
@@ -308,6 +394,8 @@ export class TeamDetailComponent implements OnInit {
       const res = await this.teamsService.getDecks(this.id);
       this.decks.set(res.decks);
       this.cardBacks.set(res.card_backs);
+      this.felts.set(res.felts);
+      this.selectedFeltId.set(res.selected_felt_id);
       this.canCustomize.set(res.can_customize);
       // A team that never picked plays the standard deck/back — show those as in use.
       this.enabledDeckIds.set(res.selected_deck_ids);
@@ -316,6 +404,37 @@ export class TeamDetailComponent implements OnInit {
       );
     } finally {
       this.decksLoading.set(false);
+    }
+  }
+
+  async setStyle(surface: 'felt' | 'card_back', style: SurfaceStyle): Promise<void> {
+    const target = surface === 'felt' ? this.feltStyle : this.cardBackStyle;
+    const previous = target();
+    if (style === previous) return;
+    target.set(style);
+    try {
+      const team = await this.teamsService.setSurfaceStyle(this.id, surface, style);
+      this.team.set(team);
+    } catch {
+      target.set(previous);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async selectFelt(felt: Felt): Promise<void> {
+    if (felt.id === this.selectedFeltId()) return;
+    const previous = this.selectedFeltId();
+    this.selectedFeltId.set(felt.id);
+    this.savingFelt.set(true);
+    try {
+      const team = await this.teamsService.setFelt(this.id, felt.id);
+      this.team.set(team);
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      this.selectedFeltId.set(previous);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingFelt.set(false);
     }
   }
 

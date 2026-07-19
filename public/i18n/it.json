@@ -76,6 +76,12 @@
       "back_saved": "Retro salvato.",
       "enabled": "Attivo",
       "none_enabled": "Nessun tipo attivo: le sessioni useranno il mazzo standard."
+    },
+    "surface": {
+      "felt": "Panno del tavolo",
+      "style_color": "Tinta unita",
+      "style_image": "Immagine",
+      "no_felt": "Nessuna immagine di panno disponibile per ora."
     }
   },
   "home": {

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
-import { Invitation, Membership, Team, TeamDecks, TeamRole } from './teams.models';
+import { Invitation, Membership, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
@@ -37,6 +37,12 @@ export class TeamsService {
   }
   setCardBack(id: number, cardBackId: number | null) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { card_back_id: cardBackId }));
+  }
+  setFelt(id: number, feltId: number | null) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { felt_id: feltId }));
+  }
+  setSurfaceStyle(id: number, surface: 'card_back' | 'felt', style: SurfaceStyle) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { [`${surface}_style`]: style }));
   }
 
   getMembers(id: number) {

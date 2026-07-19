@@ -76,6 +76,12 @@
       "back_saved": "Reverso guardado.",
       "enabled": "Activado",
       "none_enabled": "Ningún tipo activado: las sesiones usarán la baraja estándar."
+    },
+    "surface": {
+      "felt": "Tapete de la mesa",
+      "style_color": "Color liso",
+      "style_image": "Imagen",
+      "no_felt": "Aún no hay ninguna imagen de tapete disponible."
     }
   },
   "home": {

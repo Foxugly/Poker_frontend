@@ -92,8 +92,23 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly votable = computed(() => this.state() === 'open');
 
   // Team appearance (P2.6): felt recolours the table, card-back colours the face-down cards.
-  readonly feltColor = computed(() => this.socket.deckSnapshot()?.theme?.feltColor ?? null);
-  readonly cardBackColor = computed(() => this.socket.deckSnapshot()?.theme?.cardBackColor ?? null);
+  // Appearance: each surface says whether it renders a colour or an image. The
+  // legacy theme.* is the fallback while older snapshots are still around.
+  readonly feltColor = computed(
+    () => this.socket.deckSnapshot()?.felt?.color ?? this.socket.deckSnapshot()?.theme?.feltColor ?? null,
+  );
+  readonly feltImage = computed(() => {
+    const felt = this.socket.deckSnapshot()?.felt;
+    return felt?.style === 'image' && felt.image ? `url(${felt.image})` : null;
+  });
+  readonly cardBackColor = computed(
+    () => this.socket.deckSnapshot()?.cardBack?.color ?? this.socket.deckSnapshot()?.theme?.cardBackColor ?? null,
+  );
+  /** Null when the team chose a flat colour: the card then shows the colour alone. */
+  readonly cardBackImage = computed(() => {
+    const back = this.socket.deckSnapshot()?.cardBack;
+    return back?.style === 'image' ? back.image : null;
+  });
 
   // Multi-deck rooms: the room freezes every poker type the team enabled and the
   // facilitator switches between rounds. The server refuses a switch while a round

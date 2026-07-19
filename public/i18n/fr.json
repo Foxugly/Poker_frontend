@@ -76,6 +76,12 @@
       "back_saved": "Dos des cartes enregistré.",
       "enabled": "Activé",
       "none_enabled": "Aucun type activé : les sessions utiliseront le jeu standard."
+    },
+    "surface": {
+      "felt": "Feutre de la table",
+      "style_color": "Couleur unie",
+      "style_image": "Image",
+      "no_felt": "Aucune image de feutre disponible pour le moment."
     }
   },
   "home": {

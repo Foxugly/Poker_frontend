@@ -76,6 +76,12 @@
       "back_saved": "Card back saved.",
       "enabled": "Enabled",
       "none_enabled": "No type enabled: sessions will use the standard deck."
+    },
+    "surface": {
+      "felt": "Table felt",
+      "style_color": "Flat colour",
+      "style_image": "Image",
+      "no_felt": "No felt image available yet."
     }
   },
   "home": {

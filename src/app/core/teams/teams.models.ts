@@ -13,6 +13,9 @@ export interface Team {
   felt_color: string;
   deck_ids: number[];
   card_back_id: number | null;
+  card_back_style: SurfaceStyle;
+  felt_style: SurfaceStyle;
+  felt_id: number | null;
   is_paid: boolean;
   billing_enabled: boolean;
   subscription_status: string;
@@ -52,6 +55,17 @@ export interface Deck {
   cards: DeckCardPreview[];
 }
 
+/** Which representation a surface renders. */
+export type SurfaceStyle = 'color' | 'image';
+
+export interface Felt {
+  id: number;
+  name: string;
+  is_standard: boolean;
+  is_custom: boolean;
+  image: string;
+}
+
 export interface CardBack {
   id: number;
   name: string;
@@ -65,5 +79,7 @@ export interface TeamDecks {
   selected_deck_ids: number[];
   card_backs: CardBack[];
   selected_card_back_id: number | null;
+  felts: Felt[];
+  selected_felt_id: number | null;
   can_customize: boolean;
 }
