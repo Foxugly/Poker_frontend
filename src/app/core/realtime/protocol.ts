@@ -49,11 +49,24 @@ export interface ParticipantView {
   hasVoted: boolean;
 }
 
-/** Anonymous per-value vote count (contract §6.a): the server never emits a
- * participant -> card link, only how many voters picked each value. */
+/** Per-value vote count. Always emitted, in both reveal modes. */
 export interface VoteTally {
   cardValue: string;
   count: number;
+}
+
+/** Who voted what. Emitted ONLY for a nominative round — an anonymous one omits
+ * the key entirely rather than expecting the client to hide it. */
+export interface NominativeVote {
+  participantId: string;
+  cardValue: string;
+}
+
+/** Reveal mode of the current round, announced to every participant (not just the
+ * facilitator) so a voter knows whether their card will carry their name. */
+export interface RevealMode {
+  anonymous: boolean;
+  canAnonymise: boolean;
 }
 
 /** One line of the facilitator's scenario (agenda): a subject with its round status. */
@@ -91,6 +104,8 @@ export interface StateSync {
   facilitatorPresent: boolean;
   agenda: AgendaItem[];
   tally?: VoteTally[];
+  votes?: NominativeVote[];
+  reveal: RevealMode;
   deadline: string | null;
   timer: TimerSettings;
 }

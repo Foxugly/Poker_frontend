@@ -42,8 +42,9 @@ interface Seat {
   cardY: number;
   personX: number;
   personY: number;
-  card: SnapshotCard | null; // the back placeholder to render, when the seat has voted
+  card: SnapshotCard | null; // back placeholder, or the actual card once revealed nominatively
   show: boolean; // whether the seat has a card (voted) at all
+  revealed: boolean; // face up — nominative reveal only
 }
 
 @Component({
@@ -108,6 +109,10 @@ export class RoomComponent implements OnInit, OnDestroy {
     })),
   );
 
+  // Reveal mode: settable only while IDLE, mirroring the server. Voters are told
+  // the mode before they play, so it must not flip under cast votes.
+  readonly canSetRevealMode = computed(() => this.state() === 'idle');
+
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
    * resolve the card's translated name (from the snapshot) in the current language. */
@@ -144,19 +149,30 @@ export class RoomComponent implements OnInit, OnDestroy {
     return this.AVATAR_COLORS[h % this.AVATAR_COLORS.length];
   }
   /** Seats laid out around the table (ellipse), each carrying its card state:
-   * empty (not voted) → back (voted, hidden). Individual seats never flip to a face
-   * value — the server never tells the client who voted what (contract §6.a), so a
-   * voted seat only ever shows the card back; the anonymous decompte (see
-   * `socket.voteTally`) is what surfaces the actual values once revealed. */
+   * empty (not voted) → back (voted, hidden) → face up, but ONLY once the round is
+   * revealed in nominative mode. In anonymous mode the seat stays face-down forever:
+   * the server sends no participant -> card link, so there is nothing to flip, and
+   * the per-value decompte (`socket.voteTally`) is what surfaces the values. */
   readonly seats = computed<Seat[]>(() => {
     const participants = this.socket.participants();
     const deck = this.socket.deckSnapshot();
     const votedIds = new Set(this.socket.participation().votedIds);
+    const nominative = !this.socket.revealMode().anonymous;
+    const revealedRound = this.state() === 'revealed' || this.state() === 'acted';
+    const voteByParticipant = new Map(
+      this.socket.nominativeVotes().map((v) => [v.participantId, v.cardValue]),
+    );
     const n = participants.length;
     return participants.map((p, i) => {
       const angle = -Math.PI / 2 + (i / Math.max(n, 1)) * 2 * Math.PI;
       const hasVoted = p.hasVoted || votedIds.has(p.participantId);
-      const card = hasVoted && deck ? deck.cards[0] : null; // back placeholder only
+      const ownVote = voteByParticipant.get(p.participantId);
+      const faceUp = revealedRound && nominative && ownVote !== undefined;
+      const card = faceUp
+        ? this.cardByValue(ownVote!)
+        : hasVoted && deck
+          ? deck.cards[0] // back placeholder only
+          : null;
       const cx = Math.cos(angle);
       const sy = Math.sin(angle);
       return {
@@ -171,6 +187,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         personY: 50 + 49 * sy,
         card,
         show: hasVoted,
+        revealed: faceUp,
       };
     });
   });
@@ -225,6 +242,20 @@ export class RoomComponent implements OnInit, OnDestroy {
       clearInterval(this.countdownHandle);
       this.countdownHandle = null;
     }
+  }
+
+  /** Display names of the voters who picked a value — nominative rounds only. */
+  votersFor(cardValue: string): string {
+    const byId = new Map(this.socket.participants().map((p) => [p.participantId, p.username]));
+    return this.socket
+      .nominativeVotes()
+      .filter((v) => v.cardValue === cardValue)
+      .map((v) => byId.get(v.participantId) ?? '?')
+      .join(', ');
+  }
+
+  onRevealModeChange(anonymous: boolean): void {
+    this.socket.setRevealMode(anonymous);
   }
 
   onDeckChange(deckId: number): void {

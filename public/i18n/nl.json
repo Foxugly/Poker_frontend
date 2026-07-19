@@ -315,6 +315,14 @@
         "delegation_poker": "Delegation Poker",
         "poker_planning": "Planning Poker"
       }
+    },
+    "reveal_mode": {
+      "label": "Onthulling",
+      "mode_nominative": "Met naam",
+      "mode_anonymous": "Anoniem",
+      "locked": "Alleen instelbaar voordat de stemming opent.",
+      "badge_nominative": "Stem met naam",
+      "badge_anonymous": "Anonieme stem"
     }
   },
   "billing": {

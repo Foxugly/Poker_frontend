@@ -25,6 +25,12 @@
           } @else if (remainingSeconds() === 0) {
             <span class="timer-badge expired"><i class="pi pi-clock"></i>{{ 'room.timer.expired' | transloco }}</span>
           }
+          <!-- Shown to EVERYONE, before voting: a voter must know whether their card
+               will be shown with their name. -->
+          <span class="reveal-badge" [class.anonymous]="socket.revealMode().anonymous">
+            <i class="pi" [class.pi-eye-slash]="socket.revealMode().anonymous" [class.pi-eye]="!socket.revealMode().anonymous"></i>
+            {{ (socket.revealMode().anonymous ? 'room.reveal_mode.badge_anonymous' : 'room.reveal_mode.badge_nominative') | transloco }}
+          </span>
         </div>
 
         <div class="table-wrap">
@@ -33,9 +39,9 @@
               <!-- Card near the table -->
               <div class="seat-card" [style.left.%]="seat.cardX" [style.top.%]="seat.cardY">
                 @if (seat.show && seat.card) {
-                  <!-- Always face-down: the server never reveals who cast which value
-                       (contract §6.a) — the anonymous decompte below carries the values. -->
-                  <app-delegation-card [card]="seat.card" [revealed]="false" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
+                  <!-- Face-down until revealed, and only flips in nominative mode:
+                       an anonymous round sends no participant -> card link at all. -->
+                  <app-delegation-card [card]="seat.card" [revealed]="seat.revealed" [cardBack]="deck.cardBack.image" [cardBackColor]="cardBackColor()" [lang]="lang()" />
                 } @else {
                   <div class="empty-slot"></div>
                 }
@@ -59,19 +65,25 @@
               @switch (state()) {
                 @case ('open') { <span class="count">{{ socket.participation().voted }} / {{ socket.participation().total }}</span> }
                 @case ('revealed') {
-                  <!-- Anonymous decompte only: value + how many voters picked it, never who
-                       (contract §6.a). Spread stays, it is not nominative. -->
+                  <!-- Two modes. Anonymous: the per-value count only — the server sent no
+                       participant -> card link at all, so there is nothing here to hide.
+                       Nominative (default): who voted what, on top of the same count. -->
                   <div class="reveal-summary">
                     @for (t of socket.voteTally(); track t.cardValue) {
                       <div class="tally-row">
                         <span class="tally-label">{{ cardName(cardByValue(t.cardValue)) || t.cardValue }}</span>
                         <span class="tally-count">{{ 'room.reveal_votes_count' | transloco: { count: t.count } }}</span>
+                        @if (!socket.revealMode().anonymous) {
+                          <span class="tally-voters">{{ votersFor(t.cardValue) }}</span>
+                        }
                       </div>
                     }
                     @if (socket.spread().min !== null && socket.spread().max !== null) {
                       <div class="tally-spread">{{ socket.spread().min }} – {{ socket.spread().max }}</div>
                     }
-                    <div class="tally-hint">{{ 'room.reveal_anonymous_hint' | transloco }}</div>
+                    @if (socket.revealMode().anonymous) {
+                      <div class="tally-hint">{{ 'room.reveal_anonymous_hint' | transloco }}</div>
+                    }
                   </div>
                 }
                 @case ('acted') {
@@ -130,6 +142,22 @@
                    (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" />
             <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="!subjectDraft().trim()" (onClick)="addSubject()" />
           </div>
+
+          @if (socket.revealMode().canAnonymise) {
+            <div class="panel-block reveal-settings">
+              <label>{{ 'room.reveal_mode.label' | transloco }}</label>
+              <div class="reveal-row">
+                <p-toggleswitch [ngModel]="socket.revealMode().anonymous" (ngModelChange)="onRevealModeChange($event)"
+                                [disabled]="!canSetRevealMode()" />
+                <span class="reveal-mode-name">
+                  {{ (socket.revealMode().anonymous ? 'room.reveal_mode.mode_anonymous' : 'room.reveal_mode.mode_nominative') | transloco }}
+                </span>
+              </div>
+              @if (!canSetRevealMode()) {
+                <small class="deck-hint">{{ 'room.reveal_mode.locked' | transloco }}</small>
+              }
+            </div>
+          }
 
           @if (availableDecks().length > 1) {
             <div class="panel-block deck-settings">

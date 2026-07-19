@@ -14,6 +14,8 @@ import {
   RoundState,
   StateSync,
   TimerSettings,
+  NominativeVote,
+  RevealMode,
   VoteTally,
 } from './protocol';
 
@@ -41,9 +43,13 @@ export class RoomSocketService {
   readonly participants = signal<ParticipantView[]>([]);
   readonly participation = signal<Participation>({ voted: 0, total: 0, votedIds: [] });
   readonly myVote = signal<string | null>(null);
-  /** Anonymous per-value vote count once a round is revealed (contract §6.a): the
-   * server never sends a participant -> card link, so none exists here either. */
+  /** Per-value vote count once a round is revealed. */
   readonly voteTally = signal<VoteTally[]>([]);
+  /** Who voted what — populated only for a nominative round. An anonymous round
+   * leaves this empty because the server never sent the link, not because the UI
+   * hides it. */
+  readonly nominativeVotes = signal<NominativeVote[]>([]);
+  readonly revealMode = signal<RevealMode>({ anonymous: false, canAnonymise: false });
   readonly spread = signal<{ min: number | null; max: number | null }>({ min: null, max: null });
   readonly result = signal<string | null>(null);
   readonly facilitatorPresent = signal(true);
@@ -117,6 +123,7 @@ export class RoomSocketService {
    * (rounds then clamps) so the UI need not re-validate the grid it already offers. */
   setTimer(enabled: boolean, seconds: number) { this.send('timer.set', { enabled, seconds }); }
   selectDeck(deckId: number) { this.send('deck.select', { deckId }); }
+  setRevealMode(anonymous: boolean) { this.send('reveal.setMode', { anonymous }); }
 
   private send(type: string, payload: unknown): void {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
@@ -169,16 +176,22 @@ export class RoomSocketService {
       case 'vote.revealed': {
         const p = msg.payload as {
           tally: VoteTally[];
+          votes?: NominativeVote[];
+          anonymous: boolean;
           spread: { min: number | null; max: number | null };
           reason?: 'timeout' | 'facilitator';
         };
         this.roundState.set('revealed');
         this.voteTally.set(p.tally);
+        this.nominativeVotes.set(p.votes ?? []);
+        this.revealMode.update((r) => ({ ...r, anonymous: p.anonymous }));
         this.spread.set(p.spread);
         // The countdown is cosmetic only: whatever the reason, the round is over.
         this.deadline.set(null);
         return;
       }
+      case 'reveal.modeChanged':
+        return this.revealMode.update((r) => ({ ...r, anonymous: (msg.payload as RevealMode).anonymous }));
       case 'timer.changed':
         this.timer.set(msg.payload as TimerSettings);
         return;
@@ -221,6 +234,8 @@ export class RoomSocketService {
     this.facilitatorPresent.set(s.facilitatorPresent);
     this.agenda.set(s.agenda ?? []);
     this.voteTally.set(s.tally ?? []);
+    this.nominativeVotes.set(s.votes ?? []);
+    this.revealMode.set(s.reveal ?? { anonymous: false, canAnonymise: false });
     this.deadline.set(s.deadline ?? null);
     this.timer.set(s.timer ?? { enabled: false, seconds: 10 });
   }

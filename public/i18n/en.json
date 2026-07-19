@@ -315,6 +315,14 @@
         "delegation_poker": "Delegation Poker",
         "poker_planning": "Planning Poker"
       }
+    },
+    "reveal_mode": {
+      "label": "Reveal",
+      "mode_nominative": "Nominative",
+      "mode_anonymous": "Anonymous",
+      "locked": "Can only be set before the vote opens.",
+      "badge_nominative": "Named vote",
+      "badge_anonymous": "Anonymous vote"
     }
   },
   "billing": {
