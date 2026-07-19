@@ -15,7 +15,8 @@
     "pricing": "Tarieven",
     "support": "Steunen",
     "about": "Over",
-    "teams": "Teams"
+    "teams": "Teams",
+    "account": "Mijn account"
   },
   "field": {
     "username": "Je naam"
@@ -398,5 +399,56 @@
   },
   "common": {
     "skip_to_content": "Naar de inhoud"
+  },
+  "me": {
+    "title": "Mijn account",
+    "identity": "Identiteit",
+    "email_confirmed": "Geverifieerd",
+    "email_unconfirmed": "Niet geverifieerd",
+    "email_readonly": "Je e-mailadres identificeert het account; wijzigen vereist een nieuwe verificatie.",
+    "role": "Rol",
+    "staff": "Foxugly-team",
+    "display_name": "Weergavenaam",
+    "display_name_hint": "De naam die andere deelnemers in rooms zien.",
+    "saved": "Profiel opgeslagen.",
+    "account": "Mijn account",
+    "subscription_link": "Abonnement"
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "loading": "Laden…",
+    "billing_off": "Facturatie is nog niet actief.",
+    "current": "Huidig abonnement",
+    "none": "Je hebt geen abonnement.",
+    "see_plans": "Formules bekijken",
+    "offered": "Gratis toegang",
+    "offered_hint": "Je account heeft de betaalde functies zonder abonnement.",
+    "plan": "Formule",
+    "status": "Status",
+    "quota": "Gebruikte teams",
+    "interval_monthly": "maandelijks",
+    "interval_yearly": "jaarlijks",
+    "status_active": "Actief",
+    "status_trialing": "Proefperiode",
+    "status_canceled": "Opgezegd",
+    "status_past_due": "Achterstallig",
+    "status_incomplete": "Onvolledig",
+    "status_unpaid": "Onbetaald",
+    "history": "Abonnementsgeschiedenis",
+    "no_history": "Geen eerder abonnement.",
+    "started": "Begin",
+    "ended": "Einde",
+    "invoices": "Facturen",
+    "no_invoices": "Geen factuur.",
+    "invoice_number": "Nummer",
+    "date": "Datum",
+    "amount": "Bedrag",
+    "invoice_paid": "Betaald",
+    "invoice_open": "Openstaand",
+    "invoice_draft": "Concept",
+    "invoice_void": "Geannuleerd",
+    "invoice_uncollectible": "Oninbaar",
+    "pdf": "PDF",
+    "view": "Bekijken"
   }
 }

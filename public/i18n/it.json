@@ -15,7 +15,8 @@
     "pricing": "Prezzi",
     "support": "Sostieni",
     "about": "Info",
-    "teams": "Team"
+    "teams": "Team",
+    "account": "Il mio account"
   },
   "field": {
     "username": "Il tuo nome"
@@ -398,5 +399,56 @@
   },
   "common": {
     "skip_to_content": "Vai al contenuto"
+  },
+  "me": {
+    "title": "Il mio account",
+    "identity": "Identità",
+    "email_confirmed": "Verificata",
+    "email_unconfirmed": "Non verificata",
+    "email_readonly": "L'email identifica l'account; cambiarla richiede una nuova verifica.",
+    "role": "Ruolo",
+    "staff": "Team Foxugly",
+    "display_name": "Nome visualizzato",
+    "display_name_hint": "Il nome che gli altri partecipanti vedono nelle stanze.",
+    "saved": "Profilo salvato.",
+    "account": "Il mio account",
+    "subscription_link": "Abbonamento"
+  },
+  "subscription": {
+    "title": "Abbonamento",
+    "loading": "Caricamento…",
+    "billing_off": "La fatturazione non è ancora attiva.",
+    "current": "Abbonamento in corso",
+    "none": "Non hai un abbonamento.",
+    "see_plans": "Vedi le formule",
+    "offered": "Accesso offerto",
+    "offered_hint": "Il tuo account ha le funzioni a pagamento senza abbonamento.",
+    "plan": "Formula",
+    "status": "Stato",
+    "quota": "Team usati",
+    "interval_monthly": "mensile",
+    "interval_yearly": "annuale",
+    "status_active": "Attivo",
+    "status_trialing": "Prova",
+    "status_canceled": "Annullato",
+    "status_past_due": "Scaduto",
+    "status_incomplete": "Incompleto",
+    "status_unpaid": "Non pagato",
+    "history": "Storico abbonamenti",
+    "no_history": "Nessun abbonamento passato.",
+    "started": "Inizio",
+    "ended": "Fine",
+    "invoices": "Fatture",
+    "no_invoices": "Nessuna fattura.",
+    "invoice_number": "Numero",
+    "date": "Data",
+    "amount": "Importo",
+    "invoice_paid": "Pagata",
+    "invoice_open": "In attesa",
+    "invoice_draft": "Bozza",
+    "invoice_void": "Annullata",
+    "invoice_uncollectible": "Inesigibile",
+    "pdf": "PDF",
+    "view": "Vedi"
   }
 }

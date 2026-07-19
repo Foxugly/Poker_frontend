@@ -15,7 +15,8 @@
     "pricing": "Tarifs",
     "support": "Soutenir",
     "about": "À propos",
-    "teams": "Équipes"
+    "teams": "Équipes",
+    "account": "Mon compte"
   },
   "field": {
     "username": "Votre nom"
@@ -398,5 +399,56 @@
   },
   "common": {
     "skip_to_content": "Aller au contenu"
+  },
+  "me": {
+    "title": "Mon compte",
+    "identity": "Identité",
+    "email_confirmed": "Vérifiée",
+    "email_unconfirmed": "Non vérifiée",
+    "email_readonly": "L'adresse e-mail identifie le compte ; la changer demande une nouvelle vérification.",
+    "role": "Rôle",
+    "staff": "Équipe Foxugly",
+    "display_name": "Nom affiché",
+    "display_name_hint": "Le nom vu par les autres participants dans les salles.",
+    "saved": "Profil enregistré.",
+    "account": "Mon compte",
+    "subscription_link": "Abonnement"
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "loading": "Chargement…",
+    "billing_off": "La facturation n'est pas encore active.",
+    "current": "Abonnement en cours",
+    "none": "Vous n'avez pas d'abonnement.",
+    "see_plans": "Voir les formules",
+    "offered": "Accès offert",
+    "offered_hint": "Votre compte a accès aux fonctions payantes sans abonnement.",
+    "plan": "Formule",
+    "status": "Statut",
+    "quota": "Équipes utilisées",
+    "interval_monthly": "mensuel",
+    "interval_yearly": "annuel",
+    "status_active": "Actif",
+    "status_trialing": "Période d'essai",
+    "status_canceled": "Résilié",
+    "status_past_due": "Impayé",
+    "status_incomplete": "Incomplet",
+    "status_unpaid": "Impayé",
+    "history": "Historique des abonnements",
+    "no_history": "Aucun abonnement passé.",
+    "started": "Début",
+    "ended": "Fin",
+    "invoices": "Factures",
+    "no_invoices": "Aucune facture.",
+    "invoice_number": "Numéro",
+    "date": "Date",
+    "amount": "Montant",
+    "invoice_paid": "Payée",
+    "invoice_open": "En attente",
+    "invoice_draft": "Brouillon",
+    "invoice_void": "Annulée",
+    "invoice_uncollectible": "Irrécouvrable",
+    "pdf": "PDF",
+    "view": "Voir"
   }
 }

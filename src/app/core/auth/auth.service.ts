@@ -127,6 +127,15 @@ export class AuthService {
     }
   }
 
+  /** PATCH the profile (display name) and refresh the currentUser signal. */
+  async updateProfile(displayName: string): Promise<AuthUser> {
+    const user = await firstValueFrom(
+      this.http.patch<AuthUser>(`${this.base}/me/`, { display_name: displayName }),
+    );
+    this.currentUser.set(user);
+    return user;
+  }
+
   private async me(): Promise<AuthUser> {
     return firstValueFrom(this.http.get<AuthUser>(`${this.base}/me/`));
   }

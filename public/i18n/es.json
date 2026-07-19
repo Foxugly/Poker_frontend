@@ -15,7 +15,8 @@
     "pricing": "Precios",
     "support": "Apoyar",
     "about": "Acerca de",
-    "teams": "Equipos"
+    "teams": "Equipos",
+    "account": "Mi cuenta"
   },
   "field": {
     "username": "Tu nombre"
@@ -398,5 +399,56 @@
   },
   "common": {
     "skip_to_content": "Ir al contenido"
+  },
+  "me": {
+    "title": "Mi cuenta",
+    "identity": "Identidad",
+    "email_confirmed": "Verificado",
+    "email_unconfirmed": "Sin verificar",
+    "email_readonly": "Tu correo identifica la cuenta; cambiarlo requiere una nueva verificación.",
+    "role": "Rol",
+    "staff": "Equipo Foxugly",
+    "display_name": "Nombre visible",
+    "display_name_hint": "El nombre que ven los demás participantes en las salas.",
+    "saved": "Perfil guardado.",
+    "account": "Mi cuenta",
+    "subscription_link": "Suscripción"
+  },
+  "subscription": {
+    "title": "Suscripción",
+    "loading": "Cargando…",
+    "billing_off": "La facturación aún no está activa.",
+    "current": "Suscripción actual",
+    "none": "No tienes suscripción.",
+    "see_plans": "Ver planes",
+    "offered": "Acceso gratuito",
+    "offered_hint": "Tu cuenta tiene las funciones de pago sin suscripción.",
+    "plan": "Plan",
+    "status": "Estado",
+    "quota": "Equipos usados",
+    "interval_monthly": "mensual",
+    "interval_yearly": "anual",
+    "status_active": "Activa",
+    "status_trialing": "Prueba",
+    "status_canceled": "Cancelada",
+    "status_past_due": "Vencida",
+    "status_incomplete": "Incompleta",
+    "status_unpaid": "Sin pagar",
+    "history": "Historial de suscripciones",
+    "no_history": "Ninguna suscripción anterior.",
+    "started": "Inicio",
+    "ended": "Fin",
+    "invoices": "Facturas",
+    "no_invoices": "Ninguna factura.",
+    "invoice_number": "Número",
+    "date": "Fecha",
+    "amount": "Importe",
+    "invoice_paid": "Pagada",
+    "invoice_open": "Pendiente",
+    "invoice_draft": "Borrador",
+    "invoice_void": "Anulada",
+    "invoice_uncollectible": "Incobrable",
+    "pdf": "PDF",
+    "view": "Ver"
   }
 }
