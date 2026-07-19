@@ -15,7 +15,7 @@
   @if (loading()) {
     <p class="meta">…</p>
   } @else {
-    @if (isAdmin()) {
+    @if (isManager()) {
       <div class="controls">
         <div class="place-mode">
           <span class="place-label">{{ 'board.place' | transloco }}</span>
@@ -54,7 +54,7 @@
                        (keyup.enter)="saveEdit(row)" (blur)="saveEdit(row)" />
               } @else {
                 <span class="topic-text">{{ row.topic }}</span>
-                @if (isAdmin()) {
+                @if (isManager()) {
                   <span class="topic-actions">
                     <button type="button" [title]="'action.save' | transloco" (click)="startEdit(row)"><i class="pi pi-pencil"></i></button>
                     <button type="button" class="danger" [title]="'teams.remove' | transloco" (click)="deleteRow(row)"><i class="pi pi-times"></i></button>
@@ -63,7 +63,7 @@
               }
             </div>
             @for (level of levels(); track level.value) {
-              <button type="button" class="cell" [class.clickable]="isAdmin()" [disabled]="!isAdmin()" (click)="place(row, level)">
+              <button type="button" class="cell" [class.clickable]="isManager()" [disabled]="!isManager()" (click)="place(row, level)">
                 @if (row.asIs === level.value) { <span class="postit as-is">{{ 'board.as_is' | transloco }}</span> }
                 @if (row.toBe === level.value) { <span class="postit to-be">{{ 'board.to_be' | transloco }}</span> }
               </button>

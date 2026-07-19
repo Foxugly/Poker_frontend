@@ -51,7 +51,7 @@
     "delete_confirm": "Permanently delete this team?",
     "role": {
       "owner": "Owner",
-      "admin": "Admin",
+      "manager": "Manager",
       "member": "Member"
     },
     "accept": {

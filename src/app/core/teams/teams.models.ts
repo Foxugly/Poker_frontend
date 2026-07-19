@@ -1,4 +1,6 @@
-export type TeamRole = 'owner' | 'admin' | 'member';
+/** Team-scoped roles. NOT to be confused with the room's `facilitator`, who runs
+ * the current round — any member can hold that, and it is handed over in session. */
+export type TeamRole = 'owner' | 'manager' | 'member';
 
 export interface Team {
   id: number;
