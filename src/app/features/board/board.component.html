@@ -1,10 +1,13 @@
 <section class="page board-page">
   <app-page-header [icon]="'pi-th-large'" [title]="'board.title' | transloco">
-    <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
-    @if (rows().length) {
-      <p-button [label]="'board.export_csv' | transloco" icon="pi pi-file" [outlined]="true" severity="secondary" (onClick)="exportCsv()" />
-      <p-button [label]="'board.export_pdf' | transloco" icon="pi pi-file-pdf" [outlined]="true" severity="secondary" (onClick)="exportPdf()" />
-    }
+    <p-button slot="left" [label]="'action.back' | transloco" icon="pi pi-arrow-left" [outlined]="true"
+              severity="secondary" (onClick)="back()" />
+    <span slot="right" class="page-header__actions">
+      @if (rows().length) {
+        <p-button [label]="'board.export_csv' | transloco" icon="pi pi-file" [outlined]="true" severity="secondary" (onClick)="exportCsv()" />
+        <p-button [label]="'board.export_pdf' | transloco" icon="pi pi-file-pdf" [outlined]="true" severity="secondary" (onClick)="exportPdf()" />
+      }
+    </span>
   </app-page-header>
 
   <p class="team-label">{{ teamName() }}</p>

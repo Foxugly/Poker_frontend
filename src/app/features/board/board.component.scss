@@ -155,3 +155,12 @@
 .cell:disabled {
   cursor: default;
 }
+
+/* Export actions wrapper projected into the page-header [slot=right]. */
+.page-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
