@@ -63,17 +63,18 @@
       "tab": "Type de poker",
       "title": "Type de poker",
       "loading": "Chargement…",
-      "intro": "Le jeu de cartes distribué dans les sessions de cette équipe.",
+      "intro": "Les types de poker jouables dans les sessions de cette équipe. Le facilitateur choisit lequel utiliser dans la salle, d'un round à l'autre.",
       "custom": "Jeu personnalisé",
       "in_use": "Utilisé",
-      "saved": "Jeu de cartes enregistré.",
+      "saved": "Types de poker enregistrés.",
       "create": "Créer un jeu",
       "create_soon": "La création de jeux personnalisés arrive bientôt.",
       "create_paid": "La création de jeux personnalisés est réservée aux équipes avec un abonnement.",
-      "fronts_title": "Faces des cartes",
       "backs_title": "Dos des cartes",
       "backs_intro": "Le dos s'associe librement à n'importe quel jeu de faces.",
-      "back_saved": "Dos des cartes enregistré."
+      "back_saved": "Dos des cartes enregistré.",
+      "enabled": "Activé",
+      "none_enabled": "Aucun type activé : les sessions utiliseront le jeu standard."
     }
   },
   "home": {
@@ -306,6 +307,14 @@
       "seconds": "Durée (secondes)",
       "remaining": "Temps restant",
       "expired": "Temps écoulé"
+    },
+    "deck": {
+      "label": "Type de poker",
+      "locked": "Terminez le round pour changer de type.",
+      "type": {
+        "delegation_poker": "Delegation Poker",
+        "poker_planning": "Poker Planning"
+      }
     }
   },
   "billing": {

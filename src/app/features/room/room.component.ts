@@ -94,6 +94,20 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly feltColor = computed(() => this.socket.deckSnapshot()?.theme?.feltColor ?? null);
   readonly cardBackColor = computed(() => this.socket.deckSnapshot()?.theme?.cardBackColor ?? null);
 
+  // Multi-deck rooms: the room freezes every poker type the team enabled and the
+  // facilitator switches between rounds. The server refuses a switch while a round
+  // is in flight (cast votes reference the current deck's values); the control
+  // mirrors that rather than letting the user hit an error.
+  readonly availableDecks = computed(() => this.socket.availableDecks());
+  readonly currentDeckId = computed(() => this.socket.deckSnapshot()?.deckId ?? null);
+  readonly canSwitchDeck = computed(() => this.state() === 'idle' || this.state() === 'acted');
+  readonly deckOptions = computed(() =>
+    this.availableDecks().map((d) => ({
+      value: d.deckId,
+      label: this.transloco.translate(`room.deck.type.${d.voteType}`),
+    })),
+  );
+
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
    * resolve the card's translated name (from the snapshot) in the current language. */
@@ -211,6 +225,10 @@ export class RoomComponent implements OnInit, OnDestroy {
       clearInterval(this.countdownHandle);
       this.countdownHandle = null;
     }
+  }
+
+  onDeckChange(deckId: number): void {
+    if (deckId !== this.currentDeckId()) this.socket.selectDeck(deckId);
   }
 
   onTimerEnabledChange(enabled: boolean): void {

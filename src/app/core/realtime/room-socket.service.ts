@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { getRuntimeConfig } from '../runtime-config';
 import {
   AgendaItem,
+  AvailableDeck,
   DeckSnapshot,
   Envelope,
   Participation,
@@ -36,6 +37,7 @@ export class RoomSocketService {
   readonly roundState = signal<RoundState>('idle');
   readonly subject = signal('');
   readonly deckSnapshot = signal<DeckSnapshot | null>(null);
+  readonly availableDecks = signal<AvailableDeck[]>([]);
   readonly participants = signal<ParticipantView[]>([]);
   readonly participation = signal<Participation>({ voted: 0, total: 0, votedIds: [] });
   readonly myVote = signal<string | null>(null);
@@ -114,6 +116,7 @@ export class RoomSocketService {
   /** Facilitator-only server-side (contract §timer); the server normalises seconds
    * (rounds then clamps) so the UI need not re-validate the grid it already offers. */
   setTimer(enabled: boolean, seconds: number) { this.send('timer.set', { enabled, seconds }); }
+  selectDeck(deckId: number) { this.send('deck.select', { deckId }); }
 
   private send(type: string, payload: unknown): void {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
@@ -145,6 +148,8 @@ export class RoomSocketService {
         this.participants.update((list) => list.filter((x) => x.participantId !== id));
         return;
       }
+      case 'deck.changed':
+        return this.deckSnapshot.set((msg.payload as { deckSnapshot: DeckSnapshot }).deckSnapshot);
       case 'participation.update': return this.participation.set(msg.payload as Participation);
       case 'agenda.updated':
         this.agenda.set((msg.payload as { agenda: AgendaItem[] }).agenda);
@@ -209,6 +214,7 @@ export class RoomSocketService {
     this.roundState.set(s.roundState);
     this.subject.set(s.subject);
     this.deckSnapshot.set(s.deckSnapshot);
+    this.availableDecks.set(s.availableDecks ?? []);
     this.participants.set(s.participants);
     this.myVote.set(s.myVote);
     this.result.set(s.result);

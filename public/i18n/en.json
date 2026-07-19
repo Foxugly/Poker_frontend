@@ -63,17 +63,18 @@
       "tab": "Poker type",
       "title": "Poker type",
       "loading": "Loading…",
-      "intro": "The deck dealt in this team's sessions.",
+      "intro": "The poker types playable in this team's sessions. The facilitator picks which one to use in the room, round by round.",
       "custom": "Custom deck",
       "in_use": "In use",
-      "saved": "Deck saved.",
+      "saved": "Poker types saved.",
       "create": "Create a deck",
       "create_soon": "Custom deck creation is coming soon.",
       "create_paid": "Custom decks are available to teams with a subscription.",
-      "fronts_title": "Card fronts",
       "backs_title": "Card backs",
       "backs_intro": "A back can be paired with any set of fronts.",
-      "back_saved": "Card back saved."
+      "back_saved": "Card back saved.",
+      "enabled": "Enabled",
+      "none_enabled": "No type enabled: sessions will use the standard deck."
     }
   },
   "home": {
@@ -306,6 +307,14 @@
       "seconds": "Duration (seconds)",
       "remaining": "Time left",
       "expired": "Time is up"
+    },
+    "deck": {
+      "label": "Poker type",
+      "locked": "Finish the round to switch type.",
+      "type": {
+        "delegation_poker": "Delegation Poker",
+        "poker_planning": "Planning Poker"
+      }
     }
   },
   "billing": {

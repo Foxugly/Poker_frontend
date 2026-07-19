@@ -63,17 +63,18 @@
       "tab": "Pokertype",
       "title": "Pokertype",
       "loading": "Laden…",
-      "intro": "Het kaartspel dat in de sessies van dit team wordt gedeeld.",
+      "intro": "De pokertypes die in de sessies van dit team gespeeld kunnen worden. De facilitator kiest per ronde welke in de room wordt gebruikt.",
       "custom": "Eigen kaartspel",
       "in_use": "In gebruik",
-      "saved": "Kaartspel opgeslagen.",
+      "saved": "Pokertypes opgeslagen.",
       "create": "Kaartspel maken",
       "create_soon": "Eigen kaartspellen maken komt binnenkort.",
       "create_paid": "Eigen kaartspellen zijn beschikbaar voor teams met een abonnement.",
-      "fronts_title": "Voorkanten",
       "backs_title": "Achterkanten",
       "backs_intro": "Een achterkant kan met elke set voorkanten worden gecombineerd.",
-      "back_saved": "Achterkant opgeslagen."
+      "back_saved": "Achterkant opgeslagen.",
+      "enabled": "Ingeschakeld",
+      "none_enabled": "Geen type ingeschakeld: sessies gebruiken het standaardspel."
     }
   },
   "home": {
@@ -306,6 +307,14 @@
       "seconds": "Duur (seconden)",
       "remaining": "Resterende tijd",
       "expired": "Tijd is om"
+    },
+    "deck": {
+      "label": "Pokertype",
+      "locked": "Rond de ronde af om van type te wisselen.",
+      "type": {
+        "delegation_poker": "Delegation Poker",
+        "poker_planning": "Planning Poker"
+      }
     }
   },
   "billing": {

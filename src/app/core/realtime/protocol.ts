@@ -71,12 +71,20 @@ export interface TimerSettings {
   seconds: number;
 }
 
+/** A room's frozen deck catalogue entry — enough to pick, without the cards. */
+export interface AvailableDeck {
+  deckId: number;
+  voteType: string;
+  cardBack: { image: string | null };
+}
+
 export interface StateSync {
   room: { code: string; title: string };
   protocolVersion: number;
   roundState: RoundState;
   subject: string;
   deckSnapshot: DeckSnapshot;
+  availableDecks: AvailableDeck[];
   participants: ParticipantView[];
   myVote: string | null;
   result: string | null;

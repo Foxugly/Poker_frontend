@@ -32,8 +32,8 @@ export class TeamsService {
   getDecks(id: number) {
     return firstValueFrom(this.http.get<TeamDecks>(`${this.base}/${id}/decks/`));
   }
-  setDeck(id: number, deckId: number | null) {
-    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { deck_id: deckId }));
+  setDecks(id: number, deckIds: number[]) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { deck_ids: deckIds }));
   }
   setCardBack(id: number, cardBackId: number | null) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { card_back_id: cardBackId }));
