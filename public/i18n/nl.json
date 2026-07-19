@@ -39,7 +39,9 @@
     "already_member": "Deze persoon is al lid.",
     "revoke": "Intrekken",
     "remove": "Verwijderen",
-    "manage": "Team beheren",
+    "manage": "Team hernoemen",
+    "rename_label": "Nieuwe naam",
+    "tab_members": "Leden en uitnodigingen",
     "appearance": "Uiterlijk",
     "felt_color": "Kleur van het laken",
     "back_color": "Kleur van de achterkant",
@@ -56,6 +58,22 @@
       "error_title": "Ongeldige uitnodiging",
       "error_lead": "Deze uitnodiging is ongeldig, verlopen of al gebruikt.",
       "email_mismatch": "Meld je aan met het e-mailadres waarnaar de uitnodiging is gestuurd."
+    },
+    "deck": {
+      "tab": "Pokertype",
+      "title": "Pokertype",
+      "loading": "Laden…",
+      "intro": "Het kaartspel dat in de sessies van dit team wordt gedeeld.",
+      "custom": "Eigen kaartspel",
+      "in_use": "In gebruik",
+      "saved": "Kaartspel opgeslagen.",
+      "create": "Kaartspel maken",
+      "create_soon": "Eigen kaartspellen maken komt binnenkort.",
+      "create_paid": "Eigen kaartspellen zijn beschikbaar voor teams met een abonnement.",
+      "fronts_title": "Voorkanten",
+      "backs_title": "Achterkanten",
+      "backs_intro": "Een achterkant kan met elke set voorkanten worden gecombineerd.",
+      "back_saved": "Achterkant opgeslagen."
     }
   },
   "home": {
@@ -328,7 +346,9 @@
     "email_sent": "Geschiedenis verzonden naar {{count}} lid/leden."
   },
   "staff": {
-    "nav": { "users": "Accounts" },
+    "nav": {
+      "users": "Accounts"
+    },
     "users": {
       "title": "Accountbeheer",
       "search": "Zoeken",
@@ -340,7 +360,9 @@
         "note": "Reden",
         "note_placeholder": "Waarom deze toegang wordt aangeboden"
       },
-      "actions": { "saved": "Account bijgewerkt." },
+      "actions": {
+        "saved": "Account bijgewerkt."
+      },
       "errors": {
         "load_failed": "Laden van accounts mislukt.",
         "save_failed": "Bijwerken van account mislukt."

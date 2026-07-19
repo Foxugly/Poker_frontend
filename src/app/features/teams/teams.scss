@@ -170,3 +170,112 @@
   display: block;
   margin-bottom: 0.5rem;
 }
+
+/* Team detail tabs */
+.tab-icon {
+  margin-right: var(--s-2);
+}
+.invite-row .field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Poker type / deck picker (P2.8) */
+.deck-intro {
+  color: var(--muted);
+  margin: 0 0 var(--s-4);
+}
+.deck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--s-4);
+}
+.deck-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+  padding: var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+.deck-card:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.deck-card:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.deck-card--selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.deck-card__cards {
+  display: flex;
+}
+.deck-card__mini {
+  width: 30px;
+  height: 42px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface-2, var(--surface));
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.deck-card__mini + .deck-card__mini {
+  margin-left: -10px;
+}
+.deck-card__name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.deck-card__meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.deck-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.deck-create {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  margin-top: var(--s-5);
+}
+.muted {
+  color: var(--muted);
+}
+
+.deck-subtitle {
+  margin: var(--s-6) 0 var(--s-2);
+  color: var(--ink);
+  font-size: 1rem;
+}
+.deck-subtitle:first-of-type {
+  margin-top: var(--s-4);
+}
+.deck-card__mini--back {
+  width: 30px;
+  height: 42px;
+}

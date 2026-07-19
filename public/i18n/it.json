@@ -39,7 +39,9 @@
     "already_member": "Questa persona è già membro.",
     "revoke": "Revoca",
     "remove": "Rimuovi",
-    "manage": "Gestisci team",
+    "manage": "Rinomina il team",
+    "rename_label": "Nuovo nome",
+    "tab_members": "Membri e inviti",
     "appearance": "Aspetto",
     "felt_color": "Colore del panno",
     "back_color": "Colore del dorso",
@@ -56,6 +58,22 @@
       "error_title": "Invito non valido",
       "error_lead": "Questo invito non è valido, è scaduto o è già stato usato.",
       "email_mismatch": "Accedi con l'email a cui è stato inviato l'invito."
+    },
+    "deck": {
+      "tab": "Tipo di poker",
+      "title": "Tipo di poker",
+      "loading": "Caricamento…",
+      "intro": "Il mazzo distribuito nelle sessioni di questo team.",
+      "custom": "Mazzo personalizzato",
+      "in_use": "In uso",
+      "saved": "Mazzo salvato.",
+      "create": "Crea un mazzo",
+      "create_soon": "La creazione di mazzi personalizzati arriverà presto.",
+      "create_paid": "I mazzi personalizzati sono riservati ai team con un abbonamento.",
+      "fronts_title": "Fronti delle carte",
+      "backs_title": "Retro delle carte",
+      "backs_intro": "Il retro può essere abbinato a qualsiasi set di fronti.",
+      "back_saved": "Retro salvato."
     }
   },
   "home": {
@@ -328,7 +346,9 @@
     "email_sent": "Cronologia inviata a {{count}} membro/i."
   },
   "staff": {
-    "nav": { "users": "Account" },
+    "nav": {
+      "users": "Account"
+    },
     "users": {
       "title": "Amministrazione account",
       "search": "Cerca",
@@ -340,7 +360,9 @@
         "note": "Motivo",
         "note_placeholder": "Perché questo accesso è offerto"
       },
-      "actions": { "saved": "Account aggiornato." },
+      "actions": {
+        "saved": "Account aggiornato."
+      },
       "errors": {
         "load_failed": "Caricamento degli account non riuscito.",
         "save_failed": "Aggiornamento dell'account non riuscito."
