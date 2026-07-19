@@ -21,6 +21,39 @@
             <p class="meta-hint--error">{{ 'errors.username_required' | transloco }}</p>
           }
         </div>
+        <!-- Free room: the choice is made HERE and frozen into the room, because there
+             is no team to persist it on. Hidden when there is nothing to choose. -->
+        @if (catalogue(); as cat) {
+          @if (cat.decks.length > 1) {
+            <div>
+              <label class="meta-label">{{ 'home.deck_choice' | transloco }}</label>
+              <div class="pick-row">
+                @for (d of cat.decks; track d.id) {
+                  <button type="button" class="pick" [class.pick--on]="isDeckPicked(d.id)"
+                          [attr.aria-pressed]="isDeckPicked(d.id)" (click)="toggleDeck(d.id)">
+                    {{ d.name }}
+                  </button>
+                }
+              </div>
+              <p class="meta-hint">{{ 'home.deck_choice_hint' | transloco }}</p>
+            </div>
+          }
+          @if (cat.card_backs.length > 1) {
+            <div>
+              <label class="meta-label">{{ 'home.back_choice' | transloco }}</label>
+              <div class="pick-row">
+                @for (b of cat.card_backs; track b.id) {
+                  <button type="button" class="pick pick--back" [class.pick--on]="cardBackId() === b.id"
+                          [attr.aria-pressed]="cardBackId() === b.id" (click)="cardBackId.set(b.id)"
+                          [style.background-image]="b.image ? 'url(' + b.image + ')' : null">
+                    <span>{{ b.name }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        }
+
         <p-button
           [label]="'home.create_cta' | transloco"
           icon="pi pi-plus"

@@ -86,7 +86,10 @@
     "create_cta": "Kamer maken",
     "join_title": "Kamer binnengaan",
     "join_intro": "Heb je een kamercode of link? Doe mee met het lopende spel.",
-    "join_cta": "Deelnemen"
+    "join_cta": "Deelnemen",
+    "deck_choice": "Pokertypes",
+    "deck_choice_hint": "Je kunt er tijdens de sessie tussen wisselen.",
+    "back_choice": "Achterkant"
   },
   "support": {
     "title": "Steunen",

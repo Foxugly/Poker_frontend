@@ -5,6 +5,25 @@ import { Observable } from 'rxjs';
 import { getRuntimeConfig } from '../runtime-config';
 import { DeckSnapshot, Role } from '../realtime/protocol';
 
+/** One entry of the public catalogue offered to account-less rooms. */
+export interface CatalogueDeck {
+  id: number;
+  name: string;
+  vote_type_code: string;
+  vote_type_name: string;
+}
+
+export interface CatalogueCardBack {
+  id: number;
+  name: string;
+  image: string;
+}
+
+export interface FreeCatalogue {
+  decks: CatalogueDeck[];
+  card_backs: CatalogueCardBack[];
+}
+
 export interface CreateRoomResponse {
   code: string;
   roomTitle: string;
@@ -30,10 +49,26 @@ export class RoomApiService {
   private http = inject(HttpClient);
   private base = getRuntimeConfig().apiBaseUrl;
 
-  createRoom(username: string, title: string, teamId?: number): Observable<CreateRoomResponse> {
+  /** The decks and card backs offered to a room created without an account. */
+  freeCatalogue(): Observable<FreeCatalogue> {
+    return this.http.get<FreeCatalogue>(`${this.base}/api/decks/catalogue/`);
+  }
+
+  createRoom(
+    username: string,
+    title: string,
+    teamId?: number,
+    free?: { deckIds: number[]; cardBackId: number | null },
+  ): Observable<CreateRoomResponse> {
     const body: Record<string, unknown> = { title };
-    if (teamId != null) body['team'] = teamId;
-    else body['username'] = username;
+    if (teamId != null) {
+      // Team rooms take the team's enabled decks; any free pick is irrelevant.
+      body['team'] = teamId;
+    } else {
+      body['username'] = username;
+      if (free?.deckIds.length) body['deck_ids'] = free.deckIds;
+      if (free?.cardBackId != null) body['card_back_id'] = free.cardBackId;
+    }
     return this.http.post<CreateRoomResponse>(`${this.base}/api/rooms`, body);
   }
 
