@@ -39,7 +39,9 @@
     "already_member": "Esa persona ya es miembro.",
     "revoke": "Revocar",
     "remove": "Quitar",
-    "manage": "Gestionar equipo",
+    "manage": "Renombrar el equipo",
+    "rename_label": "Nuevo nombre",
+    "tab_members": "Miembros e invitaciones",
     "appearance": "Apariencia",
     "felt_color": "Color del tapete",
     "back_color": "Color del dorso",
@@ -56,6 +58,22 @@
       "error_title": "Invitación no válida",
       "error_lead": "Esta invitación no es válida, ha caducado o ya se ha usado.",
       "email_mismatch": "Inicia sesión con el correo al que se envió la invitación."
+    },
+    "deck": {
+      "tab": "Tipo de póker",
+      "title": "Tipo de póker",
+      "loading": "Cargando…",
+      "intro": "La baraja que se reparte en las sesiones de este equipo.",
+      "custom": "Baraja personalizada",
+      "in_use": "En uso",
+      "saved": "Baraja guardada.",
+      "create": "Crear una baraja",
+      "create_soon": "La creación de barajas personalizadas llegará pronto.",
+      "create_paid": "Las barajas personalizadas están reservadas a los equipos con suscripción.",
+      "fronts_title": "Anversos",
+      "backs_title": "Reversos",
+      "backs_intro": "El reverso se puede combinar con cualquier juego de anversos.",
+      "back_saved": "Reverso guardado."
     }
   },
   "home": {
@@ -328,7 +346,9 @@
     "email_sent": "Historial enviado a {{count}} miembro(s)."
   },
   "staff": {
-    "nav": { "users": "Cuentas" },
+    "nav": {
+      "users": "Cuentas"
+    },
     "users": {
       "title": "Administración de cuentas",
       "search": "Buscar",
@@ -340,7 +360,9 @@
         "note": "Motivo",
         "note_placeholder": "Por qué se ofrece este acceso"
       },
-      "actions": { "saved": "Cuenta actualizada." },
+      "actions": {
+        "saved": "Cuenta actualizada."
+      },
       "errors": {
         "load_failed": "Error al cargar las cuentas.",
         "save_failed": "Error al actualizar la cuenta."

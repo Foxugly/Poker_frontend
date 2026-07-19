@@ -9,6 +9,8 @@ export interface Team {
   member_count: number;
   card_back_color: string;
   felt_color: string;
+  deck_id: number | null;
+  card_back_id: number | null;
   is_paid: boolean;
   billing_enabled: boolean;
   subscription_status: string;
@@ -28,4 +30,38 @@ export interface Invitation {
   created_at: string;
   expires_at: string;
   accepted_at: string | null;
+}
+
+export interface DeckCardPreview {
+  value: string;
+  slug: string;
+  order: number;
+  image: string;
+}
+
+export interface Deck {
+  id: number;
+  name: string;
+  vote_type_code: string;
+  vote_type_name: string;
+  is_standard: boolean;
+  is_custom: boolean;
+  card_back_image: string;
+  cards: DeckCardPreview[];
+}
+
+export interface CardBack {
+  id: number;
+  name: string;
+  is_standard: boolean;
+  is_custom: boolean;
+  image: string;
+}
+
+export interface TeamDecks {
+  decks: Deck[];
+  selected_deck_id: number | null;
+  card_backs: CardBack[];
+  selected_card_back_id: number | null;
+  can_customize: boolean;
 }

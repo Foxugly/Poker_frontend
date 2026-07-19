@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
-import { Invitation, Membership, Team, TeamRole } from './teams.models';
+import { Invitation, Membership, Team, TeamDecks, TeamRole } from './teams.models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
@@ -27,6 +27,16 @@ export class TeamsService {
   }
   deleteTeam(id: number) {
     return firstValueFrom(this.http.delete(`${this.base}/${id}/`));
+  }
+
+  getDecks(id: number) {
+    return firstValueFrom(this.http.get<TeamDecks>(`${this.base}/${id}/decks/`));
+  }
+  setDeck(id: number, deckId: number | null) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { deck_id: deckId }));
+  }
+  setCardBack(id: number, cardBackId: number | null) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { card_back_id: cardBackId }));
   }
 
   getMembers(id: number) {

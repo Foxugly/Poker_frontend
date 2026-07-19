@@ -39,7 +39,9 @@
     "already_member": "Cette personne est déjà membre.",
     "revoke": "Révoquer",
     "remove": "Retirer",
-    "manage": "Gérer l'équipe",
+    "manage": "Renommer l'équipe",
+    "rename_label": "Nouveau nom",
+    "tab_members": "Membres et invitations",
     "appearance": "Apparence",
     "felt_color": "Couleur du feutre",
     "back_color": "Couleur du dos",
@@ -56,6 +58,22 @@
       "error_title": "Invitation invalide",
       "error_lead": "Cette invitation est invalide, expirée ou déjà utilisée.",
       "email_mismatch": "Connectez-vous avec l'adresse à laquelle l'invitation a été envoyée."
+    },
+    "deck": {
+      "tab": "Type de poker",
+      "title": "Type de poker",
+      "loading": "Chargement…",
+      "intro": "Le jeu de cartes distribué dans les sessions de cette équipe.",
+      "custom": "Jeu personnalisé",
+      "in_use": "Utilisé",
+      "saved": "Jeu de cartes enregistré.",
+      "create": "Créer un jeu",
+      "create_soon": "La création de jeux personnalisés arrive bientôt.",
+      "create_paid": "La création de jeux personnalisés est réservée aux équipes avec un abonnement.",
+      "fronts_title": "Faces des cartes",
+      "backs_title": "Dos des cartes",
+      "backs_intro": "Le dos s'associe librement à n'importe quel jeu de faces.",
+      "back_saved": "Dos des cartes enregistré."
     }
   },
   "home": {
@@ -328,7 +346,9 @@
     "email_sent": "Historique envoyé à {{count}} membre(s)."
   },
   "staff": {
-    "nav": { "users": "Comptes" },
+    "nav": {
+      "users": "Comptes"
+    },
     "users": {
       "title": "Administration des comptes",
       "search": "Rechercher",
@@ -340,7 +360,9 @@
         "note": "Motif",
         "note_placeholder": "Pourquoi cet accès est offert"
       },
-      "actions": { "saved": "Compte mis à jour." },
+      "actions": {
+        "saved": "Compte mis à jour."
+      },
       "errors": {
         "load_failed": "Échec du chargement des comptes.",
         "save_failed": "Échec de la mise à jour du compte."

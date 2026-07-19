@@ -39,7 +39,9 @@
     "already_member": "That person is already a member.",
     "revoke": "Revoke",
     "remove": "Remove",
-    "manage": "Manage team",
+    "manage": "Rename team",
+    "rename_label": "New name",
+    "tab_members": "Members and invitations",
     "appearance": "Appearance",
     "felt_color": "Felt colour",
     "back_color": "Card-back colour",
@@ -56,6 +58,22 @@
       "error_title": "Invalid invitation",
       "error_lead": "This invitation is invalid, expired, or already used.",
       "email_mismatch": "Sign in with the email the invitation was sent to."
+    },
+    "deck": {
+      "tab": "Poker type",
+      "title": "Poker type",
+      "loading": "Loading…",
+      "intro": "The deck dealt in this team's sessions.",
+      "custom": "Custom deck",
+      "in_use": "In use",
+      "saved": "Deck saved.",
+      "create": "Create a deck",
+      "create_soon": "Custom deck creation is coming soon.",
+      "create_paid": "Custom decks are available to teams with a subscription.",
+      "fronts_title": "Card fronts",
+      "backs_title": "Card backs",
+      "backs_intro": "A back can be paired with any set of fronts.",
+      "back_saved": "Card back saved."
     }
   },
   "home": {
@@ -328,7 +346,9 @@
     "email_sent": "History sent to {{count}} member(s)."
   },
   "staff": {
-    "nav": { "users": "Accounts" },
+    "nav": {
+      "users": "Accounts"
+    },
     "users": {
       "title": "Account administration",
       "search": "Search",
@@ -340,7 +360,9 @@
         "note": "Reason",
         "note_placeholder": "Why this access is offered"
       },
-      "actions": { "saved": "Account updated." },
+      "actions": {
+        "saved": "Account updated."
+      },
       "errors": {
         "load_failed": "Failed to load accounts.",
         "save_failed": "Failed to update account."
