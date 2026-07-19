@@ -81,7 +81,10 @@
       "felt": "Tafelkleed",
       "style_color": "Effen kleur",
       "style_image": "Afbeelding",
-      "no_felt": "Nog geen kleedafbeelding beschikbaar."
+      "no_felt": "Nog geen kleedafbeelding beschikbaar.",
+      "table": "Tafeldecoratie",
+      "back_models": "Beschikbare modellen",
+      "no_back": "Nog geen achterkant beschikbaar."
     }
   },
   "home": {

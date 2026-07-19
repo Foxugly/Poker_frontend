@@ -81,7 +81,10 @@
       "felt": "Table felt",
       "style_color": "Flat colour",
       "style_image": "Image",
-      "no_felt": "No felt image available yet."
+      "no_felt": "No felt image available yet.",
+      "table": "Table decoration",
+      "back_models": "Available models",
+      "no_back": "No card back available yet."
     }
   },
   "home": {

@@ -95,118 +95,131 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             <!-- Appearance (manager) — P2.6 -->
             @if (isManager()) {
               <p-tabpanel value="appearance">
-                <!-- Preview first: the two surfaces as the room will draw them. -->
-                <div class="section">
-                  <h3>{{ 'teams.appearance' | transloco }}</h3>
-                  <span
-                    class="table-preview"
-                    [style.background]="feltColor()"
-                    [style.background-image]="feltPreviewImage()"
-                  >
-                    <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
-                  </span>
-                </div>
+                <p-tabs [(value)]="appearanceTab">
+                  <p-tablist>
+                    <p-tab value="table"><span class="pi pi-table tab-icon"></span><span>{{ 'teams.surface.table' | transloco }}</span></p-tab>
+                    <p-tab value="back"><span class="pi pi-id-card tab-icon"></span><span>{{ 'teams.deck.backs_title' | transloco }}</span></p-tab>
+                  </p-tablist>
 
-                <!-- Felt -->
-                <div class="section">
-                  <h3>{{ 'teams.surface.felt' | transloco }}</h3>
-                  <div class="style-row">
-                    <p-selectbutton
-                      [options]="styleOptions()"
-                      optionLabel="label"
-                      optionValue="value"
-                      [ngModel]="feltStyle()"
-                      (ngModelChange)="setStyle('felt', $event)"
-                      [allowEmpty]="false"
-                    />
-                  </div>
-                  @if (feltStyle() === 'color') {
-                    <div class="appearance-row">
-                      <label>
-                        <span>{{ 'teams.felt_color' | transloco }}</span>
-                        <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
-                      </label>
-                      <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
-                    </div>
-                  } @else if (decksLoading()) {
-                    <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
-                  } @else if (!felts().length) {
-                    <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
-                  } @else {
-                    <div class="deck-grid">
-                      @for (f of felts(); track f.id) {
-                        <button type="button" class="deck-card"
-                                [class.deck-card--selected]="f.id === selectedFeltId()"
-                                [disabled]="savingFelt()" (click)="selectFelt(f)">
-                          <span class="deck-card__cards">
-                            <span class="deck-card__mini deck-card__mini--felt"
-                                  [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
-                          </span>
-                          <span class="deck-card__name">{{ f.name }}</span>
-                          @if (f.is_custom) {
-                            <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
-                          }
-                          @if (f.id === selectedFeltId()) {
-                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                          }
-                        </button>
-                      }
-                    </div>
-                  }
-                </div>
-
-                <!-- Card back -->
-                <div class="section">
-                  <h3>{{ 'teams.deck.backs_title' | transloco }}</h3>
-                  <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
-                  <div class="style-row">
-                    <p-selectbutton
-                      [options]="styleOptions()"
-                      optionLabel="label"
-                      optionValue="value"
-                      [ngModel]="cardBackStyle()"
-                      (ngModelChange)="setStyle('card_back', $event)"
-                      [allowEmpty]="false"
-                    />
-                  </div>
-                  @if (cardBackStyle() === 'color') {
-                    <div class="appearance-row">
-                      <label>
-                        <span>{{ 'teams.back_color' | transloco }}</span>
-                        <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
-                      </label>
-                      <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
-                    </div>
-                  } @else if (decksLoading()) {
-                    <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
-                  } @else {
-                    <div class="deck-grid">
-                      @for (back of cardBacks(); track back.id) {
-                        <button
-                          type="button"
-                          class="deck-card"
-                          [class.deck-card--selected]="back.id === selectedCardBackId()"
-                          [disabled]="savingBack()"
-                          (click)="selectCardBack(back)"
+                  <p-tabpanels>
+                    <!-- Table decoration = the felt -->
+                    <p-tabpanel value="table">
+                      <div class="section">
+                        <span
+                          class="table-preview"
+                          [style.background]="feltColor()"
+                          [style.background-image]="feltPreviewImage()"
                         >
-                          <span class="deck-card__cards">
-                            <span
-                              class="deck-card__mini deck-card__mini--back"
-                              [style.background-image]="back.image ? 'url(' + back.image + ')' : null"
-                            ></span>
-                          </span>
-                          <span class="deck-card__name">{{ back.name }}</span>
-                          @if (back.is_custom) {
-                            <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
-                          }
-                          @if (back.id === selectedCardBackId()) {
-                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                          }
-                        </button>
-                      }
-                    </div>
-                  }
-                </div>
+                          <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                        </span>
+                      </div>
+                      <div class="section">
+                        <div class="style-row">
+                          <p-selectbutton
+                            [options]="styleOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            [ngModel]="feltStyle()"
+                            (ngModelChange)="setStyle('felt', $event)"
+                            [allowEmpty]="false"
+                          />
+                        </div>
+                        @if (feltStyle() === 'color') {
+                          <div class="appearance-row">
+                            <label>
+                              <span>{{ 'teams.felt_color' | transloco }}</span>
+                              <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
+                            </label>
+                            <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                          </div>
+                        } @else if (decksLoading()) {
+                          <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                        } @else if (!felts().length) {
+                          <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
+                        } @else {
+                          <div class="deck-grid">
+                            @for (f of felts(); track f.id) {
+                              <button type="button" class="deck-card"
+                                      [class.deck-card--selected]="f.id === selectedFeltId()"
+                                      [disabled]="savingFelt()" (click)="selectFelt(f)">
+                                <span class="deck-card__cards">
+                                  <span class="deck-card__mini deck-card__mini--felt"
+                                        [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
+                                </span>
+                                <span class="deck-card__name">{{ f.name }}</span>
+                                @if (f.is_custom) {
+                                  <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                }
+                                @if (f.id === selectedFeltId()) {
+                                  <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
+                                }
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </p-tabpanel>
+
+                    <!-- Card backs: the models are always shown -->
+                    <p-tabpanel value="back">
+                      <div class="section">
+                        <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
+                        <div class="style-row">
+                          <p-selectbutton
+                            [options]="styleOptions()"
+                            optionLabel="label"
+                            optionValue="value"
+                            [ngModel]="cardBackStyle()"
+                            (ngModelChange)="setStyle('card_back', $event)"
+                            [allowEmpty]="false"
+                          />
+                        </div>
+                        @if (cardBackStyle() === 'color') {
+                          <div class="appearance-row">
+                            <label>
+                              <span>{{ 'teams.back_color' | transloco }}</span>
+                              <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
+                            </label>
+                            <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                          </div>
+                        }
+                        <!-- The available models are always visible, whatever the style. -->
+                        <h4 class="deck-subtitle">{{ 'teams.surface.back_models' | transloco }}</h4>
+                        @if (decksLoading()) {
+                          <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                        } @else if (!cardBacks().length) {
+                          <p class="muted">{{ 'teams.surface.no_back' | transloco }}</p>
+                        } @else {
+                          <div class="deck-grid">
+                            @for (back of cardBacks(); track back.id) {
+                              <button
+                                type="button"
+                                class="deck-card"
+                                [class.deck-card--selected]="cardBackStyle() === 'image' && back.id === selectedCardBackId()"
+                                [disabled]="savingBack()"
+                                (click)="selectCardBack(back)"
+                              >
+                                <span class="deck-card__cards">
+                                  <span
+                                    class="deck-card__mini deck-card__mini--back"
+                                    [style.background-image]="back.image ? 'url(' + back.image + ')' : null"
+                                  ></span>
+                                </span>
+                                <span class="deck-card__name">{{ back.name }}</span>
+                                @if (back.is_custom) {
+                                  <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                }
+                                @if (cardBackStyle() === 'image' && back.id === selectedCardBackId()) {
+                                  <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
+                                }
+                              </button>
+                            }
+                          </div>
+                        }
+                      </div>
+                    </p-tabpanel>
+                  </p-tabpanels>
+                </p-tabs>
               </p-tabpanel>
             }
 
@@ -307,6 +320,7 @@ export class TeamDetailComponent implements OnInit {
 
   private id = 0;
   activeTab = 'members';
+  appearanceTab = 'table';
   readonly starting = signal(false);
   readonly team = signal<Team | null>(null);
   readonly members = signal<Membership[]>([]);
@@ -439,11 +453,15 @@ export class TeamDetailComponent implements OnInit {
   }
 
   async selectCardBack(back: CardBack): Promise<void> {
-    if (back.id === this.selectedCardBackId()) return;
+    // Picking a model means "use this back", so switch to the image style if the
+    // team was on a flat colour — otherwise the pick would be saved but not shown.
+    const wasColour = this.cardBackStyle() === 'color';
+    if (back.id === this.selectedCardBackId() && !wasColour) return;
     const previous = this.selectedCardBackId();
     this.selectedCardBackId.set(back.id);
     this.savingBack.set(true);
     try {
+      if (wasColour) await this.setStyle('card_back', 'image');
       const team = await this.teamsService.setCardBack(this.id, back.id);
       this.team.set(team);
       this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.deck.back_saved') });

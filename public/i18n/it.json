@@ -81,7 +81,10 @@
       "felt": "Panno del tavolo",
       "style_color": "Tinta unita",
       "style_image": "Immagine",
-      "no_felt": "Nessuna immagine di panno disponibile per ora."
+      "no_felt": "Nessuna immagine di panno disponibile per ora.",
+      "table": "Decorazione del tavolo",
+      "back_models": "Modelli disponibili",
+      "no_back": "Nessun retro disponibile per ora."
     }
   },
   "home": {

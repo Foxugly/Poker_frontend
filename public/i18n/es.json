@@ -81,7 +81,10 @@
       "felt": "Tapete de la mesa",
       "style_color": "Color liso",
       "style_image": "Imagen",
-      "no_felt": "Aún no hay ninguna imagen de tapete disponible."
+      "no_felt": "Aún no hay ninguna imagen de tapete disponible.",
+      "table": "Decoración de la mesa",
+      "back_models": "Modelos disponibles",
+      "no_back": "Ningún reverso disponible por ahora."
     }
   },
   "home": {
