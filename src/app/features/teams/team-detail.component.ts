@@ -14,6 +14,7 @@ import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
 import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
+import { LanguageService } from '../../core/i18n/language.service';
 import { TeamsService } from '../../core/teams/teams.service';
 import { CardBack, Deck, Invitation, Membership, Team, TeamRole } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
@@ -38,7 +39,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
         <p-tabs [(value)]="activeTab">
           <p-tablist>
             <p-tab value="members"><span class="pi pi-users tab-icon"></span><span>{{ 'teams.tab_members' | transloco }}</span></p-tab>
-            @if (isAdmin()) {
+            @if (isManager()) {
               <p-tab value="appearance"><span class="pi pi-palette tab-icon"></span><span>{{ 'teams.appearance' | transloco }}</span></p-tab>
               <p-tab value="deck"><span class="pi pi-clone tab-icon"></span><span>{{ 'teams.deck.tab' | transloco }}</span></p-tab>
             }
@@ -61,8 +62,8 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                     </div>
                     @if (m.role === 'owner') {
                       <p-tag [value]="'teams.role.owner' | transloco" />
-                    } @else if (isAdmin()) {
-                      <p-select [options]="roleOptions" optionLabel="label" optionValue="value" [ngModel]="m.role" (ngModelChange)="setRole(m, $event)" appendTo="body" />
+                    } @else if (isManager()) {
+                      <p-select [options]="roleOptions()" optionLabel="label" optionValue="value" [ngModel]="m.role" (ngModelChange)="setRole(m, $event)" appendTo="body" />
                       <p-button icon="pi pi-times" [text]="true" severity="danger" [ariaLabel]="'teams.remove' | transloco" (onClick)="remove(m)" />
                     } @else {
                       <p-tag [value]="'teams.role.' + m.role | transloco" severity="secondary" />
@@ -71,13 +72,13 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                 }
               </div>
 
-              <!-- Invitations (admin only) -->
-              @if (isAdmin()) {
+              <!-- Invitations (managers only) -->
+              @if (isManager()) {
                 <div class="section">
                   <h3>{{ 'teams.invitations' | transloco }}</h3>
                   <div class="invite-row">
                     <input pInputText [placeholder]="'auth.email' | transloco" [(ngModel)]="inviteEmail" style="min-width:220px" />
-                    <p-select [options]="roleOptions" optionLabel="label" optionValue="value" [(ngModel)]="inviteRole" appendTo="body" />
+                    <p-select [options]="roleOptions()" optionLabel="label" optionValue="value" [(ngModel)]="inviteRole" appendTo="body" />
                     <p-button [label]="'teams.invite' | transloco" icon="pi pi-send" [loading]="inviting()" (onClick)="invite()" />
                   </div>
                   @for (inv of invitations(); track inv.id) {
@@ -90,8 +91,8 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               }
             </p-tabpanel>
 
-            <!-- Appearance (admin) — P2.6 -->
-            @if (isAdmin()) {
+            <!-- Appearance (manager) — P2.6 -->
+            @if (isManager()) {
               <p-tabpanel value="appearance">
                 <div class="section">
                   <h3>{{ 'teams.appearance' | transloco }}</h3>
@@ -148,8 +149,8 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               </p-tabpanel>
             }
 
-            <!-- Poker type / deck (admin) -->
-            @if (isAdmin()) {
+            <!-- Poker type / deck (manager) -->
+            @if (isManager()) {
               <p-tabpanel value="deck">
                 <div class="section">
                   <h3>{{ 'teams.deck.title' | transloco }}</h3>
@@ -238,6 +239,7 @@ export class TeamDetailComponent implements OnInit {
   private router = inject(Router);
   private messages = inject(MessageService);
   private transloco = inject(TranslocoService);
+  private language = inject(LanguageService);
   private auth = inject(AuthService);
   private roomApi = inject(RoomApiService);
   private identity = inject(IdentityService);
@@ -248,7 +250,7 @@ export class TeamDetailComponent implements OnInit {
   readonly team = signal<Team | null>(null);
   readonly members = signal<Membership[]>([]);
   readonly invitations = signal<Invitation[]>([]);
-  readonly isAdmin = computed(() => ['owner', 'admin'].includes(this.team()?.my_role ?? ''));
+  readonly isManager = computed(() => ['owner', 'manager'].includes(this.team()?.my_role ?? ''));
   readonly isOwner = computed(() => this.team()?.my_role === 'owner');
   readonly inviting = signal(false);
   inviteEmail = '';
@@ -271,10 +273,16 @@ export class TeamDetailComponent implements OnInit {
   readonly savingBack = signal(false);
 
 
-  readonly roleOptions = [
-    { value: 'member', label: this.transloco.translate('teams.role.member') },
-    { value: 'admin', label: this.transloco.translate('teams.role.admin') },
-  ];
+  // Computed, not a field initialiser: translate() at construction runs before the
+  // catalogue is loaded and bakes in the raw key — which is what the role selects
+  // were actually displaying. Reading the active language also re-labels on a switch.
+  readonly roleOptions = computed(() => {
+    this.language.active();
+    return [
+      { value: 'member', label: this.transloco.translate('teams.role.member') },
+      { value: 'manager', label: this.transloco.translate('teams.role.manager') },
+    ];
+  });
 
   async ngOnInit(): Promise<void> {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -285,7 +293,7 @@ export class TeamDetailComponent implements OnInit {
       this.feltColor.set(team.felt_color);
       this.backColor.set(team.card_back_color);
       this.members.set(await this.teamsService.getMembers(this.id));
-      if (this.isAdmin()) {
+      if (this.isManager()) {
         this.invitations.set(await this.teamsService.getInvitations(this.id));
         await this.loadDecks();
       }

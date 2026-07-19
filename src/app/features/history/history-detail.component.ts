@@ -20,7 +20,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
     <section class="page">
       <app-page-header [icon]="'pi-history'" [title]="date()">
         <p-button slot="left" [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
-        @if (isAdmin()) {
+        @if (isManager()) {
           <p-button slot="right" [label]="'history.email' | transloco" icon="pi pi-envelope" [loading]="sending()" (onClick)="sendEmail()" />
         }
       </app-page-header>
@@ -59,7 +59,7 @@ export class HistoryDetailComponent implements OnInit {
   readonly date = signal('');
   readonly entries = signal<HistoryEntry[]>([]);
   readonly loading = signal(true);
-  readonly isAdmin = signal(false);
+  readonly isManager = signal(false);
   readonly sending = signal(false);
 
   async ngOnInit(): Promise<void> {
@@ -70,7 +70,7 @@ export class HistoryDetailComponent implements OnInit {
     try {
       const [detail, team] = await Promise.all([this.history.getDay(id, date), this.teams.getTeam(id)]);
       this.entries.set(detail.entries);
-      this.isAdmin.set(team.my_role === 'owner' || team.my_role === 'admin');
+      this.isManager.set(team.my_role === 'owner' || team.my_role === 'manager');
     } finally {
       this.loading.set(false);
     }

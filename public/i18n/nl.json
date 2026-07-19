@@ -51,7 +51,7 @@
     "delete_confirm": "Dit team definitief verwijderen?",
     "role": {
       "owner": "Eigenaar",
-      "admin": "Admin",
+      "manager": "Beheerder",
       "member": "Lid"
     },
     "accept": {

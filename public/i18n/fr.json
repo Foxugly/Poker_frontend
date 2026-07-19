@@ -51,7 +51,7 @@
     "delete_confirm": "Supprimer définitivement cette équipe ?",
     "role": {
       "owner": "Propriétaire",
-      "admin": "Admin",
+      "manager": "Gestionnaire",
       "member": "Membre"
     },
     "accept": {

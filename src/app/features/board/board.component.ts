@@ -36,7 +36,7 @@ export class BoardComponent implements OnInit {
   readonly levels = signal<BoardLevel[]>([]);
   readonly rows = signal<BoardRow[]>([]);
   readonly loading = signal(true);
-  readonly isAdmin = signal(false);
+  readonly isManager = signal(false);
 
   readonly mode = signal<Dimension>('asIs');
   readonly modeOptions = computed(() => [
@@ -55,7 +55,7 @@ export class BoardComponent implements OnInit {
       const [board, team] = await Promise.all([this.boards.getBoard(id), this.teams.getTeam(id)]);
       this.applyBoard(board);
       this.teamName.set(team.name);
-      this.isAdmin.set(team.my_role === 'owner' || team.my_role === 'admin');
+      this.isManager.set(team.my_role === 'owner' || team.my_role === 'manager');
     } finally {
       this.loading.set(false);
     }
@@ -74,7 +74,7 @@ export class BoardComponent implements OnInit {
 
   /** Place / move / clear the current-mode post-it for a row at a given level. */
   async place(row: BoardRow, level: BoardLevel): Promise<void> {
-    if (!this.isAdmin()) return;
+    if (!this.isManager()) return;
     const dim = this.mode();
     const current = dim === 'asIs' ? row.asIs : row.toBe;
     const next = current === level.value ? null : level.value;
