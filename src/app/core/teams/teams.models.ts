@@ -9,7 +9,7 @@ export interface Team {
   member_count: number;
   card_back_color: string;
   felt_color: string;
-  deck_id: number | null;
+  deck_ids: number[];
   card_back_id: number | null;
   is_paid: boolean;
   billing_enabled: boolean;
@@ -60,7 +60,7 @@ export interface CardBack {
 
 export interface TeamDecks {
   decks: Deck[];
-  selected_deck_id: number | null;
+  selected_deck_ids: number[];
   card_backs: CardBack[];
   selected_card_back_id: number | null;
   can_customize: boolean;

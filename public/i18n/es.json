@@ -63,17 +63,18 @@
       "tab": "Tipo de póker",
       "title": "Tipo de póker",
       "loading": "Cargando…",
-      "intro": "La baraja que se reparte en las sesiones de este equipo.",
+      "intro": "Los tipos de póker jugables en las sesiones de este equipo. El facilitador elige cuál usar en la sala, ronda a ronda.",
       "custom": "Baraja personalizada",
       "in_use": "En uso",
-      "saved": "Baraja guardada.",
+      "saved": "Tipos de póker guardados.",
       "create": "Crear una baraja",
       "create_soon": "La creación de barajas personalizadas llegará pronto.",
       "create_paid": "Las barajas personalizadas están reservadas a los equipos con suscripción.",
-      "fronts_title": "Anversos",
       "backs_title": "Reversos",
       "backs_intro": "El reverso se puede combinar con cualquier juego de anversos.",
-      "back_saved": "Reverso guardado."
+      "back_saved": "Reverso guardado.",
+      "enabled": "Activado",
+      "none_enabled": "Ningún tipo activado: las sesiones usarán la baraja estándar."
     }
   },
   "home": {
@@ -306,6 +307,22 @@
       "seconds": "Duración (segundos)",
       "remaining": "Tiempo restante",
       "expired": "Se acabó el tiempo"
+    },
+    "deck": {
+      "label": "Tipo de póker",
+      "locked": "Termina la ronda para cambiar de tipo.",
+      "type": {
+        "delegation_poker": "Delegation Poker",
+        "poker_planning": "Planning Poker"
+      }
+    },
+    "reveal_mode": {
+      "label": "Revelación",
+      "mode_nominative": "Nominativa",
+      "mode_anonymous": "Anónima",
+      "locked": "Solo se puede definir antes de abrir la votación.",
+      "badge_nominative": "Voto nominativo",
+      "badge_anonymous": "Voto anónimo"
     }
   },
   "billing": {

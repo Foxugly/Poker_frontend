@@ -14,6 +14,8 @@ const SYNC: StateSync = {
   protocolVersion: 1,
   roundState: 'open',
   subject: 'Budget?',
+  availableDecks: [],
+  reveal: { anonymous: false, canAnonymise: false },
   deckSnapshot: { voteType: 'delegation_poker', resolutionStrategy: 'v1', deckId: 1, cardBack: { image: null }, cards: [] },
   participants: [{ participantId: 'p1', username: 'Sam', role: 'facilitator', hasVoted: false }],
   myVote: 'consult',

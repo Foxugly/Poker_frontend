@@ -63,17 +63,18 @@
       "tab": "Tipo di poker",
       "title": "Tipo di poker",
       "loading": "Caricamento…",
-      "intro": "Il mazzo distribuito nelle sessioni di questo team.",
+      "intro": "I tipi di poker giocabili nelle sessioni di questo team. Il facilitatore sceglie quale usare nella stanza, round dopo round.",
       "custom": "Mazzo personalizzato",
       "in_use": "In uso",
-      "saved": "Mazzo salvato.",
+      "saved": "Tipi di poker salvati.",
       "create": "Crea un mazzo",
       "create_soon": "La creazione di mazzi personalizzati arriverà presto.",
       "create_paid": "I mazzi personalizzati sono riservati ai team con un abbonamento.",
-      "fronts_title": "Fronti delle carte",
       "backs_title": "Retro delle carte",
       "backs_intro": "Il retro può essere abbinato a qualsiasi set di fronti.",
-      "back_saved": "Retro salvato."
+      "back_saved": "Retro salvato.",
+      "enabled": "Attivo",
+      "none_enabled": "Nessun tipo attivo: le sessioni useranno il mazzo standard."
     }
   },
   "home": {
@@ -306,6 +307,22 @@
       "seconds": "Durata (secondi)",
       "remaining": "Tempo rimanente",
       "expired": "Tempo scaduto"
+    },
+    "deck": {
+      "label": "Tipo di poker",
+      "locked": "Concludi il round per cambiare tipo.",
+      "type": {
+        "delegation_poker": "Delegation Poker",
+        "poker_planning": "Planning Poker"
+      }
+    },
+    "reveal_mode": {
+      "label": "Rivelazione",
+      "mode_nominative": "Nominativa",
+      "mode_anonymous": "Anonima",
+      "locked": "Impostabile solo prima dell’apertura del voto.",
+      "badge_nominative": "Voto nominativo",
+      "badge_anonymous": "Voto anonimo"
     }
   },
   "billing": {

@@ -110,52 +110,14 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                     <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
                   </div>
                 </div>
-              </p-tabpanel>
-            }
 
-            <!-- Poker type / deck (admin) -->
-            @if (isAdmin()) {
-              <p-tabpanel value="deck">
+                <!-- Card backs live with the rest of the room's look -->
                 <div class="section">
-                  <h3>{{ 'teams.deck.title' | transloco }}</h3>
-
+                  <h3>{{ 'teams.deck.backs_title' | transloco }}</h3>
+                  <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
                   @if (decksLoading()) {
                     <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
                   } @else {
-                    <h4 class="deck-subtitle">{{ 'teams.deck.fronts_title' | transloco }}</h4>
-                    <p class="deck-intro">{{ 'teams.deck.intro' | transloco }}</p>
-                    <div class="deck-grid">
-                      @for (deck of decks(); track deck.id) {
-                        <button
-                          type="button"
-                          class="deck-card"
-                          [class.deck-card--selected]="deck.id === selectedDeckId()"
-                          [disabled]="savingDeck()"
-                          (click)="selectDeck(deck)"
-                        >
-                          <span class="deck-card__cards">
-                            @for (card of deck.cards.slice(0, 5); track card.slug) {
-                              <span class="deck-card__mini" [style.background-image]="card.image ? 'url(' + card.image + ')' : null">
-                                {{ card.value }}
-                              </span>
-                            }
-                          </span>
-                          <span class="deck-card__name">{{ deck.name }}</span>
-                          <span class="deck-card__meta">
-                            {{ deck.vote_type_name }}
-                            @if (deck.is_custom) {
-                              · {{ 'teams.deck.custom' | transloco }}
-                            }
-                          </span>
-                          @if (deck.id === selectedDeckId()) {
-                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                          }
-                        </button>
-                      }
-                    </div>
-
-                    <h4 class="deck-subtitle">{{ 'teams.deck.backs_title' | transloco }}</h4>
-                    <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
                     <div class="deck-grid">
                       @for (back of cardBacks(); track back.id) {
                         <button
@@ -181,6 +143,56 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                         </button>
                       }
                     </div>
+                  }
+                </div>
+              </p-tabpanel>
+            }
+
+            <!-- Poker type / deck (admin) -->
+            @if (isAdmin()) {
+              <p-tabpanel value="deck">
+                <div class="section">
+                  <h3>{{ 'teams.deck.title' | transloco }}</h3>
+
+                  <p class="deck-intro">{{ 'teams.deck.intro' | transloco }}</p>
+
+                  @if (decksLoading()) {
+                    <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                  } @else {
+                    <div class="deck-grid">
+                      @for (deck of decks(); track deck.id) {
+                        <button
+                          type="button"
+                          class="deck-card"
+                          [class.deck-card--selected]="isEnabled(deck.id)"
+                          [attr.aria-pressed]="isEnabled(deck.id)"
+                          [disabled]="savingDeck()"
+                          (click)="toggleDeck(deck)"
+                        >
+                          <span class="deck-card__cards">
+                            @for (card of deck.cards.slice(0, 5); track card.slug) {
+                              <span class="deck-card__mini" [style.background-image]="card.image ? 'url(' + card.image + ')' : null">
+                                {{ card.value }}
+                              </span>
+                            }
+                          </span>
+                          <span class="deck-card__name">{{ deck.name }}</span>
+                          <span class="deck-card__meta">
+                            {{ deck.vote_type_name }}
+                            @if (deck.is_custom) {
+                              · {{ 'teams.deck.custom' | transloco }}
+                            }
+                          </span>
+                          @if (isEnabled(deck.id)) {
+                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.enabled' | transloco }}</span>
+                          }
+                        </button>
+                      }
+                    </div>
+
+                    @if (!enabledDeckIds().length) {
+                      <p class="muted">{{ 'teams.deck.none_enabled' | transloco }}</p>
+                    }
 
                     <div class="deck-create">
                       <p-button
@@ -250,7 +262,7 @@ export class TeamDetailComponent implements OnInit {
 
   // Poker type / deck (P2.8)
   readonly decks = signal<Deck[]>([]);
-  readonly selectedDeckId = signal<number | null>(null);
+  readonly enabledDeckIds = signal<number[]>([]);
   readonly cardBacks = signal<CardBack[]>([]);
   readonly selectedCardBackId = signal<number | null>(null);
   readonly canCustomize = signal(false);
@@ -290,7 +302,7 @@ export class TeamDetailComponent implements OnInit {
       this.cardBacks.set(res.card_backs);
       this.canCustomize.set(res.can_customize);
       // A team that never picked plays the standard deck/back — show those as in use.
-      this.selectedDeckId.set(res.selected_deck_id ?? res.decks.find((d) => d.is_standard)?.id ?? null);
+      this.enabledDeckIds.set(res.selected_deck_ids);
       this.selectedCardBackId.set(
         res.selected_card_back_id ?? res.card_backs.find((b) => b.is_standard)?.id ?? null,
       );
@@ -316,17 +328,23 @@ export class TeamDetailComponent implements OnInit {
     }
   }
 
-  async selectDeck(deck: Deck): Promise<void> {
-    if (deck.id === this.selectedDeckId()) return;
-    const previous = this.selectedDeckId();
-    this.selectedDeckId.set(deck.id);
+  isEnabled(deckId: number): boolean {
+    return this.enabledDeckIds().includes(deckId);
+  }
+
+  async toggleDeck(deck: Deck): Promise<void> {
+    const previous = this.enabledDeckIds();
+    const next = this.isEnabled(deck.id)
+      ? previous.filter((id) => id !== deck.id)
+      : [...previous, deck.id];
+    this.enabledDeckIds.set(next);
     this.savingDeck.set(true);
     try {
-      const team = await this.teamsService.setDeck(this.id, deck.id);
+      const team = await this.teamsService.setDecks(this.id, next);
       this.team.set(team);
       this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.deck.saved') });
     } catch {
-      this.selectedDeckId.set(previous);
+      this.enabledDeckIds.set(previous);
       this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
     } finally {
       this.savingDeck.set(false);
