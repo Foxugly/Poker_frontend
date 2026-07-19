@@ -86,7 +86,10 @@
     "create_cta": "Crea la stanza",
     "join_title": "Entra in una stanza",
     "join_intro": "Hai un codice stanza o un link? Unisciti alla partita in corso.",
-    "join_cta": "Entra"
+    "join_cta": "Entra",
+    "deck_choice": "Tipi di poker",
+    "deck_choice_hint": "Potrai passare dall’uno all’altro durante la sessione.",
+    "back_choice": "Retro delle carte"
   },
   "support": {
     "title": "Sostieni",

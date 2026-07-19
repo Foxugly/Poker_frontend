@@ -47,3 +47,45 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 }
+
+/* Free-room deck/back pickers */
+.pick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.pick {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.pick:hover {
+  border-color: var(--accent);
+}
+.pick--on {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.pick--back {
+  display: inline-grid;
+  place-items: end center;
+  width: 56px;
+  height: 76px;
+  padding: 4px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  font-size: 0.7rem;
+}
+.pick--back span {
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border-radius: 4px;
+  padding: 0 4px;
+}

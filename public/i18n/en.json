@@ -86,7 +86,10 @@
     "create_cta": "Create the room",
     "join_title": "Join a room",
     "join_intro": "Got a room code or a link? Jump into the ongoing game.",
-    "join_cta": "Join"
+    "join_cta": "Join",
+    "deck_choice": "Poker types",
+    "deck_choice_hint": "You can switch between them during the session.",
+    "back_choice": "Card back"
   },
   "support": {
     "title": "Support",
