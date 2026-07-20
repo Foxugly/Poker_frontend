@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -51,7 +52,7 @@ interface Seat {
   selector: 'app-room',
   standalone: true,
   imports: [
-    FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, TagModule, ToggleSwitchModule,
+    FormsModule, TranslocoModule, ButtonModule, InputNumberModule, InputTextModule, SelectModule, TagModule, ToggleSwitchModule,
     DelegationDeckComponent, DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
@@ -78,7 +79,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   // --- Round timer (contract §timer): the countdown is purely cosmetic, the
   // interval only runs while a deadline exists and stops on reveal/destroy.
-  readonly timerDurations = TIMER_DURATIONS;
   readonly remainingSeconds = signal<number | null>(null);
   readonly timerEnabledDraft = signal(false);
   readonly timerSecondsDraft = signal(TIMER_DURATIONS[0]);
@@ -127,6 +127,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   // Reveal mode: settable only while IDLE, mirroring the server. Voters are told
   // the mode before they play, so it must not flip under cast votes.
   readonly canSetRevealMode = computed(() => this.state() === 'idle');
+  /** While a vote is open the whole facilitator panel is frozen: settings mustn't
+   * change under people who are voting. */
+  readonly panelFrozen = computed(() => this.state() === 'open');
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
@@ -282,7 +285,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.socket.setTimer(enabled, this.timerSecondsDraft());
   }
 
-  onTimerSecondsChange(seconds: number): void {
+  onTimerSecondsChange(seconds: number | null): void {
+    if (seconds == null || Number.isNaN(seconds)) return;
     this.timerSecondsDraft.set(seconds);
     this.socket.setTimer(this.timerEnabledDraft(), seconds);
   }

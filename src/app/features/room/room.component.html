@@ -115,12 +115,10 @@
       <!-- Facilitator panel (right) -->
       @if (isFacilitator()) {
         <aside class="fac-panel">
-          <h3>{{ 'room.scenario' | transloco }}</h3>
-
           <ul class="agenda">
             @for (item of socket.agenda(); track item.id) {
               <li class="agenda-item" [class.current]="item.status === 'current'" [class.done]="item.status === 'done'">
-                <button type="button" class="agenda-line" [disabled]="item.status === 'current'"
+                <button type="button" class="agenda-line" [disabled]="item.status === 'current' || panelFrozen()"
                         (click)="item.status !== 'current' && socket.selectSubject(item.id)">
                   <i class="pi"
                      [class.pi-caret-right]="item.status === 'current'"
@@ -139,14 +137,13 @@
 
           <div class="panel-block add-subject-row">
             <input pInputText class="grow" [placeholder]="'room.add_subject' | transloco" [ngModel]="subjectDraft()"
-                   (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" />
-            <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="!subjectDraft().trim()" (onClick)="addSubject()" />
+                   (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="addSubject()" [disabled]="panelFrozen()" />
+            <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="panelFrozen() || !subjectDraft().trim()" (onClick)="addSubject()" />
           </div>
 
           <!-- Vote type sits right under the question: it's part of setting up the round. -->
           @if (availableDecks().length > 1) {
             <div class="panel-block deck-settings">
-              <label>{{ 'room.deck.label' | transloco }}</label>
               <p-select [options]="deckOptions()" optionLabel="label" optionValue="value"
                         [ngModel]="currentDeckId()" (ngModelChange)="onDeckChange($event)"
                         [disabled]="!canSwitchDeck()" appendTo="body" styleClass="w-full" />
@@ -158,11 +155,11 @@
 
           @if (socket.revealMode().canAnonymise) {
             <div class="panel-block reveal-settings">
-              <label>{{ 'room.reveal_mode.label' | transloco }}</label>
               <div class="reveal-row">
                 <p-toggleswitch [ngModel]="socket.revealMode().anonymous" (ngModelChange)="onRevealModeChange($event)"
                                 [disabled]="!canSetRevealMode()" />
                 <span class="reveal-mode-name">
+                  <i class="pi pi-eye-slash"></i>
                   {{ (socket.revealMode().anonymous ? 'room.reveal_mode.mode_anonymous' : 'room.reveal_mode.mode_nominative') | transloco }}
                 </span>
               </div>
@@ -173,11 +170,12 @@
           }
 
           <div class="panel-block timer-settings">
-            <label>{{ 'room.timer.label' | transloco }}</label>
             <div class="timer-row">
-              <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" />
-              <p-select [options]="timerDurations" [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
-                        [disabled]="!timerEnabledDraft()" appendTo="body" styleClass="grow" />
+              <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" [disabled]="panelFrozen()" />
+              <i class="pi pi-clock timer-icon"></i>
+              <p-inputNumber [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
+                             [min]="10" [max]="60" [step]="5" [showButtons]="true"
+                             [disabled]="!timerEnabledDraft() || panelFrozen()" inputStyleClass="timer-input" />
               <span class="timer-unit">{{ 'room.timer.seconds' | transloco }}</span>
             </div>
           </div>

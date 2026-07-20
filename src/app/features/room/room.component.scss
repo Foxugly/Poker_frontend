@@ -391,6 +391,14 @@
   align-items: center;
   gap: var(--s-2);
 }
+/* A clear gap between the on/off switch and the duration control. */
+.timer-row .timer-icon {
+  margin-left: var(--s-3);
+  color: var(--muted);
+}
+.timer-row :is(p-inputnumber, p-inputNumber) {
+  width: 5.5rem;
+}
 .add-subject-row .grow,
 .act-row .grow,
 .timer-row .grow {
