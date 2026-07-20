@@ -339,15 +339,20 @@
 .appearance-layout {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: var(--s-5);
+  /* Roomy gap so the preview fieldset sits clearly apart from the tabs. */
+  gap: var(--s-7, 2.5rem);
   align-items: start;
 }
 .appearance-preview {
   position: sticky;
   top: var(--s-4);
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s-4);
 }
-.appearance-preview h4 {
-  margin: 0 0 var(--s-3);
+.appearance-preview legend {
+  padding: 0 var(--s-2);
   color: var(--muted);
   font-size: 0.9rem;
 }
@@ -406,15 +411,22 @@
 }
 
 /* Green check in the top-right corner of a selected card. */
+/* The check sits on the top-right corner of the thumbnail itself, so it reads as
+   "this card is selected" rather than floating at the far corner of a wide card.
+   deck-card__cards is the positioning context. */
+.deck-card__cards {
+  position: relative;
+}
 .deck-card__check {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: -8px;
+  right: -8px;
   width: 22px;
   height: 22px;
   display: grid;
   place-items: center;
   border-radius: 999px;
+  border: 2px solid var(--surface);
   background: var(--success, #22c55e);
   color: #fff;
   font-size: 0.7rem;

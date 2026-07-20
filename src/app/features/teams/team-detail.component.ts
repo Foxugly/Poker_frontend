@@ -164,15 +164,15 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                                         <span class="deck-card__cards">
                                           <span class="deck-card__mini deck-card__mini--felt"
                                                 [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
+                                          @if (f.id === selectedFeltId()) {
+                                            <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                          }
                                         </span>
                                         <span class="deck-card__name">{{ f.name }}</span>
                                         @if (f.is_custom) {
                                           <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
                                         }
                                       </button>
-                                      @if (f.id === selectedFeltId()) {
-                                        <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
-                                      }
                                       @if (f.image) {
                                         <button type="button" class="deck-card__zoom" [attr.aria-label]="'teams.surface.zoom' | transloco" (click)="zoom(f.image, $event)"><i class="pi pi-search-plus"></i></button>
                                       }
@@ -225,15 +225,15 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                                         <span class="deck-card__cards">
                                           <span class="deck-card__mini deck-card__mini--back"
                                                 [style.background-image]="back.image ? 'url(' + back.image + ')' : null"></span>
+                                          @if (back.id === selectedCardBackId()) {
+                                            <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                          }
                                         </span>
                                         <span class="deck-card__name">{{ back.name }}</span>
                                         @if (back.is_custom) {
                                           <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
                                         }
                                       </button>
-                                      @if (back.id === selectedCardBackId()) {
-                                        <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
-                                      }
                                       @if (back.image) {
                                         <button type="button" class="deck-card__zoom" [attr.aria-label]="'teams.surface.zoom' | transloco" (click)="zoom(back.image, $event)"><i class="pi pi-search-plus"></i></button>
                                       }
@@ -252,12 +252,12 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                   </div>
 
                   <!-- Right 33%: the currently selected layout, as the room will draw it -->
-                  <aside class="appearance-preview">
-                    <h4>{{ 'teams.surface.preview' | transloco }}</h4>
+                  <fieldset class="appearance-preview">
+                    <legend>{{ 'teams.surface.preview' | transloco }}</legend>
                     <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
                       <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
                     </span>
-                  </aside>
+                  </fieldset>
                 </div>
 
                 @if (zoomImage(); as img) {
@@ -293,6 +293,9 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                                 {{ card.value }}
                               </span>
                             }
+                            @if (isEnabled(deck.id)) {
+                              <span class="deck-card__check" [attr.aria-label]="'teams.deck.enabled' | transloco"><i class="pi pi-check"></i></span>
+                            }
                           </span>
                           <span class="deck-card__name">{{ deck.name }}</span>
                           <span class="deck-card__meta">
@@ -301,9 +304,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                               · {{ 'teams.deck.custom' | transloco }}
                             }
                           </span>
-                          @if (isEnabled(deck.id)) {
-                            <span class="deck-card__check" [attr.aria-label]="'teams.deck.enabled' | transloco"><i class="pi pi-check"></i></span>
-                          }
                         </button>
                       }
                     </div>
