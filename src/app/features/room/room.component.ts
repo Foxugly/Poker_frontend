@@ -33,6 +33,38 @@ const BADGE_SEVERITY: Record<RoundState, 'secondary' | 'success' | 'warn' | 'inf
  * picker so the UI can never compose an off-grid value (the server normalises anyway). */
 const TIMER_DURATIONS = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 
+/** Angles (from the top, clockwise) for `n` seats spaced by equal ARC LENGTH on an
+ * ellipse of radii (rx, ry). Equal angle steps would crowd the wide sides; equal
+ * arc keeps neighbours a uniform distance apart so their cards never overlap. */
+function arcEvenAngles(n: number, rx: number, ry: number): number[] {
+  if (n <= 0) return [];
+  const STEPS = 1440;
+  const start = -Math.PI / 2;
+  const cum: number[] = [0];
+  let prevX = rx * Math.cos(start);
+  let prevY = ry * Math.sin(start);
+  for (let s = 1; s <= STEPS; s++) {
+    const t = start + (s / STEPS) * 2 * Math.PI;
+    const x = rx * Math.cos(t);
+    const y = ry * Math.sin(t);
+    cum.push(cum[s - 1] + Math.hypot(x - prevX, y - prevY));
+    prevX = x;
+    prevY = y;
+  }
+  const total = cum[STEPS];
+  const angles: number[] = [];
+  for (let i = 0; i < n; i++) {
+    const target = (i / n) * total;
+    let k = 1;
+    while (k < cum.length && cum[k] < target) k++;
+    const a = cum[k - 1];
+    const b = cum[k] ?? a;
+    const f = b > a ? (target - a) / (b - a) : 0;
+    angles.push(start + ((k - 1 + f) / STEPS) * 2 * Math.PI);
+  }
+  return angles;
+}
+
 interface Seat {
   participantId: string;
   username: string;
@@ -190,8 +222,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     const gap = 30;
     const cardRx = personR - gap / aspect;
     const cardRy = personR - gap;
+    // Even angle steps bunch seats on the wide sides (where the ellipse turns
+    // fast), so cards there overlap. Space them by equal ARC LENGTH instead — a
+    // uniform visual gap between neighbours. Angles are measured on the avatar
+    // ellipse (x-radius scaled by the aspect to work in a square metric).
+    const seatAngles = arcEvenAngles(n, personR * aspect, personR);
     return participants.map((p, i) => {
-      const angle = -Math.PI / 2 + (i / Math.max(n, 1)) * 2 * Math.PI;
+      const angle = seatAngles[i];
       const hasVoted = p.hasVoted || votedIds.has(p.participantId);
       const ownVote = voteByParticipant.get(p.participantId);
       const faceUp = revealedRound && nominative && ownVote !== undefined;
