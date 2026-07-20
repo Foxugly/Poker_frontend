@@ -181,6 +181,15 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.socket.nominativeVotes().map((v) => [v.participantId, v.cardValue]),
     );
     const n = participants.length;
+    // Positions are in % of a wide box, so equal % radii give unequal pixel gaps
+    // (side seats end up far, top/bottom seats close). Derive the card radii from
+    // a single target gap in % of table HEIGHT, dividing the horizontal one by the
+    // table's aspect — so the avatar→card gap is uniform whatever the angle.
+    const aspect = Math.min(2.6, 1.8 + n * 0.08);
+    const personR = 49;
+    const gap = 30;
+    const cardRx = personR - gap / aspect;
+    const cardRy = personR - gap;
     return participants.map((p, i) => {
       const angle = -Math.PI / 2 + (i / Math.max(n, 1)) * 2 * Math.PI;
       const hasVoted = p.hasVoted || votedIds.has(p.participantId);
@@ -197,12 +206,11 @@ export class RoomComponent implements OnInit, OnDestroy {
         participantId: p.participantId,
         username: p.username,
         role: p.role,
-        // Card near the table edge; person one ring further out — same angle (radial).
-        // Rings are well separated so the name never overlaps the card.
-        cardX: 50 + 30 * cx,
-        cardY: 50 + 25 * sy,
-        personX: 50 + 49 * cx,
-        personY: 50 + 49 * sy,
+        // Card a uniform pixel gap inside the avatar, along the same radial.
+        cardX: 50 + cardRx * cx,
+        cardY: 50 + cardRy * sy,
+        personX: 50 + personR * cx,
+        personY: 50 + personR * sy,
         card,
         show: hasVoted,
         revealed: faceUp,
