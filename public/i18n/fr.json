@@ -84,7 +84,12 @@
       "no_felt": "Aucune image de feutre disponible pour le moment.",
       "table": "Décoration de la table",
       "back_models": "Modèles disponibles",
-      "no_back": "Aucun dos disponible pour le moment."
+      "no_back": "Aucun dos disponible pour le moment.",
+      "upload": "Uploader une image",
+      "upload_hint": "PNG, JPEG ou WebP, 3 Mo max.",
+      "upload_invalid": "Image refusée.",
+      "delete": "Supprimer",
+      "delete_confirm": "Supprimer cette image uploadée ?"
     }
   },
   "home": {

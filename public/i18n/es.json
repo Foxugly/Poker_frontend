@@ -84,7 +84,12 @@
       "no_felt": "Aún no hay ninguna imagen de tapete disponible.",
       "table": "Decoración de la mesa",
       "back_models": "Modelos disponibles",
-      "no_back": "Ningún reverso disponible por ahora."
+      "no_back": "Ningún reverso disponible por ahora.",
+      "upload": "Subir una imagen",
+      "upload_hint": "PNG, JPEG o WebP, 3 MB máx.",
+      "upload_invalid": "Imagen rechazada.",
+      "delete": "Eliminar",
+      "delete_confirm": "¿Eliminar esta imagen subida?"
     }
   },
   "home": {
