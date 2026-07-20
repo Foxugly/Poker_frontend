@@ -297,3 +297,40 @@
   height: 34px;
   border-radius: 999px;
 }
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  margin: var(--s-3) 0;
+}
+/* Wrap a catalogue card so a delete control can sit over it without nesting a
+   button inside the card's own button. */
+.deck-card-wrap {
+  position: relative;
+}
+.deck-card__delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+.deck-card-wrap:hover .deck-card__delete,
+.deck-card__delete:focus-visible {
+  opacity: 1;
+}
+.deck-card__delete:hover {
+  color: var(--red-500, #ef4444);
+  border-color: var(--red-500, #ef4444);
+}

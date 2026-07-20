@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
-import { Invitation, Membership, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
+import { CardBack, Felt, Invitation, Membership, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
@@ -40,6 +40,25 @@ export class TeamsService {
   }
   setFelt(id: number, feltId: number | null) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { felt_id: feltId }));
+  }
+  private decksBase = getRuntimeConfig().apiBaseUrl + '/api/decks';
+  uploadCardBack(name: string, image: File) {
+    return firstValueFrom(this.http.post<CardBack>(`${this.decksBase}/card-backs/`, this.imageForm(name, image)));
+  }
+  uploadFelt(name: string, image: File) {
+    return firstValueFrom(this.http.post<Felt>(`${this.decksBase}/felts/`, this.imageForm(name, image)));
+  }
+  deleteCardBack(id: number) {
+    return firstValueFrom(this.http.delete(`${this.decksBase}/card-backs/${id}/`));
+  }
+  deleteFelt(id: number) {
+    return firstValueFrom(this.http.delete(`${this.decksBase}/felts/${id}/`));
+  }
+  private imageForm(name: string, image: File): FormData {
+    const fd = new FormData();
+    fd.append('name', name);
+    fd.append('image', image);
+    return fd;
   }
   setSurfaceStyle(id: number, surface: 'card_back' | 'felt', style: SurfaceStyle) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { [`${surface}_style`]: style }));

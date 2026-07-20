@@ -84,7 +84,12 @@
       "no_felt": "Nog geen kleedafbeelding beschikbaar.",
       "table": "Tafeldecoratie",
       "back_models": "Beschikbare modellen",
-      "no_back": "Nog geen achterkant beschikbaar."
+      "no_back": "Nog geen achterkant beschikbaar.",
+      "upload": "Afbeelding uploaden",
+      "upload_hint": "PNG, JPEG of WebP, max. 3 MB.",
+      "upload_invalid": "Afbeelding geweigerd.",
+      "delete": "Verwijderen",
+      "delete_confirm": "Deze geüploade afbeelding verwijderen?"
     }
   },
   "home": {

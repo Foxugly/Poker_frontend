@@ -84,7 +84,12 @@
       "no_felt": "Nessuna immagine di panno disponibile per ora.",
       "table": "Decorazione del tavolo",
       "back_models": "Modelli disponibili",
-      "no_back": "Nessun retro disponibile per ora."
+      "no_back": "Nessun retro disponibile per ora.",
+      "upload": "Carica un’immagine",
+      "upload_hint": "PNG, JPEG o WebP, max 3 MB.",
+      "upload_invalid": "Immagine rifiutata.",
+      "delete": "Elimina",
+      "delete_confirm": "Eliminare questa immagine caricata?"
     }
   },
   "home": {

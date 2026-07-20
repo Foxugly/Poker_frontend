@@ -132,30 +132,44 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                             </label>
                             <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
                           </div>
-                        } @else if (decksLoading()) {
-                          <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
-                        } @else if (!felts().length) {
-                          <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
                         } @else {
-                          <div class="deck-grid">
-                            @for (f of felts(); track f.id) {
-                              <button type="button" class="deck-card"
-                                      [class.deck-card--selected]="f.id === selectedFeltId()"
-                                      [disabled]="savingFelt()" (click)="selectFelt(f)">
-                                <span class="deck-card__cards">
-                                  <span class="deck-card__mini deck-card__mini--felt"
-                                        [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
-                                </span>
-                                <span class="deck-card__name">{{ f.name }}</span>
-                                @if (f.is_custom) {
-                                  <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
-                                }
-                                @if (f.id === selectedFeltId()) {
-                                  <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                                }
-                              </button>
-                            }
-                          </div>
+                          @if (canCustomize()) {
+                            <div class="upload-row">
+                              <input #feltFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadFelt(feltFile)" />
+                              <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingFelt()" (onClick)="feltFile.click()" />
+                              <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
+                            </div>
+                          }
+                          @if (decksLoading()) {
+                            <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                          } @else if (!felts().length) {
+                            <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
+                          } @else {
+                            <div class="deck-grid">
+                              @for (f of felts(); track f.id) {
+                                <div class="deck-card-wrap">
+                                  <button type="button" class="deck-card"
+                                          [class.deck-card--selected]="f.id === selectedFeltId()"
+                                          [disabled]="savingFelt()" (click)="selectFelt(f)">
+                                    <span class="deck-card__cards">
+                                      <span class="deck-card__mini deck-card__mini--felt"
+                                            [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
+                                    </span>
+                                    <span class="deck-card__name">{{ f.name }}</span>
+                                    @if (f.is_custom) {
+                                      <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                    }
+                                    @if (f.id === selectedFeltId()) {
+                                      <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
+                                    }
+                                  </button>
+                                  @if (f.is_custom) {
+                                    <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteFelt(f, $event)"><i class="pi pi-trash"></i></button>
+                                  }
+                                </div>
+                              }
+                            </div>
+                          }
                         }
                       </div>
                     </p-tabpanel>
@@ -185,6 +199,13 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                         }
                         <!-- The available models are always visible, whatever the style. -->
                         <h4 class="deck-subtitle">{{ 'teams.surface.back_models' | transloco }}</h4>
+                        @if (canCustomize()) {
+                          <div class="upload-row">
+                            <input #backFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadBack(backFile)" />
+                            <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingBack()" (onClick)="backFile.click()" />
+                            <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
+                          </div>
+                        }
                         @if (decksLoading()) {
                           <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
                         } @else if (!cardBacks().length) {
@@ -192,27 +213,32 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                         } @else {
                           <div class="deck-grid">
                             @for (back of cardBacks(); track back.id) {
-                              <button
-                                type="button"
-                                class="deck-card"
-                                [class.deck-card--selected]="cardBackStyle() === 'image' && back.id === selectedCardBackId()"
-                                [disabled]="savingBack()"
-                                (click)="selectCardBack(back)"
-                              >
-                                <span class="deck-card__cards">
-                                  <span
-                                    class="deck-card__mini deck-card__mini--back"
-                                    [style.background-image]="back.image ? 'url(' + back.image + ')' : null"
-                                  ></span>
-                                </span>
-                                <span class="deck-card__name">{{ back.name }}</span>
+                              <div class="deck-card-wrap">
+                                <button
+                                  type="button"
+                                  class="deck-card"
+                                  [class.deck-card--selected]="cardBackStyle() === 'image' && back.id === selectedCardBackId()"
+                                  [disabled]="savingBack()"
+                                  (click)="selectCardBack(back)"
+                                >
+                                  <span class="deck-card__cards">
+                                    <span
+                                      class="deck-card__mini deck-card__mini--back"
+                                      [style.background-image]="back.image ? 'url(' + back.image + ')' : null"
+                                    ></span>
+                                  </span>
+                                  <span class="deck-card__name">{{ back.name }}</span>
+                                  @if (back.is_custom) {
+                                    <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                  }
+                                  @if (cardBackStyle() === 'image' && back.id === selectedCardBackId()) {
+                                    <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
+                                  }
+                                </button>
                                 @if (back.is_custom) {
-                                  <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                  <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteBack(back, $event)"><i class="pi pi-trash"></i></button>
                                 }
-                                @if (cardBackStyle() === 'image' && back.id === selectedCardBackId()) {
-                                  <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                                }
-                              </button>
+                              </div>
                             }
                           </div>
                         }
@@ -227,8 +253,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             @if (isManager()) {
               <p-tabpanel value="deck">
                 <div class="section">
-                  <h3>{{ 'teams.deck.title' | transloco }}</h3>
-
                   <p class="deck-intro">{{ 'teams.deck.intro' | transloco }}</p>
 
                   @if (decksLoading()) {
@@ -289,7 +313,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             @if (isOwner()) {
               <p-tabpanel value="manage">
                 <div class="section">
-                  <h3>{{ 'teams.manage' | transloco }}</h3>
                   <div class="invite-row">
                     <label class="field">
                       <span>{{ 'teams.rename_label' | transloco }}</span>
@@ -354,6 +377,8 @@ export class TeamDetailComponent implements OnInit {
   readonly feltStyle = signal<SurfaceStyle>('color');
   readonly cardBackStyle = signal<SurfaceStyle>('color');
   readonly savingFelt = signal(false);
+  readonly uploadingBack = signal(false);
+  readonly uploadingFelt = signal(false);
   readonly styleOptions = computed(() => {
     this.language.active();
     return [
@@ -450,6 +475,74 @@ export class TeamDetailComponent implements OnInit {
     } finally {
       this.savingFelt.set(false);
     }
+  }
+
+  private nameFromFile(file: File): string {
+    return file.name.replace(/\.[^.]+$/, '').slice(0, 120) || 'Image';
+  }
+
+  async onUploadBack(input: HTMLInputElement): Promise<void> {
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    this.uploadingBack.set(true);
+    try {
+      const back = await this.teamsService.uploadCardBack(this.nameFromFile(file), file);
+      await this.loadDecks();
+      await this.selectCardBack(back);
+    } catch (e: unknown) {
+      this.uploadError(e);
+    } finally {
+      this.uploadingBack.set(false);
+    }
+  }
+
+  async onUploadFelt(input: HTMLInputElement): Promise<void> {
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    this.uploadingFelt.set(true);
+    try {
+      const felt = await this.teamsService.uploadFelt(this.nameFromFile(file), file);
+      await this.loadDecks();
+      await this.selectFelt(felt);
+    } catch (e: unknown) {
+      this.uploadError(e);
+    } finally {
+      this.uploadingFelt.set(false);
+    }
+  }
+
+  async deleteBack(back: CardBack, event: Event): Promise<void> {
+    event.stopPropagation();
+    if (!confirm(this.transloco.translate('teams.surface.delete_confirm'))) return;
+    try {
+      await this.teamsService.deleteCardBack(back.id);
+      await this.loadDecks();
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async deleteFelt(felt: Felt, event: Event): Promise<void> {
+    event.stopPropagation();
+    if (!confirm(this.transloco.translate('teams.surface.delete_confirm'))) return;
+    try {
+      await this.teamsService.deleteFelt(felt.id);
+      await this.loadDecks();
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  /** The backend rejects bad images with a specific message — surface it. */
+  private uploadError(e: unknown): void {
+    const detail = (e as { error?: { detail?: string; code?: string } }).error;
+    const summary =
+      detail?.code === 'invalid_image'
+        ? detail.detail || this.transloco.translate('teams.surface.upload_invalid')
+        : this.transloco.translate('auth.errors.generic');
+    this.messages.add({ severity: 'error', summary });
   }
 
   async selectCardBack(back: CardBack): Promise<void> {
