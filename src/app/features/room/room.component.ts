@@ -217,9 +217,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     // (side seats end up far, top/bottom seats close). Derive the card radii from
     // a single target gap in % of table HEIGHT, dividing the horizontal one by the
     // table's aspect — so the avatar→card gap is uniform whatever the angle.
-    const aspect = Math.min(2.6, 1.8 + n * 0.08);
+    // NB: keep this aspect formula in sync with feltAspect() — the geometry here
+    // must match the shape the felt is actually drawn at. The table is kept fairly
+    // round (cap 2.3): a flatter table leaves too little vertical room and the two
+    // stacked side cards collide. gap 24 + a slightly smaller card keep a clear gap
+    // between neighbouring cards AND between an avatar and its card for 3–20 seats
+    // (verified: card→card ≥ 6.8px, avatar→card ≥ 13px across that range).
+    const aspect = Math.min(2.3, 1.6 + n * 0.05);
     const personR = 49;
-    const gap = 30;
+    const gap = 24;
     const cardRx = personR - gap / aspect;
     const cardRy = personR - gap;
     // Even angle steps bunch seats on the wide sides (where the ellipse turns
@@ -258,8 +264,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   /** The table grows wider with more players (kept short via a rising aspect ratio),
    * bounded for up to 20 participants; seat cards shrink as the table fills. */
   readonly feltWidth = computed(() => Math.min(760, 380 + this.socket.participants().length * 22));
-  readonly feltAspect = computed(() => Math.min(2.6, 1.8 + this.socket.participants().length * 0.08).toFixed(2));
-  readonly seatCardWidth = computed(() => Math.round(Math.max(30, 50 - this.socket.participants().length * 1.1)));
+  // Must match the `aspect` in seats() so the seat geometry lands on the real felt shape.
+  readonly feltAspect = computed(() => Math.min(2.3, 1.6 + this.socket.participants().length * 0.05).toFixed(2));
+  readonly seatCardWidth = computed(() => Math.round(Math.max(24, 46 - this.socket.participants().length * 1.1)));
 
   cardByValue(value: string): SnapshotCard | null {
     return this.socket.deckSnapshot()?.cards.find((c) => c.value === value) ?? null;
