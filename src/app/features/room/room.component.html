@@ -143,6 +143,19 @@
             <p-button icon="pi pi-send" [ariaLabel]="'room.send' | transloco" [disabled]="!subjectDraft().trim()" (onClick)="addSubject()" />
           </div>
 
+          <!-- Vote type sits right under the question: it's part of setting up the round. -->
+          @if (availableDecks().length > 1) {
+            <div class="panel-block deck-settings">
+              <label>{{ 'room.deck.label' | transloco }}</label>
+              <p-select [options]="deckOptions()" optionLabel="label" optionValue="value"
+                        [ngModel]="currentDeckId()" (ngModelChange)="onDeckChange($event)"
+                        [disabled]="!canSwitchDeck()" appendTo="body" styleClass="w-full" />
+              @if (!canSwitchDeck()) {
+                <small class="deck-hint">{{ 'room.deck.locked' | transloco }}</small>
+              }
+            </div>
+          }
+
           @if (socket.revealMode().canAnonymise) {
             <div class="panel-block reveal-settings">
               <label>{{ 'room.reveal_mode.label' | transloco }}</label>
@@ -155,18 +168,6 @@
               </div>
               @if (!canSetRevealMode()) {
                 <small class="deck-hint">{{ 'room.reveal_mode.locked' | transloco }}</small>
-              }
-            </div>
-          }
-
-          @if (availableDecks().length > 1) {
-            <div class="panel-block deck-settings">
-              <label>{{ 'room.deck.label' | transloco }}</label>
-              <p-select [options]="deckOptions()" optionLabel="label" optionValue="value"
-                        [ngModel]="currentDeckId()" (ngModelChange)="onDeckChange($event)"
-                        [disabled]="!canSwitchDeck()" appendTo="body" styleClass="w-full" />
-              @if (!canSwitchDeck()) {
-                <small class="deck-hint">{{ 'room.deck.locked' | transloco }}</small>
               }
             </div>
           }

@@ -89,8 +89,12 @@
       "upload_hint": "PNG, JPEG o WebP, max 3 MB.",
       "upload_invalid": "Immagine rifiutata.",
       "delete": "Elimina",
-      "delete_confirm": "Eliminare questa immagine caricata?"
-    }
+      "delete_confirm": "Eliminare questa immagine caricata?",
+      "zoom": "Ingrandisci",
+      "preview": "Anteprima"
+    },
+    "rename_action": "Rinomina il team",
+    "delete_intro": "L'eliminazione del team è definitiva."
   },
   "home": {
     "eyebrow": "Decisioni condivise",
