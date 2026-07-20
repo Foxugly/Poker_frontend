@@ -108,3 +108,10 @@
 .user-menu__signin:hover i {
   color: #05261c;
 }
+
+.user-menu__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}

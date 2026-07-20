@@ -430,7 +430,13 @@
     "display_name_hint": "Le nom vu par les autres participants dans les salles.",
     "saved": "Profil enregistré.",
     "account": "Mon compte",
-    "subscription_link": "Abonnement"
+    "subscription_link": "Abonnement",
+    "no_name": "Sans nom",
+    "avatar_change": "Changer l'avatar",
+    "avatar_remove": "Retirer l'avatar",
+    "avatar_hint": "PNG, JPEG ou WebP, 3 Mo max.",
+    "avatar_saved": "Avatar enregistré.",
+    "avatar_invalid": "Image refusée."
   },
   "subscription": {
     "title": "Abonnement",

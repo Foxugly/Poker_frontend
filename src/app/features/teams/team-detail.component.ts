@@ -70,7 +70,11 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               <div class="section">
                 @for (m of members(); track m.id) {
                   <div class="member-row">
-                    <div class="avatar" [style.background]="color(m.user.email)">{{ initials(m.user.display_name || m.user.email) }}</div>
+                    @if (m.user.avatar_url) {
+                      <img class="avatar avatar--img" [src]="m.user.avatar_url" alt="" />
+                    } @else {
+                      <div class="avatar" [style.background]="color(m.user.email)">{{ initials(m.user.display_name || m.user.email) }}</div>
+                    }
                     <div class="who">
                       <div class="name">{{ m.user.display_name || m.user.email }}</div>
                       <div class="email">{{ m.user.email }}</div>
