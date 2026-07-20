@@ -253,8 +253,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             @if (isManager()) {
               <p-tabpanel value="deck">
                 <div class="section">
-                  <h3>{{ 'teams.deck.title' | transloco }}</h3>
-
                   <p class="deck-intro">{{ 'teams.deck.intro' | transloco }}</p>
 
                   @if (decksLoading()) {
@@ -315,7 +313,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             @if (isOwner()) {
               <p-tabpanel value="manage">
                 <div class="section">
-                  <h3>{{ 'teams.manage' | transloco }}</h3>
                   <div class="invite-row">
                     <label class="field">
                       <span>{{ 'teams.rename_label' | transloco }}</span>
