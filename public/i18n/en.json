@@ -430,7 +430,13 @@
     "display_name_hint": "The name other participants see in rooms.",
     "saved": "Profile saved.",
     "account": "My account",
-    "subscription_link": "Subscription"
+    "subscription_link": "Subscription",
+    "no_name": "No name",
+    "avatar_change": "Change avatar",
+    "avatar_remove": "Remove avatar",
+    "avatar_hint": "PNG, JPEG or WebP, 3 MB max.",
+    "avatar_saved": "Avatar saved.",
+    "avatar_invalid": "Image rejected."
   },
   "subscription": {
     "title": "Subscription",

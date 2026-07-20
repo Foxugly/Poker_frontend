@@ -128,6 +128,20 @@ export class AuthService {
   }
 
   /** PATCH the profile (display name) and refresh the currentUser signal. */
+  async uploadAvatar(image: File): Promise<AuthUser> {
+    const fd = new FormData();
+    fd.append('image', image);
+    const user = await firstValueFrom(this.http.post<AuthUser>(`${this.base}/me/avatar/`, fd));
+    this.currentUser.set(user);
+    return user;
+  }
+
+  async deleteAvatar(): Promise<AuthUser> {
+    const user = await firstValueFrom(this.http.delete<AuthUser>(`${this.base}/me/avatar/`));
+    this.currentUser.set(user);
+    return user;
+  }
+
   async updateProfile(displayName: string): Promise<AuthUser> {
     const user = await firstValueFrom(
       this.http.patch<AuthUser>(`${this.base}/me/`, { display_name: displayName }),

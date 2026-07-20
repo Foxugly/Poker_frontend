@@ -2,6 +2,7 @@ export interface AuthUser {
   id: number;
   email: string;
   display_name: string;
+  avatar_url: string;
   email_confirmed: boolean;
   is_staff: boolean;
   is_superuser: boolean;

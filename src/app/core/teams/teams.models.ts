@@ -23,7 +23,7 @@ export interface Team {
 
 export interface Membership {
   id: number;
-  user: { id: number; email: string; display_name: string };
+  user: { id: number; email: string; display_name: string; avatar_url: string };
   role: TeamRole;
   joined_at: string;
 }

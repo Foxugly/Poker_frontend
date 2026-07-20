@@ -441,3 +441,7 @@
   color: var(--accent);
   border-color: var(--accent);
 }
+
+.avatar--img {
+  object-fit: cover;
+}
