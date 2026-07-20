@@ -138,9 +138,9 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                               <div class="appearance-row">
                                 <label>
                                   <span>{{ 'teams.felt_color' | transloco }}</span>
-                                  <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
+                                  <input type="color" [value]="feltColor()"
+                                         (input)="feltColor.set($any($event.target).value)" (change)="saveAppearance()" />
                                 </label>
-                                <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
                               </div>
                             } @else {
                               @if (canCustomize()) {
@@ -199,9 +199,9 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                               <div class="appearance-row">
                                 <label>
                                   <span>{{ 'teams.back_color' | transloco }}</span>
-                                  <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
+                                  <input type="color" [value]="backColor()"
+                                         (input)="backColor.set($any($event.target).value)" (change)="saveAppearance()" />
                                 </label>
-                                <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
                               </div>
                             } @else {
                               @if (canCustomize()) {
