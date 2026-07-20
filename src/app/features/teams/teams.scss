@@ -353,8 +353,17 @@
 }
 .table-preview--lg {
   width: 100%;
-  height: 160px;
-  border-radius: var(--radius);
+  height: 200px;
+  /* Oval poker table. background-size/position already set on .table-preview so an
+     image fills it; background-color stays underneath as a fallback. */
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+.table-preview--lg .card-preview {
+  width: 64px;
+  height: 90px;
+  border-radius: 8px;
 }
 @media (max-width: 860px) {
   .appearance-layout {

@@ -250,8 +250,8 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                   <!-- Right 33%: the currently selected layout, as the room will draw it -->
                   <aside class="appearance-preview">
                     <h4>{{ 'teams.surface.preview' | transloco }}</h4>
-                    <span class="table-preview table-preview--lg" [style.background]="feltColor()" [style.background-image]="feltPreviewImage()">
-                      <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                    <span class="table-preview table-preview--lg" [style.background-color]="feltColor()" [style.background-image]="feltPreviewImage()">
+                      <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
                     </span>
                   </aside>
                 </div>
