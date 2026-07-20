@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TabsModule } from 'primeng/tabs';
+import { TooltipModule } from 'primeng/tooltip';
 import { TagModule } from 'primeng/tag';
 
 import { firstValueFrom } from 'rxjs';
@@ -25,7 +26,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
 @Component({
   selector: 'app-team-detail',
   standalone: true,
-  imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, SelectButtonModule, TabsModule, TagModule, PageHeaderComponent],
+  imports: [FormsModule, TranslocoModule, ButtonModule, InputTextModule, SelectModule, SelectButtonModule, TabsModule, TagModule, TooltipModule, PageHeaderComponent],
   styleUrl: './teams.scss',
   template: `
     @if (team(); as team) {
@@ -47,9 +48,12 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               }
             }
           </span>
-          <p-button slot="right" [label]="'board.title' | transloco" icon="pi pi-th-large" [outlined]="true" severity="secondary" (onClick)="openBoard()" />
-          <p-button slot="right" [label]="'history.title' | transloco" icon="pi pi-history" [outlined]="true" severity="secondary" (onClick)="openHistory()" />
-          <p-button slot="right" [label]="'teams.new_session' | transloco" icon="pi pi-play" severity="success" [loading]="starting()" (onClick)="startSession()" />
+          <p-button slot="right" icon="pi pi-th-large" [outlined]="true" severity="secondary"
+                    [pTooltip]="'board.title' | transloco" tooltipPosition="bottom" [ariaLabel]="'board.title' | transloco" (onClick)="openBoard()" />
+          <p-button slot="right" icon="pi pi-history" [outlined]="true" severity="secondary"
+                    [pTooltip]="'history.title' | transloco" tooltipPosition="bottom" [ariaLabel]="'history.title' | transloco" (onClick)="openHistory()" />
+          <p-button slot="right" icon="pi pi-play" severity="success" [loading]="starting()"
+                    [pTooltip]="'teams.new_session' | transloco" tooltipPosition="bottom" [ariaLabel]="'teams.new_session' | transloco" (onClick)="startSession()" />
         </app-page-header>
 
         <p-tabs [(value)]="activeTab">
@@ -250,7 +254,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                   <!-- Right 33%: the currently selected layout, as the room will draw it -->
                   <aside class="appearance-preview">
                     <h4>{{ 'teams.surface.preview' | transloco }}</h4>
-                    <span class="table-preview table-preview--lg" [style.background-color]="feltColor()" [style.background-image]="feltPreviewImage()">
+                    <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
                       <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
                     </span>
                   </aside>
