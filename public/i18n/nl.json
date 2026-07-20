@@ -89,8 +89,12 @@
       "upload_hint": "PNG, JPEG of WebP, max. 3 MB.",
       "upload_invalid": "Afbeelding geweigerd.",
       "delete": "Verwijderen",
-      "delete_confirm": "Deze geüploade afbeelding verwijderen?"
-    }
+      "delete_confirm": "Deze geüploade afbeelding verwijderen?",
+      "zoom": "Vergroten",
+      "preview": "Voorbeeld"
+    },
+    "rename_action": "Team hernoemen",
+    "delete_intro": "Het verwijderen van het team is definitief."
   },
   "home": {
     "eyebrow": "Samen beslissen",

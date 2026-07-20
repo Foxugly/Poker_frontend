@@ -30,8 +30,23 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
   template: `
     @if (team(); as team) {
       <section class="page">
-        <app-page-header [icon]="'pi-users'" [title]="team.name">
+        <app-page-header [icon]="'pi-users'" [title]="editingName() ? '' : team.name">
           <p-button slot="left" [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="back()" />
+          <!-- Static slot element (projection doesn't reach a slot node placed directly
+               inside @if); the rename toggle lives inside it. -->
+          <span slot="title-after" class="name-slot">
+            @if (isManager()) {
+              @if (editingName()) {
+                <span class="name-edit">
+                  <input pInputText [(ngModel)]="renameValue" (keyup.enter)="confirmRename()" (keyup.escape)="cancelRename()" autofocus />
+                  <p-button icon="pi pi-save" severity="success" [ariaLabel]="'action.save' | transloco" [loading]="savingName()" (onClick)="confirmRename()" />
+                  <p-button icon="pi pi-times" [outlined]="true" severity="secondary" [ariaLabel]="'action.cancel' | transloco" (onClick)="cancelRename()" />
+                </span>
+              } @else {
+                <button type="button" class="name-edit-btn" [attr.aria-label]="'teams.rename_action' | transloco" (click)="startEditName(team.name)"><i class="pi pi-pencil"></i></button>
+              }
+            }
+          </span>
           <p-button slot="right" [label]="'board.title' | transloco" icon="pi pi-th-large" [outlined]="true" severity="secondary" (onClick)="openBoard()" />
           <p-button slot="right" [label]="'history.title' | transloco" icon="pi pi-history" [outlined]="true" severity="secondary" (onClick)="openHistory()" />
           <p-button slot="right" [label]="'teams.new_session' | transloco" icon="pi pi-play" severity="success" [loading]="starting()" (onClick)="startSession()" />
@@ -45,7 +60,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               <p-tab value="deck"><span class="pi pi-clone tab-icon"></span><span>{{ 'teams.deck.tab' | transloco }}</span></p-tab>
             }
             @if (isOwner()) {
-              <p-tab value="manage"><span class="pi pi-pencil tab-icon"></span><span>{{ 'teams.manage' | transloco }}</span></p-tab>
+              <p-tab value="manage"><span class="pi pi-trash tab-icon"></span><span>{{ 'teams.delete' | transloco }}</span></p-tab>
             }
           </p-tablist>
 
@@ -53,7 +68,6 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             <p-tabpanel value="members">
               <!-- Members -->
               <div class="section">
-                <h3>{{ 'teams.members' | transloco }}</h3>
                 @for (m of members(); track m.id) {
                   <div class="member-row">
                     <div class="avatar" [style.background]="color(m.user.email)">{{ initials(m.user.display_name || m.user.email) }}</div>
@@ -95,157 +109,154 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
             <!-- Appearance (manager) — P2.6 -->
             @if (isManager()) {
               <p-tabpanel value="appearance">
-                <p-tabs [(value)]="appearanceTab">
-                  <p-tablist>
-                    <p-tab value="table"><span class="pi pi-table tab-icon"></span><span>{{ 'teams.surface.table' | transloco }}</span></p-tab>
-                    <p-tab value="back"><span class="pi pi-id-card tab-icon"></span><span>{{ 'teams.deck.backs_title' | transloco }}</span></p-tab>
-                  </p-tablist>
+                <div class="appearance-layout">
+                  <!-- Left 66%: the two surface sub-tabs -->
+                  <div class="appearance-main">
+                    <p-tabs [(value)]="appearanceTab">
+                      <p-tablist>
+                        <p-tab value="table"><span class="pi pi-table tab-icon"></span><span>{{ 'teams.surface.table' | transloco }}</span></p-tab>
+                        <p-tab value="back"><span class="pi pi-id-card tab-icon"></span><span>{{ 'teams.deck.backs_title' | transloco }}</span></p-tab>
+                      </p-tablist>
 
-                  <p-tabpanels>
-                    <!-- Table decoration = the felt -->
-                    <p-tabpanel value="table">
-                      <div class="section">
-                        <span
-                          class="table-preview"
-                          [style.background]="feltColor()"
-                          [style.background-image]="feltPreviewImage()"
-                        >
-                          <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
-                        </span>
-                      </div>
-                      <div class="section">
-                        <div class="style-row">
-                          <p-selectbutton
-                            [options]="styleOptions()"
-                            optionLabel="label"
-                            optionValue="value"
-                            [ngModel]="feltStyle()"
-                            (ngModelChange)="setStyle('felt', $event)"
-                            [allowEmpty]="false"
-                          />
-                        </div>
-                        @if (feltStyle() === 'color') {
-                          <div class="appearance-row">
-                            <label>
-                              <span>{{ 'teams.felt_color' | transloco }}</span>
-                              <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
-                            </label>
-                            <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
-                          </div>
-                        } @else {
-                          @if (canCustomize()) {
-                            <div class="upload-row">
-                              <input #feltFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadFelt(feltFile)" />
-                              <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingFelt()" (onClick)="feltFile.click()" />
-                              <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
+                      <p-tabpanels>
+                        <!-- Table decoration = the felt -->
+                        <p-tabpanel value="table">
+                          <div class="section">
+                            <div class="style-row">
+                              <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
+                                              [ngModel]="feltStyle()" (ngModelChange)="setStyle('felt', $event)" [allowEmpty]="false" />
                             </div>
-                          }
-                          @if (decksLoading()) {
-                            <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
-                          } @else if (!felts().length) {
-                            <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
-                          } @else {
-                            <div class="deck-grid">
-                              @for (f of felts(); track f.id) {
-                                <div class="deck-card-wrap">
-                                  <button type="button" class="deck-card"
-                                          [class.deck-card--selected]="f.id === selectedFeltId()"
-                                          [disabled]="savingFelt()" (click)="selectFelt(f)">
-                                    <span class="deck-card__cards">
-                                      <span class="deck-card__mini deck-card__mini--felt"
-                                            [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
-                                    </span>
-                                    <span class="deck-card__name">{{ f.name }}</span>
-                                    @if (f.is_custom) {
-                                      <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
-                                    }
-                                    @if (f.id === selectedFeltId()) {
-                                      <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                                    }
-                                  </button>
-                                  @if (f.is_custom) {
-                                    <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteFelt(f, $event)"><i class="pi pi-trash"></i></button>
+                            @if (feltStyle() === 'color') {
+                              <div class="appearance-row">
+                                <label>
+                                  <span>{{ 'teams.felt_color' | transloco }}</span>
+                                  <input type="color" [value]="feltColor()" (input)="feltColor.set($any($event.target).value)" />
+                                </label>
+                                <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                              </div>
+                            } @else {
+                              @if (canCustomize()) {
+                                <div class="upload-row">
+                                  <input #feltFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadFelt(feltFile)" />
+                                  <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingFelt()" (onClick)="feltFile.click()" />
+                                  <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
+                                </div>
+                              }
+                              @if (decksLoading()) {
+                                <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                              } @else if (!felts().length) {
+                                <p class="muted">{{ 'teams.surface.no_felt' | transloco }}</p>
+                              } @else {
+                                <div class="deck-grid">
+                                  @for (f of felts(); track f.id) {
+                                    <div class="deck-card-wrap">
+                                      <button type="button" class="deck-card"
+                                              [class.deck-card--selected]="f.id === selectedFeltId()"
+                                              [disabled]="savingFelt()" (click)="selectFelt(f)">
+                                        <span class="deck-card__cards">
+                                          <span class="deck-card__mini deck-card__mini--felt"
+                                                [style.background-image]="f.image ? 'url(' + f.image + ')' : null"></span>
+                                        </span>
+                                        <span class="deck-card__name">{{ f.name }}</span>
+                                        @if (f.is_custom) {
+                                          <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                        }
+                                      </button>
+                                      @if (f.id === selectedFeltId()) {
+                                        <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                      }
+                                      @if (f.image) {
+                                        <button type="button" class="deck-card__zoom" [attr.aria-label]="'teams.surface.zoom' | transloco" (click)="zoom(f.image, $event)"><i class="pi pi-search-plus"></i></button>
+                                      }
+                                      @if (f.is_custom) {
+                                        <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteFelt(f, $event)"><i class="pi pi-trash"></i></button>
+                                      }
+                                    </div>
                                   }
                                 </div>
                               }
-                            </div>
-                          }
-                        }
-                      </div>
-                    </p-tabpanel>
-
-                    <!-- Card backs: the models are always shown -->
-                    <p-tabpanel value="back">
-                      <div class="section">
-                        <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
-                        <div class="style-row">
-                          <p-selectbutton
-                            [options]="styleOptions()"
-                            optionLabel="label"
-                            optionValue="value"
-                            [ngModel]="cardBackStyle()"
-                            (ngModelChange)="setStyle('card_back', $event)"
-                            [allowEmpty]="false"
-                          />
-                        </div>
-                        @if (cardBackStyle() === 'color') {
-                          <div class="appearance-row">
-                            <label>
-                              <span>{{ 'teams.back_color' | transloco }}</span>
-                              <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
-                            </label>
-                            <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
-                          </div>
-                        }
-                        <!-- The available models are always visible, whatever the style. -->
-                        <h4 class="deck-subtitle">{{ 'teams.surface.back_models' | transloco }}</h4>
-                        @if (canCustomize()) {
-                          <div class="upload-row">
-                            <input #backFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadBack(backFile)" />
-                            <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingBack()" (onClick)="backFile.click()" />
-                            <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
-                          </div>
-                        }
-                        @if (decksLoading()) {
-                          <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
-                        } @else if (!cardBacks().length) {
-                          <p class="muted">{{ 'teams.surface.no_back' | transloco }}</p>
-                        } @else {
-                          <div class="deck-grid">
-                            @for (back of cardBacks(); track back.id) {
-                              <div class="deck-card-wrap">
-                                <button
-                                  type="button"
-                                  class="deck-card"
-                                  [class.deck-card--selected]="cardBackStyle() === 'image' && back.id === selectedCardBackId()"
-                                  [disabled]="savingBack()"
-                                  (click)="selectCardBack(back)"
-                                >
-                                  <span class="deck-card__cards">
-                                    <span
-                                      class="deck-card__mini deck-card__mini--back"
-                                      [style.background-image]="back.image ? 'url(' + back.image + ')' : null"
-                                    ></span>
-                                  </span>
-                                  <span class="deck-card__name">{{ back.name }}</span>
-                                  @if (back.is_custom) {
-                                    <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
-                                  }
-                                  @if (cardBackStyle() === 'image' && back.id === selectedCardBackId()) {
-                                    <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.in_use' | transloco }}</span>
-                                  }
-                                </button>
-                                @if (back.is_custom) {
-                                  <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteBack(back, $event)"><i class="pi pi-trash"></i></button>
-                                }
-                              </div>
                             }
                           </div>
-                        }
-                      </div>
-                    </p-tabpanel>
-                  </p-tabpanels>
-                </p-tabs>
+                        </p-tabpanel>
+
+                        <!-- Card backs -->
+                        <p-tabpanel value="back">
+                          <div class="section">
+                            <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
+                            <div class="style-row">
+                              <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
+                                              [ngModel]="cardBackStyle()" (ngModelChange)="setStyle('card_back', $event)" [allowEmpty]="false" />
+                            </div>
+                            @if (cardBackStyle() === 'color') {
+                              <div class="appearance-row">
+                                <label>
+                                  <span>{{ 'teams.back_color' | transloco }}</span>
+                                  <input type="color" [value]="backColor()" (input)="backColor.set($any($event.target).value)" />
+                                </label>
+                                <p-button [label]="'action.save' | transloco" icon="pi pi-save" [loading]="savingAppearance()" (onClick)="saveAppearance()" />
+                              </div>
+                            } @else {
+                              @if (canCustomize()) {
+                                <div class="upload-row">
+                                  <input #backFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadBack(backFile)" />
+                                  <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingBack()" (onClick)="backFile.click()" />
+                                  <span class="muted">{{ 'teams.surface.upload_hint' | transloco }}</span>
+                                </div>
+                              }
+                              @if (decksLoading()) {
+                                <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                              } @else if (!cardBacks().length) {
+                                <p class="muted">{{ 'teams.surface.no_back' | transloco }}</p>
+                              } @else {
+                                <div class="deck-grid">
+                                  @for (back of cardBacks(); track back.id) {
+                                    <div class="deck-card-wrap">
+                                      <button type="button" class="deck-card"
+                                              [class.deck-card--selected]="back.id === selectedCardBackId()"
+                                              [disabled]="savingBack()" (click)="selectCardBack(back)">
+                                        <span class="deck-card__cards">
+                                          <span class="deck-card__mini deck-card__mini--back"
+                                                [style.background-image]="back.image ? 'url(' + back.image + ')' : null"></span>
+                                        </span>
+                                        <span class="deck-card__name">{{ back.name }}</span>
+                                        @if (back.is_custom) {
+                                          <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                        }
+                                      </button>
+                                      @if (back.id === selectedCardBackId()) {
+                                        <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                      }
+                                      @if (back.image) {
+                                        <button type="button" class="deck-card__zoom" [attr.aria-label]="'teams.surface.zoom' | transloco" (click)="zoom(back.image, $event)"><i class="pi pi-search-plus"></i></button>
+                                      }
+                                      @if (back.is_custom) {
+                                        <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteBack(back, $event)"><i class="pi pi-trash"></i></button>
+                                      }
+                                    </div>
+                                  }
+                                </div>
+                              }
+                            }
+                          </div>
+                        </p-tabpanel>
+                      </p-tabpanels>
+                    </p-tabs>
+                  </div>
+
+                  <!-- Right 33%: the currently selected layout, as the room will draw it -->
+                  <aside class="appearance-preview">
+                    <h4>{{ 'teams.surface.preview' | transloco }}</h4>
+                    <span class="table-preview table-preview--lg" [style.background]="feltColor()" [style.background-image]="feltPreviewImage()">
+                      <span class="card-preview" [style.background]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                    </span>
+                  </aside>
+                </div>
+
+                @if (zoomImage(); as img) {
+                  <div class="zoom-overlay" (click)="closeZoom()">
+                    <img [src]="img" alt="" />
+                  </div>
+                }
               </p-tabpanel>
             }
 
@@ -283,7 +294,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                             }
                           </span>
                           @if (isEnabled(deck.id)) {
-                            <span class="deck-card__badge"><i class="pi pi-check"></i> {{ 'teams.deck.enabled' | transloco }}</span>
+                            <span class="deck-card__check" [attr.aria-label]="'teams.deck.enabled' | transloco"><i class="pi pi-check"></i></span>
                           }
                         </button>
                       }
@@ -309,18 +320,12 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
               </p-tabpanel>
             }
 
-            <!-- Rename / delete (owner) -->
+            <!-- Delete (owner). Rename lives in the header. -->
             @if (isOwner()) {
               <p-tabpanel value="manage">
                 <div class="section">
-                  <div class="invite-row">
-                    <label class="field">
-                      <span>{{ 'teams.rename_label' | transloco }}</span>
-                      <input pInputText [(ngModel)]="renameValue" style="min-width:220px" />
-                    </label>
-                    <p-button [label]="'action.save' | transloco" icon="pi pi-save" (onClick)="rename()" />
-                    <p-button [label]="'teams.delete' | transloco" icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="remove_team()" />
-                  </div>
+                  <p class="deck-intro">{{ 'teams.delete_intro' | transloco }}</p>
+                  <p-button [label]="'teams.delete' | transloco" icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="remove_team()" />
                 </div>
               </p-tabpanel>
             }
@@ -354,11 +359,14 @@ export class TeamDetailComponent implements OnInit {
   inviteEmail = '';
   inviteRole: TeamRole = 'member';
   renameValue = '';
+  readonly editingName = signal(false);
+  readonly savingName = signal(false);
 
   // Appearance (P2.6)
   readonly feltColor = signal('#10b981');
   readonly backColor = signal('#143d2f');
   readonly savingAppearance = signal(false);
+  readonly zoomImage = signal<string | null>(null);
 
   // Poker type / deck (P2.8)
   readonly decks = signal<Deck[]>([]);
@@ -660,11 +668,37 @@ export class TeamDetailComponent implements OnInit {
     this.invitations.update((list) => list.filter((x) => x.id !== inv.id));
   }
 
-  async rename(): Promise<void> {
+  startEditName(current: string): void {
+    this.renameValue = current;
+    this.editingName.set(true);
+  }
+
+  cancelRename(): void {
+    this.editingName.set(false);
+  }
+
+  async confirmRename(): Promise<void> {
     const name = this.renameValue.trim();
     if (!name) return;
-    const team = await this.teamsService.renameTeam(this.id, name);
-    this.team.set(team);
+    this.savingName.set(true);
+    try {
+      const team = await this.teamsService.renameTeam(this.id, name);
+      this.team.set(team);
+      this.editingName.set(false);
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingName.set(false);
+    }
+  }
+
+  zoom(image: string, event: Event): void {
+    event.stopPropagation();
+    this.zoomImage.set(image);
+  }
+
+  closeZoom(): void {
+    this.zoomImage.set(null);
   }
 
   async remove_team(): Promise<void> {

@@ -89,8 +89,12 @@
       "upload_hint": "PNG, JPEG or WebP, 3 MB max.",
       "upload_invalid": "Image rejected.",
       "delete": "Delete",
-      "delete_confirm": "Delete this uploaded image?"
-    }
+      "delete_confirm": "Delete this uploaded image?",
+      "zoom": "Zoom",
+      "preview": "Preview"
+    },
+    "rename_action": "Rename the team",
+    "delete_intro": "Deleting the team is permanent."
   },
   "home": {
     "eyebrow": "Shared decision-making",
