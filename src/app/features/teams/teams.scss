@@ -351,18 +351,49 @@
   color: var(--muted);
   font-size: 0.9rem;
 }
+/* Same shape as the room table: an inset ellipse (border-radius 999px) on a wide
+   box, radial felt + rail, the image layered over the colour — mirrors
+   room.component.scss so the preview reads identically. --table-felt(+image) are
+   set inline from the current selection. */
 .table-preview--lg {
+  --table-felt: #10b981;
+  --table-felt-edge: color-mix(in srgb, var(--table-felt) 68%, black);
+  --table-rail: color-mix(in srgb, var(--table-felt) 42%, black);
+  position: relative;
+  display: grid;
+  place-items: center;
   width: 100%;
-  height: 200px;
-  /* Oval poker table. background-size/position already set on .table-preview so an
-     image fills it; background-color stays underneath as a fallback. */
-  border-radius: 50%;
+  height: auto;
+  aspect-ratio: 2.6;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.table-preview--lg::before {
+  content: '';
+  position: absolute;
+  inset: 13% 11%;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, var(--table-felt) 0%, var(--table-felt-edge) 100%);
+  border: 6px solid var(--table-rail);
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.4), var(--shadow-card);
+}
+.table-preview--lg::after {
+  content: '';
+  position: absolute;
+  inset: 13% 11%;
+  border-radius: 999px;
+  background-image: var(--table-felt-image, none);
   background-size: cover;
   background-position: center;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }
 .table-preview--lg .card-preview {
-  width: 64px;
-  height: 90px;
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 80px;
   border-radius: 8px;
 }
 @media (max-width: 860px) {
