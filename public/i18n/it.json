@@ -430,7 +430,13 @@
     "display_name_hint": "Il nome che gli altri partecipanti vedono nelle stanze.",
     "saved": "Profilo salvato.",
     "account": "Il mio account",
-    "subscription_link": "Abbonamento"
+    "subscription_link": "Abbonamento",
+    "no_name": "Senza nome",
+    "avatar_change": "Cambia avatar",
+    "avatar_remove": "Rimuovi avatar",
+    "avatar_hint": "PNG, JPEG o WebP, max 3 MB.",
+    "avatar_saved": "Avatar salvato.",
+    "avatar_invalid": "Immagine rifiutata."
   },
   "subscription": {
     "title": "Abbonamento",

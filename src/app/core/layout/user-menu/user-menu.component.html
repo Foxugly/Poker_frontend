@@ -7,7 +7,11 @@
       aria-haspopup="menu"
       (click)="toggle()"
     >
-      <i class="pi pi-user"></i>
+      @if (auth.currentUser()?.avatar_url; as avatar) {
+        <img class="user-menu__avatar" [src]="avatar" alt="" />
+      } @else {
+        <i class="pi pi-user"></i>
+      }
       <span class="user-menu__name">{{
         auth.currentUser()?.display_name || auth.currentUser()?.email
       }}</span>

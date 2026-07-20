@@ -430,7 +430,13 @@
     "display_name_hint": "De naam die andere deelnemers in rooms zien.",
     "saved": "Profiel opgeslagen.",
     "account": "Mijn account",
-    "subscription_link": "Abonnement"
+    "subscription_link": "Abonnement",
+    "no_name": "Geen naam",
+    "avatar_change": "Avatar wijzigen",
+    "avatar_remove": "Avatar verwijderen",
+    "avatar_hint": "PNG, JPEG of WebP, max. 3 MB.",
+    "avatar_saved": "Avatar opgeslagen.",
+    "avatar_invalid": "Afbeelding geweigerd."
   },
   "subscription": {
     "title": "Abonnement",
