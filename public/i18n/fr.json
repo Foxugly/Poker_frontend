@@ -81,7 +81,10 @@
       "felt": "Feutre de la table",
       "style_color": "Couleur unie",
       "style_image": "Image",
-      "no_felt": "Aucune image de feutre disponible pour le moment."
+      "no_felt": "Aucune image de feutre disponible pour le moment.",
+      "table": "Décoration de la table",
+      "back_models": "Modèles disponibles",
+      "no_back": "Aucun dos disponible pour le moment."
     }
   },
   "home": {
