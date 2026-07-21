@@ -116,6 +116,16 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly timerSecondsDraft = signal(TIMER_DURATIONS[0]);
   private countdownHandle: ReturnType<typeof setInterval> | null = null;
 
+  // Two-step round flow. The panel is a *form*: while idle the facilitator composes
+  // the round (subject + deck + reveal mode + timer) as local drafts, then step 1
+  // ("Préparer") announces it atomically, and step 2 ("Lancer") opens it. Nothing
+  // hits the server per-keystroke, so a setting can't be rejected out of order (that
+  // was the "toggle nominative → error" bug).
+  readonly deckDraft = signal<number | null>(null);
+  readonly anonymousDraft = signal(false);
+  /** Forces the compose step back on for an already-announced round ("Modifier"). */
+  readonly editing = signal(false);
+
   readonly isFacilitator = computed(() => this.socket.myRole() === 'facilitator');
   readonly state = this.socket.roundState;
   readonly badgeSeverity = computed(() => BADGE_SEVERITY[this.state()]);
@@ -156,12 +166,21 @@ export class RoomComponent implements OnInit, OnDestroy {
     })),
   );
 
-  // Reveal mode: settable only while IDLE, mirroring the server. Voters are told
-  // the mode before they play, so it must not flip under cast votes.
+  // Reveal mode: composed in the form (a local draft), applied atomically at prepare.
+  // Voters are told the mode before they play (it's announced when the round is
+  // prepared), so it never flips under cast votes.
   readonly canSetRevealMode = computed(() => this.state() === 'idle');
   /** While a vote is open the whole facilitator panel is frozen: settings mustn't
    * change under people who are voting. */
   readonly panelFrozen = computed(() => this.state() === 'open');
+
+  // Two-step panel: idle shows the compose form until a round is announced, then the
+  // launch step. A fresh room (no subject yet) always starts on the compose form.
+  readonly showComposeForm = computed(
+    () => this.state() === 'idle' && (this.editing() || this.socket.subject().trim().length === 0),
+  );
+  readonly showPrepared = computed(() => this.state() === 'idle' && !this.showComposeForm());
+  readonly canPrepare = computed(() => this.subjectDraft().trim().length > 0);
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
@@ -331,23 +350,67 @@ export class RoomComponent implements OnInit, OnDestroy {
       .join(', ');
   }
 
+  // The compose controls only touch local drafts now; nothing is sent until prepare().
   onRevealModeChange(anonymous: boolean): void {
-    this.socket.setRevealMode(anonymous);
+    this.anonymousDraft.set(anonymous);
   }
 
   onDeckChange(deckId: number): void {
-    if (deckId !== this.currentDeckId()) this.socket.selectDeck(deckId);
+    this.deckDraft.set(deckId);
   }
 
   onTimerEnabledChange(enabled: boolean): void {
     this.timerEnabledDraft.set(enabled);
-    this.socket.setTimer(enabled, this.timerSecondsDraft());
   }
 
   onTimerSecondsChange(seconds: number | null): void {
     if (seconds == null || Number.isNaN(seconds)) return;
     this.timerSecondsDraft.set(seconds);
-    this.socket.setTimer(this.timerEnabledDraft(), seconds);
+  }
+
+  /** The detail drafts, as a prepareRound payload fragment. */
+  private roundDetails() {
+    return {
+      deckId: (this.deckDraft() ?? this.currentDeckId()) ?? undefined,
+      anonymous: this.socket.revealMode().canAnonymise ? this.anonymousDraft() : undefined,
+      timerEnabled: this.timerEnabledDraft(),
+      timerSeconds: this.timerSecondsDraft(),
+    };
+  }
+
+  /** Step 1: announce the composed round (subject + details) — stays idle. */
+  prepare(): void {
+    const text = this.subjectDraft().trim();
+    if (!text) return;
+    this.socket.prepareRound({ subjectText: text, ...this.roundDetails() });
+    this.editing.set(false);
+  }
+
+  /** Pick a queued agenda subject and announce it with the current details. */
+  selectAgenda(subjectId: number): void {
+    this.socket.prepareRound({ subjectId, ...this.roundDetails() });
+    this.editing.set(false);
+  }
+
+  /** Step 2: open the announced round for voting. */
+  launch(): void {
+    this.socket.openVote();
+  }
+
+  /** Re-open the compose step for an announced round, pre-filled from what's live. */
+  enterCompose(): void {
+    this.subjectDraft.set(this.socket.subject());
+    this.deckDraft.set(this.currentDeckId());
+    this.anonymousDraft.set(this.socket.revealMode().anonymous);
+    this.editing.set(true);
+  }
+
+  /** Queue the typed subject onto the agenda without opening it (multi-subject prep). */
+  queueSubject(): void {
+    const text = this.subjectDraft().trim();
+    if (!text) return;
+    this.socket.addSubject(text);
+    this.subjectDraft.set('');
   }
 
   async ngOnInit(): Promise<void> {
@@ -399,14 +462,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     document.removeEventListener('fullscreenchange', this.onFsChange);
     this.socket.disconnect();
-  }
-
-  addSubject(): void {
-    const text = this.subjectDraft().trim();
-    if (text) {
-      this.socket.addSubject(text);
-      this.subjectDraft.set('');
-    }
   }
 
   /** Resolve an agenda item's retained value to its translated level name (not the number). */

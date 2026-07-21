@@ -346,7 +346,13 @@
       "locked": "Solo se puede definir antes de abrir la votación.",
       "badge_nominative": "Voto nominativo",
       "badge_anonymous": "Voto anónimo"
-    }
+    },
+    "subject_label": "Tema",
+    "prepare": "Preparar la votación",
+    "launch": "Iniciar la votación",
+    "edit": "Editar",
+    "queue_add": "Añadir a la cola",
+    "ready_label": "Listo para iniciar"
   },
   "billing": {
     "title": "Suscripción",
