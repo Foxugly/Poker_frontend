@@ -397,8 +397,11 @@
   color: var(--muted);
 }
 .timer-row :is(p-inputnumber, p-inputNumber) {
-  width: 5.5rem;
+  width: 6.5rem;
 }
+/* The inner <input> (rendered by PrimeNG, so its rule lives in global styles.scss —
+   emulated encapsulation can't reach a child component's internals) is constrained
+   there to stop it overflowing this fixed-width control. */
 .add-subject-row .grow,
 .act-row .grow,
 .timer-row .grow {
