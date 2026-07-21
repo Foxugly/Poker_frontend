@@ -383,10 +383,38 @@
   gap: var(--s-2);
 }
 
+/* Two-step round panel: the compose form (step 1) and the launch summary (step 2). */
+.round-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+}
+.field-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.round-ready {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.round-ready .ready-label {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.round-ready .ready-subject {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
 /* Inline rows: an input/select that grows + a compact action button beside it. */
 .add-subject-row,
 .act-row,
 .timer-row {
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--s-2);
@@ -398,8 +426,11 @@
   margin-right: var(--s-2);
   color: var(--muted);
 }
+/* The duration control fills the rest of the row after the switch + clock icon. */
 .timer-row :is(p-inputnumber, p-inputNumber) {
-  width: 6.5rem;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
 }
 /* The inner <input> (rendered by PrimeNG, so its rule lives in global styles.scss —
    emulated encapsulation can't reach a child component's internals) is constrained

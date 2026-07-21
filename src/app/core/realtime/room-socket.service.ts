@@ -124,6 +124,18 @@ export class RoomSocketService {
   setTimer(enabled: boolean, seconds: number) { this.send('timer.set', { enabled, seconds }); }
   selectDeck(deckId: number) { this.send('deck.select', { deckId }); }
   setRevealMode(anonymous: boolean) { this.send('reveal.setMode', { anonymous }); }
+  /** Step 1 of the two-step flow: compose + announce the next round (subject + deck +
+   * reveal mode + timer) atomically, leaving it idle. Opening is a separate step. */
+  prepareRound(payload: {
+    subjectId?: number;
+    subjectText?: string;
+    anonymous?: boolean;
+    deckId?: number;
+    timerEnabled?: boolean;
+    timerSeconds?: number;
+  }) {
+    this.send('round.prepare', payload);
+  }
 
   private send(type: string, payload: unknown): void {
     if (this.ws?.readyState !== WebSocket.OPEN) return;
