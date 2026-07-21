@@ -174,9 +174,8 @@
               <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" [disabled]="panelFrozen()" />
               <i class="pi pi-clock timer-icon"></i>
               <p-inputNumber [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
-                             [min]="10" [max]="60" [step]="5" [showButtons]="true"
+                             [min]="10" [max]="60" [step]="5" [showButtons]="true" [suffix]="timerSuffix()"
                              [disabled]="!timerEnabledDraft() || panelFrozen()" inputStyleClass="timer-input" />
-              <span class="timer-unit">{{ 'room.timer.seconds' | transloco }}</span>
             </div>
           </div>
 
