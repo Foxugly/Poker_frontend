@@ -174,6 +174,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     return v ? this.cardName(this.cardByValue(v)) || v : '';
   });
 
+  /** Localized unit shown inside the timer input (e.g. " sec"). Depends on lang()
+   * so it re-resolves when the language switches. */
+  readonly timerSuffix = computed(() => {
+    this.lang();
+    return this.transloco.translate('room.timer.sec_suffix');
+  });
+
   cardName(card: SnapshotCard | null): string {
     if (!card) return '';
     const layer = card.layers.find((l) => l.kind === 'i18n');

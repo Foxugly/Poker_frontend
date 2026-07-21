@@ -328,7 +328,8 @@
       "label": "Timer",
       "seconds": "Durata (secondi)",
       "remaining": "Tempo rimanente",
-      "expired": "Tempo scaduto"
+      "expired": "Tempo scaduto",
+      "sec_suffix": " sec"
     },
     "deck": {
       "label": "Tipo di poker",

@@ -328,7 +328,8 @@
       "label": "Timer",
       "seconds": "Duur (seconden)",
       "remaining": "Resterende tijd",
-      "expired": "Tijd is om"
+      "expired": "Tijd is om",
+      "sec_suffix": " sec"
     },
     "deck": {
       "label": "Pokertype",

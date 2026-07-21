@@ -391,9 +391,11 @@
   align-items: center;
   gap: var(--s-2);
 }
-/* A clear gap between the on/off switch and the duration control. */
+/* A clear gap on each side of the clock icon: from the on/off switch (left) and
+   from the duration control (right). */
 .timer-row .timer-icon {
   margin-left: var(--s-3);
+  margin-right: var(--s-2);
   color: var(--muted);
 }
 .timer-row :is(p-inputnumber, p-inputNumber) {
@@ -407,11 +409,6 @@
 .timer-row .grow {
   flex: 1;
   min-width: 0;
-}
-.timer-unit {
-  font-size: 0.8rem;
-  color: var(--muted);
-  white-space: nowrap;
 }
 
 /* --- Scenario agenda --- */

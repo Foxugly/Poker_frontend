@@ -328,7 +328,8 @@
       "label": "Temporizador",
       "seconds": "Duración (segundos)",
       "remaining": "Tiempo restante",
-      "expired": "Se acabó el tiempo"
+      "expired": "Se acabó el tiempo",
+      "sec_suffix": " seg"
     },
     "deck": {
       "label": "Tipo de póker",

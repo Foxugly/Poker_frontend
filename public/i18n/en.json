@@ -328,7 +328,8 @@
       "label": "Timer",
       "seconds": "Duration (seconds)",
       "remaining": "Time left",
-      "expired": "Time is up"
+      "expired": "Time is up",
+      "sec_suffix": " sec"
     },
     "deck": {
       "label": "Poker type",
