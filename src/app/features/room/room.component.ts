@@ -244,12 +244,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     // a single target gap in % of table HEIGHT, dividing the horizontal one by the
     // table's aspect — so the avatar→card gap is uniform whatever the angle.
     // NB: keep this aspect formula in sync with feltAspect() — the geometry here
-    // must match the shape the felt is actually drawn at. The table is kept fairly
-    // round (cap 2.3): a flatter table leaves too little vertical room and the two
-    // stacked side cards collide. gap 24 + a slightly smaller card keep a clear gap
-    // between neighbouring cards AND between an avatar and its card for 3–20 seats
-    // (verified: card→card ≥ 6.8px, avatar→card ≥ 13px across that range).
-    const aspect = Math.min(2.3, 1.6 + n * 0.05);
+    // must match the shape the felt is actually drawn at. An elongated table (cap
+    // 2.6) leaves less vertical room, so the card size is tuned down a touch to keep
+    // a clear gap between neighbouring cards for 3–20 seats (verified: card→card
+    // clearance ≥ 4px across that range, with the larger felt below).
+    const aspect = Math.min(2.6, 1.9 + n * 0.05);
     const personR = 49;
     const gap = 24;
     const cardRx = personR - gap / aspect;
@@ -295,7 +294,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   // 3–20 seats.
   readonly feltWidth = computed(() => Math.min(980, 540 + this.socket.participants().length * 28));
   // Must match the `aspect` in seats() so the seat geometry lands on the real felt shape.
-  readonly feltAspect = computed(() => Math.min(2.3, 1.6 + this.socket.participants().length * 0.05).toFixed(2));
+  readonly feltAspect = computed(() => Math.min(2.6, 1.9 + this.socket.participants().length * 0.05).toFixed(2));
   /** Seat-card width as a PERCENT of the felt width, not absolute px: the felt shrinks
    * to fit narrow screens, and a % keeps the whole layout scaling uniformly so the
    * no-overlap clearance holds at any size (px cards would collide on mobile). Derived
@@ -303,7 +302,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly seatCardWidth = computed(() => {
     const n = this.socket.participants().length;
     const feltW = Math.min(980, 540 + n * 28);
-    const cardW = Math.max(32, 66 - n * 1.6);
+    const cardW = Math.max(32, 64 - n * 1.6);
     return +((cardW / feltW) * 100).toFixed(2);
   });
 
