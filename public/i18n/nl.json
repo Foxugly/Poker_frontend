@@ -347,12 +347,10 @@
       "badge_nominative": "Stem met naam",
       "badge_anonymous": "Anonieme stem"
     },
-    "subject_label": "Onderwerp",
     "prepare": "Stemming voorbereiden",
     "launch": "Stemming starten",
     "edit": "Bewerken",
-    "queue_add": "Aan wachtrij toevoegen",
-    "ready_label": "Klaar om te starten"
+    "queue_add": "Aan wachtrij toevoegen"
   },
   "billing": {
     "title": "Abonnement",
