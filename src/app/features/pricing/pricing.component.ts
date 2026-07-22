@@ -18,10 +18,12 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
       <app-page-header [icon]="'pi-tag'" [title]="'pricing.title' | transloco" />
       <p class="lead">{{ 'pricing.intro' | transloco }}</p>
 
+      <!-- An offered account keeps its "you already have free access" banner, but the
+           tiers stay visible so it can still consult the plans. -->
       @if (sub()?.bypass) {
         <p-message severity="success" [text]="'billing.offered_access_hint' | transloco" />
-      } @else {
-        <div class="tiers">
+      }
+      <div class="tiers">
           <!-- Free -->
           <article class="tier">
             <h3>{{ 'pricing.free_title' | transloco }}</h3>
@@ -61,8 +63,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
             </ul>
             <a class="tier-cta" routerLink="/teams">{{ 'pricing.cta_paid' | transloco }}</a>
           </article>
-        </div>
-      }
+      </div>
 
       <p class="cap-note"><i class="pi pi-info-circle"></i>{{ 'pricing.note' | transloco }}</p>
     </section>
