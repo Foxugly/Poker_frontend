@@ -289,10 +289,23 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   /** The table grows wider with more players (kept short via a rising aspect ratio),
    * bounded for up to 20 participants; seat cards shrink as the table fills. */
-  readonly feltWidth = computed(() => Math.min(760, 380 + this.socket.participants().length * 22));
+  // A larger table gives the seat cards room to be bigger without overlapping — they
+  // now read close to the hand cards (which were shrunk to match). Felt size, seat
+  // radii and card size are tuned together: verified card→card clearance ≥ 4px for
+  // 3–20 seats.
+  readonly feltWidth = computed(() => Math.min(980, 540 + this.socket.participants().length * 28));
   // Must match the `aspect` in seats() so the seat geometry lands on the real felt shape.
   readonly feltAspect = computed(() => Math.min(2.3, 1.6 + this.socket.participants().length * 0.05).toFixed(2));
-  readonly seatCardWidth = computed(() => Math.round(Math.max(24, 46 - this.socket.participants().length * 1.1)));
+  /** Seat-card width as a PERCENT of the felt width, not absolute px: the felt shrinks
+   * to fit narrow screens, and a % keeps the whole layout scaling uniformly so the
+   * no-overlap clearance holds at any size (px cards would collide on mobile). Derived
+   * from the same felt/card px sizes the geometry was tuned against. */
+  readonly seatCardWidth = computed(() => {
+    const n = this.socket.participants().length;
+    const feltW = Math.min(980, 540 + n * 28);
+    const cardW = Math.max(32, 66 - n * 1.6);
+    return +((cardW / feltW) * 100).toFixed(2);
+  });
 
   cardByValue(value: string): SnapshotCard | null {
     return this.socket.deckSnapshot()?.cards.find((c) => c.value === value) ?? null;

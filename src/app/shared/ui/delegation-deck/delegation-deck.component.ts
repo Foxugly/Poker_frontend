@@ -30,19 +30,17 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
   `,
   styles: [
     `
+      /* Fixed, compact card width (close to the table's seat cards) instead of
+         stretching a few columns across the whole hand; wraps and stays centred. */
       .deck {
         display: grid;
-        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, 60px);
+        justify-content: center;
         gap: var(--s-3);
-      }
-      @media (max-width: 1024px) {
-        .deck {
-          grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
       }
       @media (max-width: 640px) {
         .deck {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(auto-fit, 52px);
         }
       }
     `,

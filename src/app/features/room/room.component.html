@@ -34,7 +34,7 @@
         </div>
 
         <div class="table-wrap">
-          <div class="felt" [style.max-width.px]="feltWidth()" [style.aspect-ratio]="feltAspect()" [style.--seat-card-w.px]="seatCardWidth()">
+          <div class="felt" [style.max-width.px]="feltWidth()" [style.aspect-ratio]="feltAspect()" [style.--seat-card-w]="seatCardWidth() + '%'">
             @for (seat of seats(); track seat.participantId) {
               <!-- Card near the table -->
               <div class="seat-card" [style.left.%]="seat.cardX" [style.top.%]="seat.cardY">

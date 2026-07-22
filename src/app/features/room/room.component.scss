@@ -227,7 +227,8 @@
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: var(--seat-card-w, 56px);
+  /* % of the felt width (its positioning context) so it scales with the table. */
+  width: var(--seat-card-w, 9%);
 }
 .empty-slot {
   width: 100%;
