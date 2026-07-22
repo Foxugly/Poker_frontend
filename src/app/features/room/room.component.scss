@@ -92,8 +92,10 @@
   flex-direction: column;
   gap: var(--s-4);
   min-width: 0;
-  /* Fill the viewport so the table can breathe and the hand pins to the bottom. */
+  /* Fill the viewport, but keep subject + table + hand as a compact block: any spare
+     height sits at the top/bottom edges rather than as big gaps around the table. */
   min-height: calc(100dvh - 150px);
+  justify-content: center;
 }
 
 /* --- Subject (read-only, everyone) --- */
@@ -139,14 +141,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1; /* take the free vertical space so the table looks airy */
+  /* Natural height (the felt); the stage centres the whole block instead of this
+     ballooning to fill and leaving big gaps above/below the table. */
+  flex: 0 1 auto;
 }
 .felt {
   position: relative;
   width: 100%;
   max-width: 640px;
   aspect-ratio: 2.6;
-  margin: var(--s-6) 0;
+  margin: var(--s-2) 0;
 }
 .felt::before {
   content: '';
@@ -317,8 +321,7 @@
   align-items: center;
   gap: var(--s-2);
   width: 100%;
-  /* Pinned to the bottom of the stage, with a comfortable bottom margin. */
-  margin-top: auto;
+  /* Sits right under the table (the stage centres the block); no auto push-down. */
   padding-top: var(--s-3);
   padding-bottom: 0;
   border-top: 1px solid var(--border);
