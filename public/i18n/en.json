@@ -347,12 +347,10 @@
       "badge_nominative": "Named vote",
       "badge_anonymous": "Anonymous vote"
     },
-    "subject_label": "Subject",
     "prepare": "Prepare the vote",
     "launch": "Launch the vote",
     "edit": "Edit",
-    "queue_add": "Add to queue",
-    "ready_label": "Ready to launch"
+    "queue_add": "Add to queue"
   },
   "billing": {
     "title": "Subscription",

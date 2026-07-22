@@ -161,14 +161,12 @@
                 <!-- STEP 1 — compose the round: subject + details, applied together. -->
                 <div class="round-form">
                   <div class="panel-block">
-                    <label class="field-label" for="subjectDraft">{{ 'room.subject_label' | transloco }}</label>
                     <input id="subjectDraft" pInputText class="w-full" [placeholder]="'room.add_subject' | transloco"
                            [ngModel]="subjectDraft()" (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="prepare()" />
                   </div>
 
                   @if (availableDecks().length > 1) {
                     <div class="panel-block deck-settings">
-                      <label class="field-label">{{ 'room.deck.label' | transloco }}</label>
                       <p-select [options]="deckOptions()" optionLabel="label" optionValue="value"
                                 [ngModel]="deckDraft() ?? currentDeckId()" (ngModelChange)="onDeckChange($event)"
                                 appendTo="body" styleClass="w-full" />
@@ -205,7 +203,6 @@
               } @else {
                 <!-- STEP 2 — the round is announced; launch it. -->
                 <div class="round-ready">
-                  <p class="ready-label">{{ 'room.ready_label' | transloco }}</p>
                   <p class="ready-subject">{{ socket.subject() }}</p>
                   <div class="panel-block controls">
                     <p-button [label]="'room.launch' | transloco" icon="pi pi-play" [disabled]="!canOpen()" (onClick)="launch()" styleClass="w-full" />

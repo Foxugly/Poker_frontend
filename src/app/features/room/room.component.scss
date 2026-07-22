@@ -389,19 +389,10 @@
   flex-direction: column;
   gap: var(--s-4);
 }
-.field-label {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
 .round-ready {
   display: flex;
   flex-direction: column;
   gap: var(--s-3);
-}
-.round-ready .ready-label {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--muted);
 }
 .round-ready .ready-subject {
   margin: 0;
