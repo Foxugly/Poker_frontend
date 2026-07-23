@@ -54,6 +54,8 @@ jobs:
         run: |
           tar -czf frontend-build.tar.gz -C dist/Poker_frontend/browser .
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          # Human version for the footer: short sha + build date (UTC).
+          echo "version=$(git rev-parse --short HEAD) ($(date -u +%Y-%m-%d))" >> "$GITHUB_OUTPUT"
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v6
@@ -73,6 +75,7 @@ jobs:
           INSTANCE_ID: ${{ secrets.EC2_INSTANCE_ID }}
           BUCKET: ${{ secrets.S3_DEPLOY_BUCKET }}
           SHA: ${{ steps.pkg.outputs.sha }}
+          FE_VERSION: ${{ steps.pkg.outputs.version }}
         run: |
           # AWS-RunShellScript runs as ROOT under dash. Installs config from the
           # COMMITTED git blob (never the django tree, §3.10) using `git -c
@@ -93,6 +96,7 @@ jobs:
             "env AWS_SHARED_CREDENTIALS_FILE=/dev/null AWS_CONFIG_FILE=/dev/null aws s3 cp s3://$BUCKET/builds/poker-frontend/$SHA.tar.gz /tmp/pokerfe.tar.gz --region eu-west-1",
             "rm -rf /tmp/pokerfe && mkdir -p /tmp/pokerfe && tar -xzf /tmp/pokerfe.tar.gz -C /tmp/pokerfe && mkdir -p $DOC && rsync -a --delete /tmp/pokerfe/ $DOC/ && rm -rf /tmp/pokerfe /tmp/pokerfe.tar.gz",
             "systemctl restart poker-frontend-runtime-fetch",
+            "echo 'set \$poker_version \"$FE_VERSION\";' > /etc/nginx/snippets/poker-frontend-runtime-version.conf",
             "nginx -t && systemctl reload nginx",
             "chown -R django:www-data $APP && chmod -R g-w,o-rwx $APP"
           ], "executionTimeout": ["900"] }
