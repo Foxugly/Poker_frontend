@@ -102,7 +102,7 @@ export interface AvailableDeck {
 }
 
 export interface StateSync {
-  room: { code: string; title: string };
+  room: { code: string; title: string; isTeam?: boolean };
   protocolVersion: number;
   roundState: RoundState;
   subject: string;

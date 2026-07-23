@@ -56,12 +56,10 @@ export class HomeComponent {
     return this.deckIds().includes(id);
   }
 
+  /** Single choice: the room always carries the whole free catalogue (switchable
+   * in-room), so this only picks the STARTING poker type. */
   toggleDeck(id: number): void {
-    const next = this.isDeckPicked(id)
-      ? this.deckIds().filter((x) => x !== id)
-      : [...this.deckIds(), id];
-    // Never end up with nothing: the last one stays selected.
-    if (next.length) this.deckIds.set(next);
+    this.deckIds.set([id]);
   }
 
   createRoom(): void {

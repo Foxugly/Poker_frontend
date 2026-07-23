@@ -106,7 +106,7 @@
     "join_title": "Rejoindre une salle",
     "join_intro": "Vous avez un code de salle ou un lien ? Rejoignez la partie en cours.",
     "join_cta": "Rejoindre",
-    "deck_choice": "Types de poker",
+    "deck_choice": "Type de poker (départ)",
     "deck_choice_hint": "Vous pourrez basculer entre eux pendant la session.",
     "back_choice": "Dos des cartes"
   },
