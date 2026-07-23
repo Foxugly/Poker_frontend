@@ -100,16 +100,19 @@
           </div>
         </div>
 
-        <div class="hand">
-          <span class="hand-label">{{ 'room.your_hand' | transloco }}</span>
-          <app-delegation-deck
-            [deck]="deck"
-            [lang]="lang()"
-            [myVote]="socket.myVote()"
-            [votable]="votable()"
-            (vote)="socket.castVote($event)"
-          />
-        </div>
+        <!-- No hand until a round is prepared: nothing to vote on yet. -->
+        @if (handVisible()) {
+          <div class="hand">
+            <span class="hand-label">{{ 'room.your_hand' | transloco }}</span>
+            <app-delegation-deck
+              [deck]="deck"
+              [lang]="lang()"
+              [myVote]="socket.myVote()"
+              [votable]="votable()"
+              (vote)="socket.castVote($event)"
+            />
+          </div>
+        }
       </div>
 
       <!-- Facilitator panel (right) -->
@@ -165,7 +168,9 @@
                            [ngModel]="subjectDraft()" (ngModelChange)="subjectDraft.set($event)" (keyup.enter)="prepare()" />
                   </div>
 
-                  @if (availableDecks().length > 1) {
+                  <!-- Always offered: an anonymous room carries the whole standard
+                       catalogue, a team room its enabled decks. -->
+                  @if (availableDecks().length > 0) {
                     <div class="panel-block deck-settings">
                       <p-select [options]="deckOptions()" optionLabel="label" optionValue="value"
                                 [ngModel]="deckDraft() ?? currentDeckId()" (ngModelChange)="onDeckChange($event)"
@@ -185,15 +190,18 @@
                     </div>
                   }
 
-                  <div class="panel-block timer-settings">
-                    <div class="timer-row">
-                      <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" />
-                      <i class="pi pi-clock timer-icon"></i>
-                      <p-inputNumber [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
-                                     [min]="10" [max]="60" [step]="5" [showButtons]="true" [suffix]="timerSuffix()"
-                                     [disabled]="!timerEnabledDraft()" inputStyleClass="timer-input" />
+                  <!-- Timer: team-only feature — an anonymous room never sees it. -->
+                  @if (socket.isTeam()) {
+                    <div class="panel-block timer-settings">
+                      <div class="timer-row">
+                        <p-toggleswitch [ngModel]="timerEnabledDraft()" (ngModelChange)="onTimerEnabledChange($event)" />
+                        <i class="pi pi-clock timer-icon"></i>
+                        <p-inputNumber [ngModel]="timerSecondsDraft()" (ngModelChange)="onTimerSecondsChange($event)"
+                                       [min]="10" [max]="60" [step]="5" [showButtons]="true" [suffix]="timerSuffix()"
+                                       [disabled]="!timerEnabledDraft()" inputStyleClass="timer-input" />
+                      </div>
                     </div>
-                  </div>
+                  }
 
                   <div class="panel-block controls">
                     <p-button [label]="'room.prepare' | transloco" icon="pi pi-check" [disabled]="!canPrepare()" (onClick)="prepare()" styleClass="w-full" />

@@ -106,7 +106,7 @@
     "join_title": "Join a room",
     "join_intro": "Got a room code or a link? Jump into the ongoing game.",
     "join_cta": "Join",
-    "deck_choice": "Poker types",
+    "deck_choice": "Poker type (starting)",
     "deck_choice_hint": "You can switch between them during the session.",
     "back_choice": "Card back"
   },

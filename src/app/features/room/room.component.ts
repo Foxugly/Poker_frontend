@@ -181,6 +181,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   );
   readonly showPrepared = computed(() => this.state() === 'idle' && !this.showComposeForm());
   readonly canPrepare = computed(() => this.subjectDraft().trim().length > 0);
+  /** The hand only appears once a round has been prepared (subject announced) —
+   * before that there is nothing to vote on and the cards would just be noise. */
+  readonly handVisible = computed(() => this.socket.subject().trim().length > 0);
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
@@ -380,13 +383,15 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.timerSecondsDraft.set(seconds);
   }
 
-  /** The detail drafts, as a prepareRound payload fragment. */
+  /** The detail drafts, as a prepareRound payload fragment. Team-only options
+   * (timer, anonymous reveal) are simply not sent for an anonymous room. */
   private roundDetails() {
+    const isTeam = this.socket.isTeam();
     return {
       deckId: (this.deckDraft() ?? this.currentDeckId()) ?? undefined,
       anonymous: this.socket.revealMode().canAnonymise ? this.anonymousDraft() : undefined,
-      timerEnabled: this.timerEnabledDraft(),
-      timerSeconds: this.timerSecondsDraft(),
+      timerEnabled: isTeam ? this.timerEnabledDraft() : undefined,
+      timerSeconds: isTeam ? this.timerSecondsDraft() : undefined,
     };
   }
 

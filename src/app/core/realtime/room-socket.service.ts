@@ -36,6 +36,8 @@ export class RoomSocketService {
 
   readonly connected = signal(false);
   readonly roomTitle = signal('');
+  /** Team room or anonymous — drives client-side feature gating (timer is team-only). */
+  readonly isTeam = signal(false);
   readonly roundState = signal<RoundState>('idle');
   readonly subject = signal('');
   readonly deckSnapshot = signal<DeckSnapshot | null>(null);
@@ -236,6 +238,7 @@ export class RoomSocketService {
 
   private applyStateSync(s: StateSync): void {
     this.roomTitle.set(s.room.title);
+    this.isTeam.set(!!s.room.isTeam);
     this.roundState.set(s.roundState);
     this.subject.set(s.subject);
     this.deckSnapshot.set(s.deckSnapshot);
