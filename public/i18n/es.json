@@ -158,7 +158,9 @@
     "paid_f4": "Hasta 20 miembros por equipo",
     "note": "Máximo 20 personas por sala · máximo 20 miembros por equipo.",
     "cta_free": "Crear una sala",
-    "cta_paid": "Suscribirse"
+    "cta_paid": "Suscribirse",
+    "excl_vat": "sin IVA",
+    "vat_note": "Los precios no incluyen IVA. El IVA aplicable a su país se añade en el pago."
   },
   "about": {
     "title": "Acerca de",
