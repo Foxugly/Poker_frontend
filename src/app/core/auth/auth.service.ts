@@ -19,7 +19,7 @@ const REFRESH_KEY = 'poker.refresh';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private base = getRuntimeConfig().apiBaseUrl + '/api/auth';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/auth';
 
   readonly currentUser = signal<AuthUser | null>(null);
   readonly isAuthenticated = computed(() => this.currentUser() !== null);

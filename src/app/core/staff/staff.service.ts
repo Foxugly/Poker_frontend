@@ -15,7 +15,7 @@ export class StaffService {
 
   // Comme les autres services core/, appelé cross-origin via apiBaseUrl (le
   // front n'est pas servi par le même vhost que l'API, cf. nginx CSP connect-src).
-  private base = getRuntimeConfig().apiBaseUrl + '/api/staff/users';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/staff/users';
 
   search(q: string): Observable<StaffUser[]> {
     return this.http

@@ -51,7 +51,7 @@ export class RoomApiService {
 
   /** The decks and card backs offered to a room created without an account. */
   freeCatalogue(): Observable<FreeCatalogue> {
-    return this.http.get<FreeCatalogue>(`${this.base}/api/decks/catalogue/`);
+    return this.http.get<FreeCatalogue>(`${this.base}/api/v1/decks/catalogue/`);
   }
 
   createRoom(
@@ -69,15 +69,15 @@ export class RoomApiService {
       if (free?.deckIds.length) body['deck_ids'] = free.deckIds;
       if (free?.cardBackId != null) body['card_back_id'] = free.cardBackId;
     }
-    return this.http.post<CreateRoomResponse>(`${this.base}/api/rooms`, body);
+    return this.http.post<CreateRoomResponse>(`${this.base}/api/v1/rooms`, body);
   }
 
   joinRoom(code: string, username: string): Observable<JoinRoomResponse> {
     // Team rooms ignore username (the authed user + interceptor token identify them).
-    return this.http.post<JoinRoomResponse>(`${this.base}/api/rooms/${code}/join`, { username });
+    return this.http.post<JoinRoomResponse>(`${this.base}/api/v1/rooms/${code}/join`, { username });
   }
 
   roomExists(code: string): Observable<RoomExistsResponse> {
-    return this.http.get<RoomExistsResponse>(`${this.base}/api/rooms/${code}`);
+    return this.http.get<RoomExistsResponse>(`${this.base}/api/v1/rooms/${code}`);
   }
 }

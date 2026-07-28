@@ -8,7 +8,7 @@ import { HistoryDay, HistoryDetail } from './history.models';
 @Injectable({ providedIn: 'root' })
 export class HistoryService {
   private http = inject(HttpClient);
-  private base = getRuntimeConfig().apiBaseUrl + '/api/history';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/history';
 
   listDays(teamId: number) {
     return firstValueFrom(this.http.get<{ days: HistoryDay[] }>(`${this.base}/${teamId}/`));

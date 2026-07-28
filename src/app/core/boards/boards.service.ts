@@ -8,7 +8,7 @@ import { Board, BoardRow } from './boards.models';
 @Injectable({ providedIn: 'root' })
 export class BoardsService {
   private http = inject(HttpClient);
-  private base = getRuntimeConfig().apiBaseUrl + '/api/board';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/board';
 
   getBoard(teamId: number) {
     return firstValueFrom(this.http.get<Board>(`${this.base}/${teamId}/`));
