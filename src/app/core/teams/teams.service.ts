@@ -8,7 +8,7 @@ import { CardBack, Felt, Invitation, Membership, SurfaceStyle, Team, TeamDecks, 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
   private http = inject(HttpClient);
-  private base = getRuntimeConfig().apiBaseUrl + '/api/teams';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/teams';
 
   listTeams() {
     return firstValueFrom(this.http.get<Team[]>(`${this.base}/`));
@@ -41,7 +41,7 @@ export class TeamsService {
   setFelt(id: number, feltId: number | null) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { felt_id: feltId }));
   }
-  private decksBase = getRuntimeConfig().apiBaseUrl + '/api/decks';
+  private decksBase = getRuntimeConfig().apiBaseUrl + '/api/v1/decks';
   uploadCardBack(name: string, image: File) {
     return firstValueFrom(this.http.post<CardBack>(`${this.decksBase}/card-backs/`, this.imageForm(name, image)));
   }

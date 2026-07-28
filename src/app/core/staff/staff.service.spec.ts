@@ -12,7 +12,7 @@ function serviceWith(http: { get: unknown; patch: unknown }) {
 // Comme les autres services core/, les URLs sont préfixées par apiBaseUrl (le
 // front appelle l'API cross-origin, cf. deploy/nginx/poker-frontend.conf) — pas
 // de chemin relatif nu.
-const base = `${getRuntimeConfig().apiBaseUrl}/api/staff/users`;
+const base = `${getRuntimeConfig().apiBaseUrl}/api/v1/staff/users`;
 
 describe('StaffService', () => {
   it('search passe le terme en parametre q', () => {

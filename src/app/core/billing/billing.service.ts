@@ -52,7 +52,7 @@ export interface BillingHistory {
 @Injectable({ providedIn: 'root' })
 export class BillingService {
   private http = inject(HttpClient);
-  private base = getRuntimeConfig().apiBaseUrl + '/api/billing';
+  private base = getRuntimeConfig().apiBaseUrl + '/api/v1/billing';
 
   status() {
     return firstValueFrom(this.http.get<SubscriptionStatus>(`${this.base}/subscription/`));
