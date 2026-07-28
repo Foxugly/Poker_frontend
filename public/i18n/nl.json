@@ -158,7 +158,9 @@
     "paid_f4": "Tot 20 leden per team",
     "note": "Max. 20 personen per kamer · max. 20 leden per team.",
     "cta_free": "Kamer maken",
-    "cta_paid": "Abonneren"
+    "cta_paid": "Abonneren",
+    "excl_vat": "excl. btw",
+    "vat_note": "Prijzen zijn exclusief btw. De btw van uw land wordt bij het afrekenen toegevoegd."
   },
   "about": {
     "title": "Over",

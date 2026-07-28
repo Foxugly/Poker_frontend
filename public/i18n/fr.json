@@ -158,7 +158,9 @@
     "paid_f4": "Jusqu'à 20 membres par équipe",
     "note": "20 personnes maximum par salle · 20 membres maximum par équipe.",
     "cta_free": "Créer une salle",
-    "cta_paid": "S'abonner"
+    "cta_paid": "S'abonner",
+    "excl_vat": "HT",
+    "vat_note": "Les prix sont hors TVA. La TVA applicable à votre pays est ajoutée au moment du paiement."
   },
   "about": {
     "title": "À propos",

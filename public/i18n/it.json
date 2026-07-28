@@ -158,7 +158,9 @@
     "paid_f4": "Fino a 20 membri per team",
     "note": "Massimo 20 persone per stanza · massimo 20 membri per team.",
     "cta_free": "Crea una stanza",
-    "cta_paid": "Abbonati"
+    "cta_paid": "Abbonati",
+    "excl_vat": "IVA escl.",
+    "vat_note": "I prezzi sono al netto dell'IVA. L'IVA applicabile al suo paese viene aggiunta al pagamento."
   },
   "about": {
     "title": "Info",

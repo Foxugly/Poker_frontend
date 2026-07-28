@@ -158,7 +158,9 @@
     "paid_f4": "Up to 20 members per team",
     "note": "20 people max per room · 20 members max per team.",
     "cta_free": "Create a room",
-    "cta_paid": "Subscribe"
+    "cta_paid": "Subscribe",
+    "excl_vat": "excl. VAT",
+    "vat_note": "Prices exclude VAT. The VAT applicable to your country is added at checkout."
   },
   "about": {
     "title": "About",

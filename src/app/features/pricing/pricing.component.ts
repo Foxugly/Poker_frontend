@@ -39,8 +39,8 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
           <!-- 1 team -->
           <article class="tier featured">
             <h3>{{ 'pricing.team1_title' | transloco }}</h3>
-            <div class="price">5 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-            <div class="price-alt">{{ 'pricing.or' | transloco }} 50 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
+            <div class="price">5 €<span class="excl-vat">{{ 'pricing.excl_vat' | transloco }}</span><span>{{ 'pricing.per_month' | transloco }}</span></div>
+            <div class="price-alt">{{ 'pricing.or' | transloco }} 50 € {{ 'pricing.excl_vat' | transloco }}{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
             <ul>
               <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
               <li><i class="pi pi-check"></i>{{ 'pricing.paid_f2' | transloco }}</li>
@@ -53,8 +53,8 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
           <!-- 5 teams -->
           <article class="tier">
             <h3>{{ 'pricing.team5_title' | transloco }}</h3>
-            <div class="price">20 €<span>{{ 'pricing.per_month' | transloco }}</span></div>
-            <div class="price-alt">{{ 'pricing.or' | transloco }} 200 €{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
+            <div class="price">20 €<span class="excl-vat">{{ 'pricing.excl_vat' | transloco }}</span><span>{{ 'pricing.per_month' | transloco }}</span></div>
+            <div class="price-alt">{{ 'pricing.or' | transloco }} 200 € {{ 'pricing.excl_vat' | transloco }}{{ 'pricing.per_year' | transloco }} <span class="save">{{ 'pricing.save' | transloco }}</span></div>
             <ul>
               <li><i class="pi pi-check"></i>{{ 'pricing.team5_f1' | transloco }}</li>
               <li><i class="pi pi-check"></i>{{ 'pricing.paid_f1' | transloco }}</li>
@@ -65,6 +65,7 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
           </article>
       </div>
 
+      <p class="vat-note">{{ 'pricing.vat_note' | transloco }}</p>
       <p class="cap-note"><i class="pi pi-info-circle"></i>{{ 'pricing.note' | transloco }}</p>
     </section>
   `,
@@ -125,6 +126,18 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
         margin-top: -8px;
         font-size: 0.85rem;
         color: var(--muted);
+      }
+      .excl-vat {
+        font-size: 0.6em;
+        font-weight: 400;
+        color: var(--muted);
+        margin-left: 0.25rem;
+      }
+      .vat-note {
+        margin-top: 1.25rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+        text-align: center;
       }
       .save {
         display: inline-block;
