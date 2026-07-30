@@ -25,7 +25,7 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "primeicons": "^7.0.0",
-    "primeng": "^21.1.9",
+    "primeng": "^22.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
