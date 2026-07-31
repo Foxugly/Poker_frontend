@@ -481,5 +481,9 @@
     "invoice_uncollectible": "Irrécouvrable",
     "pdf": "PDF",
     "view": "Voir"
+  },
+  "appUpdate": {
+    "title": "Nouvelle version disponible",
+    "detail": "L'application a été mise à jour pendant votre visite. Rechargez la page pour continuer."
   }
 }

@@ -24,6 +24,7 @@ import { ThemeService } from './core/theme/theme.service';
 import { languageHeaderInterceptor } from './core/i18n/language.interceptor';
 import { authInterceptor } from './core/auth/auth.interceptor';
 import { AuthService } from './core/auth/auth.service';
+import { StaleChunkService } from './core/app-update/stale-chunk.service';
 
 // Aura preset with Emerald as primary; `green` primitive → emerald so `success`
 // buttons match `primary` (one green across the UI, §3.15). Dark via `.dark-mode`.
@@ -56,6 +57,8 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(ThemeService).init();
       inject(LanguageService).init();
+      // Recovers tabs opened before a deploy, whose lazy chunks no longer exist.
+      inject(StaleChunkService).init();
       // Restore any existing session before the app renders.
       return inject(AuthService).bootstrap();
     }),

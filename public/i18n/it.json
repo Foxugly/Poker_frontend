@@ -481,5 +481,9 @@
     "invoice_uncollectible": "Inesigibile",
     "pdf": "PDF",
     "view": "Vedi"
+  },
+  "appUpdate": {
+    "title": "Nuova versione disponibile",
+    "detail": "L'app è stata aggiornata mentre eri qui. Ricarica la pagina per continuare."
   }
 }
