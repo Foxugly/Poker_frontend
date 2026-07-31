@@ -82,6 +82,19 @@ jobs:
           # safe.directory` inline (no $HOME needed), pulls the S3 bundle via the
           # instance role (blank certbot creds), atomic-swaps the docroot, runs
           # the runtime-fetch (writes the SSM snippet), and reloads nginx.
+          #
+          # Le docroot garde UNE generation de chunks en plus de la courante.
+          # Sans cela, `rsync --delete` effacait les anciens chunks a chaque
+          # deploiement : un onglet ouvert avant le deploiement reclamait un
+          # fichier disparu des que son proprietaire naviguait vers une route
+          # pas encore visitee (POKER-FRONTEND-4). Le front sait desormais s'en
+          # remettre (StaleChunkService), mais le mieux reste que ca n'arrive
+          # pas : ici on sert current UNION previous.
+          #
+          # .bundle-current / .bundle-prev sont des copies PURES du bundle, pas
+          # du docroot : sinon la retention s'empilerait indefiniment. Le
+          # `--ignore-existing` du second rsync garantit que rien de l'ancienne
+          # generation n'ecrase la nouvelle (index.html et i18n en particulier).
           APP=/var/www/django_websites/Poker_frontend
           DOC="$APP/dist/Poker_frontend/browser"
           GB="git -C $APP -c safe.directory=$APP show origin/main"
@@ -94,7 +107,12 @@ jobs:
             "$GB:deploy/nginx/poker-frontend.conf > /etc/nginx/sites-available/poker-frontend.conf && ln -sf /etc/nginx/sites-available/poker-frontend.conf /etc/nginx/sites-enabled/poker-frontend.conf",
             "systemctl daemon-reload && systemctl enable --quiet poker-frontend-runtime-fetch",
             "env AWS_SHARED_CREDENTIALS_FILE=/dev/null AWS_CONFIG_FILE=/dev/null aws s3 cp s3://$BUCKET/builds/poker-frontend/$SHA.tar.gz /tmp/pokerfe.tar.gz --region eu-west-1",
-            "rm -rf /tmp/pokerfe && mkdir -p /tmp/pokerfe && tar -xzf /tmp/pokerfe.tar.gz -C /tmp/pokerfe && mkdir -p $DOC && rsync -a --delete /tmp/pokerfe/ $DOC/ && rm -rf /tmp/pokerfe /tmp/pokerfe.tar.gz",
+            "rm -rf /tmp/pokerfe && mkdir -p /tmp/pokerfe && tar -xzf /tmp/pokerfe.tar.gz -C /tmp/pokerfe",
+            "rm -rf $APP/dist/.bundle-prev; [ -d $APP/dist/.bundle-current ] && mv $APP/dist/.bundle-current $APP/dist/.bundle-prev || true",
+            "rm -rf $APP/dist/.bundle-current && cp -a /tmp/pokerfe $APP/dist/.bundle-current",
+            "mkdir -p $DOC && rsync -a --delete $APP/dist/.bundle-current/ $DOC/",
+            "[ -d $APP/dist/.bundle-prev ] && rsync -a --ignore-existing $APP/dist/.bundle-prev/ $DOC/ || true",
+            "rm -rf /tmp/pokerfe /tmp/pokerfe.tar.gz",
             "systemctl restart poker-frontend-runtime-fetch",
             "echo 'set \$poker_version \"$FE_VERSION\";' > /etc/nginx/snippets/poker-frontend-runtime-version.conf",
             "nginx -t && systemctl reload nginx",
