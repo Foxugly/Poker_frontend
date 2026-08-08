@@ -3,35 +3,29 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CardIconName } from './card-icon-keys';
 
 /**
- * Les neuf pictogrammes des decks muets, en SVG inline.
+ * Les neuf pictogrammes des decks muets.
  *
- * Traces originaux — s'inspirer d'un style est libre, reprendre les traces d'un
- * jeu sous licence ne l'est pas, et ces decks sont l'offre payante.
+ * **Deux techniques, assumees.**
  *
- * **Deux traitements assumes.** Les mains du Fist of Five sont dessinees AU TRAIT
- * (contour d'epaisseur 5, bouts arrondis) ; les pouces du vote romain sont en
- * APLAT. Ce n'est pas un oubli : chaque traitement est le meilleur pour son deck,
- * et une salle ne joue qu'un deck a la fois — les deux jeux ne se croisent qu'au
- * selecteur de decks d'une equipe. Les attributs de rendu sont donc portes par
- * chaque <svg>, et non par une regle CSS commune.
+ * - *Fist of Five* : les six mains sont des **images** (`public/card-icons/fist-N.png`),
+ *   affichees comme **masque CSS** rempli en `currentColor`, et non comme <img>. Le dessin
+ *   d'origine est noir sur fond transparent : pose tel quel sur une carte sombre il serait
+ *   invisible, et un raster ne sait pas heriter d'une couleur. Le masque resout les deux
+ *   d'un coup — la forme vient de l'image, la couleur de la couche, donc la personnalisation
+ *   par equipe continue de fonctionner comme avec un SVG.
+ * - *Vote romain* : les trois pouces sont les traces **PrimeIcons** (`thumbs-up`,
+ *   `thumbs-down`), repris depuis `primeicons/raw-svg` — deja une dependance du projet,
+ *   donc aucun paquet a ajouter, et sous licence MIT. Ils sont au trait comme les mains,
+ *   la ou les pouces en aplat dessines auparavant detonnaient a cote d'elles.
+ *   PrimeIcons n'ayant pas de pouce horizontal, le **neutre** est le pouce leve pivote
+ *   d'un quart de tour : c'est le meme dessin, donc le style reste homogene.
  *
- * **Fist of Five.** Une paume ouverte, quatre doigts en U inverse poses sur son
- * bord haut. Un doigt non leve reste present, replie en phalange — c'est ce qui
- * fait lire une main plutot que des barres poussant d'un bloc, et ce qui donne au
- * `fist-0` un vrai poing plutot qu'une main mutilee. Les doigts se levent dans
- * l'ordre index, majeur, annulaire, auriculaire, donc aucune combinaison ne
- * produit de geste malencontreux. `fist-5` sort le pouce a l'horizontale :
- * l'orientation qui encombre le moins la paume et distingue le mieux le 5 du 4.
+ * Les deux jeux ne se croisent qu'au selecteur de decks d'une equipe : une salle ne joue
+ * qu'un deck a la fois, donc la difference de technique ne se voit pas en partie.
  *
- * **Vote romain.** Un pouce dresse plus trois doigts replies : c'est cette
- * silhouette qu'on reconnait, la composition « paume + barre » essayee d'abord ne
- * se lisant que comme un L. Neutre = la meme main pivotee d'un quart de tour (on
- * tourne le poignet) ; contre = son miroir vertical, et non une rotation, sinon
- * les doigts passent du mauvais cote.
- *
- * Chaque cas porte son propre <svg> complet : c'est ce qui garantit le namespace
- * SVG, qu'un @switch place *a l'interieur* d'un <svg> ne garantirait pas.
- * Le tout est statique : aucun innerHTML, donc aucune surface d'injection.
+ * Chaque cas SVG porte son propre <svg> complet : c'est ce qui garantit le namespace SVG,
+ * qu'un @switch place *a l'interieur* d'un <svg> ne garantirait pas. Le tout est statique :
+ * aucun innerHTML, donc aucune surface d'injection.
  */
 @Component({
   selector: 'app-card-icon',
@@ -40,150 +34,44 @@ import { CardIconName } from './card-icon-keys';
   template: `
     @switch (name()) {
       @case ('fist-0') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M22 63Q9 71 22 79" />
-          <path d="M30 56V52A6 6 0 0 1 42 52V56" />
-          <path d="M44 56V52A6 6 0 0 1 56 52V56" />
-          <path d="M58 56V52A6 6 0 0 1 70 52V56" />
-          <path d="M72 56V52A5 5 0 0 1 82 52V56" />
-        </svg>
+        <span class="mask mask--fist-0" aria-hidden="true"></span>
       }
       @case ('fist-1') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M22 63Q9 71 22 79" />
-          <path d="M30 56V26A6 6 0 0 1 42 26V56" />
-          <path d="M44 56V52A6 6 0 0 1 56 52V56" />
-          <path d="M58 56V52A6 6 0 0 1 70 52V56" />
-          <path d="M72 56V52A5 5 0 0 1 82 52V56" />
-        </svg>
+        <span class="mask mask--fist-1" aria-hidden="true"></span>
       }
       @case ('fist-2') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M22 63Q9 71 22 79" />
-          <path d="M30 56V26A6 6 0 0 1 42 26V56" />
-          <path d="M44 56V20A6 6 0 0 1 56 20V56" />
-          <path d="M58 56V52A6 6 0 0 1 70 52V56" />
-          <path d="M72 56V52A5 5 0 0 1 82 52V56" />
-        </svg>
+        <span class="mask mask--fist-2" aria-hidden="true"></span>
       }
       @case ('fist-3') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M22 63Q9 71 22 79" />
-          <path d="M30 56V26A6 6 0 0 1 42 26V56" />
-          <path d="M44 56V20A6 6 0 0 1 56 20V56" />
-          <path d="M58 56V24A6 6 0 0 1 70 24V56" />
-          <path d="M72 56V52A5 5 0 0 1 82 52V56" />
-        </svg>
+        <span class="mask mask--fist-3" aria-hidden="true"></span>
       }
       @case ('fist-4') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M22 63Q9 71 22 79" />
-          <path d="M30 56V26A6 6 0 0 1 42 26V56" />
-          <path d="M44 56V20A6 6 0 0 1 56 20V56" />
-          <path d="M58 56V24A6 6 0 0 1 70 24V56" />
-          <path d="M72 56V33A5 5 0 0 1 82 33V56" />
-        </svg>
+        <span class="mask mask--fist-4" aria-hidden="true"></span>
       }
       @case ('fist-5') {
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
-          <path d="M23 68L8 62A6 6 0 0 1 10 50L28 55" />
-          <path d="M30 56V26A6 6 0 0 1 42 26V56" />
-          <path d="M44 56V20A6 6 0 0 1 56 20V56" />
-          <path d="M58 56V24A6 6 0 0 1 70 24V56" />
-          <path d="M72 56V33A5 5 0 0 1 82 33V56" />
-        </svg>
+        <span class="mask mask--fist-5" aria-hidden="true"></span>
       }
       @case ('thumb-up') {
-        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <g>
-            <rect x="18" y="10" width="25" height="46" rx="12.5" />
-            <rect x="18" y="50" width="27" height="41" rx="10" />
-            <rect x="42" y="49" width="42" height="14" rx="7" />
-            <rect x="42" y="64" width="38" height="14" rx="7" />
-            <rect x="42" y="79" width="34" height="14" rx="7" />
-          </g>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path
+            d="M20.22,9.55c-.43-.51-1.05-.8-1.72-.8h-4.03v-2.75c0-1.52-1.23-2.75-2.83-2.75-.7,0-1.33,.42-1.61,1.07l-2.54,5.93h-1.87c-1.31,0-2.37,1.06-2.37,2.37v5.77c0,1.3,1.07,2.36,2.37,2.36h11.56c1.09,0,2.02-.78,2.21-1.86l1.32-7.5h0c.11-.66-.07-1.33-.5-1.84ZM5.62,19.25c-.48,0-.87-.39-.87-.86v-5.77c0-.48,.39-.87,.87-.87h1.61v7.5h-1.61Zm12.3-.62c-.06,.36-.37,.62-.74,.62H8.74V11.15l2.67-6.25c.04-.09,.13-.16,.32-.16,.69,0,1.24,.56,1.24,1.25v4.25h5.53c.23,0,.43,.09,.57,.26,.14,.17,.2,.39,.16,.62l-1.32,7.5Z"
+          />
         </svg>
       }
       @case ('thumb-side') {
-        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <g transform="rotate(90 50 50)">
-            <rect x="18" y="10" width="25" height="46" rx="12.5" />
-            <rect x="18" y="50" width="27" height="41" rx="10" />
-            <rect x="42" y="49" width="42" height="14" rx="7" />
-            <rect x="42" y="64" width="38" height="14" rx="7" />
-            <rect x="42" y="79" width="34" height="14" rx="7" />
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <g transform="rotate(90 12 12)">
+            <path
+              d="M20.22,9.55c-.43-.51-1.05-.8-1.72-.8h-4.03v-2.75c0-1.52-1.23-2.75-2.83-2.75-.7,0-1.33,.42-1.61,1.07l-2.54,5.93h-1.87c-1.31,0-2.37,1.06-2.37,2.37v5.77c0,1.3,1.07,2.36,2.37,2.36h11.56c1.09,0,2.02-.78,2.21-1.86l1.32-7.5h0c.11-.66-.07-1.33-.5-1.84ZM5.62,19.25c-.48,0-.87-.39-.87-.86v-5.77c0-.48,.39-.87,.87-.87h1.61v7.5h-1.61Zm12.3-.62c-.06,.36-.37,.62-.74,.62H8.74V11.15l2.67-6.25c.04-.09,.13-.16,.32-.16,.69,0,1.24,.56,1.24,1.25v4.25h5.53c.23,0,.43,.09,.57,.26,.14,.17,.2,.39,.16,.62l-1.32,7.5Z"
+            />
           </g>
         </svg>
       }
       @case ('thumb-down') {
-        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <g transform="translate(0,100) scale(1,-1)">
-            <rect x="18" y="10" width="25" height="46" rx="12.5" />
-            <rect x="18" y="50" width="27" height="41" rx="10" />
-            <rect x="42" y="49" width="42" height="14" rx="7" />
-            <rect x="42" y="64" width="38" height="14" rx="7" />
-            <rect x="42" y="79" width="34" height="14" rx="7" />
-          </g>
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path
+            d="M18.38,3.25H6.81c-1.09,0-2.02,.78-2.21,1.86l-1.31,7.5h0c-.11,.66,.07,1.33,.49,1.84,.43,.51,1.05,.8,1.72,.8h4.03v2.75c0,1.52,1.23,2.75,2.83,2.75,.7,0,1.33-.42,1.61-1.07l2.54-5.93h1.88c1.31,0,2.37-1.06,2.37-2.37V5.61c0-1.3-1.06-2.36-2.37-2.36Zm-3.12,9.6l-2.67,6.25c-.04,.09-.13,.16-.32,.16-.69,0-1.24-.56-1.24-1.25v-4.25H5.5c-.23,0-.43-.09-.57-.26-.15-.17-.2-.39-.16-.62l1.31-7.5c.06-.36,.37-.62,.74-.62H15.26V12.85Zm3.99-1.47c0,.48-.39,.87-.87,.87h-1.61V4.75h1.61c.48,0,.87,.39,.87,.86v5.77Z"
+          />
         </svg>
       }
     }
@@ -198,6 +86,44 @@ import { CardIconName } from './card-icon-keys';
         display: block;
         width: 100%;
         height: 100%;
+      }
+      .mask {
+        display: block;
+        width: 100%;
+        height: 100%;
+        /* La couleur vient de la couche via currentColor ; l'image ne fournit que
+           la forme, via son canal alpha. C'est ce qui rend le raster theme-able. */
+        background-color: currentColor;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+      }
+      .mask--fist-0 {
+        -webkit-mask-image: url('/card-icons/fist-0.png');
+        mask-image: url('/card-icons/fist-0.png');
+      }
+      .mask--fist-1 {
+        -webkit-mask-image: url('/card-icons/fist-1.png');
+        mask-image: url('/card-icons/fist-1.png');
+      }
+      .mask--fist-2 {
+        -webkit-mask-image: url('/card-icons/fist-2.png');
+        mask-image: url('/card-icons/fist-2.png');
+      }
+      .mask--fist-3 {
+        -webkit-mask-image: url('/card-icons/fist-3.png');
+        mask-image: url('/card-icons/fist-3.png');
+      }
+      .mask--fist-4 {
+        -webkit-mask-image: url('/card-icons/fist-4.png');
+        mask-image: url('/card-icons/fist-4.png');
+      }
+      .mask--fist-5 {
+        -webkit-mask-image: url('/card-icons/fist-5.png');
+        mask-image: url('/card-icons/fist-5.png');
       }
     `,
   ],

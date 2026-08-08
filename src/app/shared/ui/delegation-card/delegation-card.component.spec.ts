@@ -37,9 +37,11 @@ describe('DelegationCardComponent', () => {
     return fixture.nativeElement as HTMLElement;
   }
 
-  it('draws an svg for an icon layer, and no text span', () => {
+  it('draws the icon for an icon layer, and no text span', () => {
     const el = render(cardWith([{ ...BASE, kind: 'icon', text: 'fist-3' }]));
-    expect(el.querySelector('app-card-icon svg')).not.toBeNull();
+    // Le pictogramme peut etre un SVG inline ou un masque CSS selon le deck ; ce qui
+    // regarde la carte, c'est qu'elle delegue bien au composant d'icone.
+    expect(el.querySelector('app-card-icon')).not.toBeNull();
     expect(el.querySelector('span.layer')).toBeNull();
   });
 

@@ -6,7 +6,7 @@ import { CARD_ICON_KEYS, CardIconName } from './card-icon-keys';
 import { CardIconComponent } from './card-icon.component';
 
 /**
- * Garde-fou de completude : toute cle servie par le backend doit avoir un trace.
+ * Garde-fou de completude : toute cle servie par le backend doit dessiner quelque chose.
  * Un oubli doit echouer en integration continue, pas en salle devant une equipe.
  */
 @Component({
@@ -26,6 +26,31 @@ describe('CardIconComponent', () => {
     return fixture.nativeElement as HTMLElement;
   }
 
+  const SHAPES = 'path, rect, circle';
+
+  /**
+   * Ce que la cle dessine, mis a plat. Le jeu emploie deux techniques : les mains du
+   * Fist of Five sont des masques CSS (un <span> par cle), les pouces du vote romain
+   * du SVG inline porte par un <g> transforme. La signature couvre les deux.
+   */
+  function drawingOf(name: CardIconName): string {
+    const root = render(name);
+    const mask = root.querySelector('span.mask');
+    if (mask) return `mask::${mask.getAttribute('class')}`;
+
+    const svg = root.querySelector('svg')!;
+    const transform = svg.querySelector('g')?.getAttribute('transform') ?? '';
+    const shapes = [...svg.querySelectorAll(SHAPES)]
+      .map((el) =>
+        [...el.attributes]
+          .map((a) => `${a.name}=${a.value}`)
+          .sort()
+          .join(','),
+      )
+      .join('|');
+    return `svg::${transform}::${shapes}`;
+  }
+
   it('covers exactly the nine keys seeded by the backend', () => {
     expect([...CARD_ICON_KEYS]).toEqual([
       'fist-0',
@@ -40,30 +65,16 @@ describe('CardIconComponent', () => {
     ]);
   });
 
-  const SHAPES = 'path, rect, circle';
-
-  /**
-   * La geometrie dessinee, mise a plat. Couvre les deux traitements du jeu : les
-   * mains du Fist of Five sont des `path` au trait, les pouces du vote romain des
-   * `rect` en aplat portes par un `<g>` transforme.
-   */
-  function geometryOf(name: CardIconName): string {
-    const svg = render(name).querySelector('svg')!;
-    const transform = svg.querySelector('g')?.getAttribute('transform') ?? '';
-    const shapes = [...svg.querySelectorAll(SHAPES)]
-      .map((el) =>
-        [...el.attributes]
-          .map((a) => `${a.name}=${a.value}`)
-          .sort()
-          .join(','),
-      )
-      .join('|');
-    return `${transform}::${shapes}`;
-  }
-
   for (const key of CARD_ICON_KEYS) {
-    it(`draws a non-empty svg for "${key}"`, () => {
-      const svg = render(key).querySelector('svg');
+    it(`draws something for "${key}"`, () => {
+      const root = render(key);
+      const mask = root.querySelector('span.mask');
+      if (mask) {
+        // Le masque n'a de forme que par sa classe : sans elle, un carre plein.
+        expect(mask.getAttribute('class')).toContain(`mask--${key}`);
+        return;
+      }
+      const svg = root.querySelector('svg');
       expect(svg).not.toBeNull();
       // Le namespace SVG doit etre correct, sinon rien ne s'affiche a l'ecran.
       expect(svg!.namespaceURI).toBe('http://www.w3.org/2000/svg');
@@ -71,29 +82,24 @@ describe('CardIconComponent', () => {
     });
   }
 
-  it('gives every icon a distinct geometry', () => {
-    // Attrape le copier-coller rate : deux cles qui dessinent la meme chose.
-    // Les trois pouces partagent leurs formes et ne different que par le transform
-    // du <g> qui les porte — d'ou sa presence dans la signature.
-    const drawings = CARD_ICON_KEYS.map(geometryOf);
-    expect(new Set(drawings).size).toBe(CARD_ICON_KEYS.length);
+  it('gives every icon a distinct drawing', () => {
+    // Attrape le copier-coller rate : deux cles qui dessinent la meme chose. Les trois
+    // pouces partagent leurs formes et ne different que par le transform de leur <g>.
+    expect(new Set(CARD_ICON_KEYS.map(drawingOf)).size).toBe(CARD_ICON_KEYS.length);
   });
 
-  it('paints the fists with a stroke and the thumbs with a fill', () => {
-    // Le jeu est volontairement mixte ; un copier-coller d'attributs entre les deux
-    // familles donnerait une icone invisible (trait sans remplissage, ou l'inverse).
-    const fist = render('fist-3').querySelector('svg')!;
-    expect(fist.getAttribute('fill')).toBe('none');
-    expect(fist.getAttribute('stroke')).toBe('currentColor');
+  it('paints the masked hands with currentColor, never with the image itself', () => {
+    // Les images d'origine sont noires sur fond transparent : affichees telles quelles
+    // elles seraient invisibles sur une carte sombre, et insensibles au theme d'equipe.
+    // Seul le masque rempli en currentColor tient les deux promesses.
+    const root = render('fist-3');
+    expect(root.querySelector('img')).toBeNull();
+    expect(root.querySelector('span.mask')).not.toBeNull();
+  });
 
+  it('paints the thumbs with a fill and no stroke', () => {
     const thumb = render('thumb-up').querySelector('svg')!;
     expect(thumb.getAttribute('fill')).toBe('currentColor');
     expect(thumb.getAttribute('stroke')).toBeNull();
-  });
-
-  it('raises the ring finger between fist-2 and fist-3', () => {
-    // Le repli de l'annulaire (sommet a 52) devient un doigt leve (sommet a 24).
-    expect(geometryOf('fist-2')).toContain('M58 56V52');
-    expect(geometryOf('fist-3')).toContain('M58 56V24');
   });
 });
