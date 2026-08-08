@@ -144,14 +144,15 @@
   --gap: var(--s-3);
   --k: calc(var(--seat-frac, 0.09) * var(--felt-aspect, 2.2));
   --card-optimal: calc(var(--k) * (100dvh - var(--chrome-h, 300px)) / (1 + 1.4 * var(--k)));
-  --card: clamp(
-    var(--card-min, 52px),
-    min(
-      var(--card-optimal),
-      calc(100cqw * var(--seat-frac, 0.09)),
-      calc((100cqw - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
-      var(--card-cap, 190px)
-    ),
+  /* Aucun plancher : un plancher fixe finit toujours par ecraser la limite
+     geometrique — a 20 sieges, 52px suffisaient a faire se chevaucher les cartes
+     alors que la table n'en autorisait que 49. La geometrie l'emporte donc, quitte
+     a de petites cartes quand la salle est pleine ET l'ecran etroit : c'est le prix
+     d'une taille unique et d'un affichage sans defilement. */
+  --card: min(
+    var(--card-optimal),
+    calc(100cqw * var(--seat-frac, 0.09)),
+    calc((100cqw - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
     var(--card-cap, 190px)
   );
 
