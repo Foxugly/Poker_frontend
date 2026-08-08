@@ -21,12 +21,11 @@
   height: 100%;
   min-height: 0;
 
-  /* Budget vertical d'une carte de main. Elle grandit avec l'ecran mais ne peut pas
-     chasser la table : au-dela d'une part de la hauteur, elle cesse de croitre. Le
-     rapport 7/5 convertit cette part (une HAUTEUR de carte) en largeur, qui est ce
-     que la grille du paquet dimensionne. Le plafond evite qu'un deck de trois cartes
-     ne les etale de maniere absurde sur un grand ecran. */
-  --hand-card-max: clamp(52px, calc(20dvh * 5 / 7), 140px);
+  /* Bornes de la taille d'une carte (voir --card sur la scene). Le plancher garde
+     une cible tactile utilisable ; le plafond evite qu'un deck de trois cartes ne
+     les etale de maniere absurde sur un tres grand ecran. */
+  --card-min: 52px;
+  --card-cap: 190px;
 }
 
 /* Fullscreen: the room fills the screen exactly — no page scroll. */
@@ -117,6 +116,44 @@
   /* Le surplus se repartit en haut et en bas plutot qu'en grands vides autour de
      la table. */
   justify-content: center;
+
+  /* --- Une seule taille de carte, sur la table comme dans la main ---------------
+
+     Les deux se contraignent mutuellement : agrandir les cartes fait monter la main,
+     ce qui abaisse la table, ce qui abaisse la taille qu'une carte de siege peut
+     prendre. Plutot que d'empiler des bornes approximatives, on resout l'egalite.
+
+     Soit H la hauteur libre, f la part qu'une carte peut occuper sur le tapis, r le
+     ratio du tapis, et c la largeur d'une carte (sa hauteur vaut 7/5 c) :
+
+         tapis    = (H - 7/5 c) * r
+         carte    = tapis * f
+     =>  c        = f * r * H / (1 + 7/5 * f * r)
+
+     C'est --card-optimal. La taille finale est la plus petite de quatre bornes :
+     cet optimum en hauteur, ce que la LARGEUR du tapis autorise, la part de rangee
+     qui revient a chaque carte de la main, et un plafond absolu. Le plancher, lui,
+     fait passer la main a la ligne plutot que de rendre les cartes intouchables. */
+  --gap: var(--s-3);
+  --k: calc(var(--seat-frac, 0.09) * var(--felt-aspect, 2.2));
+  --card-optimal: calc(var(--k) * (100dvh - var(--chrome-h, 300px)) / (1 + 1.4 * var(--k)));
+  --card: clamp(
+    var(--card-min, 52px),
+    min(
+      var(--card-optimal),
+      calc(100% * var(--seat-frac, 0.09)),
+      calc((100% - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
+      var(--card-cap, 190px)
+    ),
+    var(--card-cap, 190px)
+  );
+
+  /* La table decoule de la carte retenue : la hauteur libre moins la place de la
+     main, convertie en largeur par le ratio, sans deborder de la scene. */
+  --felt-w: min(
+    100%,
+    calc((100dvh - var(--chrome-h, 300px) - var(--card) * 7 / 5) * var(--felt-aspect, 2.2))
+  );
 }
 
 /* --- Subject (read-only, everyone) --- */
@@ -182,11 +219,11 @@
      La part des cartes est derivee de leur plafond plutot qu'ecrite en dur : sinon
      agrandir la main rognerait la table sans que personne ne s'en apercoive. Elle
      suppose les cartes a leur plafond, donc on sur-reserve sur un ecran etroit —
-     sans consequence, la table y etant de toute facon limitee par la largeur. */
-  max-width: min(
-    100%,
-    calc((100dvh - var(--chrome-h, 300px) - var(--hand-card-max, 140px) * 7 / 5) * var(--felt-aspect, 2.2))
-  );
+     sans consequence, la table y etant de toute facon limitee par la largeur.
+
+     Le calcul lui-meme vit sur la scene (--felt-w) : la main s'en sert aussi, pour
+     que ses cartes soient exactement de la taille de celles de la table. */
+  max-width: var(--felt-w);
 }
 .felt::before {
   content: '';
@@ -267,8 +304,9 @@
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 2;
-  /* % of the felt width (its positioning context) so it scales with the table. */
-  width: var(--seat-card-w, 9%);
+  /* La MEME taille que dans la main : c'est tout l'objet de --card, dont la valeur
+     tient deja compte de ce que la table peut accueillir sans chevauchement. */
+  width: var(--card);
 }
 .empty-slot {
   width: 100%;

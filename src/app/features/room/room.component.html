@@ -14,7 +14,9 @@
   </header>
 
   @if (socket.deckSnapshot(); as deck) {
-    <div class="room-body" [class.has-panel]="showPanel()">
+    <div class="room-body" [class.has-panel]="showPanel()"
+         [style.--felt-aspect]="feltAspect()" [style.--seat-frac]="seatCardFraction()"
+         [style.--deck-n]="deckCardCount()">
       <!-- Table + hand -->
       <div class="stage">
         <div class="subject-view">
@@ -34,13 +36,14 @@
         </div>
 
         <div class="table-wrap">
-          <!-- Le plafond de largeur en pixels ne vaut que pour la page : en plein
-               ecran il bridait la table a ~700px et laissait d'enormes vides. Le
-               ratio part aussi en variable CSS, la feuille en ayant besoin pour
-               rederiver cette largeur depuis la hauteur disponible. -->
-          <div class="felt" [style.max-width.px]="isFullscreen() ? null : feltWidth()"
+          <!-- Plus aucun plafond de largeur en pixels : la table se dimensionne sur
+               la place disponible (voir --felt-w dans la feuille de styles). Le ratio
+               et la part des cartes partent en variables CSS, la feuille en ayant
+               besoin pour deduire une taille de carte identique a la table et dans
+               la main. -->
+          <div class="felt"
                [style.aspect-ratio]="feltAspect()" [style.--felt-aspect]="feltAspect()"
-               [style.--seat-card-w]="seatCardWidth() + '%'">
+               [style.--seat-frac]="seatCardFraction()">
             @for (seat of seats(); track seat.participantId) {
               <!-- Card near the table -->
               <div class="seat-card" [style.left.%]="seat.cardX" [style.top.%]="seat.cardY">

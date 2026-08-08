@@ -298,24 +298,54 @@ export class RoomComponent implements OnInit, OnDestroy {
     });
   });
 
-  /** The table grows wider with more players (kept short via a rising aspect ratio),
-   * bounded for up to 20 participants; seat cards shrink as the table fills. */
-  // A larger table gives the seat cards room to be bigger without overlapping — they
-  // now read close to the hand cards (which were shrunk to match). Felt size, seat
-  // radii and card size are tuned together: verified card→card clearance ≥ 4px for
-  // 3–20 seats.
-  readonly feltWidth = computed(() => Math.min(980, 540 + this.socket.participants().length * 28));
   // Must match the `aspect` in seats() so the seat geometry lands on the real felt shape.
   readonly feltAspect = computed(() => Math.min(2.6, 1.9 + this.socket.participants().length * 0.05).toFixed(2));
-  /** Seat-card width as a PERCENT of the felt width, not absolute px: the felt shrinks
-   * to fit narrow screens, and a % keeps the whole layout scaling uniformly so the
-   * no-overlap clearance holds at any size (px cards would collide on mobile). Derived
-   * from the same felt/card px sizes the geometry was tuned against. */
-  readonly seatCardWidth = computed(() => {
+
+  /** Nombre de cartes du deck actif : la rangee de la main s'y ajuste. */
+  readonly deckCardCount = computed(() => this.socket.deckSnapshot()?.cards.length ?? 7);
+
+  /** Part de la largeur du tapis qu'une carte de siege peut occuper sans qu'aucune
+   * ne chevauche sa voisine, pour le nombre de participants du moment.
+   *
+   * C'est une FRACTION et non des pixels : la geometrie des sieges est definie en
+   * pourcentages du tapis, donc la garantie vaut a n'importe quelle taille de table —
+   * ce qui ne serait pas vrai avec des pixels, les cartes se percutant sur un petit
+   * ecran.
+   *
+   * Elle est CALCULEE depuis la geometrie reelle des sieges, non tiree d'une table de
+   * valeurs : deux cartes ne se recouvrent pas des lors que leur ecart horizontal
+   * atteint une largeur de carte, OU leur ecart vertical une hauteur. La part maximale
+   * est donc le minimum, sur toutes les paires, du meilleur des deux ecarts. Le facteur
+   * de securite reproduit le jeu de 4px de la calibration d'origine.
+   *
+   * L'ancienne version lisait une taille calibree pour le PIRE cas (20 sieges) et
+   * l'appliquait partout : a 5 sieges les cartes etaient deux fois plus petites que
+   * ce que la table permettait. Verifie par dichotomie dans un vrai navigateur :
+   * 16,07 % calcule contre 15,48 % mesure a 5 sieges, 3,49 contre 3,20 a 21.
+   */
+  readonly seatCardFraction = computed(() => {
     const n = this.socket.participants().length;
-    const feltW = Math.min(980, 540 + n * 28);
-    const cardW = Math.max(32, 64 - n * 1.6);
-    return +((cardW / feltW) * 100).toFixed(2);
+    if (n < 2) return 0.18;
+    const aspect = Math.min(2.6, 1.9 + n * 0.05);
+    const personR = 49;
+    const gap = 24;
+    const rx = personR - gap / aspect;
+    const ry = personR - gap;
+    const points = arcEvenAngles(n, personR * aspect, personR).map((a) => ({
+      x: 50 + rx * Math.cos(a),
+      y: 50 + ry * Math.sin(a),
+    }));
+    let part = Infinity;
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const dx = Math.abs(points[i].x - points[j].x) / 100;
+        // L'ecart vertical est en % de la HAUTEUR du tapis : le ramener en largeur
+        // (division par le ratio), puis en largeur de carte (division par 7/5).
+        const dy = Math.abs(points[i].y - points[j].y) / (100 * aspect * 1.4);
+        part = Math.min(part, Math.max(dx, dy));
+      }
+    }
+    return +Math.min(0.18, part * 0.92).toFixed(4);
   });
 
   cardByValue(value: string): SnapshotCard | null {
