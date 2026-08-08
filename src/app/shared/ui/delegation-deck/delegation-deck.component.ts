@@ -14,7 +14,7 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DelegationCardComponent],
   template: `
-    <div class="deck">
+    <div class="deck" [style.--n]="deck().cards.length">
       @for (card of deck().cards; track card.value) {
         <app-delegation-card
           [card]="card"
@@ -30,18 +30,29 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
   `,
   styles: [
     `
-      /* Fixed, compact card width (close to the table's seat cards) instead of
-         stretching a few columns across the whole hand; wraps and stays centred. */
+      /* Les cartes prennent toute la largeur disponible, entre deux bornes.
+         Elles etaient auparavant figees a 60px : la main occupait moins de la
+         moitie de sa place sur un grand ecran, et les libelles y etaient illisibles.
+
+         Le PLAFOND evite qu'un deck de trois cartes (vote romain) ne les etale de
+         maniere absurde, et borne la hauteur que la main prend a la table — la
+         salle le resserre en plein ecran, ou le debordement est masque.
+
+         Le PLANCHER est ce qui fait passer a la ligne : auto-fit place autant de
+         colonnes que la largeur en accepte, donc des que la part de chacune tombe
+         sous ce seuil, la main se replie sur plusieurs rangees plutot que de reduire
+         les cartes indefiniment. Sans lui, dix cartes sur un telephone feraient 28px. */
       .deck {
+        --gap: var(--s-3);
+        --card: clamp(
+          var(--hand-card-min, 52px),
+          calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)),
+          var(--hand-card-max, 140px)
+        );
         display: grid;
-        grid-template-columns: repeat(auto-fit, 60px);
+        grid-template-columns: repeat(auto-fit, var(--card));
         justify-content: center;
-        gap: var(--s-3);
-      }
-      @media (max-width: 640px) {
-        .deck {
-          grid-template-columns: repeat(auto-fit, 52px);
-        }
+        gap: var(--gap);
       }
     `,
   ],

@@ -16,6 +16,17 @@
   max-width: 1400px;
   /* Trim the space below the hand (the .page default is larger). */
   padding-bottom: var(--s-2);
+  /* La coquille donne une hauteur definie a une salle (voir _shell.scss) : on la
+     remplit exactement, ni plus — rien ne defile, le pied de page reste visible. */
+  height: 100%;
+  min-height: 0;
+
+  /* Budget vertical d'une carte de main. Elle grandit avec l'ecran mais ne peut pas
+     chasser la table : au-dela d'une part de la hauteur, elle cesse de croitre. Le
+     rapport 7/5 convertit cette part (une HAUTEUR de carte) en largeur, qui est ce
+     que la grille du paquet dimensionne. Le plafond evite qu'un deck de trois cartes
+     ne les etale de maniere absurde sur un grand ecran. */
+  --hand-card-max: clamp(52px, calc(20dvh * 5 / 7), 140px);
 }
 
 /* Fullscreen: the room fills the screen exactly — no page scroll. */
@@ -36,17 +47,10 @@
 .room:fullscreen .stage {
   min-height: 0;
 }
-/* En plein ecran, la table se dimensionne sur la HAUTEUR disponible.
-   Sans cela elle gardait son plafond de ~700px de large : le contenu de la scene
-   n'occupait que 519px sur 813, et `justify-content: center` repartissait le reste
-   en deux vides de 147px, soit plus d'un tiers de la scene.
-   On passe par max-width, jamais par height : une hauteur imposee ferait perdre
-   l'aspect-ratio des que la largeur devient limitante, et les sieges — places en
-   JavaScript pour un ratio donne — decrocheraient du bord de la table.
-   La reserve couvre le chrome vertical : marge de la salle, en-tete, sujet, main,
-   interlignes et marges du tapis (mesure ~284px, arrondi pour ne jamais rogner). */
-.room:fullscreen .felt {
-  max-width: min(100%, calc((100dvh - 300px) * var(--felt-aspect)));
+/* En plein ecran, le chrome vertical se reduit : ni en-tete d'application, ni pied
+   de page. La table peut donc grandir d'autant. */
+.room:fullscreen {
+  --chrome-h: 200px;
 }
 
 /* --- Room header: back left, title centred, actions right --- */
@@ -104,9 +108,14 @@
   flex-direction: column;
   gap: var(--s-4);
   min-width: 0;
-  /* Fill the viewport, but keep subject + table + hand as a compact block: any spare
-     height sits at the top/bottom edges rather than as big gaps around the table. */
-  min-height: calc(100dvh - 150px);
+  /* Prend la hauteur que la salle lui laisse, sans jamais la depasser. C'etait
+     auparavant `min-height: calc(100dvh - 150px)` : une constante qui ignorait
+     l'en-tete de l'application et le pied de page, et faisait donc defiler la page
+     en poussant le pied sous la ligne de flottaison. */
+  flex: 1;
+  min-height: 0;
+  /* Le surplus se repartit en haut et en bas plutot qu'en grands vides autour de
+     la table. */
   justify-content: center;
 }
 
@@ -160,9 +169,24 @@
 .felt {
   position: relative;
   width: 100%;
-  max-width: 640px;
   aspect-ratio: 2.6;
   margin: var(--s-2) 0;
+  /* La table se dimensionne sur la HAUTEUR disponible : ce qui reste une fois retires
+     le chrome vertical et la place des cartes. Elle etait auparavant plafonnee en
+     largeur, ce qui laissait d'immenses vides au-dessus et au-dessous.
+
+     On passe par max-width, JAMAIS par height : imposer une hauteur fait perdre
+     l'aspect-ratio des que la largeur devient limitante, et les sieges — places en
+     JavaScript pour un ratio donne — decrochent alors du bord de la table.
+
+     La part des cartes est derivee de leur plafond plutot qu'ecrite en dur : sinon
+     agrandir la main rognerait la table sans que personne ne s'en apercoive. Elle
+     suppose les cartes a leur plafond, donc on sur-reserve sur un ecran etroit —
+     sans consequence, la table y etant de toute facon limitee par la largeur. */
+  max-width: min(
+    100%,
+    calc((100dvh - var(--chrome-h, 300px) - var(--hand-card-max, 140px) * 7 / 5) * var(--felt-aspect, 2.2))
+  );
 }
 .felt::before {
   content: '';
@@ -336,20 +360,37 @@
   /* Sits right under the table (the stage centres the block); no auto push-down. */
   padding-top: var(--s-3);
   padding-bottom: 0;
-  border-top: 1px solid var(--border);
+  /* Le trait separateur est porte par le libelle lui-meme (voir .hand-label), pas
+     par ce bloc : le libelle occupait sinon une ligne a lui seul, au-dessus du
+     trait, pour une hauteur perdue au detriment des cartes. */
 }
-/* The deck host is inline by default — force a full-width (capped, centred) block
-   so its 7 fr-columns don't collapse. */
+/* The deck host is inline by default — force a full-width block so its columns
+   don't collapse. Plus de plafond de 760px : la main occupe toute la largeur de la
+   scene, les cartes se dimensionnant elles-memes entre leurs deux bornes. */
 .hand app-delegation-deck {
   display: block;
   width: 100%;
-  max-width: 760px;
 }
+/* Le libelle EST le separateur : un trait le prolonge de part et d'autre, a la
+   maniere d'une legende de fieldset. Le libelle et le trait occupaient auparavant
+   deux lignes distinctes ; les fondre en une seule rend cette hauteur aux cartes. */
 .hand-label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
   font-size: 0.8rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.hand-label::before,
+.hand-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 /* --- Facilitator panel --- */
