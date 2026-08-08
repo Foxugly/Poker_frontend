@@ -57,6 +57,9 @@ export class RoomSocketService {
   readonly facilitatorPresent = signal(true);
   readonly agenda = signal<AgendaItem[]>([]);
   readonly myRole = signal<Role>('voter');
+  /** Notre identifiant public, pour se reconnaitre dans les diffusions. Vide tant
+   * que le premier `state.sync` n'est pas arrive. */
+  readonly myParticipantId = signal('');
   readonly lastError = signal<RoomError | null>(null);
   /** Round timer (contract §timer): deadline is cosmetic-only, the server alone
    * decides when it actually causes a reveal. */
@@ -222,9 +225,17 @@ export class RoomSocketService {
         this.deadline.set(null);
         return;
       }
-      case 'facilitator.changed':
+      case 'facilitator.changed': {
         this.facilitatorPresent.set(true);
+        // Le role change pour DEUX personnes : celle qui le prend et celle qui le
+        // perd. Sans cela, prendre le role rendait facilitateur aux yeux de tous
+        // sauf des siens, et recharger n'y changeait rien — le role venait de la
+        // session enregistree a l'arrivee.
+        const nouveau = (msg.payload as { newFacilitatorId: string }).newFacilitatorId;
+        const moi = this.myParticipantId();
+        if (moi) this.myRole.set(nouveau === moi ? 'facilitator' : 'voter');
         return;
+      }
       case 'facilitator.presence':
         this.facilitatorPresent.set((msg.payload as { present: boolean }).present);
         return;
@@ -244,6 +255,10 @@ export class RoomSocketService {
     this.deckSnapshot.set(s.deckSnapshot);
     this.availableDecks.set(s.availableDecks ?? []);
     this.participants.set(s.participants);
+    // Le serveur fait autorite sur notre role : celui passe a `connect` vient de la
+    // session enregistree a l'arrivee et peut etre perime (prise de role, passation).
+    if (s.myRole) this.myRole.set(s.myRole);
+    if (s.myParticipantId) this.myParticipantId.set(s.myParticipantId);
     this.myVote.set(s.myVote);
     this.result.set(s.result);
     this.facilitatorPresent.set(s.facilitatorPresent);
