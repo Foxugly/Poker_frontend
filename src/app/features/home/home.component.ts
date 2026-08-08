@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { FreeCatalogue, RoomApiService } from '../../core/api/room-api.service';
+import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
 
 @Component({
@@ -27,11 +27,6 @@ export class HomeComponent {
   readonly title = signal('');
   readonly creating = signal(false);
 
-  // Free-room deck/back pick. With no team to hold it, the choice is made here and
-  // frozen into the room at creation. Empty = the server's own free default.
-  readonly catalogue = signal<FreeCatalogue | null>(null);
-  readonly deckIds = signal<number[]>([]);
-  readonly cardBackId = signal<number | null>(null);
   readonly submitted = signal(false);
 
   // Join (inline on the home, both actions in evidence).
@@ -40,28 +35,10 @@ export class HomeComponent {
   readonly joining = signal(false);
   readonly joinSubmitted = signal(false);
 
-  constructor() {
-    // Best-effort: a failed catalogue just hides the pickers, it must never block
-    // creating a room.
-    this.api.freeCatalogue().subscribe({
-      next: (cat) => {
-        this.catalogue.set(cat);
-        if (cat.decks.length) this.deckIds.set([cat.decks[0].id]);
-      },
-      error: () => this.catalogue.set(null),
-    });
-  }
-
-  isDeckPicked(id: number): boolean {
-    return this.deckIds().includes(id);
-  }
-
-  /** Single choice: the room always carries the whole free catalogue (switchable
-   * in-room), so this only picks the STARTING poker type. */
-  toggleDeck(id: number): void {
-    this.deckIds.set([id]);
-  }
-
+  /** Une salle sans compte ne choisit rien a la creation : elle porte tout le
+   * catalogue gratuit, le facilitateur change de type de poker en salle, et le dos
+   * des cartes est impose par le serveur. D'ou un formulaire reduit au titre et au
+   * nom, et plus aucun appel au catalogue depuis cette page. */
   createRoom(): void {
     this.submitted.set(true);
     const name = this.username().trim();
@@ -69,10 +46,7 @@ export class HomeComponent {
     this.identity.username = name;
     this.creating.set(true);
     this.api
-      .createRoom(name, this.title().trim(), undefined, {
-        deckIds: this.deckIds(),
-        cardBackId: this.cardBackId(),
-      })
+      .createRoom(name, this.title().trim())
       .subscribe({
       next: (res) => {
         this.identity.saveSession({ code: res.code, token: res.participantToken, role: res.role });
