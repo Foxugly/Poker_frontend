@@ -338,7 +338,9 @@
       "locked": "Terminez le round pour changer de type.",
       "type": {
         "delegation_poker": "Delegation Poker",
-        "poker_planning": "Poker Planning"
+        "poker_planning": "Poker Planning",
+        "fist_of_five": "Fist of Five",
+        "roman_vote": "Vote romain"
       }
     },
     "reveal_mode": {
