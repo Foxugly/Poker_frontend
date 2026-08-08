@@ -38,6 +38,32 @@ describe('RoomSocketService reducer', () => {
     expect(svc.agenda()[0].status).toBe('current');
   });
 
+  it('restores a revealed round from state.sync, cards included', () => {
+    // Recharger la page pendant un round revele doit rendre le MEME ecran que pour
+    // ceux qui etaient la : sans les votes nominatifs, les cartes du tapis restaient
+    // face cachee alors que le decompte, lui, s'affichait.
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', {
+      ...SYNC,
+      roundState: 'revealed',
+      tally: [{ cardValue: '4', count: 1 }],
+      votes: [{ participantId: 'p1', cardValue: '4' }],
+      spread: { min: 4, max: 4 },
+    });
+    expect(svc.roundState()).toBe('revealed');
+    expect(svc.nominativeVotes()).toEqual([{ participantId: 'p1', cardValue: '4' }]);
+    expect(svc.spread()).toEqual({ min: 4, max: 4 });
+  });
+
+  it('clears the spread when state.sync carries none', () => {
+    // Un round anonyme, ou une echelle non ordinale comme le vote romain, n'en
+    // envoie pas : l'ecart d'un round precedent ne doit pas survivre a l'ecran.
+    const svc = new RoomSocketService();
+    feed(svc, 'vote.revealed', { tally: [], spread: { min: 1, max: 7 } });
+    feed(svc, 'state.sync', { ...SYNC, roundState: 'revealed', tally: [] });
+    expect(svc.spread()).toEqual({ min: null, max: null });
+  });
+
   it('applies the timer settings and deadline from state.sync', () => {
     const svc = new RoomSocketService();
     feed(svc, 'state.sync', { ...SYNC, deadline: '2026-07-18T12:00:30Z', timer: { enabled: true, seconds: 20 } });

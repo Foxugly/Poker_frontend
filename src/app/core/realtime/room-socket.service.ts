@@ -250,6 +250,7 @@ export class RoomSocketService {
     this.agenda.set(s.agenda ?? []);
     this.voteTally.set(s.tally ?? []);
     this.nominativeVotes.set(s.votes ?? []);
+    this.spread.set(s.spread ?? { min: null, max: null });
     this.revealMode.set(s.reveal ?? { anonymous: false, canAnonymise: false });
     this.deadline.set(s.deadline ?? null);
     this.timer.set(s.timer ?? { enabled: false, seconds: 10 });
