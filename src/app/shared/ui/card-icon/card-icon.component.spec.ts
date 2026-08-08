@@ -40,11 +40,25 @@ describe('CardIconComponent', () => {
     ]);
   });
 
-  /** La geometrie dessinee, mise a plat : ce qui distingue reellement deux icones. */
+  const SHAPES = 'path, rect, circle';
+
+  /**
+   * La geometrie dessinee, mise a plat. Couvre les deux traitements du jeu : les
+   * mains du Fist of Five sont des `path` au trait, les pouces du vote romain des
+   * `rect` en aplat portes par un `<g>` transforme.
+   */
   function geometryOf(name: CardIconName): string {
-    return [...render(name).querySelectorAll('svg path')]
-      .map((p) => p.getAttribute('d'))
+    const svg = render(name).querySelector('svg')!;
+    const transform = svg.querySelector('g')?.getAttribute('transform') ?? '';
+    const shapes = [...svg.querySelectorAll(SHAPES)]
+      .map((el) =>
+        [...el.attributes]
+          .map((a) => `${a.name}=${a.value}`)
+          .sort()
+          .join(','),
+      )
       .join('|');
+    return `${transform}::${shapes}`;
   }
 
   for (const key of CARD_ICON_KEYS) {
@@ -53,19 +67,28 @@ describe('CardIconComponent', () => {
       expect(svg).not.toBeNull();
       // Le namespace SVG doit etre correct, sinon rien ne s'affiche a l'ecran.
       expect(svg!.namespaceURI).toBe('http://www.w3.org/2000/svg');
-      expect(svg!.querySelectorAll('path').length).toBeGreaterThan(0);
+      expect(svg!.querySelectorAll(SHAPES).length).toBeGreaterThan(0);
     });
   }
 
   it('gives every icon a distinct geometry', () => {
     // Attrape le copier-coller rate : deux cles qui dessinent la meme chose.
-    // Les trois pouces partagent leurs traces mais different par leur transform,
-    // pris en compte ici via le <g> qui les porte.
-    const drawings = CARD_ICON_KEYS.map((k) => {
-      const g = render(k).querySelector('svg g');
-      return `${g?.getAttribute('transform') ?? ''}::${geometryOf(k)}`;
-    });
+    // Les trois pouces partagent leurs formes et ne different que par le transform
+    // du <g> qui les porte — d'ou sa presence dans la signature.
+    const drawings = CARD_ICON_KEYS.map(geometryOf);
     expect(new Set(drawings).size).toBe(CARD_ICON_KEYS.length);
+  });
+
+  it('paints the fists with a stroke and the thumbs with a fill', () => {
+    // Le jeu est volontairement mixte ; un copier-coller d'attributs entre les deux
+    // familles donnerait une icone invisible (trait sans remplissage, ou l'inverse).
+    const fist = render('fist-3').querySelector('svg')!;
+    expect(fist.getAttribute('fill')).toBe('none');
+    expect(fist.getAttribute('stroke')).toBe('currentColor');
+
+    const thumb = render('thumb-up').querySelector('svg')!;
+    expect(thumb.getAttribute('fill')).toBe('currentColor');
+    expect(thumb.getAttribute('stroke')).toBeNull();
   });
 
   it('raises the ring finger between fist-2 and fist-3', () => {

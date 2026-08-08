@@ -3,24 +3,31 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CardIconName } from './card-icon-keys';
 
 /**
- * Les neuf pictogrammes des decks muets, dessines au trait.
+ * Les neuf pictogrammes des decks muets, en SVG inline.
  *
- * Style : contour d'epaisseur uniforme (5), bouts et angles arrondis, aucune
- * surface pleine. Traces originaux — s'inspirer d'un style est libre, reprendre
- * les traces d'un jeu sous licence ne l'est pas, et ces decks sont l'offre payante.
+ * Traces originaux — s'inspirer d'un style est libre, reprendre les traces d'un
+ * jeu sous licence ne l'est pas, et ces decks sont l'offre payante.
  *
- * Construction : une paume ouverte en bas, et quatre doigts dessines chacun comme
- * un U inverse pose sur le bord haut de la paume. Un doigt non leve reste present,
- * replie en phalange — c'est ce qui fait lire une main plutot que des barres
- * poussant d'un bloc, et c'est ce qui donne au `fist-0` un vrai poing. Les doigts
- * se levent dans l'ordre index, majeur, annulaire, auriculaire.
+ * **Deux traitements assumes.** Les mains du Fist of Five sont dessinees AU TRAIT
+ * (contour d'epaisseur 5, bouts arrondis) ; les pouces du vote romain sont en
+ * APLAT. Ce n'est pas un oubli : chaque traitement est le meilleur pour son deck,
+ * et une salle ne joue qu'un deck a la fois — les deux jeux ne se croisent qu'au
+ * selecteur de decks d'une equipe. Les attributs de rendu sont donc portes par
+ * chaque <svg>, et non par une regle CSS commune.
  *
- * `fist-5` sort le pouce a l'horizontale : c'est l'orientation qui encombre le
- * moins la paume et qui distingue le mieux le 5 du 4, y compris en petit.
+ * **Fist of Five.** Une paume ouverte, quatre doigts en U inverse poses sur son
+ * bord haut. Un doigt non leve reste present, replie en phalange — c'est ce qui
+ * fait lire une main plutot que des barres poussant d'un bloc, et ce qui donne au
+ * `fist-0` un vrai poing plutot qu'une main mutilee. Les doigts se levent dans
+ * l'ordre index, majeur, annulaire, auriculaire, donc aucune combinaison ne
+ * produit de geste malencontreux. `fist-5` sort le pouce a l'horizontale :
+ * l'orientation qui encombre le moins la paume et distingue le mieux le 5 du 4.
  *
- * Le vote romain reprend le meme poing, pouce sorti — court et large, faute de
- * quoi il se lit comme un index qui pointe. Neutre = quart de tour ; contre =
- * miroir vertical et non rotation, sinon les phalanges partent du mauvais cote.
+ * **Vote romain.** Un pouce dresse plus trois doigts replies : c'est cette
+ * silhouette qu'on reconnait, la composition « paume + barre » essayee d'abord ne
+ * se lisant que comme un L. Neutre = la meme main pivotee d'un quart de tour (on
+ * tourne le poignet) ; contre = son miroir vertical, et non une rotation, sinon
+ * les doigts passent du mauvais cote.
  *
  * Chaque cas porte son propre <svg> complet : c'est ce qui garantit le namespace
  * SVG, qu'un @switch place *a l'interieur* d'un <svg> ne garantirait pas.
@@ -33,7 +40,16 @@ import { CardIconName } from './card-icon-keys';
   template: `
     @switch (name()) {
       @case ('fist-0') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M22 63Q9 71 22 79" />
           <path d="M30 56V52A6 6 0 0 1 42 52V56" />
@@ -43,7 +59,16 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('fist-1') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M22 63Q9 71 22 79" />
           <path d="M30 56V26A6 6 0 0 1 42 26V56" />
@@ -53,7 +78,16 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('fist-2') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M22 63Q9 71 22 79" />
           <path d="M30 56V26A6 6 0 0 1 42 26V56" />
@@ -63,7 +97,16 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('fist-3') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M22 63Q9 71 22 79" />
           <path d="M30 56V26A6 6 0 0 1 42 26V56" />
@@ -73,7 +116,16 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('fist-4') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M22 63Q9 71 22 79" />
           <path d="M30 56V26A6 6 0 0 1 42 26V56" />
@@ -83,7 +135,16 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('fist-5') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="M22 56V72Q22 88 42 88L62 88Q82 88 82 72V56" />
           <path d="M23 68L8 62A6 6 0 0 1 10 50L28 55" />
           <path d="M30 56V26A6 6 0 0 1 42 26V56" />
@@ -93,33 +154,35 @@ import { CardIconName } from './card-icon-keys';
         </svg>
       }
       @case ('thumb-up') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
-          <path d="M38 56V72Q38 88 56 88L70 88Q88 88 88 72V56" />
-          <path d="M46 56V52A6 6 0 0 1 58 52V56" />
-          <path d="M60 56V52A6 6 0 0 1 72 52V56" />
-          <path d="M74 56V52A6 6 0 0 1 86 52V56" />
-          <path d="M20 56V38A10 10 0 0 1 40 38V56" />
+        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
+          <g>
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
+          </g>
         </svg>
       }
       @case ('thumb-side') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
-          <g transform="rotate(-90 50 50)">
-            <path d="M38 56V72Q38 88 56 88L70 88Q88 88 88 72V56" />
-            <path d="M46 56V52A6 6 0 0 1 58 52V56" />
-            <path d="M60 56V52A6 6 0 0 1 72 52V56" />
-            <path d="M74 56V52A6 6 0 0 1 86 52V56" />
-            <path d="M20 56V38A10 10 0 0 1 40 38V56" />
+        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
+          <g transform="rotate(90 50 50)">
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
           </g>
         </svg>
       }
       @case ('thumb-down') {
-        <svg viewBox="0 0 100 100" [attr.stroke-width]="W" aria-hidden="true" focusable="false">
+        <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
           <g transform="translate(0,100) scale(1,-1)">
-            <path d="M38 56V72Q38 88 56 88L70 88Q88 88 88 72V56" />
-            <path d="M46 56V52A6 6 0 0 1 58 52V56" />
-            <path d="M60 56V52A6 6 0 0 1 72 52V56" />
-            <path d="M74 56V52A6 6 0 0 1 86 52V56" />
-            <path d="M20 56V38A10 10 0 0 1 40 38V56" />
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
           </g>
         </svg>
       }
@@ -135,19 +198,10 @@ import { CardIconName } from './card-icon-keys';
         display: block;
         width: 100%;
         height: 100%;
-        /* Le trait porte tout le dessin : aucune surface pleine, et la couleur
-           vient de la couche via currentColor (personnalisation par equipe). */
-        fill: none;
-        stroke: currentColor;
-        stroke-linecap: round;
-        stroke-linejoin: round;
       }
     `,
   ],
 })
 export class CardIconComponent {
   readonly name = input.required<CardIconName>();
-
-  /** Epaisseur du trait, dans le repere 0-100 du viewBox. */
-  protected readonly W = 5;
 }
