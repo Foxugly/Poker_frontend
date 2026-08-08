@@ -5,27 +5,18 @@ import { CardIconName } from './card-icon-keys';
 /**
  * Les neuf pictogrammes des decks muets.
  *
- * **Deux techniques, assumees.**
+ * Ce sont les **images fournies** (`public/card-icons/<cle>.png`), affichees comme
+ * **masque CSS rempli en `currentColor`** — jamais comme <img>. Le dessin d'origine est
+ * noir sur fond transparent : pose tel quel il serait insensible au theme d'equipe, et
+ * invisible sur un fond sombre. Le masque resout les deux d'un coup : la forme vient de
+ * l'image via son canal alpha, la couleur vient de la couche.
  *
- * - *Fist of Five* : les six mains sont des **images** (`public/card-icons/fist-N.png`),
- *   affichees comme **masque CSS** rempli en `currentColor`, et non comme <img>. Le dessin
- *   d'origine est noir sur fond transparent : pose tel quel sur une carte sombre il serait
- *   invisible, et un raster ne sait pas heriter d'une couleur. Le masque resout les deux
- *   d'un coup — la forme vient de l'image, la couleur de la couche, donc la personnalisation
- *   par equipe continue de fonctionner comme avec un SVG.
- * - *Vote romain* : les trois pouces sont les traces **PrimeIcons** (`thumbs-up`,
- *   `thumbs-down`), repris depuis `primeicons/raw-svg` — deja une dependance du projet,
- *   donc aucun paquet a ajouter, et sous licence MIT. Ils sont au trait comme les mains,
- *   la ou les pouces en aplat dessines auparavant detonnaient a cote d'elles.
- *   PrimeIcons n'ayant pas de pouce horizontal, le **neutre** est le pouce leve pivote
- *   d'un quart de tour : c'est le meme dessin, donc le style reste homogene.
+ * Le vote romain prend le **poing ferme** pour le neutre — ni pour, ni contre — et non un
+ * pouce a l'horizontale ; c'est la meme image que `fist-0`, dupliquee pour que les deux
+ * decks restent independants l'un de l'autre.
  *
- * Les deux jeux ne se croisent qu'au selecteur de decks d'une equipe : une salle ne joue
- * qu'un deck a la fois, donc la difference de technique ne se voit pas en partie.
- *
- * Chaque cas SVG porte son propre <svg> complet : c'est ce qui garantit le namespace SVG,
- * qu'un @switch place *a l'interieur* d'un <svg> ne garantirait pas. Le tout est statique :
- * aucun innerHTML, donc aucune surface d'injection.
+ * Une classe statique par cle plutot qu'un `mask-image` calcule : la valeur ne vient
+ * jamais d'une donnee, donc aucune URL ne peut etre injectee depuis un snapshot.
  */
 @Component({
   selector: 'app-card-icon',
@@ -52,27 +43,13 @@ import { CardIconName } from './card-icon-keys';
         <span class="mask mask--fist-5" aria-hidden="true"></span>
       }
       @case ('thumb-up') {
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path
-            d="M20.22,9.55c-.43-.51-1.05-.8-1.72-.8h-4.03v-2.75c0-1.52-1.23-2.75-2.83-2.75-.7,0-1.33,.42-1.61,1.07l-2.54,5.93h-1.87c-1.31,0-2.37,1.06-2.37,2.37v5.77c0,1.3,1.07,2.36,2.37,2.36h11.56c1.09,0,2.02-.78,2.21-1.86l1.32-7.5h0c.11-.66-.07-1.33-.5-1.84ZM5.62,19.25c-.48,0-.87-.39-.87-.86v-5.77c0-.48,.39-.87,.87-.87h1.61v7.5h-1.61Zm12.3-.62c-.06,.36-.37,.62-.74,.62H8.74V11.15l2.67-6.25c.04-.09,.13-.16,.32-.16,.69,0,1.24,.56,1.24,1.25v4.25h5.53c.23,0,.43,.09,.57,.26,.14,.17,.2,.39,.16,.62l-1.32,7.5Z"
-          />
-        </svg>
+        <span class="mask mask--thumb-up" aria-hidden="true"></span>
       }
-      @case ('thumb-side') {
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <g transform="rotate(90 12 12)">
-            <path
-              d="M20.22,9.55c-.43-.51-1.05-.8-1.72-.8h-4.03v-2.75c0-1.52-1.23-2.75-2.83-2.75-.7,0-1.33,.42-1.61,1.07l-2.54,5.93h-1.87c-1.31,0-2.37,1.06-2.37,2.37v5.77c0,1.3,1.07,2.36,2.37,2.36h11.56c1.09,0,2.02-.78,2.21-1.86l1.32-7.5h0c.11-.66-.07-1.33-.5-1.84ZM5.62,19.25c-.48,0-.87-.39-.87-.86v-5.77c0-.48,.39-.87,.87-.87h1.61v7.5h-1.61Zm12.3-.62c-.06,.36-.37,.62-.74,.62H8.74V11.15l2.67-6.25c.04-.09,.13-.16,.32-.16,.69,0,1.24,.56,1.24,1.25v4.25h5.53c.23,0,.43,.09,.57,.26,.14,.17,.2,.39,.16,.62l-1.32,7.5Z"
-            />
-          </g>
-        </svg>
+      @case ('thumb-neutral') {
+        <span class="mask mask--thumb-neutral" aria-hidden="true"></span>
       }
       @case ('thumb-down') {
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-          <path
-            d="M18.38,3.25H6.81c-1.09,0-2.02,.78-2.21,1.86l-1.31,7.5h0c-.11,.66,.07,1.33,.49,1.84,.43,.51,1.05,.8,1.72,.8h4.03v2.75c0,1.52,1.23,2.75,2.83,2.75,.7,0,1.33-.42,1.61-1.07l2.54-5.93h1.88c1.31,0,2.37-1.06,2.37-2.37V5.61c0-1.3-1.06-2.36-2.37-2.36Zm-3.12,9.6l-2.67,6.25c-.04,.09-.13,.16-.32,.16-.69,0-1.24-.56-1.24-1.25v-4.25H5.5c-.23,0-.43-.09-.57-.26-.15-.17-.2-.39-.16-.62l1.31-7.5c.06-.36,.37-.62,.74-.62H15.26V12.85Zm3.99-1.47c0,.48-.39,.87-.87,.87h-1.61V4.75h1.61c.48,0,.87,.39,.87,.86v5.77Z"
-          />
-        </svg>
+        <span class="mask mask--thumb-down" aria-hidden="true"></span>
       }
     }
   `,
@@ -81,11 +58,6 @@ import { CardIconName } from './card-icon-keys';
       :host {
         display: block;
         line-height: 0;
-      }
-      svg {
-        display: block;
-        width: 100%;
-        height: 100%;
       }
       .mask {
         display: block;
@@ -124,6 +96,18 @@ import { CardIconName } from './card-icon-keys';
       .mask--fist-5 {
         -webkit-mask-image: url('/card-icons/fist-5.png');
         mask-image: url('/card-icons/fist-5.png');
+      }
+      .mask--thumb-up {
+        -webkit-mask-image: url('/card-icons/thumb-up.png');
+        mask-image: url('/card-icons/thumb-up.png');
+      }
+      .mask--thumb-neutral {
+        -webkit-mask-image: url('/card-icons/thumb-neutral.png');
+        mask-image: url('/card-icons/thumb-neutral.png');
+      }
+      .mask--thumb-down {
+        -webkit-mask-image: url('/card-icons/thumb-down.png');
+        mask-image: url('/card-icons/thumb-down.png');
       }
     `,
   ],

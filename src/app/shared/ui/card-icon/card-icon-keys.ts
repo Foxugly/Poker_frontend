@@ -10,7 +10,7 @@ export const CARD_ICON_KEYS = [
   'fist-4',
   'fist-5',
   'thumb-up',
-  'thumb-side',
+  'thumb-neutral',
   'thumb-down',
 ] as const;
 
