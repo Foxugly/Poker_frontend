@@ -55,6 +55,39 @@ describe('RoomSocketService reducer', () => {
     expect(svc.spread()).toEqual({ min: 4, max: 4 });
   });
 
+  it('takes its own role from state.sync, not from the stored session', () => {
+    // Le role passe a connect() vient de la session enregistree a l'arrivee : il est
+    // perime des qu'on prend le role de facilitateur ou qu'on le cede.
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', { ...SYNC, myRole: 'facilitator', myParticipantId: 'p1' });
+    expect(svc.myRole()).toBe('facilitator');
+    expect(svc.myParticipantId()).toBe('p1');
+  });
+
+  it('promotes me live when I am the new facilitator', () => {
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', { ...SYNC, myRole: 'voter', myParticipantId: 'p1' });
+    feed(svc, 'facilitator.changed', { newFacilitatorId: 'p1' });
+    expect(svc.myRole()).toBe('facilitator');
+    expect(svc.facilitatorPresent()).toBe(true);
+  });
+
+  it('demotes me live when someone else takes the role', () => {
+    // Le role change pour deux personnes : celle qui le prend et celle qui le perd.
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', { ...SYNC, myRole: 'facilitator', myParticipantId: 'p1' });
+    feed(svc, 'facilitator.changed', { newFacilitatorId: 'p2' });
+    expect(svc.myRole()).toBe('voter');
+  });
+
+  it('leaves the role alone when it does not know who it is yet', () => {
+    // Avant le premier state.sync, se demettre sur une diffusion serait arbitraire.
+    const svc = new RoomSocketService();
+    svc.myRole.set('facilitator');
+    feed(svc, 'facilitator.changed', { newFacilitatorId: 'p2' });
+    expect(svc.myRole()).toBe('facilitator');
+  });
+
   it('clears the spread when state.sync carries none', () => {
     // Un round anonyme, ou une echelle non ordinale comme le vote romain, n'en
     // envoie pas : l'ecart d'un round precedent ne doit pas survivre a l'ecran.

@@ -114,6 +114,12 @@ export interface StateSync {
   deckSnapshot: DeckSnapshot;
   availableDecks: AvailableDeck[];
   participants: ParticipantView[];
+  /** Le role du destinataire, tel que le serveur le voit. Fait autorite : le client
+   * le tenait de sa session enregistree a l'arrivee, donc figee. */
+  myRole?: Role;
+  /** Pour que le client se reconnaisse dans les diffusions, qui designent le nouveau
+   * facilitateur par son identifiant public. */
+  myParticipantId?: string;
   myVote: string | null;
   result: string | null;
   facilitatorPresent: boolean;
