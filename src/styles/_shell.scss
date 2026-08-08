@@ -13,6 +13,19 @@
   flex: 1;
 }
 
+// Une salle de poker tient dans l'ecran : rien ne defile et le pied de page reste
+// visible, en vue normale comme en plein ecran. La hauteur devient DEFINIE (et non
+// un simple minimum) pour que la salle puisse s'y ajuster : sans cela, son contenu
+// faisait grandir la coquille et poussait le pied sous la ligne de flottaison.
+// `min-height: 0` autorise le conteneur flex a retrecir sous la taille de son
+// contenu — sans lui, `flex: 1` ne descend jamais en dessous.
+.fox-shell:has(.room) {
+  height: 100dvh;
+}
+.fox-shell:has(.room) .main-container {
+  min-height: 0;
+}
+
 // Skip-to-content (a11y) : caché, révélé au focus clavier.
 .fox-skip-link {
   position: absolute;
