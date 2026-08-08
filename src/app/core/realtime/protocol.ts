@@ -13,7 +13,9 @@ export interface Envelope<T = unknown> {
 }
 
 export interface TextLayer {
-  kind: 'static' | 'i18n';
+  /** `icon` porte une cle du registre de pictogrammes ; son `text` est toujours une
+   * chaine, jamais un dictionnaire par langue (une cle d'icone ne se traduit pas). */
+  kind: 'static' | 'i18n' | 'icon';
   order: number;
   x: number;
   y: number;
