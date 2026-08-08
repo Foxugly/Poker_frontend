@@ -40,19 +40,37 @@ describe('CardIconComponent', () => {
     ]);
   });
 
+  /** La geometrie dessinee, mise a plat : ce qui distingue reellement deux icones. */
+  function geometryOf(name: CardIconName): string {
+    return [...render(name).querySelectorAll('svg path')]
+      .map((p) => p.getAttribute('d'))
+      .join('|');
+  }
+
   for (const key of CARD_ICON_KEYS) {
     it(`draws a non-empty svg for "${key}"`, () => {
       const svg = render(key).querySelector('svg');
       expect(svg).not.toBeNull();
       // Le namespace SVG doit etre correct, sinon rien ne s'affiche a l'ecran.
       expect(svg!.namespaceURI).toBe('http://www.w3.org/2000/svg');
-      expect(svg!.querySelectorAll('rect').length).toBeGreaterThan(0);
+      expect(svg!.querySelectorAll('path').length).toBeGreaterThan(0);
     });
   }
 
-  it('raises one more finger from fist-3 to fist-4', () => {
-    const three = render('fist-3').querySelectorAll('svg rect').length;
-    const four = render('fist-4').querySelectorAll('svg rect').length;
-    expect(four).toBe(three + 1);
+  it('gives every icon a distinct geometry', () => {
+    // Attrape le copier-coller rate : deux cles qui dessinent la meme chose.
+    // Les trois pouces partagent leurs traces mais different par leur transform,
+    // pris en compte ici via le <g> qui les porte.
+    const drawings = CARD_ICON_KEYS.map((k) => {
+      const g = render(k).querySelector('svg g');
+      return `${g?.getAttribute('transform') ?? ''}::${geometryOf(k)}`;
+    });
+    expect(new Set(drawings).size).toBe(CARD_ICON_KEYS.length);
+  });
+
+  it('raises the ring finger between fist-2 and fist-3', () => {
+    // Le repli de l'annulaire (sommet a 52) devient un doigt leve (sommet a 24).
+    expect(geometryOf('fist-2')).toContain('M58 56V52');
+    expect(geometryOf('fist-3')).toContain('M58 56V24');
   });
 });
