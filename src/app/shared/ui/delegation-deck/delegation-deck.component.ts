@@ -14,7 +14,7 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DelegationCardComponent],
   template: `
-    <div class="deck" [style.--n]="deck().cards.length">
+    <div class="deck">
       @for (card of deck().cards; track card.value) {
         <app-delegation-card
           [card]="card"
@@ -30,29 +30,18 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
   `,
   styles: [
     `
-      /* Les cartes prennent toute la largeur disponible, entre deux bornes.
-         Elles etaient auparavant figees a 60px : la main occupait moins de la
-         moitie de sa place sur un grand ecran, et les libelles y etaient illisibles.
-
-         Le PLAFOND evite qu'un deck de trois cartes (vote romain) ne les etale de
-         maniere absurde, et borne la hauteur que la main prend a la table — la
-         salle le resserre en plein ecran, ou le debordement est masque.
-
-         Le PLANCHER est ce qui fait passer a la ligne : auto-fit place autant de
-         colonnes que la largeur en accepte, donc des que la part de chacune tombe
-         sous ce seuil, la main se replie sur plusieurs rangees plutot que de reduire
-         les cartes indefiniment. Sans lui, dix cartes sur un telephone feraient 28px. */
+      /* Une carte de la main fait EXACTEMENT la taille d'une carte sur la table :
+         les deux lisent la meme --card, calculee par la salle (room.component.scss).
+         Elles etaient auparavant figees a 60px, sans rapport ni avec l'ecran ni avec
+         la table, et les libelles y etaient illisibles. */
       .deck {
-        --gap: var(--s-3);
-        --card: clamp(
-          var(--hand-card-min, 52px),
-          calc((100% - (var(--n) - 1) * var(--gap)) / var(--n)),
-          var(--hand-card-max, 140px)
-        );
         display: grid;
-        grid-template-columns: repeat(auto-fit, var(--card));
+        /* --card et --gap viennent de la salle : la meme taille y sert aux cartes
+           de la table. auto-fit replie la main sur plusieurs rangees si la largeur
+           ne suffit pas, plutot que de reduire les cartes en dessous du plancher. */
+        grid-template-columns: repeat(auto-fit, var(--card, 60px));
         justify-content: center;
-        gap: var(--gap);
+        gap: var(--gap, 12px);
       }
     `,
   ],
