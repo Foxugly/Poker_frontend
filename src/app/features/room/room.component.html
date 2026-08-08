@@ -14,7 +14,7 @@
   </header>
 
   @if (socket.deckSnapshot(); as deck) {
-    <div class="room-body" [class.has-panel]="isFacilitator()">
+    <div class="room-body" [class.has-panel]="showPanel()">
       <!-- Table + hand -->
       <div class="stage">
         <div class="subject-view">
@@ -234,7 +234,10 @@
             </div>
           }
         </aside>
-      } @else if (!socket.facilitatorPresent()) {
+      } @else if (showPanel()) {
+        <!-- Pas facilitateur, et personne ne l'est : le panneau se reduit a l'encart
+             qui permet de reprendre le role. Meme condition que la grille (showPanel),
+             sans quoi cet encart retomberait en pleine largeur sous la table. -->
         <aside class="fac-panel">
           <div class="panel-block guard">
             <span>{{ 'room.facilitator_absent' | transloco }}</span>
