@@ -11,6 +11,13 @@ import { CardIconName } from './card-icon-keys';
  * sans doigt leve — ce deck est une gradation d'adhesion, pas un droit de veto,
  * donc surtout pas un poing brandi qui se lirait « stop ».
  *
+ * Les trois pouces sont UNE SEULE main — pouce dresse + trois doigts replies —
+ * declinee en trois orientations : c'est ce qui fait qu'on la reconnait, la
+ * composition « paume + barre » essayee d'abord ne se lisant que comme un L.
+ * Neutre = la meme main pivotee d'un quart de tour (on tourne le poignet) ;
+ * contre = son miroir vertical, et non une rotation, sinon les doigts passent
+ * du mauvais cote.
+ *
  * Chaque cas porte son propre <svg> complet : c'est ce qui garantit le namespace
  * SVG, qu'un @switch place *a l'interieur* d'un <svg> ne garantirait pas.
  *
@@ -74,20 +81,35 @@ import { CardIconName } from './card-icon-keys';
       }
       @case ('thumb-up') {
         <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <rect x="30" y="44" width="46" height="40" rx="13" />
-          <rect x="14" y="14" width="16" height="40" rx="8" />
+          <g>
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
+          </g>
         </svg>
       }
       @case ('thumb-side') {
         <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <rect x="16" y="26" width="40" height="46" rx="13" />
-          <rect x="46" y="42" width="40" height="16" rx="8" />
+          <g transform="rotate(90 50 50)">
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
+          </g>
         </svg>
       }
       @case ('thumb-down') {
         <svg viewBox="0 0 100 100" fill="currentColor" aria-hidden="true" focusable="false">
-          <rect x="30" y="16" width="46" height="40" rx="13" />
-          <rect x="14" y="46" width="16" height="40" rx="8" />
+          <g transform="translate(0,100) scale(1,-1)">
+            <rect x="18" y="10" width="25" height="46" rx="12.5" />
+            <rect x="18" y="50" width="27" height="41" rx="10" />
+            <rect x="42" y="49" width="42" height="14" rx="7" />
+            <rect x="42" y="64" width="38" height="14" rx="7" />
+            <rect x="42" y="79" width="34" height="14" rx="7" />
+          </g>
         </svg>
       }
     }
