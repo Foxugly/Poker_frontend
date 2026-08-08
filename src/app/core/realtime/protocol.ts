@@ -25,6 +25,9 @@ export interface TextLayer {
   color: string;
   align: 'left' | 'center' | 'right';
   text: string | Record<string, string>;
+  /** URL du pictogramme d'une couche `icon` ; null sur une couche de texte. Le
+   * referentiel le porte comme donnee : en ajouter un est un televersement. */
+  icon: string | null;
 }
 
 export interface SnapshotCard {

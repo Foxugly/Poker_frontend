@@ -25,9 +25,12 @@ const BASE = {
   font: 'Inter',
   size: 55,
   weight: 400,
-  color: '#ffffff',
+  color: '#111111',
   align: 'center' as const,
+  icon: null as string | null,
 };
+
+const ICON_URL = 'https://poker-api.example/media/decks/icons/fist-3.png';
 
 describe('DelegationCardComponent', () => {
   function render(card: SnapshotCard): HTMLElement {
@@ -38,9 +41,7 @@ describe('DelegationCardComponent', () => {
   }
 
   it('draws the icon for an icon layer, and no text span', () => {
-    const el = render(cardWith([{ ...BASE, kind: 'icon', text: 'fist-3' }]));
-    // Le pictogramme peut etre un SVG inline ou un masque CSS selon le deck ; ce qui
-    // regarde la carte, c'est qu'elle delegue bien au composant d'icone.
+    const el = render(cardWith([{ ...BASE, kind: 'icon', text: '', icon: ICON_URL }]));
     expect(el.querySelector('app-card-icon')).not.toBeNull();
     expect(el.querySelector('span.layer')).toBeNull();
   });
@@ -53,8 +54,9 @@ describe('DelegationCardComponent', () => {
     expect(el.querySelector('app-card-icon')).toBeNull();
   });
 
-  it('ignores an unknown icon key rather than drawing a broken card', () => {
-    const el = render(cardWith([{ ...BASE, kind: 'icon', text: 'not-a-real-icon' }]));
+  it('ignores an icon layer that carries no image rather than drawing a broken card', () => {
+    const el = render(cardWith([{ ...BASE, kind: 'icon', text: '', icon: null }]));
     expect(el.querySelector('app-card-icon')).toBeNull();
+    expect(el.querySelector('span.layer')).toBeNull();
   });
 });

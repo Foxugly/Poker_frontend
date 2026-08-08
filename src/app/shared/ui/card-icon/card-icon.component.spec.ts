@@ -2,66 +2,47 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
-import { CARD_ICON_KEYS, CardIconName } from './card-icon-keys';
 import { CardIconComponent } from './card-icon.component';
 
-/**
- * Garde-fou de completude : toute cle servie par le backend doit dessiner quelque chose.
- * Un oubli doit echouer en integration continue, pas en salle devant une equipe.
- */
 @Component({
   standalone: true,
   imports: [CardIconComponent],
-  template: `<app-card-icon [name]="name" />`,
+  template: `<app-card-icon [src]="src" />`,
 })
 class HostComponent {
-  name: CardIconName = 'fist-0';
+  src = 'https://poker-api.example/media/decks/icons/fist-3.png';
 }
 
 describe('CardIconComponent', () => {
-  function maskOf(name: CardIconName): Element | null {
+  function render(src: string): HTMLElement {
     const fixture = TestBed.createComponent(HostComponent);
-    fixture.componentInstance.name = name;
+    fixture.componentInstance.src = src;
     fixture.detectChanges();
-    return (fixture.nativeElement as HTMLElement).querySelector('span.mask');
+    return fixture.nativeElement as HTMLElement;
   }
 
-  it('covers exactly the nine keys seeded by the backend', () => {
-    expect([...CARD_ICON_KEYS]).toEqual([
-      'fist-0',
-      'fist-1',
-      'fist-2',
-      'fist-3',
-      'fist-4',
-      'fist-5',
-      'thumb-up',
-      'thumb-neutral',
-      'thumb-down',
-    ]);
+  it('paints the icon as a mask, never as an image element', () => {
+    // Les dessins sont noirs sur fond transparent : affiches tels quels ils seraient
+    // invisibles sur une carte sombre et insensibles au theme d'equipe. Seul le masque
+    // rempli en currentColor tient les deux promesses.
+    const el = render('https://poker-api.example/media/decks/icons/fist-3.png');
+    expect(el.querySelector('img')).toBeNull();
+    const mask = el.querySelector('span.mask') as HTMLElement;
+    expect(mask).not.toBeNull();
+    expect(mask.style.getPropertyValue('--icon')).toContain('decks/icons/fist-3.png');
   });
 
-  for (const key of CARD_ICON_KEYS) {
-    it(`draws a masked shape for "${key}"`, () => {
-      const mask = maskOf(key);
-      expect(mask).not.toBeNull();
-      // Sans sa classe propre, le masque n'a aucune forme : un carre plein.
-      expect(mask!.getAttribute('class')).toContain(`mask--${key}`);
-    });
-  }
-
-  it('gives every icon its own class', () => {
-    // Attrape le copier-coller rate : deux cles pointant sur la meme image.
-    const classes = CARD_ICON_KEYS.map((k) => maskOf(k)!.getAttribute('class'));
-    expect(new Set(classes).size).toBe(CARD_ICON_KEYS.length);
+  it('renders whatever url the referential serves', () => {
+    // Aucune liste de cles en dur : un pictogramme ajoute en admin doit s'afficher
+    // sans toucher a ce depot. C'est tout l'objet de ce composant.
+    const el = render('https://poker-api.example/media/decks/icons/tout-nouveau.png');
+    const mask = el.querySelector('span.mask') as HTMLElement;
+    expect(mask.style.getPropertyValue('--icon')).toContain('tout-nouveau.png');
   });
 
-  it('never renders the image directly', () => {
-    // Les dessins d'origine sont noirs sur fond transparent : affiches tels quels ils
-    // seraient invisibles sur un fond sombre et insensibles au theme d'equipe. Seul le
-    // masque rempli en currentColor tient les deux promesses.
-    const fixture = TestBed.createComponent(HostComponent);
-    fixture.componentInstance.name = 'thumb-up';
-    fixture.detectChanges();
-    expect((fixture.nativeElement as HTMLElement).querySelector('img')).toBeNull();
+  it('escapes a single quote in the url so the css declaration survives', () => {
+    const el = render("https://poker-api.example/media/decks/icons/l'ete.png");
+    const mask = el.querySelector('span.mask') as HTMLElement;
+    expect(mask.style.getPropertyValue('--icon')).toContain("l\\'ete.png");
   });
 });
