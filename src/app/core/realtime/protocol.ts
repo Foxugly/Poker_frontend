@@ -120,6 +120,9 @@ export interface StateSync {
   agenda: AgendaItem[];
   tally?: VoteTally[];
   votes?: NominativeVote[];
+  /** Present sur un round revele ou acte, comme dans `vote.revealed` — sans quoi
+   * l'ecart disparaissait de l'ecran au moindre rechargement. */
+  spread?: { min: number | null; max: number | null };
   reveal: RevealMode;
   deadline: string | null;
   timer: TimerSettings;
