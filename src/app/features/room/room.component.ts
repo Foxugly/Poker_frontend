@@ -127,6 +127,15 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly editing = signal(false);
 
   readonly isFacilitator = computed(() => this.socket.myRole() === 'facilitator');
+
+  /** Y a-t-il un panneau lateral a afficher ?
+   *
+   * Deux cas : on facilite, ou personne ne facilite et n'importe qui peut reprendre
+   * le role. Cette condition pilote A LA FOIS le rendu du panneau et la grille a deux
+   * colonnes — les deux avaient diverge (la grille ne regardait que `isFacilitator`),
+   * si bien que l'encart « Prendre le role » s'affichait en pleine largeur sous la
+   * table au lieu de la carte de droite. */
+  readonly showPanel = computed(() => this.isFacilitator() || !this.socket.facilitatorPresent());
   readonly state = this.socket.roundState;
   readonly badgeSeverity = computed(() => BADGE_SEVERITY[this.state()]);
   readonly canOpen = computed(() => this.state() === 'idle' && this.socket.subject().trim().length > 0);
