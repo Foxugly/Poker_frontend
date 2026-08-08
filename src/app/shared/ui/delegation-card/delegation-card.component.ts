@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { FALLBACK_LANG } from '../../../core/i18n/available-languages';
 import { SnapshotCard, TextLayer } from '../../../core/realtime/protocol';
-import { CardIconName, isCardIconName } from '../card-icon/card-icon-keys';
 import { CardIconComponent } from '../card-icon/card-icon.component';
 
 interface PositionedLayer {
   style: Record<string, string>;
   text: string;
-  /** Non nul uniquement pour une couche `icon` dont la cle est connue du registre. */
-  icon: CardIconName | null;
+  /** URL du pictogramme, sur une couche `icon` qui en porte une. */
+  icon: string | null;
 }
 
 /**
@@ -35,7 +34,7 @@ interface PositionedLayer {
       @if (faceUp()) {
         @for (layer of layers(); track layer.style['top'] + layer.text + (layer.icon ?? '')) {
           @if (layer.icon) {
-            <app-card-icon class="layer" [style]="layer.style" [name]="layer.icon" />
+            <app-card-icon class="layer" [style]="layer.style" [src]="layer.icon" />
           } @else if (layer.text) {
             <span class="layer" [style]="layer.style">{{ layer.text }}</span>
           }
@@ -123,12 +122,10 @@ export class DelegationCardComponent {
       }),
   );
 
-  /** Une couche `icon` porte une cle du registre. Une cle inconnue — deck plus recent
-   * que le client deploye — est ignoree : mieux vaut une carte nue qu'un trou visuel. */
-  private resolveIcon(layer: TextLayer): CardIconName | null {
-    if (layer.kind !== 'icon') return null;
-    const key = typeof layer.text === 'string' ? layer.text : '';
-    return isCardIconName(key) ? key : null;
+  /** Une couche `icon` porte l'URL de son pictogramme. Une couche icon sans image —
+   * referentiel incomplet — est ignoree : mieux vaut une carte nue qu'un trou visuel. */
+  private resolveIcon(layer: TextLayer): string | null {
+    return layer.kind === 'icon' ? layer.icon || null : null;
   }
 
   private resolveText(layer: TextLayer): string {
