@@ -36,6 +36,18 @@
 .room:fullscreen .stage {
   min-height: 0;
 }
+/* En plein ecran, la table se dimensionne sur la HAUTEUR disponible.
+   Sans cela elle gardait son plafond de ~700px de large : le contenu de la scene
+   n'occupait que 519px sur 813, et `justify-content: center` repartissait le reste
+   en deux vides de 147px, soit plus d'un tiers de la scene.
+   On passe par max-width, jamais par height : une hauteur imposee ferait perdre
+   l'aspect-ratio des que la largeur devient limitante, et les sieges — places en
+   JavaScript pour un ratio donne — decrocheraient du bord de la table.
+   La reserve couvre le chrome vertical : marge de la salle, en-tete, sujet, main,
+   interlignes et marges du tapis (mesure ~284px, arrondi pour ne jamais rogner). */
+.room:fullscreen .felt {
+  max-width: min(100%, calc((100dvh - 300px) * var(--felt-aspect)));
+}
 
 /* --- Room header: back left, title centred, actions right --- */
 .room-header {
