@@ -2,10 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { FALLBACK_LANG } from '../../../core/i18n/available-languages';
 import { SnapshotCard, TextLayer } from '../../../core/realtime/protocol';
+import { CardIconName, isCardIconName } from '../card-icon/card-icon-keys';
+import { CardIconComponent } from '../card-icon/card-icon.component';
 
 interface PositionedLayer {
   style: Record<string, string>;
   text: string;
+  /** Non nul uniquement pour une couche `icon` dont la cle est connue du registre. */
+  icon: CardIconName | null;
 }
 
 /**
@@ -16,6 +20,7 @@ interface PositionedLayer {
 @Component({
   selector: 'app-delegation-card',
   standalone: true,
+  imports: [CardIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
@@ -28,8 +33,12 @@ interface PositionedLayer {
       [style.background-color]="baseColor()"
     >
       @if (faceUp()) {
-        @for (layer of layers(); track layer.style['top'] + layer.text) {
-          <span class="layer" [style]="layer.style">{{ layer.text }}</span>
+        @for (layer of layers(); track layer.style['top'] + layer.text + (layer.icon ?? '')) {
+          @if (layer.icon) {
+            <app-card-icon class="layer" [style]="layer.style" [name]="layer.icon" />
+          } @else if (layer.text) {
+            <span class="layer" [style]="layer.style">{{ layer.text }}</span>
+          }
         }
       }
     </button>
@@ -102,22 +111,47 @@ export class DelegationCardComponent {
   readonly layers = computed<PositionedLayer[]>(() =>
     [...this.card().layers]
       .sort((a, b) => a.order - b.order)
-      .map((layer) => ({ text: this.resolveText(layer), style: this.styleFor(layer) })),
+      .map((layer) => {
+        const isIcon = layer.kind === 'icon';
+        return {
+          icon: this.resolveIcon(layer),
+          // Une couche icon n'a jamais de texte de repli : sa cle n'est pas de la prose,
+          // l'afficher telle quelle sur une carte serait pire que de ne rien afficher.
+          text: isIcon ? '' : this.resolveText(layer),
+          style: this.styleFor(layer, isIcon),
+        };
+      }),
   );
+
+  /** Une couche `icon` porte une cle du registre. Une cle inconnue — deck plus recent
+   * que le client deploye — est ignoree : mieux vaut une carte nue qu'un trou visuel. */
+  private resolveIcon(layer: TextLayer): CardIconName | null {
+    if (layer.kind !== 'icon') return null;
+    const key = typeof layer.text === 'string' ? layer.text : '';
+    return isCardIconName(key) ? key : null;
+  }
 
   private resolveText(layer: TextLayer): string {
     if (typeof layer.text === 'string') return layer.text;
     return layer.text[this.lang()] ?? layer.text[FALLBACK_LANG] ?? Object.values(layer.text)[0] ?? '';
   }
 
-  private styleFor(layer: TextLayer): Record<string, string> {
-    return {
+  private styleFor(layer: TextLayer, isIcon: boolean): Record<string, string> {
+    const base: Record<string, string> = {
       left: `${layer.x}%`,
       top: `${layer.y}%`,
+      color: layer.color,
+    };
+    if (isIcon) {
+      // Une icone se dimensionne en boite, pas en corps de texte — mais toujours en
+      // cqh, donc elle suit la taille de la carte exactement comme le fait le texte.
+      return { ...base, width: `${layer.size}cqh`, height: `${layer.size}cqh` };
+    }
+    return {
+      ...base,
       // font-size in % of card height (cqh); container-query unit keeps it responsive.
       'font-size': `${layer.size}cqh`,
       'font-weight': String(layer.weight),
-      color: layer.color,
       'text-align': layer.align,
     };
   }
