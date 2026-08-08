@@ -134,6 +134,13 @@
      cet optimum en hauteur, ce que la LARGEUR du tapis autorise, la part de rangee
      qui revient a chaque carte de la main, et un plafond absolu. Le plancher, lui,
      fait passer la main a la ligne plutot que de rendre les cartes intouchables. */
+  /* La scene est un CONTENEUR : `cqw` y designe toujours sa largeur, ou que la
+     variable soit ensuite utilisee. Un pourcentage ne convient pas ici — il se
+     resout a l'endroit de son USAGE, donc `100%` valait la largeur du tapis sur une
+     carte de siege et celle de la scene dans la main : --card prenait deux valeurs
+     differentes, et les cartes n'etaient pas de la meme taille. */
+  container-type: inline-size;
+
   --gap: var(--s-3);
   --k: calc(var(--seat-frac, 0.09) * var(--felt-aspect, 2.2));
   --card-optimal: calc(var(--k) * (100dvh - var(--chrome-h, 300px)) / (1 + 1.4 * var(--k)));
@@ -141,8 +148,8 @@
     var(--card-min, 52px),
     min(
       var(--card-optimal),
-      calc(100% * var(--seat-frac, 0.09)),
-      calc((100% - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
+      calc(100cqw * var(--seat-frac, 0.09)),
+      calc((100cqw - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
       var(--card-cap, 190px)
     ),
     var(--card-cap, 190px)
@@ -151,7 +158,7 @@
   /* La table decoule de la carte retenue : la hauteur libre moins la place de la
      main, convertie en largeur par le ratio, sans deborder de la scene. */
   --felt-w: min(
-    100%,
+    100cqw,
     calc((100dvh - var(--chrome-h, 300px) - var(--card) * 7 / 5) * var(--felt-aspect, 2.2))
   );
 }
