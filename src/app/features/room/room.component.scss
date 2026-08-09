@@ -818,11 +818,6 @@
     height: auto;
   }
   .stage {
-    /* Sur un ecran etroit, l'etiquette d'un joueur est plus grande que sa carte : ce
-       qu'il faut degager autour du tapis ne depend donc presque plus de la table. La
-       reserve double, et la table retrecit d'autant — sans consequence ici, ou elle
-       n'est de toute facon qu'un decor qu'on decouvre en defilant. */
-    --seat-reserve: 176px;
     /* La table n'est plus bridee par la rangee de la main, qui passe a la ligne. */
     --card: var(--card-table-max);
     /* Quatre cartes par rangee : la plus grande taille qui reste confortable au
@@ -830,6 +825,25 @@
     --card-hand: calc((100cqw - 3 * var(--gap)) / 4);
     justify-content: flex-start;
   }
+  /* Autour d'un tapis de 230px, huit etiquettes de 78px ne peuvent pas tenir sans se
+     marcher dessus : elles se resserrent. Elargir la reserve a la place aurait ecrase
+     la table — a 176px elle tombait a 151px de large, et les etiquettes se
+     chevauchaient malgre tout. Mesure a huit joueurs : ni carte ni etiquette touchee,
+     et la plus grande table possible dans ces conditions. */
+  .seat-person {
+    width: 56px;
+    --person-h: 44px;
+  }
+  .seat-name {
+    font-size: 0.66rem;
+    max-width: 56px;
+  }
+  /* Les etiquettes debordent aussi vers le haut : sans cette respiration, celle du
+     siege du haut se posait sur la ligne du sujet. */
+  .table-wrap {
+    padding: 26px 0;
+  }
+
   /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant.
      Le depouillement prend sa place, donc son rang. */
   .hand,
