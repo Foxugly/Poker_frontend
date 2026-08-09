@@ -229,6 +229,13 @@ export class RoomComponent implements OnInit, OnDestroy {
   });
   /** La part de la plus grosse pile, pour la barre du recapitulatif chiffre. */
   readonly outcomeMax = computed(() => Math.max(1, ...this.outcomeGroups().map((g) => g.count)));
+  /** La valeur qui se detache — et seulement si elle se detache vraiment. Sept avis
+   * differents donnent sept piles a egalite : les mettre toutes en accent revient a
+   * annoncer sept majorites, c'est-a-dire aucune. */
+  readonly outcomeWinner = computed(() => {
+    const tetes = this.outcomeGroups().filter((g) => g.count === this.outcomeMax());
+    return tetes.length === 1 ? tetes[0].value : null;
+  });
   readonly decidedCard = computed(() => this.cardByValue(this.socket.result() ?? ''));
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);

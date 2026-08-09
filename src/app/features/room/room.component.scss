@@ -97,8 +97,14 @@
   grid-template-columns: 1fr 300px;
 }
 @media (max-width: 768px) {
+  /* `1fr` vaut `minmax(auto, 1fr)` : la piste ne descend jamais sous le minimum de
+     son contenu, et le panneau facilitateur — 377px au minimum — debordait donc
+     l'ecran, barre de defilement horizontale a la clef. */
   .room-body.has-panel {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .fac-panel {
+    min-width: 0;
   }
 }
 
@@ -764,7 +770,8 @@
    carte de 88px sur la table exigerait un tapis de ~600px, impossible sur 390px de
    large. La table garde donc sa plus grande taille possible, la main la sienne. */
 @media (max-width: 768px) {
-  .fox-shell:has(.room),
+  /* La coquille elle-meme est liberee dans _shell.scss : encapsules, les styles d'un
+     composant ne peuvent pas atteindre un element qui lui est exterieur. */
   .fox-shell:has(.room) .room {
     height: auto;
   }

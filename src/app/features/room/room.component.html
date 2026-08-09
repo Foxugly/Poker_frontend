@@ -139,7 +139,7 @@
                     @if (g.card; as card) {
                       <app-delegation-card [card]="card" [revealed]="true" [cardBack]="cardBackImage()" [cardBackColor]="cardBackColor()" [lang]="lang()" />
                     }
-                    <span class="og-count" [class.og-count--top]="g.count === outcomeMax()">
+                    <span class="og-count" [class.og-count--top]="g.value === outcomeWinner()">
                       {{ 'room.reveal_votes_count' | transloco: { count: g.count } }}
                     </span>
                     <span class="og-voters" [title]="g.voters">{{ g.voters }}</span>

@@ -26,6 +26,19 @@
   min-height: 0;
 }
 
+// Sur mobile la salle ne tient PAS dans l'ecran — c'est assume : on y voit sa main
+// d'abord, la table en defilant. La coquille doit donc reprendre une hauteur libre,
+// sans quoi elle reste haute d'un ecran et le contenu passe SOUS le pied de page.
+//
+// Cette regle vivait dans la feuille du composant salle, ou elle n'a jamais rien
+// fait : les styles y sont encapsules, et `.fox-shell` n'appartient pas a la salle —
+// le selecteur se retrouvait affuble d'un attribut que cet element ne porte pas.
+@media (max-width: 768px) {
+  .fox-shell:has(.room) {
+    height: auto;
+  }
+}
+
 // Skip-to-content (a11y) : caché, révélé au focus clavier.
 .fox-skip-link {
   position: absolute;
