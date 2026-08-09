@@ -73,8 +73,11 @@ interface Seat {
   // the person (avatar + name) further out. All in % of the felt container.
   cardX: number;
   cardY: number;
-  personX: number;
-  personY: number;
+  /** Direction ou poser l'etiquette du joueur, depuis SA carte. Normalisee de sorte
+   * que la composante dominante vaille 1 : la CSS multiplie alors chaque composante
+   * par l'ecart qu'il faut degager sur cet axe, en pixels (voir .seat-person). */
+  personUx: number;
+  personUy: number;
   card: SnapshotCard | null; // back placeholder, or the actual card once revealed nominatively
   show: boolean; // whether the seat has a card (voted) at all
   revealed: boolean; // face up — nominative reveal only
@@ -326,6 +329,13 @@ export class RoomComponent implements OnInit, OnDestroy {
           : null;
       const cx = Math.cos(angle);
       const sy = Math.sin(angle);
+      // Deux rectangles ne se recouvrent pas des lors qu'ils sont separes sur UN axe.
+      // En divisant par la composante dominante, celle-ci vaut 1 : l'axe le plus
+      // franc atteint donc exactement l'ecart requis, que la CSS convertit en pixels
+      // depuis la taille reelle des cartes. Un ecart radial unique ne pouvait pas y
+      // suffire — il faut 62px pour degager une carte en largeur, 87 en hauteur, et
+      // en diagonale un meme ecart ne couvrait ni l'un ni l'autre.
+      const dominante = Math.max(Math.abs(cx), Math.abs(sy)) || 1;
       return {
         participantId: p.participantId,
         username: p.username,
@@ -333,8 +343,8 @@ export class RoomComponent implements OnInit, OnDestroy {
         // Card a uniform pixel gap inside the avatar, along the same radial.
         cardX: 50 + cardRx * cx,
         cardY: 50 + cardRy * sy,
-        personX: 50 + personR * cx,
-        personY: 50 + personR * sy,
+        personUx: cx / dominante,
+        personUy: sy / dominante,
         card,
         show: hasVoted,
         revealed: faceUp,
