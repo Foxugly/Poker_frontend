@@ -140,7 +140,7 @@
     "intro": "Crea una stanza gratis in pochi secondi. Passa a un piano team per il Delegation Board, la cronologia e l'aspetto personalizzato.",
     "free_title": "Gratis",
     "free_f1": "Delegation Poker e Poker Planning in tempo reale",
-    "free_f2": "Fino a 20 persone per stanza",
+    "free_f2": "Fino a 15 persone per stanza",
     "free_f3": "Nessun account richiesto",
     "team1_title": "1 team",
     "team5_title": "5 team",
@@ -153,7 +153,7 @@
     "paid_f2": "Cronologia + invio email",
     "paid_f3": "Aspetto personalizzato",
     "paid_f4": "Fino a 20 membri per team",
-    "note": "Massimo 20 persone per stanza · massimo 20 membri per team.",
+    "note": "Massimo 15 persone per stanza · massimo 20 membri per team.",
     "cta_free": "Crea una stanza",
     "cta_paid": "Abbonati",
     "excl_vat": "IVA escl.",
@@ -419,7 +419,7 @@
     "code_required": "Il codice stanza è obbligatorio.",
     "create_room": "Impossibile creare la stanza.",
     "room_not_found": "Stanza non trovata o scaduta.",
-    "room_full": "Questa stanza è piena (massimo 20 persone)."
+    "room_full": "Questa stanza è piena (massimo 15 persone)."
   },
   "common": {
     "skip_to_content": "Vai al contenuto"

@@ -140,7 +140,7 @@
     "intro": "Maak in enkele seconden gratis een kamer. Ga over op een teamformule voor het Delegation Board, geschiedenis en aangepast uiterlijk.",
     "free_title": "Gratis",
     "free_f1": "Delegation Poker & Poker Planning in realtime",
-    "free_f2": "Tot 20 personen per kamer",
+    "free_f2": "Tot 15 personen per kamer",
     "free_f3": "Geen account nodig",
     "team1_title": "1 team",
     "team5_title": "5 teams",
@@ -153,7 +153,7 @@
     "paid_f2": "Geschiedenis + e-mailbezorging",
     "paid_f3": "Aangepast uiterlijk",
     "paid_f4": "Tot 20 leden per team",
-    "note": "Max. 20 personen per kamer · max. 20 leden per team.",
+    "note": "Max. 15 personen per kamer · max. 20 leden per team.",
     "cta_free": "Kamer maken",
     "cta_paid": "Abonneren",
     "excl_vat": "excl. btw",
@@ -419,7 +419,7 @@
     "code_required": "De kamercode is verplicht.",
     "create_room": "Kan de kamer niet maken.",
     "room_not_found": "Kamer niet gevonden of verlopen.",
-    "room_full": "Deze kamer is vol (maximaal 20 personen)."
+    "room_full": "Deze kamer is vol (maximaal 15 personen)."
   },
   "common": {
     "skip_to_content": "Naar de inhoud"

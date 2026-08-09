@@ -140,7 +140,7 @@
     "intro": "Créez une salle gratuitement en quelques secondes. Passez à une formule d'équipe pour le Delegation Board, l'historique et l'apparence personnalisée.",
     "free_title": "Gratuit",
     "free_f1": "Delegation Poker & Poker Planning en temps réel",
-    "free_f2": "Jusqu'à 20 personnes par salle",
+    "free_f2": "Jusqu'à 15 personnes par salle",
     "free_f3": "Aucun compte requis",
     "team1_title": "1 équipe",
     "team5_title": "5 équipes",
@@ -153,7 +153,7 @@
     "paid_f2": "Historique + envoi par email",
     "paid_f3": "Apparence personnalisée",
     "paid_f4": "Jusqu'à 20 membres par équipe",
-    "note": "20 personnes maximum par salle · 20 membres maximum par équipe.",
+    "note": "15 personnes maximum par salle · 20 membres maximum par équipe.",
     "cta_free": "Créer une salle",
     "cta_paid": "S'abonner",
     "excl_vat": "HT",
@@ -419,7 +419,7 @@
     "code_required": "Le code de salle est requis.",
     "create_room": "Impossible de créer la salle.",
     "room_not_found": "Salle introuvable ou expirée.",
-    "room_full": "Cette salle est pleine (20 personnes maximum)."
+    "room_full": "Cette salle est pleine (15 personnes maximum)."
   },
   "common": {
     "skip_to_content": "Aller au contenu"
