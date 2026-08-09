@@ -258,7 +258,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     // NB: keep this aspect formula in sync with feltAspect() — the geometry here
     // must match the shape the felt is actually drawn at. An elongated table (cap
     // 2.6) leaves less vertical room, so the card size is tuned down a touch to keep
-    // a clear gap between neighbouring cards for 3–20 seats (verified: card→card
+    // a clear gap between neighbouring cards for 3–15 seats (verified: card→card
     // clearance ≥ 4px across that range, with the larger felt below).
     const aspect = Math.min(2.6, 1.9 + n * 0.05);
     const personR = 49;
@@ -318,10 +318,12 @@ export class RoomComponent implements OnInit, OnDestroy {
    * est donc le minimum, sur toutes les paires, du meilleur des deux ecarts. Le facteur
    * de securite reproduit le jeu de 4px de la calibration d'origine.
    *
-   * L'ancienne version lisait une taille calibree pour le PIRE cas (20 sieges) et
-   * l'appliquait partout : a 5 sieges les cartes etaient deux fois plus petites que
-   * ce que la table permettait. Verifie par dichotomie dans un vrai navigateur :
-   * 16,07 % calcule contre 15,48 % mesure a 5 sieges, 3,49 contre 3,20 a 21.
+   * L'ancienne version lisait une taille calibree pour le PIRE cas et l'appliquait
+   * partout : a 5 sieges les cartes etaient deux fois plus petites que ce que la
+   * table permettait. Verifie par dichotomie dans un vrai navigateur : 16,07 %
+   * calcule contre 15,48 % mesure a 5 sieges, 12,67 contre 12,30 a 8, 9,45 contre
+   * 9,13 a 12, 3,49 contre 3,20 a 21 — cette derniere mesure datant d'avant le
+   * plafond de 15 participants, qui vaut desormais pour une salle.
    */
   readonly seatCardFraction = computed(() => {
     const n = this.socket.participants().length;

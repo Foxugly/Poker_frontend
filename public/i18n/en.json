@@ -140,7 +140,7 @@
     "intro": "Create a room for free in seconds. Move to a team plan for the Delegation Board, history and custom appearance.",
     "free_title": "Free",
     "free_f1": "Delegation Poker & Poker Planning in real time",
-    "free_f2": "Up to 20 people per room",
+    "free_f2": "Up to 15 people per room",
     "free_f3": "No account required",
     "team1_title": "1 team",
     "team5_title": "5 teams",
@@ -153,7 +153,7 @@
     "paid_f2": "History + email delivery",
     "paid_f3": "Custom appearance",
     "paid_f4": "Up to 20 members per team",
-    "note": "20 people max per room · 20 members max per team.",
+    "note": "15 people max per room · 20 members max per team.",
     "cta_free": "Create a room",
     "cta_paid": "Subscribe",
     "excl_vat": "excl. VAT",
@@ -419,7 +419,7 @@
     "code_required": "The room code is required.",
     "create_room": "Could not create the room.",
     "room_not_found": "Room not found or expired.",
-    "room_full": "This room is full (20 people maximum)."
+    "room_full": "This room is full (15 people maximum)."
   },
   "common": {
     "skip_to_content": "Skip to content"
