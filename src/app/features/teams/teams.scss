@@ -501,6 +501,11 @@
 /* --- Depouillement : le choix de mise en page (Apparence > Depouillement) ------
    Les vignettes sont des SCHEMAS, pas des captures : elles doivent rester justes
    quel que soit le jeu de cartes de l'equipe, y compris un jeu a pictogrammes. */
+/* Sans l'apercu du tapis, la colonne de droite n'a plus d'objet : les choix
+   reprennent toute la largeur plutot que de laisser un tiers vide. */
+.appearance-layout:not(:has(.appearance-preview)) {
+  grid-template-columns: 1fr;
+}
 .layout-card .deck-card__cards {
   align-items: center;
   min-height: 44px;
@@ -509,8 +514,10 @@
   width: 26px;
   height: 36px;
   border-radius: 4px;
-  border: 1px solid var(--border);
-  background: var(--surface-2, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  /* Meme encre que les barres du recapitulatif : les deux vignettes se lisent alors
+     comme deux formes du meme objet, et non comme deux composants sans rapport. */
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 .layout-mini + .layout-mini {
   margin-left: 4px;

@@ -289,13 +289,18 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                     </p-tabs>
                   </div>
 
-                  <!-- Right 33%: the currently selected layout, as the room will draw it -->
-                  <fieldset class="appearance-preview">
-                    <legend>{{ 'teams.surface.preview' | transloco }}</legend>
-                    <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
-                      <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
-                    </span>
-                  </fieldset>
+                  <!-- Right 33%: the currently selected layout, as the room will draw it.
+                       Absent du sous-onglet Depouillement : cet apercu montre le tapis et
+                       le dos des cartes, dont ce reglage ne decide rien — les vignettes
+                       des deux choix font office d'apercu. -->
+                  @if (appearanceTab !== 'result') {
+                    <fieldset class="appearance-preview">
+                      <legend>{{ 'teams.surface.preview' | transloco }}</legend>
+                      <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
+                        <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                      </span>
+                    </fieldset>
+                  }
                 </div>
 
                 @if (zoomImage(); as img) {
