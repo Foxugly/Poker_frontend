@@ -154,7 +154,7 @@
      alors que la table n'en autorisait que 49. */
   --card-table-max: min(
     var(--card-optimal),
-    calc(100cqw * var(--seat-frac, 0.09)),
+    calc((100cqw - 48px) * var(--seat-frac, 0.09)),
     var(--card-cap, 190px)
   );
 
@@ -167,9 +167,14 @@
   --card-hand: var(--card);
 
   /* La table decoule de la carte retenue : la hauteur libre moins la place de la
-     main, convertie en largeur par le ratio, sans deborder de la scene. */
+     main, convertie en largeur par le ratio, sans deborder de la scene.
+
+     Les 48px retires a la largeur logent les PASTILLES des participants, posees a
+     l'exterieur du bord du tapis : sans cette reserve, une table occupant toute la
+     scene les poussait hors de l'ecran et faisait apparaitre une barre de
+     defilement horizontale. */
   --felt-w: min(
-    100cqw,
+    calc(100cqw - 48px),
     calc((100dvh - var(--chrome-h, 300px) - var(--card) * 7 / 5) * var(--felt-aspect, 2.2))
   );
 }
