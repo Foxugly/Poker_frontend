@@ -191,8 +191,45 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly showPrepared = computed(() => this.state() === 'idle' && !this.showComposeForm());
   readonly canPrepare = computed(() => this.subjectDraft().trim().length > 0);
   /** The hand only appears once a round has been prepared (subject announced) —
-   * before that there is nothing to vote on and the cards would just be noise. */
-  readonly handVisible = computed(() => this.socket.subject().trim().length > 0);
+   * before that there is nothing to vote on and the cards would just be noise.
+   * Elle disparait a la revelation : les cartes cessent d'etre jouables, et le
+   * depouillement prend sa place (voir outcomeVisible). */
+  readonly handVisible = computed(
+    () => this.socket.subject().trim().length > 0 && !this.outcomeVisible(),
+  );
+
+  /** Le depouillement occupe la bande de la main des que les votes sont reveles, puis
+   * cede a la carte retenue une fois la decision prise. Il tenait jusqu'ici dans un
+   * encart de 210px au centre du tapis, ou les cartes des sieges lui passaient dessus
+   * et ou les noms des votants se noyaient dans le vert. */
+  readonly outcomeVisible = computed(() => this.state() === 'revealed' || this.state() === 'acted');
+  readonly resultLayout = this.socket.resultLayout;
+
+  /** Une entree par valeur jouee : la carte, son nombre de voix, et qui l'a jouee.
+   * Triee par nombre de voix decroissant — la majorite se lit alors en premier, dans
+   * les deux mises en page. */
+  readonly outcomeGroups = computed(() => {
+    const noms = new Map(this.socket.participants().map((p) => [p.participantId, p.username]));
+    const votants = this.socket.nominativeVotes();
+    return this.socket
+      .voteTally()
+      .map((t) => ({
+        value: t.cardValue,
+        card: this.cardByValue(t.cardValue),
+        name: this.cardName(this.cardByValue(t.cardValue)) || t.cardValue,
+        count: t.count,
+        // Vide sur un round anonyme : le serveur n'a jamais envoye le lien
+        // participant -> carte, ce n'est pas l'interface qui le cache.
+        voters: votants
+          .filter((v) => v.cardValue === t.cardValue)
+          .map((v) => noms.get(v.participantId) ?? '?')
+          .join(', '),
+      }))
+      .sort((a, b) => b.count - a.count);
+  });
+  /** La part de la plus grosse pile, pour la barre du recapitulatif chiffre. */
+  readonly outcomeMax = computed(() => Math.max(1, ...this.outcomeGroups().map((g) => g.count)));
+  readonly decidedCard = computed(() => this.cardByValue(this.socket.result() ?? ''));
 
   readonly cardValues = computed(() => this.socket.deckSnapshot()?.cards.map((c) => c.value) ?? []);
   /** Act/globalise on the level NAME, not the number. Options + the acted result
@@ -394,16 +431,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       clearInterval(this.countdownHandle);
       this.countdownHandle = null;
     }
-  }
-
-  /** Display names of the voters who picked a value — nominative rounds only. */
-  votersFor(cardValue: string): string {
-    const byId = new Map(this.socket.participants().map((p) => [p.participantId, p.username]));
-    return this.socket
-      .nominativeVotes()
-      .filter((v) => v.cardValue === cardValue)
-      .map((v) => byId.get(v.participantId) ?? '?')
-      .join(', ');
   }
 
   // The compose controls only touch local drafts now; nothing is sent until prepare().

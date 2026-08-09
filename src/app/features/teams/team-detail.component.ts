@@ -18,7 +18,7 @@ import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { LanguageService } from '../../core/i18n/language.service';
 import { TeamsService } from '../../core/teams/teams.service';
-import { CardBack, Deck, Felt, Invitation, Membership, SurfaceStyle, Team, TeamRole } from '../../core/teams/teams.models';
+import { CardBack, Deck, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamRole } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1'];
@@ -124,6 +124,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                       <p-tablist>
                         <p-tab value="table"><span class="pi pi-table tab-icon"></span><span>{{ 'teams.surface.table' | transloco }}</span></p-tab>
                         <p-tab value="back"><span class="pi pi-id-card tab-icon"></span><span>{{ 'teams.deck.backs_title' | transloco }}</span></p-tab>
+                        <p-tab value="result"><span class="pi pi-chart-bar tab-icon"></span><span>{{ 'teams.result_layout.tab' | transloco }}</span></p-tab>
                       </p-tablist>
 
                       <p-tabpanels>
@@ -245,6 +246,43 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                                 </div>
                               }
                             }
+                          </div>
+                        </p-tabpanel>
+
+                        <!-- Ce que les joueurs voient a la place de leur main, une
+                             fois les votes reveles. -->
+                        <p-tabpanel value="result">
+                          <div class="section">
+                            <p class="deck-intro">{{ 'teams.result_layout.intro' | transloco }}</p>
+                            <div class="deck-grid">
+                              @for (choice of resultLayoutChoices(); track choice.value) {
+                                <button type="button" class="deck-card layout-card"
+                                        [class.deck-card--selected]="resultLayout() === choice.value"
+                                        [attr.aria-pressed]="resultLayout() === choice.value"
+                                        [disabled]="savingResultLayout()" (click)="selectResultLayout(choice.value)">
+                                  <span class="deck-card__cards">
+                                    <!-- Schema, pas une capture : il doit rester juste
+                                         quel que soit le jeu de cartes de l'equipe. -->
+                                    @if (choice.value === 'cards') {
+                                      <span class="layout-mini layout-mini--card"></span>
+                                      <span class="layout-mini layout-mini--card"></span>
+                                      <span class="layout-mini layout-mini--card"></span>
+                                    } @else {
+                                      <span class="layout-rows">
+                                        <span class="layout-bar" style="width:100%"></span>
+                                        <span class="layout-bar" style="width:60%"></span>
+                                        <span class="layout-bar" style="width:35%"></span>
+                                      </span>
+                                    }
+                                    @if (resultLayout() === choice.value) {
+                                      <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                    }
+                                  </span>
+                                  <span class="deck-card__name">{{ choice.label }}</span>
+                                  <span class="deck-card__meta">{{ choice.hint }}</span>
+                                </button>
+                              }
+                            </div>
                           </div>
                         </p-tabpanel>
                       </p-tabpanels>
@@ -395,6 +433,19 @@ export class TeamDetailComponent implements OnInit {
   readonly savingFelt = signal(false);
   readonly uploadingBack = signal(false);
   readonly uploadingFelt = signal(false);
+
+  // Depouillement : ce qui remplace la main des la revelation. Les salles deja
+  // ouvertes gardent la leur, le serveur la figeant a la creation.
+  readonly resultLayout = signal<ResultLayout>('cards');
+  readonly savingResultLayout = signal(false);
+  readonly resultLayoutChoices = computed(() => {
+    this.language.active();
+    return (['cards', 'summary'] as ResultLayout[]).map((value) => ({
+      value,
+      label: this.transloco.translate(`teams.result_layout.${value}`),
+      hint: this.transloco.translate(`teams.result_layout.${value}_hint`),
+    }));
+  });
   readonly styleOptions = computed(() => {
     this.language.active();
     return [
@@ -433,6 +484,7 @@ export class TeamDetailComponent implements OnInit {
       this.backColor.set(team.card_back_color);
       this.feltStyle.set(team.felt_style);
       this.cardBackStyle.set(team.card_back_style);
+      this.resultLayout.set(team.result_layout ?? 'cards');
       this.members.set(await this.teamsService.getMembers(this.id));
       if (this.isManager()) {
         this.invitations.set(await this.teamsService.getInvitations(this.id));
@@ -473,6 +525,22 @@ export class TeamDetailComponent implements OnInit {
     } catch {
       target.set(previous);
       this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async selectResultLayout(layout: ResultLayout): Promise<void> {
+    const previous = this.resultLayout();
+    if (layout === previous) return;
+    this.resultLayout.set(layout);
+    this.savingResultLayout.set(true);
+    try {
+      this.team.set(await this.teamsService.setResultLayout(this.id, layout));
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      this.resultLayout.set(previous);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingResultLayout.set(false);
     }
   }
 

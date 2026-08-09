@@ -339,7 +339,9 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* --- Table centre: count / result --- */
+/* --- Table centre: l'avancement du vote, et rien d'autre ---------------------
+   Le depouillement y tenait dans 210px, sous les cartes des sieges et sur le vert du
+   tapis ; il vit desormais dans la bande de la main (voir .outcome). */
 .table-center {
   position: absolute;
   left: 50%;
@@ -357,57 +359,6 @@
   .center-hint {
     color: rgba(255, 255, 255, 0.85);
     font-size: 0.9rem;
-  }
-  .result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .result-label {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .result-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #fff;
-  }
-
-  .reveal-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    max-width: 210px;
-  }
-  .tally-row {
-    display: flex;
-    align-items: baseline;
-    gap: var(--s-2);
-    font-size: 0.85rem;
-  }
-  .tally-label {
-    font-weight: 700;
-    color: #fff;
-  }
-  .tally-count {
-    color: rgba(255, 255, 255, 0.75);
-    font-variant-numeric: tabular-nums;
-  }
-  .tally-spread {
-    margin-top: 2px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    font-variant-numeric: tabular-nums;
-  }
-  .tally-hint {
-    margin-top: 2px;
-    font-size: 0.68rem;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -435,7 +386,10 @@
 /* Le libelle EST le separateur : un trait le prolonge de part et d'autre, a la
    maniere d'une legende de fieldset. Le libelle et le trait occupaient auparavant
    deux lignes distinctes ; les fondre en une seule rend cette hauteur aux cartes. */
-.hand-label {
+/* Meme trait-legende pour la main et pour le depouillement qui lui succede : les
+   deux bandes se relaient au meme endroit, elles doivent s'annoncer pareil. */
+.hand-label,
+.outcome-label {
   display: flex;
   align-items: center;
   gap: var(--s-3);
@@ -447,11 +401,154 @@
   white-space: nowrap;
 }
 .hand-label::before,
-.hand-label::after {
+.hand-label::after,
+.outcome-label::before,
+.outcome-label::after {
   content: '';
   flex: 1;
   height: 1px;
   background: var(--border);
+}
+
+/* --- Depouillement : la meme bande, une fois les votes reveles ----------------
+
+   La main devient injouable a la revelation ; le resultat prend sa place plutot que
+   de s'entasser au centre du tapis. La bande garde EXACTEMENT la hauteur qu'avait la
+   main — celle d'une carte, plus son libelle — pour que la table ne bouge pas d'un
+   pixel au moment de reveler. C'est ce budget fixe qui dicte la taille des cartes
+   ci-dessous : le compte et la liste des votants prennent leur part dessus. */
+.outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  padding-top: var(--s-3);
+  /* Ce que le compte et les votants retirent a la carte, sous elle. */
+  --outcome-text-h: 34px;
+}
+.outcome-spread {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink);
+}
+.outcome-hint {
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* Mise en page A (defaut) : les cartes jouees. */
+.outcome-cards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--gap);
+  width: 100%;
+}
+.outcome-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  /* Plus large que sa carte : la liste des votants tient alors sur une ligne, la
+     place horizontale ne manquant pas (au plus sept piles, comme la main). */
+  min-width: 130px;
+}
+/* La bande garde la hauteur d'une carte : ce que le texte prend sous elle, la carte
+   le rend. Les cartes sont la pour etre lues, pas cliquees. */
+.outcome-group app-delegation-card,
+.decided app-delegation-card {
+  display: block;
+  width: calc((var(--card) * 7 / 5 - var(--outcome-text-h)) * 5 / 7);
+  pointer-events: none;
+}
+.og-count {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+.og-count--top {
+  color: var(--accent);
+}
+.og-voters {
+  font-size: 0.75rem;
+  color: var(--muted);
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Mise en page B : le recapitulatif chiffre. */
+.tally-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 720px;
+}
+.tl-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 130px) 1fr auto;
+  align-items: center;
+  gap: var(--s-3);
+}
+.tl-name {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tl-bar {
+  height: 22px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+.tl-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent);
+  border-radius: 6px;
+}
+/* Les noms se lisent par-dessus la barre : sur une ligne serree, une colonne de plus
+   les aurait reduits a quelques caracteres. */
+.tl-bar span {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 0;
+  line-height: 22px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+  mix-blend-mode: luminosity;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tl-count {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* La decision prise : une seule carte, celle qui a ete retenue. */
+.decided {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+.decided-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
 }
 
 /* --- Facilitator panel --- */
@@ -655,10 +752,6 @@
   color: var(--ink);
   font-size: 0.9rem;
 }
-.tally-voters {
-  color: var(--muted);
-  font-size: 0.8rem;
-}
 
 /* --- Mobile : la main d'abord, la table en defilant ---------------------------
 
@@ -683,8 +776,26 @@
     --card-hand: calc((100cqw - 3 * var(--gap)) / 4);
     justify-content: flex-start;
   }
-  /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant. */
-  .hand {
+  /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant.
+     Le depouillement prend sa place, donc son rang. */
+  .hand,
+  .outcome {
     order: -1;
+  }
+  /* Rien ne contraint plus la hauteur ici — la page defile : les cartes du
+     depouillement reprennent la taille confortable de la main et passent a la ligne
+     plutot que de se serrer sur une seule rangee. */
+  .outcome-cards {
+    flex-wrap: wrap;
+  }
+  .outcome-group {
+    min-width: 0;
+  }
+  .outcome-group app-delegation-card,
+  .decided app-delegation-card {
+    width: var(--card-hand);
+  }
+  .og-voters {
+    max-width: var(--card-hand);
   }
 }
