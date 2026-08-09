@@ -441,7 +441,6 @@
 .outcome-hint {
   font-size: 0.7rem;
   font-style: italic;
-  color: var(--muted);
 }
 
 /* Mise en page A (defaut) : les cartes jouees. */
@@ -471,26 +470,31 @@
 }
 .og-count {
   font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--ink);
 }
 .og-count--top {
   color: var(--accent);
 }
 .og-voters {
   font-size: 0.75rem;
-  color: var(--muted);
   max-width: 190px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-/* Mise en page B : le recapitulatif chiffre. */
+/* Mise en page B : le recapitulatif chiffre.
+
+   Les lignes se PARTAGENT le budget de la bande — la hauteur d'une carte — au lieu
+   de s'empiler librement : a sept valeurs distinctes, sept lignes de 22px passaient
+   sous le pied de page, la salle tenant dans un ecran sans defiler. Le nombre de
+   lignes arrive du composant (--tl-rows), la CSS seule ne sachant pas compter. */
 .tally-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  --tl-gap: 6px;
+  --tl-row-h: clamp(
+    14px,
+    calc((var(--card) * 7 / 5 - (var(--tl-rows, 3) - 1) * var(--tl-gap)) / var(--tl-rows, 3)),
+    22px
+  );
+  gap: var(--tl-gap);
   width: 100%;
   max-width: 720px;
 }
@@ -499,18 +503,14 @@
   grid-template-columns: minmax(90px, 130px) 1fr auto;
   align-items: center;
   gap: var(--s-3);
+  height: var(--tl-row-h);
 }
 .tl-name {
   font-weight: 700;
-  color: var(--ink);
-  font-size: 0.95rem;
   text-align: right;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .tl-bar {
-  height: 22px;
+  height: 100%;
   border-radius: 6px;
   background: color-mix(in srgb, var(--accent) 18%, transparent);
   position: relative;
@@ -529,20 +529,39 @@
   left: 8px;
   right: 8px;
   top: 0;
-  line-height: 22px;
-  font-size: 0.78rem;
+  line-height: var(--tl-row-h);
+  font-size: min(0.78rem, calc(var(--tl-row-h) - 4px));
   font-weight: 600;
   color: var(--ink);
   mix-blend-mode: luminosity;
+}
+/* Une seule regle pour tout ce qui se lit dans la bande : meme encre, et une taille
+   qui suit la ligne quand elle se resserre — sinon le texte la ferait regrandir, et
+   le partage du budget de hauteur ne servirait a rien. */
+.og-count,
+.og-voters,
+.outcome-hint,
+.tl-name,
+.tl-count,
+.tl-bar span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.og-count,
+.tl-name,
 .tl-count {
   font-weight: 800;
-  font-size: 0.95rem;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
+}
+.tl-name,
+.tl-count {
+  font-size: min(0.95rem, calc(var(--tl-row-h) - 3px));
+}
+.og-voters,
+.outcome-hint {
+  color: var(--muted);
 }
 
 /* La decision prise : une seule carte, celle qui a ete retenue. */

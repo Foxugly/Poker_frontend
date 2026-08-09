@@ -118,7 +118,9 @@
                 <span class="decided-name">{{ resultName() }}</span>
               </div>
             } @else if (resultLayout() === 'summary') {
-              <div class="tally-list">
+              <!-- La CSS ne sait pas compter ses enfants : le nombre de lignes lui
+                   arrive d'ici, pour qu'elles se partagent la hauteur de la bande. -->
+              <div class="tally-list" [style.--tl-rows]="outcomeGroups().length">
                 @for (g of outcomeGroups(); track g.value) {
                   <div class="tl-row">
                     <span class="tl-name">{{ g.name }}</span>
