@@ -102,7 +102,9 @@
           <div class="outcome" [class.outcome--summary]="resultLayout() === 'summary'">
             <span class="outcome-label">
               {{ (state() === 'acted' ? 'room.acted_result' : 'room.reveal_title') | transloco }}
-              @if (socket.spread().min !== null && socket.spread().max !== null) {
+              <!-- L'ecart decrit la dispersion des votes : il eclaire un depouillement,
+                   pas une decision deja prise. -->
+              @if (state() === 'revealed' && socket.spread().min !== null && socket.spread().max !== null) {
                 <span class="outcome-spread">{{ socket.spread().min }} – {{ socket.spread().max }}</span>
               }
             </span>
