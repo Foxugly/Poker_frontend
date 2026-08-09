@@ -39,5 +39,22 @@
     "prettier": "^3.9.6",
     "typescript": "~5.9.2",
     "vitest": "^4.1.10"
+  },
+  "//overrides": [
+    "Failles corrigees en amont mais hors de portee : @angular/build epingle undici a",
+    "7.28.0 exactement, et l'Angular CLI epingle le SDK MCP a 1.26.0. Les derogations",
+    "sont CIBLEES et non globales : node-gyp attend undici 6.x, qu'une derogation",
+    "generale sur undici ecraserait. Le SDK 1.30.0 accepte @hono/node-server 2.x et",
+    "corrige au passage son propre avis. Il accepte les DEUX branches de node-server",
+    "et npm y retenait la 1.x : d'ou la derogation imbriquee qui impose la 2.x.",
+    "A retirer des que l'amont aura suivi."
+  ],
+  "overrides": {
+    "@angular/build": { "undici": "^7.29.0" },
+    "jsdom": { "undici": "^7.29.0" },
+    "@modelcontextprotocol/sdk": {
+      ".": "^1.30.0",
+      "@hono/node-server": "^2.0.5"
+    }
   }
 }
