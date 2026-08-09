@@ -150,6 +150,14 @@
   container-type: inline-size;
 
   --gap: var(--s-3);
+  /* Place laissee de part et d'autre du tapis aux ETIQUETTES des joueurs, posees a
+     l'exterieur du bord : sans elle, une table occupant toute la scene les pousserait
+     hors de l'ecran, barre de defilement horizontale a la clef.
+     48px suffisaient quand l'etiquette etait posee sur une ellipse fixe ; elle est
+     desormais ecartee de sa propre carte, ce qui l'eloigne d'autant plus que la table
+     est petite — la moitie d'une carte compte dans cet ecart, mais la moitie de
+     l'etiquette, elle, ne retrecit jamais. */
+  --seat-reserve: 96px;
   --k: calc(var(--seat-frac, 0.09) * var(--felt-aspect, 2.2));
   --card-optimal: calc(var(--k) * (100dvh - var(--chrome-h, 300px)) / (1 + 1.4 * var(--k)));
 
@@ -160,7 +168,7 @@
      alors que la table n'en autorisait que 49. */
   --card-table-max: min(
     var(--card-optimal),
-    calc((100cqw - 48px) * var(--seat-frac, 0.09)),
+    calc((100cqw - var(--seat-reserve)) * var(--seat-frac, 0.09)),
     var(--card-cap, 190px)
   );
 
@@ -175,12 +183,9 @@
   /* La table decoule de la carte retenue : la hauteur libre moins la place de la
      main, convertie en largeur par le ratio, sans deborder de la scene.
 
-     Les 48px retires a la largeur logent les PASTILLES des participants, posees a
-     l'exterieur du bord du tapis : sans cette reserve, une table occupant toute la
-     scene les poussait hors de l'ecran et faisait apparaitre une barre de
-     defilement horizontale. */
+     La largeur disponible est amputee de --seat-reserve : voir plus haut. */
   --felt-w: min(
-    calc(100cqw - 48px),
+    calc(100cqw - var(--seat-reserve)),
     calc((100dvh - var(--chrome-h, 300px) - var(--card) * 7 / 5) * var(--felt-aspect, 2.2))
   );
 }
@@ -278,16 +283,34 @@
   pointer-events: none;
 }
 
-/* Participant (avatar + name) on the OUTSIDE of the table. */
+/* Participant (avatar + name) on the OUTSIDE of the table.
+
+   Pose depuis SA carte, et non sur une ellipse a lui : l'ecart necessaire pour la
+   degager n'est pas le meme selon l'axe — la moitie d'une carte, c'est 62px de large
+   mais 87px de haut. Un ecart radial unique, en pourcentage, laissait donc les
+   etiquettes des sieges DIAGONAUX mordre sur les cartes (visible des huit joueurs).
+
+   Le composant fournit la direction, normalisee pour que sa composante dominante
+   vaille 1 ; chaque axe est ensuite ecarte de la demi-carte plus la demi-etiquette,
+   en pixels reels. Deux rectangles etant disjoints des qu'ils le sont sur UN axe,
+   l'axe dominant suffit a la garantie, et la marge finit le travail a l'oeil. */
 .seat-person {
   position: absolute;
-  transform: translate(-50%, -50%);
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   width: 78px;
+  /* Hauteur de l'etiquette : pastille (28px) + interligne + une ligne de nom, jamais
+     davantage — le nom est tronque plutot que replie. */
+  --person-h: 46px;
+  --seat-margin: 8px;
+  transform: translate(-50%, -50%)
+    translate(
+      calc(var(--seat-ux, 0) * ((var(--card) + 78px) / 2 + var(--seat-margin))),
+      calc(var(--seat-uy, 0) * ((var(--card) * 7 / 5 + var(--person-h)) / 2 + var(--seat-margin)))
+    );
 }
 .avatar {
   width: 28px;
@@ -795,6 +818,11 @@
     height: auto;
   }
   .stage {
+    /* Sur un ecran etroit, l'etiquette d'un joueur est plus grande que sa carte : ce
+       qu'il faut degager autour du tapis ne depend donc presque plus de la table. La
+       reserve double, et la table retrecit d'autant — sans consequence ici, ou elle
+       n'est de toute facon qu'un decor qu'on decouvre en defilant. */
+    --seat-reserve: 176px;
     /* La table n'est plus bridee par la rangee de la main, qui passe a la ligne. */
     --card: var(--card-table-max);
     /* Quatre cartes par rangee : la plus grande taille qui reste confortable au
