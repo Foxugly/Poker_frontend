@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
-import { CardBack, Felt, Invitation, Membership, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
+import { CardBack, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
@@ -62,6 +62,12 @@ export class TeamsService {
   }
   setSurfaceStyle(id: number, surface: 'card_back' | 'felt', style: SurfaceStyle) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { [`${surface}_style`]: style }));
+  }
+  /** Comment le depouillement s'affiche a la place de la main, une fois les votes
+   * reveles. Les salles deja ouvertes gardent la leur : le serveur la fige a la
+   * creation. */
+  setResultLayout(id: number, layout: ResultLayout) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { result_layout: layout }));
   }
 
   getMembers(id: number) {

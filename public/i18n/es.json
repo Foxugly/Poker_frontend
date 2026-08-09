@@ -94,7 +94,15 @@
       "preview": "Vista previa"
     },
     "rename_action": "Renombrar el equipo",
-    "delete_intro": "Eliminar el equipo es permanente."
+    "delete_intro": "Eliminar el equipo es permanente.",
+    "result_layout": {
+      "tab": "Recuento",
+      "intro": "Lo que ven los jugadores en lugar de su mano, una vez reveladas las votaciones.",
+      "cards": "Las cartas jugadas",
+      "cards_hint": "Cada carta jugada, su número de votos y quién la eligió. La única forma legible en una baraja con pictogramas.",
+      "summary": "El resumen numérico",
+      "summary_hint": "Una línea por carta, con una barra proporcional. Los nombres caben enteros."
+    }
   },
   "home": {
     "eyebrow": "Decisiones compartidas",
@@ -351,7 +359,8 @@
     "prepare": "Preparar la votación",
     "launch": "Iniciar la votación",
     "edit": "Editar",
-    "queue_add": "Añadir a la cola"
+    "queue_add": "Añadir a la cola",
+    "reveal_title": "Recuento"
   },
   "billing": {
     "title": "Suscripción",

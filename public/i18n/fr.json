@@ -94,7 +94,15 @@
       "preview": "Aperçu"
     },
     "rename_action": "Renommer l'équipe",
-    "delete_intro": "La suppression de l'équipe est définitive."
+    "delete_intro": "La suppression de l'équipe est définitive.",
+    "result_layout": {
+      "tab": "Dépouillement",
+      "intro": "Ce que voient les joueurs à la place de leur main, une fois les votes révélés.",
+      "cards": "Les cartes jouées",
+      "cards_hint": "Chaque carte jouée, son nombre de voix et qui l'a choisie. Seule forme lisible sur un jeu à pictogrammes.",
+      "summary": "Le récapitulatif chiffré",
+      "summary_hint": "Une ligne par carte, avec une barre proportionnelle. Les noms tiennent en entier."
+    }
   },
   "home": {
     "eyebrow": "Prise de décision commune",
@@ -351,7 +359,8 @@
     "prepare": "Préparer le vote",
     "launch": "Lancer le vote",
     "edit": "Modifier",
-    "queue_add": "Ajouter à la file"
+    "queue_add": "Ajouter à la file",
+    "reveal_title": "Dépouillement"
   },
   "billing": {
     "title": "Abonnement",

@@ -16,6 +16,7 @@ export interface Team {
   card_back_style: SurfaceStyle;
   felt_style: SurfaceStyle;
   felt_id: number | null;
+  result_layout: ResultLayout;
   is_paid: boolean;
   billing_enabled: boolean;
   subscription_status: string;
@@ -57,6 +58,9 @@ export interface Deck {
 
 /** Which representation a surface renders. */
 export type SurfaceStyle = 'color' | 'image';
+/** Les deux formes du depouillement, une fois les votes reveles. Meme type que dans
+ * le protocole temps reel : c'est la meme valeur, reglee ici et figee sur la salle. */
+export type ResultLayout = 'cards' | 'summary';
 
 export interface Felt {
   id: number;

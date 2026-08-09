@@ -11,6 +11,7 @@ import {
   PROTOCOL_VERSION,
   Role,
   RoomError,
+  ResultLayout,
   RoundState,
   StateSync,
   TimerSettings,
@@ -54,6 +55,9 @@ export class RoomSocketService {
   readonly revealMode = signal<RevealMode>({ anonymous: false, canAnonymise: false });
   readonly spread = signal<{ min: number | null; max: number | null }>({ min: null, max: null });
   readonly result = signal<string | null>(null);
+  /** La forme du depouillement, figee sur la salle. Les cartes jouees par defaut :
+   * c'est la seule lisible sur un deck a pictogrammes, ou les cartes sont muettes. */
+  readonly resultLayout = signal<ResultLayout>('cards');
   readonly facilitatorPresent = signal(true);
   readonly agenda = signal<AgendaItem[]>([]);
   readonly myRole = signal<Role>('voter');
@@ -261,6 +265,7 @@ export class RoomSocketService {
     if (s.myParticipantId) this.myParticipantId.set(s.myParticipantId);
     this.myVote.set(s.myVote);
     this.result.set(s.result);
+    this.resultLayout.set(s.resultLayout ?? 'cards');
     this.facilitatorPresent.set(s.facilitatorPresent);
     this.agenda.set(s.agenda ?? []);
     this.voteTally.set(s.tally ?? []);

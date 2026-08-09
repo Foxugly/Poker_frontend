@@ -94,7 +94,15 @@
       "preview": "Anteprima"
     },
     "rename_action": "Rinomina il team",
-    "delete_intro": "L'eliminazione del team è definitiva."
+    "delete_intro": "L'eliminazione del team è definitiva.",
+    "result_layout": {
+      "tab": "Spoglio",
+      "intro": "Ciò che i giocatori vedono al posto della loro mano, una volta rivelati i voti.",
+      "cards": "Le carte giocate",
+      "cards_hint": "Ogni carta giocata, il numero di voti e chi l'ha scelta. L'unica forma leggibile per un mazzo a pittogrammi.",
+      "summary": "Il riepilogo numerico",
+      "summary_hint": "Una riga per carta, con una barra proporzionale. I nomi entrano per intero."
+    }
   },
   "home": {
     "eyebrow": "Decisioni condivise",
@@ -351,7 +359,8 @@
     "prepare": "Prepara il voto",
     "launch": "Avvia il voto",
     "edit": "Modifica",
-    "queue_add": "Aggiungi alla coda"
+    "queue_add": "Aggiungi alla coda",
+    "reveal_title": "Spoglio"
   },
   "billing": {
     "title": "Abbonamento",

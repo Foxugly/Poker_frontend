@@ -99,6 +99,9 @@ export interface TimerSettings {
   seconds: number;
 }
 
+/** Les deux formes que peut prendre le depouillement (reglage d'equipe). */
+export type ResultLayout = 'cards' | 'summary';
+
 /** A room's frozen deck catalogue entry — enough to pick, without the cards. */
 export interface AvailableDeck {
   deckId: number;
@@ -120,6 +123,10 @@ export interface StateSync {
   /** Pour que le client se reconnaisse dans les diffusions, qui designent le nouveau
    * facilitateur par son identifiant public. */
   myParticipantId?: string;
+  /** Comment le depouillement occupe la place de la main une fois les votes reveles :
+   * les cartes jouees, ou des lignes chiffrees. Fige sur la salle a sa creation depuis
+   * le reglage de l'equipe ; absent des vieux serveurs, d'ou le defaut cote client. */
+  resultLayout?: ResultLayout;
   myVote: string | null;
   result: string | null;
   facilitatorPresent: boolean;

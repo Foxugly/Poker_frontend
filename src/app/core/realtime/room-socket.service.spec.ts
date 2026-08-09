@@ -38,6 +38,18 @@ describe('RoomSocketService reducer', () => {
     expect(svc.agenda()[0].status).toBe('current');
   });
 
+  it('montre les cartes jouees quand le serveur ne dit rien du depouillement', () => {
+    // Le champ est arrive apres coup : un serveur qui ne l'envoie pas encore ne doit
+    // pas laisser la salle sans mise en page, ni basculer sur celle qu'elle n'a pas
+    // choisie. Les cartes jouees sont le defaut, cote serveur comme ici.
+    const svc = new RoomSocketService();
+    feed(svc, 'state.sync', SYNC);
+    expect(svc.resultLayout()).toBe('cards');
+
+    feed(svc, 'state.sync', { ...SYNC, resultLayout: 'summary' });
+    expect(svc.resultLayout()).toBe('summary');
+  });
+
   it('restores a revealed round from state.sync, cards included', () => {
     // Recharger la page pendant un round revele doit rendre le MEME ecran que pour
     // ceux qui etaient la : sans les votes nominatifs, les cartes du tapis restaient

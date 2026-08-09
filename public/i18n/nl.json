@@ -94,7 +94,15 @@
       "preview": "Voorbeeld"
     },
     "rename_action": "Team hernoemen",
-    "delete_intro": "Het verwijderen van het team is definitief."
+    "delete_intro": "Het verwijderen van het team is definitief.",
+    "result_layout": {
+      "tab": "Uitslag",
+      "intro": "Wat spelers in plaats van hun hand zien zodra de stemmen onthuld zijn.",
+      "cards": "De gespeelde kaarten",
+      "cards_hint": "Elke gespeelde kaart, het aantal stemmen en wie ze koos. De enige leesbare vorm voor een pictogramspel.",
+      "summary": "Het cijfermatige overzicht",
+      "summary_hint": "Eén regel per kaart, met een evenredige balk. Namen passen volledig."
+    }
   },
   "home": {
     "eyebrow": "Samen beslissen",
@@ -351,7 +359,8 @@
     "prepare": "Stemming voorbereiden",
     "launch": "Stemming starten",
     "edit": "Bewerken",
-    "queue_add": "Aan wachtrij toevoegen"
+    "queue_add": "Aan wachtrij toevoegen",
+    "reveal_title": "Uitslag"
   },
   "billing": {
     "title": "Abonnement",

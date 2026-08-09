@@ -94,7 +94,15 @@
       "preview": "Preview"
     },
     "rename_action": "Rename the team",
-    "delete_intro": "Deleting the team is permanent."
+    "delete_intro": "Deleting the team is permanent.",
+    "result_layout": {
+      "tab": "Tally",
+      "intro": "What players see in place of their hand once the votes are revealed.",
+      "cards": "The played cards",
+      "cards_hint": "Every played card, its vote count and who picked it. The only readable form for a pictogram deck.",
+      "summary": "The tallied summary",
+      "summary_hint": "One line per card, with a proportional bar. Names fit in full."
+    }
   },
   "home": {
     "eyebrow": "Shared decision-making",
@@ -351,7 +359,8 @@
     "prepare": "Prepare the vote",
     "launch": "Launch the vote",
     "edit": "Edit",
-    "queue_add": "Add to queue"
+    "queue_add": "Add to queue",
+    "reveal_title": "Tally"
   },
   "billing": {
     "title": "Subscription",
