@@ -102,34 +102,7 @@
   }
 }
 
-/* --- Mobile : la main d'abord, la table en defilant ---------------------------
 
-   Sur un ecran etroit, faire tenir la table ET la main dans la fenetre ne laissait
-   que des cartes de 39px, et 14px avec vingt joueurs. On change donc de strategie :
-   ce qu'on voit en arrivant, c'est SA MAIN, en cartes larges reparties sur plusieurs
-   rangees ; la table se decouvre en defilant.
-
-   Les deux tailles cessent d'etre egales ici, et ce n'est pas un renoncement : une
-   carte de 88px sur la table exigerait un tapis de ~600px, impossible sur 390px de
-   large. La table garde donc sa plus grande taille possible, la main la sienne. */
-@media (max-width: 768px) {
-  .fox-shell:has(.room),
-  .fox-shell:has(.room) .room {
-    height: auto;
-  }
-  .stage {
-    /* La table n'est plus bridee par la rangee de la main, qui passe a la ligne. */
-    --card: var(--card-table-max);
-    /* Quatre cartes par rangee : la plus grande taille qui reste confortable au
-       pouce sur un telephone courant. */
-    --card-hand: calc((100cqw - 3 * var(--gap)) / 4);
-    justify-content: flex-start;
-  }
-  /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant. */
-  .hand {
-    order: -1;
-  }
-}
 
 .stage {
   display: flex;
@@ -680,4 +653,33 @@
 .tally-voters {
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+/* --- Mobile : la main d'abord, la table en defilant ---------------------------
+
+   Sur un ecran etroit, faire tenir la table ET la main dans la fenetre ne laissait
+   que des cartes de 39px, et 14px avec vingt joueurs. On change donc de strategie :
+   ce qu'on voit en arrivant, c'est SA MAIN, en cartes larges reparties sur plusieurs
+   rangees ; la table se decouvre en defilant.
+
+   Les deux tailles cessent d'etre egales ici, et ce n'est pas un renoncement : une
+   carte de 88px sur la table exigerait un tapis de ~600px, impossible sur 390px de
+   large. La table garde donc sa plus grande taille possible, la main la sienne. */
+@media (max-width: 768px) {
+  .fox-shell:has(.room),
+  .fox-shell:has(.room) .room {
+    height: auto;
+  }
+  .stage {
+    /* La table n'est plus bridee par la rangee de la main, qui passe a la ligne. */
+    --card: var(--card-table-max);
+    /* Quatre cartes par rangee : la plus grande taille qui reste confortable au
+       pouce sur un telephone courant. */
+    --card-hand: calc((100cqw - 3 * var(--gap)) / 4);
+    justify-content: flex-start;
+  }
+  /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant. */
+  .hand {
+    order: -1;
+  }
 }
