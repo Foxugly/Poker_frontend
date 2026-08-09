@@ -39,7 +39,7 @@ import { DelegationCardComponent } from '../delegation-card/delegation-card.comp
         /* --card et --gap viennent de la salle : la meme taille y sert aux cartes
            de la table. auto-fit replie la main sur plusieurs rangees si la largeur
            ne suffit pas, plutot que de reduire les cartes en dessous du plancher. */
-        grid-template-columns: repeat(auto-fit, var(--card, 60px));
+        grid-template-columns: repeat(auto-fit, var(--card-hand, 60px));
         justify-content: center;
         gap: var(--gap, 12px);
       }

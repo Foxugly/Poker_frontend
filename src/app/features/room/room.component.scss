@@ -102,6 +102,35 @@
   }
 }
 
+/* --- Mobile : la main d'abord, la table en defilant ---------------------------
+
+   Sur un ecran etroit, faire tenir la table ET la main dans la fenetre ne laissait
+   que des cartes de 39px, et 14px avec vingt joueurs. On change donc de strategie :
+   ce qu'on voit en arrivant, c'est SA MAIN, en cartes larges reparties sur plusieurs
+   rangees ; la table se decouvre en defilant.
+
+   Les deux tailles cessent d'etre egales ici, et ce n'est pas un renoncement : une
+   carte de 88px sur la table exigerait un tapis de ~600px, impossible sur 390px de
+   large. La table garde donc sa plus grande taille possible, la main la sienne. */
+@media (max-width: 768px) {
+  .fox-shell:has(.room),
+  .fox-shell:has(.room) .room {
+    height: auto;
+  }
+  .stage {
+    /* La table n'est plus bridee par la rangee de la main, qui passe a la ligne. */
+    --card: var(--card-table-max);
+    /* Quatre cartes par rangee : la plus grande taille qui reste confortable au
+       pouce sur un telephone courant. */
+    --card-hand: calc((100cqw - 3 * var(--gap)) / 4);
+    justify-content: flex-start;
+  }
+  /* La main passe avant la table dans le flux : c'est elle qu'on voit en arrivant. */
+  .hand {
+    order: -1;
+  }
+}
+
 .stage {
   display: flex;
   flex-direction: column;
@@ -144,17 +173,25 @@
   --gap: var(--s-3);
   --k: calc(var(--seat-frac, 0.09) * var(--felt-aspect, 2.2));
   --card-optimal: calc(var(--k) * (100dvh - var(--chrome-h, 300px)) / (1 + 1.4 * var(--k)));
-  /* Aucun plancher : un plancher fixe finit toujours par ecraser la limite
+
+  /* Ce qu'une carte peut mesurer sur la TABLE : l'optimum en hauteur, ce que la
+     largeur du tapis autorise, et un plafond absolu.
+     Aucun plancher : un plancher fixe finit toujours par ecraser la limite
      geometrique — a 20 sieges, 52px suffisaient a faire se chevaucher les cartes
-     alors que la table n'en autorisait que 49. La geometrie l'emporte donc, quitte
-     a de petites cartes quand la salle est pleine ET l'ecran etroit : c'est le prix
-     d'une taille unique et d'un affichage sans defilement. */
-  --card: min(
+     alors que la table n'en autorisait que 49. */
+  --card-table-max: min(
     var(--card-optimal),
     calc(100cqw * var(--seat-frac, 0.09)),
-    calc((100cqw - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7)),
     var(--card-cap, 190px)
   );
+
+  /* Sur grand ecran, une seule taille partout : celle de la table, encore bornee
+     par la part de rangee qui revient a chaque carte de la main. */
+  --card: min(
+    var(--card-table-max),
+    calc((100cqw - (var(--deck-n, 7) - 1) * var(--gap)) / var(--deck-n, 7))
+  );
+  --card-hand: var(--card);
 
   /* La table decoule de la carte retenue : la hauteur libre moins la place de la
      main, convertie en largeur par le ratio, sans deborder de la scene. */
