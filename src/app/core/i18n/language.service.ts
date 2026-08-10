@@ -29,7 +29,11 @@ export class LanguageService {
         filter((e) => e.type === 'translationLoadSuccess'),
         takeUntilDestroyed(),
       )
-      .subscribe(() => this.loads.update((n) => n + 1));
+      // queueMicrotask, pas un set direct : le catalogue est demande *pendant* le
+      // rendu (par le pipe | transloco), et l'evenement revient donc souvent dans
+      // ce meme rendu — ecrire un signal la leve NG0600. On repousse au tick
+      // suivant, ou l'ecriture est legitime et provoque un nouveau rendu.
+      .subscribe(() => queueMicrotask(() => this.loads.update((n) => n + 1)));
   }
 
   init(): void {
