@@ -93,6 +93,14 @@
       "preview": "Vista previa",
       "reset": "Restablecer el valor predeterminado"
     },
+    "background": {
+      "tab": "Fondo",
+      "style_theme": "Tema",
+      "theme_hint": "La sala conserva el fondo claro u oscuro de cada participante. Es el ajuste predeterminado.",
+      "color": "Color del fondo",
+      "none": "Aún no hay ninguna imagen de fondo: sube una.",
+      "upload_hint": "PNG, JPEG o WebP, 6 MB máx."
+    },
     "rename_action": "Renombrar el equipo",
     "delete_intro": "Eliminar el equipo es permanente.",
     "result_layout": {

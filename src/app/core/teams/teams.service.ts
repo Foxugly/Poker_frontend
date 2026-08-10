@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 
 import { getRuntimeConfig } from '../runtime-config';
-import { CardBack, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
+import { Background, BackgroundStyle, CardBack, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamDecks, TeamRole } from './teams.models';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsService {
@@ -24,7 +24,7 @@ export class TeamsService {
   }
   // Partiel : le reset d'une surface ne renvoie que sa propre couleur, le serveur
   // ne touchant qu'aux champs presents dans le PATCH.
-  setAppearance(id: number, colors: Partial<{ card_back_color: string; felt_color: string }>) {
+  setAppearance(id: number, colors: Partial<{ card_back_color: string; felt_color: string; background_color: string }>) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, colors));
   }
   deleteTeam(id: number) {
@@ -43,6 +43,14 @@ export class TeamsService {
   setFelt(id: number, feltId: number | null) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { felt_id: feltId }));
   }
+  setBackground(id: number, backgroundId: number | null) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { background_id: backgroundId }));
+  }
+  /** Le fond a son propre setter : son style admet 'theme', que setSurfaceStyle
+   * ne connait pas. */
+  setBackgroundStyle(id: number, style: BackgroundStyle) {
+    return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { background_style: style }));
+  }
   private decksBase = getRuntimeConfig().apiBaseUrl + '/api/v1/decks';
   uploadCardBack(name: string, image: File) {
     return firstValueFrom(this.http.post<CardBack>(`${this.decksBase}/card-backs/`, this.imageForm(name, image)));
@@ -50,11 +58,17 @@ export class TeamsService {
   uploadFelt(name: string, image: File) {
     return firstValueFrom(this.http.post<Felt>(`${this.decksBase}/felts/`, this.imageForm(name, image)));
   }
+  uploadBackground(name: string, image: File) {
+    return firstValueFrom(this.http.post<Background>(`${this.decksBase}/backgrounds/`, this.imageForm(name, image)));
+  }
   deleteCardBack(id: number) {
     return firstValueFrom(this.http.delete(`${this.decksBase}/card-backs/${id}/`));
   }
   deleteFelt(id: number) {
     return firstValueFrom(this.http.delete(`${this.decksBase}/felts/${id}/`));
+  }
+  deleteBackground(id: number) {
+    return firstValueFrom(this.http.delete(`${this.decksBase}/backgrounds/${id}/`));
   }
   private imageForm(name: string, image: File): FormData {
     const fd = new FormData();

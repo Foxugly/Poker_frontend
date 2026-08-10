@@ -93,6 +93,14 @@
       "preview": "Voorbeeld",
       "reset": "Standaardwaarde herstellen"
     },
+    "background": {
+      "tab": "Achtergrond",
+      "style_theme": "Thema",
+      "theme_hint": "De ruimte behoudt de lichte of donkere achtergrond van elke deelnemer. Dit is de standaardinstelling.",
+      "color": "Achtergrondkleur",
+      "none": "Nog geen achtergrondafbeelding — upload er een.",
+      "upload_hint": "PNG, JPEG of WebP, max. 6 MB."
+    },
     "rename_action": "Team hernoemen",
     "delete_intro": "Het verwijderen van het team is definitief.",
     "result_layout": {

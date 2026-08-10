@@ -18,7 +18,7 @@ import { RoomApiService } from '../../core/api/room-api.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { LanguageService } from '../../core/i18n/language.service';
 import { TeamsService } from '../../core/teams/teams.service';
-import { CardBack, Deck, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamRole } from '../../core/teams/teams.models';
+import { Background, BackgroundStyle, CardBack, Deck, Felt, Invitation, Membership, ResultLayout, SurfaceStyle, Team, TeamRole } from '../../core/teams/teams.models';
 import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.component';
 
 const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1'];
@@ -27,6 +27,7 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
 // defauts du modele Team cote serveur, que le bouton de reset rend a l'identique.
 const DEFAULT_FELT_COLOR = '#10b981';
 const DEFAULT_BACK_COLOR = '#143d2f';
+const DEFAULT_BACKGROUND_COLOR = '#0f172a';
 
 @Component({
   selector: 'app-team-detail',
@@ -129,6 +130,7 @@ const DEFAULT_BACK_COLOR = '#143d2f';
                       <p-tablist>
                         <p-tab value="table"><span class="pi pi-table tab-icon"></span><span>{{ 'teams.surface.table' | transloco }}</span></p-tab>
                         <p-tab value="back"><span class="pi pi-id-card tab-icon"></span><span>{{ 'teams.deck.backs_title' | transloco }}</span></p-tab>
+                        <p-tab value="background"><span class="pi pi-image tab-icon"></span><span>{{ 'teams.background.tab' | transloco }}</span></p-tab>
                         <p-tab value="result"><span class="pi pi-chart-bar tab-icon"></span><span>{{ 'teams.result_layout.tab' | transloco }}</span></p-tab>
                       </p-tablist>
 
@@ -261,6 +263,74 @@ const DEFAULT_BACK_COLOR = '#143d2f';
                           </div>
                         </p-tabpanel>
 
+                        <!-- Le fond de la page de salle, derriere la table. Seule
+                             surface a porter un mode « Theme », ou l'equipe
+                             n'impose rien et la salle suit le clair/sombre. -->
+                        <p-tabpanel value="background">
+                          <div class="section">
+                            <div class="style-row">
+                              <p-selectbutton [options]="backgroundStyleOptions()" optionLabel="label" optionValue="value"
+                                              [ngModel]="backgroundStyle()" (ngModelChange)="setBackgroundStyle($event)" [allowEmpty]="false" />
+                              <p-button icon="pi pi-eraser" [outlined]="true" severity="secondary" [rounded]="true"
+                                        [pTooltip]="'teams.surface.reset' | transloco" tooltipPosition="left"
+                                        [ariaLabel]="'teams.surface.reset' | transloco"
+                                        [disabled]="!canResetBackground()" [loading]="savingBackground()" (onClick)="resetBackground()" />
+                            </div>
+                            @if (backgroundStyle() === 'theme') {
+                              <p class="muted">{{ 'teams.background.theme_hint' | transloco }}</p>
+                            } @else if (backgroundStyle() === 'color') {
+                              <div class="appearance-row">
+                                <label>
+                                  <span>{{ 'teams.background.color' | transloco }}</span>
+                                  <input type="color" [value]="backgroundColor()"
+                                         (input)="backgroundColor.set($any($event.target).value)" (change)="saveAppearance()" />
+                                </label>
+                              </div>
+                            } @else {
+                              @if (canCustomize()) {
+                                <div class="upload-row">
+                                  <input #bgFile type="file" accept="image/png,image/jpeg,image/webp" hidden (change)="onUploadBackground(bgFile)" />
+                                  <p-button [label]="'teams.surface.upload' | transloco" icon="pi pi-upload" [outlined]="true" [loading]="uploadingBackground()" (onClick)="bgFile.click()" />
+                                  <span class="muted">{{ 'teams.background.upload_hint' | transloco }}</span>
+                                </div>
+                              }
+                              @if (decksLoading()) {
+                                <p class="muted">{{ 'teams.deck.loading' | transloco }}</p>
+                              } @else if (!backgrounds().length) {
+                                <p class="muted">{{ 'teams.background.none' | transloco }}</p>
+                              } @else {
+                                <div class="deck-grid">
+                                  @for (bg of backgrounds(); track bg.id) {
+                                    <div class="deck-card-wrap">
+                                      <button type="button" class="deck-card"
+                                              [class.deck-card--selected]="bg.id === selectedBackgroundId()"
+                                              [disabled]="savingBackground()" (click)="selectBackground(bg)">
+                                        <span class="deck-card__cards">
+                                          <span class="deck-card__mini deck-card__mini--bg"
+                                                [style.background-image]="bg.image ? 'url(' + bg.image + ')' : null"></span>
+                                          @if (bg.id === selectedBackgroundId()) {
+                                            <span class="deck-card__check" [attr.aria-label]="'teams.deck.in_use' | transloco"><i class="pi pi-check"></i></span>
+                                          }
+                                        </span>
+                                        <span class="deck-card__name">{{ bg.name }}</span>
+                                        @if (bg.is_custom) {
+                                          <span class="deck-card__meta">{{ 'teams.deck.custom' | transloco }}</span>
+                                        }
+                                      </button>
+                                      @if (bg.image) {
+                                        <button type="button" class="deck-card__zoom" [attr.aria-label]="'teams.surface.zoom' | transloco" (click)="zoom(bg.image, $event)"><i class="pi pi-search-plus"></i></button>
+                                      }
+                                      @if (bg.is_custom) {
+                                        <button type="button" class="deck-card__delete" [attr.aria-label]="'teams.surface.delete' | transloco" (click)="deleteBackground(bg, $event)"><i class="pi pi-trash"></i></button>
+                                      }
+                                    </div>
+                                  }
+                                </div>
+                              }
+                            }
+                          </div>
+                        </p-tabpanel>
+
                         <!-- Ce que les joueurs voient a la place de leur main, une
                              fois les votes reveles. -->
                         <p-tabpanel value="result">
@@ -308,8 +378,13 @@ const DEFAULT_BACK_COLOR = '#143d2f';
                   @if (appearanceTab !== 'result') {
                     <fieldset class="appearance-preview">
                       <legend>{{ 'teams.surface.preview' | transloco }}</legend>
-                      <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
-                        <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                      <!-- Le fond se peint derriere la table, comme dans la salle.
+                           En mode Theme il ne pose rien et l'apercu garde le sien. -->
+                      <span class="preview-stage" [style.background-color]="backgroundPreviewColor()"
+                            [style.background-image]="backgroundPreviewImage()">
+                        <span class="table-preview table-preview--lg" [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltPreviewImage()">
+                          <span class="card-preview" [style.background-color]="backColor()" [style.background-image]="backPreviewImage()"></span>
+                        </span>
                       </span>
                     </fieldset>
                   }
@@ -479,6 +554,41 @@ export class TeamDetailComponent implements OnInit {
     return this.cardBackStyle() === 'image' && b?.image ? `url(${b.image})` : null;
   });
 
+  // Fond de la page de salle. Le mode 'theme' ne peint rien : l'apercu comme la
+  // salle gardent alors la couleur du theme courant.
+  readonly backgrounds = signal<Background[]>([]);
+  readonly selectedBackgroundId = signal<number | null>(null);
+  readonly backgroundStyle = signal<BackgroundStyle>('theme');
+  readonly backgroundColor = signal(DEFAULT_BACKGROUND_COLOR);
+  readonly savingBackground = signal(false);
+  readonly uploadingBackground = signal(false);
+  readonly backgroundStyleOptions = computed(() => {
+    this.language.revision();
+    return [
+      { value: 'theme' as BackgroundStyle, label: this.transloco.translate('teams.background.style_theme') },
+      { value: 'color' as BackgroundStyle, label: this.transloco.translate('teams.surface.style_color') },
+      { value: 'image' as BackgroundStyle, label: this.transloco.translate('teams.surface.style_image') },
+    ];
+  });
+  readonly backgroundPreviewColor = computed(() =>
+    this.backgroundStyle() === 'theme' ? null : this.backgroundColor(),
+  );
+  readonly backgroundPreviewImage = computed(() => {
+    const b = this.backgrounds().find((x) => x.id === this.selectedBackgroundId());
+    return this.backgroundStyle() === 'image' && b?.image ? `url(${b.image})` : null;
+  });
+  // Rien a rendre quand le fond est deja a l'etat d'usine, mode par mode.
+  readonly canResetBackground = computed(() => {
+    switch (this.backgroundStyle()) {
+      case 'theme':
+        return false;
+      case 'color':
+        return this.backgroundColor().toLowerCase() !== DEFAULT_BACKGROUND_COLOR;
+      default:
+        return this.selectedBackgroundId() !== null;
+    }
+  });
+
   // Etat d'usine du mode Image : aucun tapis choisi cote table, et le premier dos
   // livre cote cartes — le meme repli que loadDecks applique a une equipe neuve.
   readonly defaultCardBackId = computed(() => this.cardBacks().find((b) => b.is_standard)?.id ?? null);
@@ -518,6 +628,8 @@ export class TeamDetailComponent implements OnInit {
       this.backColor.set(team.card_back_color);
       this.feltStyle.set(team.felt_style);
       this.cardBackStyle.set(team.card_back_style);
+      this.backgroundStyle.set(team.background_style);
+      this.backgroundColor.set(team.background_color);
       this.resultLayout.set(team.result_layout ?? 'cards');
       this.members.set(await this.teamsService.getMembers(this.id));
       if (this.isManager()) {
@@ -537,6 +649,8 @@ export class TeamDetailComponent implements OnInit {
       this.cardBacks.set(res.card_backs);
       this.felts.set(res.felts);
       this.selectedFeltId.set(res.selected_felt_id);
+      this.backgrounds.set(res.backgrounds);
+      this.selectedBackgroundId.set(res.selected_background_id);
       this.canCustomize.set(res.can_customize);
       // A team that never picked plays the standard deck/back — show those as in use.
       this.enabledDeckIds.set(res.selected_deck_ids);
@@ -617,6 +731,89 @@ export class TeamDetailComponent implements OnInit {
       request: () => this.teamsService.setCardBack(this.id, null),
       revert: () => this.selectedCardBackId.set(previous),
     };
+  }
+
+  // Setter propre au fond : son style admet 'theme', que setStyle ne connait pas.
+  async setBackgroundStyle(style: BackgroundStyle): Promise<void> {
+    const previous = this.backgroundStyle();
+    if (style === previous) return;
+    this.backgroundStyle.set(style);
+    try {
+      this.team.set(await this.teamsService.setBackgroundStyle(this.id, style));
+    } catch {
+      this.backgroundStyle.set(previous);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  async selectBackground(background: Background): Promise<void> {
+    if (background.id === this.selectedBackgroundId()) return;
+    const previous = this.selectedBackgroundId();
+    this.selectedBackgroundId.set(background.id);
+    this.savingBackground.set(true);
+    try {
+      this.team.set(await this.teamsService.setBackground(this.id, background.id));
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      this.selectedBackgroundId.set(previous);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingBackground.set(false);
+    }
+  }
+
+  async onUploadBackground(input: HTMLInputElement): Promise<void> {
+    const file = input.files?.[0];
+    input.value = '';
+    if (!file) return;
+    this.uploadingBackground.set(true);
+    try {
+      const background = await this.teamsService.uploadBackground(this.nameFromFile(file), file);
+      await this.loadDecks();
+      await this.selectBackground(background);
+    } catch (e: unknown) {
+      this.uploadError(e);
+    } finally {
+      this.uploadingBackground.set(false);
+    }
+  }
+
+  async deleteBackground(background: Background, event: Event): Promise<void> {
+    event.stopPropagation();
+    if (!confirm(this.transloco.translate('teams.surface.delete_confirm'))) return;
+    try {
+      await this.teamsService.deleteBackground(background.id);
+      if (background.id === this.selectedBackgroundId()) this.selectedBackgroundId.set(null);
+      await this.loadDecks();
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  /** Comme les deux autres surfaces : ne remet a l'usine que le mode affiche. En
+   *  mode Theme il n'y a rien a rendre, le bouton y est donc toujours eteint. */
+  async resetBackground(): Promise<void> {
+    if (this.savingBackground()) return;
+    const byColour = this.backgroundStyle() === 'color';
+    const previousColor = this.backgroundColor();
+    const previousId = this.selectedBackgroundId();
+    if (byColour) this.backgroundColor.set(DEFAULT_BACKGROUND_COLOR);
+    else this.selectedBackgroundId.set(null);
+    this.savingBackground.set(true);
+    try {
+      this.team.set(
+        byColour
+          ? await this.teamsService.setAppearance(this.id, { background_color: DEFAULT_BACKGROUND_COLOR })
+          : await this.teamsService.setBackground(this.id, null),
+      );
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      if (byColour) this.backgroundColor.set(previousColor);
+      else this.selectedBackgroundId.set(previousId);
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      this.savingBackground.set(false);
+    }
   }
 
   async selectResultLayout(layout: ResultLayout): Promise<void> {
@@ -782,6 +979,7 @@ export class TeamDetailComponent implements OnInit {
       const team = await this.teamsService.setAppearance(this.id, {
         felt_color: this.feltColor(),
         card_back_color: this.backColor(),
+        background_color: this.backgroundColor(),
       });
       this.team.set(team);
       this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });

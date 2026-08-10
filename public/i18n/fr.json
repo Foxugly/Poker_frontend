@@ -93,6 +93,14 @@
       "preview": "Aperçu",
       "reset": "Rétablir la valeur par défaut"
     },
+    "background": {
+      "tab": "Fond",
+      "style_theme": "Thème",
+      "theme_hint": "La salle garde le fond clair ou sombre de chaque participant. C'est le réglage par défaut.",
+      "color": "Couleur du fond",
+      "none": "Aucune image de fond pour le moment : téléversez-en une.",
+      "upload_hint": "PNG, JPEG ou WebP, 6 Mo max."
+    },
     "rename_action": "Renommer l'équipe",
     "delete_intro": "La suppression de l'équipe est définitive.",
     "result_layout": {

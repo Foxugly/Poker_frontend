@@ -160,6 +160,21 @@ export class RoomComponent implements OnInit, OnDestroy {
     const felt = this.socket.deckSnapshot()?.felt;
     return felt?.style === 'image' && felt.image ? `url(${felt.image})` : null;
   });
+  /** Fond de la page, derriere la table. Null en mode 'theme' — et pour les salles
+   *  ouvertes avant la fonctionnalite, dont le snapshot fige n'a pas le champ : la
+   *  page garde alors le fond du theme, ce qu'elle faisait deja. */
+  readonly backgroundColor = computed(() => {
+    const bg = this.socket.deckSnapshot()?.background;
+    return bg && bg.style !== 'theme' ? bg.color : null;
+  });
+  readonly backgroundImage = computed(() => {
+    const bg = this.socket.deckSnapshot()?.background;
+    return bg?.style === 'image' && bg.image ? `url(${bg.image})` : null;
+  });
+  /** Un fond quelconque casse le contraste du texte pose dessus : l'equipe choisit
+   *  son image, pas la couleur d'encre du visiteur. Quand il y en a un, les zones
+   *  de texte prennent un voile de la surface courante. */
+  readonly hasCustomBackground = computed(() => this.backgroundColor() !== null || this.backgroundImage() !== null);
   readonly cardBackColor = computed(
     () => this.socket.deckSnapshot()?.cardBack?.color ?? this.socket.deckSnapshot()?.theme?.cardBackColor ?? null,
   );

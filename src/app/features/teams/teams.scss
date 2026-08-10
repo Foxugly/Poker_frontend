@@ -304,6 +304,11 @@
   height: 34px;
   border-radius: 999px;
 }
+/* Un fond n'est pas une table : rectangle large, pas la pastille du feutre. */
+.deck-card__mini--bg {
+  width: 64px;
+  height: 40px;
+}
 
 .upload-row {
   display: flex;
@@ -362,6 +367,16 @@
   padding: 0 var(--s-2);
   color: var(--muted);
   font-size: 0.9rem;
+}
+/* Le fond de la salle, derriere la table. En mode Theme rien n'est pose en inline
+   et la scene garde la surface du theme courant — exactement ce que fera la salle. */
+.preview-stage {
+  display: block;
+  padding: var(--s-4);
+  border-radius: var(--radius);
+  background-color: var(--surface-2);
+  background-size: cover;
+  background-position: center;
 }
 /* Same shape as the room table: an inset ellipse (border-radius 999px) on a wide
    box, radial felt + rail, the image layered over the colour — mirrors

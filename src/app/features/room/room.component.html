@@ -1,4 +1,6 @@
-<section class="page room" #roomEl [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltImage()">
+<section class="page room" #roomEl [class.room--custom-bg]="hasCustomBackground()"
+         [style.--table-felt]="feltColor()" [style.--table-felt-image]="feltImage()"
+         [style.--room-bg]="backgroundColor()" [style.--room-bg-image]="backgroundImage()">
   <header class="room-header">
     <div class="rh-left">
       <p-button [label]="'action.back' | transloco" icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="quit()" />

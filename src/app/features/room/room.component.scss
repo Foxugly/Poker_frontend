@@ -26,6 +26,26 @@
      les etale de maniere absurde sur un tres grand ecran. */
   --card-min: 52px;
   --card-cap: 190px;
+
+  /* Fond pose par l'equipe. Sans valeur — mode Theme, ou salle ouverte avant la
+     fonctionnalite, dont le snapshot fige n'a pas le champ — rien n'est peint et
+     la page garde le fond du theme. */
+  background-color: var(--room-bg, transparent);
+  background-image: var(--room-bg-image, none);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius);
+}
+
+/* Un fond pose par l'equipe passe sous du texte dont elle ne choisit pas la
+   couleur : l'en-tete et le bandeau de sujet se posent alors sur un voile de la
+   surface courante, qui garde le contraste dans les deux themes. Sans fond, la
+   classe est absente et rien ne change. */
+.room--custom-bg .room-header,
+.room--custom-bg .subject-view {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border-radius: var(--radius);
+  padding: var(--s-2) var(--s-3);
 }
 
 /* Fullscreen: the room fills the screen exactly — no page scroll. */
@@ -36,7 +56,10 @@
   overflow: hidden;
   box-sizing: border-box;
   padding: var(--s-4);
-  background: var(--surface-2);
+  /* Pas le raccourci `background` : il effacerait l'image de fond posee sur .room.
+     Le fond de l'equipe prime, et --surface-2 reste le repli. */
+  background-color: var(--room-bg, var(--surface-2));
+  border-radius: 0;
 }
 .room:fullscreen .room-body {
   flex: 1;

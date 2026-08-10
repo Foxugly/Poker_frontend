@@ -46,12 +46,22 @@ export interface Surface {
   color: string;
 }
 
+/** Le fond de la page de salle. 'theme' n'est ni une couleur ni une image : le
+ * client ne peint rien et laisse la page suivre le mode clair/sombre. Absent des
+ * salles creees avant la fonctionnalite, d'ou l'optionnalite ci-dessous. */
+export interface BackgroundSurface {
+  style: 'theme' | 'color' | 'image';
+  image: string | null;
+  color: string;
+}
+
 export interface DeckSnapshot {
   voteType: string;
   resolutionStrategy: string;
   deckId: number;
   cardBack: Surface;
   felt: Surface;
+  background?: BackgroundSurface;
   /** Legacy, pre-Surface. Kept only until every deployed client reads the above. */
   theme?: { cardBackColor: string; feltColor: string };
   cards: SnapshotCard[];
