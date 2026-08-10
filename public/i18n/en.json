@@ -329,6 +329,11 @@
     "vote_title": "Vote title",
     "code_copied": "Code copied",
     "link_copied": "Link copied",
+    "qr": {
+      "open": "Access QR code",
+      "copy_hint": "Click the QR code to copy it to the clipboard",
+      "copied": "QR code copied"
+    },
     "fullscreen": "Fullscreen",
     "exit_fullscreen": "Exit fullscreen",
     "timer": {

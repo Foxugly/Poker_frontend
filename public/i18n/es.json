@@ -329,6 +329,11 @@
     "vote_title": "Título de la votación",
     "code_copied": "Código copiado",
     "link_copied": "Enlace copiado",
+    "qr": {
+      "open": "Código QR de acceso",
+      "copy_hint": "Haz clic en el código QR para copiarlo al portapapeles",
+      "copied": "Código QR copiado"
+    },
     "fullscreen": "Pantalla completa",
     "exit_fullscreen": "Salir de pantalla completa",
     "timer": {

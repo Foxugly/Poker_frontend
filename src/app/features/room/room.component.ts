@@ -9,7 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { TooltipModule } from 'primeng/tooltip';
 
+import QRCode from 'qrcode';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../../core/auth/auth.service';
@@ -18,6 +20,7 @@ import { LanguageService } from '../../core/i18n/language.service';
 import { IdentityService } from '../../core/identity/identity.service';
 import { secondsLeft } from '../../core/realtime/countdown';
 import { RoomSocketService } from '../../core/realtime/room-socket.service';
+import { joinUrl } from '../../core/rooms/join-url';
 import { RoundState, SnapshotCard } from '../../core/realtime/protocol';
 import { DelegationCardComponent } from '../../shared/ui/delegation-card/delegation-card.component';
 import { DelegationDeckComponent } from '../../shared/ui/delegation-deck/delegation-deck.component';
@@ -88,7 +91,7 @@ interface Seat {
   standalone: true,
   imports: [
     FormsModule, TranslocoModule, ButtonModule, InputNumberModule, InputTextModule, SelectModule, TagModule, ToggleSwitchModule,
-    DelegationDeckComponent, DelegationCardComponent,
+    TooltipModule, DelegationDeckComponent, DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',
@@ -108,6 +111,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   @ViewChild('roomEl') private roomEl?: ElementRef<HTMLElement>;
   readonly code = signal('');
   readonly isFullscreen = signal(false);
+  /** Data URL du QR de jointure ; non nul = la fenetre est ouverte. */
+  readonly qrDataUrl = signal<string | null>(null);
   readonly subjectDraft = signal('');
   readonly chosenValue = signal<string | null>(null);
   readonly lang = this.language.active;
@@ -583,9 +588,41 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   shareLink(): void {
-    const url = `${location.origin}/join/${this.code()}`;
-    navigator.clipboard?.writeText(url);
+    navigator.clipboard?.writeText(this.joinUrl());
     this.messages.add({ severity: 'success', summary: this.transloco.translate('room.link_copied') });
+  }
+
+  private joinUrl(): string {
+    return joinUrl(location.origin, this.code());
+  }
+
+  async openQr(): Promise<void> {
+    try {
+      // Data URL plutot qu'un canvas : la CSP autorise img-src data:, et une image
+      // se re-encode en blob pour le presse-papier sans dependre du DOM rendu.
+      this.qrDataUrl.set(await QRCode.toDataURL(this.joinUrl(), { width: 320, margin: 2 }));
+    } catch {
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    }
+  }
+
+  closeQr(): void {
+    this.qrDataUrl.set(null);
+  }
+
+  /** Copie l'image du QR. Le presse-papier *image* n'est pas universel (Firefox
+   *  en tete) : quand il refuse, on copie le lien, qui rend le meme service. */
+  async copyQr(): Promise<void> {
+    const src = this.qrDataUrl();
+    if (!src) return;
+    try {
+      const blob = await (await fetch(src)).blob();
+      await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('room.qr.copied') });
+    } catch {
+      navigator.clipboard?.writeText(this.joinUrl());
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('room.link_copied') });
+    }
   }
 
   quit(): void {
