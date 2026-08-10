@@ -252,10 +252,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     return v ? this.cardName(this.cardByValue(v)) || v : '';
   });
 
-  /** Localized unit shown inside the timer input (e.g. " sec"). Depends on lang()
-   * so it re-resolves when the language switches. */
+  /** Localized unit shown inside the timer input (e.g. " sec"). Depends on the
+   * language revision so it re-resolves on a switch *and* once the catalogue
+   * lands — lang() alone leaves the raw key frozen on a cold load. */
   readonly timerSuffix = computed(() => {
-    this.lang();
+    this.language.revision();
     return this.transloco.translate('room.timer.sec_suffix');
   });
 

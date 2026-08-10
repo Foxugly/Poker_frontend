@@ -139,7 +139,7 @@ const DEFAULT_BACK_COLOR = '#143d2f';
                             <div class="style-row">
                               <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
                                               [ngModel]="feltStyle()" (ngModelChange)="setStyle('felt', $event)" [allowEmpty]="false" />
-                              <p-button icon="pi pi-eraser" [text]="true" severity="secondary" [rounded]="true"
+                              <p-button icon="pi pi-eraser" [outlined]="true" severity="secondary" [rounded]="true"
                                         [pTooltip]="'teams.surface.reset' | transloco" tooltipPosition="left"
                                         [ariaLabel]="'teams.surface.reset' | transloco"
                                         [disabled]="!canResetFelt()" [loading]="savingFelt()" (onClick)="resetSurface('felt')" />
@@ -203,7 +203,7 @@ const DEFAULT_BACK_COLOR = '#143d2f';
                             <div class="style-row">
                               <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
                                               [ngModel]="cardBackStyle()" (ngModelChange)="setStyle('card_back', $event)" [allowEmpty]="false" />
-                              <p-button icon="pi pi-eraser" [text]="true" severity="secondary" [rounded]="true"
+                              <p-button icon="pi pi-eraser" [outlined]="true" severity="secondary" [rounded]="true"
                                         [pTooltip]="'teams.surface.reset' | transloco" tooltipPosition="left"
                                         [ariaLabel]="'teams.surface.reset' | transloco"
                                         [disabled]="!canResetBack()" [loading]="savingBack()" (onClick)="resetSurface('card_back')" />
@@ -456,7 +456,7 @@ export class TeamDetailComponent implements OnInit {
   readonly resultLayout = signal<ResultLayout>('cards');
   readonly savingResultLayout = signal(false);
   readonly resultLayoutChoices = computed(() => {
-    this.language.active();
+    this.language.revision();
     return (['cards', 'summary'] as ResultLayout[]).map((value) => ({
       value,
       label: this.transloco.translate(`teams.result_layout.${value}`),
@@ -464,7 +464,7 @@ export class TeamDetailComponent implements OnInit {
     }));
   });
   readonly styleOptions = computed(() => {
-    this.language.active();
+    this.language.revision();
     return [
       { value: 'color' as SurfaceStyle, label: this.transloco.translate('teams.surface.style_color') },
       { value: 'image' as SurfaceStyle, label: this.transloco.translate('teams.surface.style_image') },
@@ -498,9 +498,10 @@ export class TeamDetailComponent implements OnInit {
 
   // Computed, not a field initialiser: translate() at construction runs before the
   // catalogue is loaded and bakes in the raw key — which is what the role selects
-  // were actually displaying. Reading the active language also re-labels on a switch.
+  // were actually displaying. Reading the language revision re-labels both on a
+  // switch and once the catalogue lands; a computed alone would keep the raw key.
   readonly roleOptions = computed(() => {
-    this.language.active();
+    this.language.revision();
     return [
       { value: 'member', label: this.transloco.translate('teams.role.member') },
       { value: 'manager', label: this.transloco.translate('teams.role.manager') },
