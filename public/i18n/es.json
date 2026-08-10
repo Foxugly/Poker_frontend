@@ -72,7 +72,6 @@
       "create_soon": "La creación de barajas personalizadas llegará pronto.",
       "create_paid": "Las barajas personalizadas están reservadas a los equipos con suscripción.",
       "backs_title": "Reversos",
-      "backs_intro": "El reverso se puede combinar con cualquier juego de anversos.",
       "back_saved": "Reverso guardado.",
       "enabled": "Activado",
       "none_enabled": "Ningún tipo activado: las sesiones usarán la baraja estándar."
@@ -91,7 +90,8 @@
       "delete": "Eliminar",
       "delete_confirm": "¿Eliminar esta imagen subida?",
       "zoom": "Ampliar",
-      "preview": "Vista previa"
+      "preview": "Vista previa",
+      "reset": "Restablecer el valor predeterminado"
     },
     "rename_action": "Renombrar el equipo",
     "delete_intro": "Eliminar el equipo es permanente.",
