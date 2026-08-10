@@ -72,7 +72,6 @@
       "create_soon": "Eigen kaartspellen maken komt binnenkort.",
       "create_paid": "Eigen kaartspellen zijn beschikbaar voor teams met een abonnement.",
       "backs_title": "Achterkanten",
-      "backs_intro": "Een achterkant kan met elke set voorkanten worden gecombineerd.",
       "back_saved": "Achterkant opgeslagen.",
       "enabled": "Ingeschakeld",
       "none_enabled": "Geen type ingeschakeld: sessies gebruiken het standaardspel."
@@ -91,7 +90,8 @@
       "delete": "Verwijderen",
       "delete_confirm": "Deze geüploade afbeelding verwijderen?",
       "zoom": "Vergroten",
-      "preview": "Voorbeeld"
+      "preview": "Voorbeeld",
+      "reset": "Standaardwaarde herstellen"
     },
     "rename_action": "Team hernoemen",
     "delete_intro": "Het verwijderen van het team is definitief.",

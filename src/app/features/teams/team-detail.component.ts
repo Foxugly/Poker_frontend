@@ -23,6 +23,11 @@ import { PageHeaderComponent } from '../../shared/ui/page-header/page-header.com
 
 const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1'];
 
+// Les couleurs d'usine des deux surfaces : elles doivent rester alignees sur les
+// defauts du modele Team cote serveur, que le bouton de reset rend a l'identique.
+const DEFAULT_FELT_COLOR = '#10b981';
+const DEFAULT_BACK_COLOR = '#143d2f';
+
 @Component({
   selector: 'app-team-detail',
   standalone: true,
@@ -134,6 +139,10 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                             <div class="style-row">
                               <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
                                               [ngModel]="feltStyle()" (ngModelChange)="setStyle('felt', $event)" [allowEmpty]="false" />
+                              <p-button icon="pi pi-eraser" [text]="true" severity="secondary" [rounded]="true"
+                                        [pTooltip]="'teams.surface.reset' | transloco" tooltipPosition="left"
+                                        [ariaLabel]="'teams.surface.reset' | transloco"
+                                        [disabled]="!canResetFelt()" [loading]="savingFelt()" (onClick)="resetSurface('felt')" />
                             </div>
                             @if (feltStyle() === 'color') {
                               <div class="appearance-row">
@@ -191,10 +200,13 @@ const AVATAR_COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#
                         <!-- Card backs -->
                         <p-tabpanel value="back">
                           <div class="section">
-                            <p class="deck-intro">{{ 'teams.deck.backs_intro' | transloco }}</p>
                             <div class="style-row">
                               <p-selectbutton [options]="styleOptions()" optionLabel="label" optionValue="value"
                                               [ngModel]="cardBackStyle()" (ngModelChange)="setStyle('card_back', $event)" [allowEmpty]="false" />
+                              <p-button icon="pi pi-eraser" [text]="true" severity="secondary" [rounded]="true"
+                                        [pTooltip]="'teams.surface.reset' | transloco" tooltipPosition="left"
+                                        [ariaLabel]="'teams.surface.reset' | transloco"
+                                        [disabled]="!canResetBack()" [loading]="savingBack()" (onClick)="resetSurface('card_back')" />
                             </div>
                             @if (cardBackStyle() === 'color') {
                               <div class="appearance-row">
@@ -414,8 +426,8 @@ export class TeamDetailComponent implements OnInit {
   readonly savingName = signal(false);
 
   // Appearance (P2.6)
-  readonly feltColor = signal('#10b981');
-  readonly backColor = signal('#143d2f');
+  readonly feltColor = signal(DEFAULT_FELT_COLOR);
+  readonly backColor = signal(DEFAULT_BACK_COLOR);
   readonly savingAppearance = signal(false);
   readonly zoomImage = signal<string | null>(null);
 
@@ -466,6 +478,22 @@ export class TeamDetailComponent implements OnInit {
     const b = this.cardBacks().find((x) => x.id === this.selectedCardBackId());
     return this.cardBackStyle() === 'image' && b?.image ? `url(${b.image})` : null;
   });
+
+  // Etat d'usine du mode Image : aucun tapis choisi cote table, et le premier dos
+  // livre cote cartes — le meme repli que loadDecks applique a une equipe neuve.
+  readonly defaultCardBackId = computed(() => this.cardBacks().find((b) => b.is_standard)?.id ?? null);
+  // Le reset ne porte que sur le mode affiche, donc il n'a rien a faire quand ce
+  // mode-la est deja d'usine ; le bouton reste alors eteint.
+  readonly canResetFelt = computed(() =>
+    this.feltStyle() === 'color'
+      ? this.feltColor().toLowerCase() !== DEFAULT_FELT_COLOR
+      : this.selectedFeltId() !== null,
+  );
+  readonly canResetBack = computed(() =>
+    this.cardBackStyle() === 'color'
+      ? this.backColor().toLowerCase() !== DEFAULT_BACK_COLOR
+      : this.selectedCardBackId() !== this.defaultCardBackId(),
+  );
 
 
   // Computed, not a field initialiser: translate() at construction runs before the
@@ -531,6 +559,63 @@ export class TeamDetailComponent implements OnInit {
       target.set(previous);
       this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
     }
+  }
+
+  // Rend au sous-onglet courant son etat d'usine, mais seulement dans le mode
+  // affiche : en Couleur la couleur par defaut, en Image l'absence de choix. Le
+  // style Couleur/Image lui-meme n'est jamais touche, et le mode non affiche
+  // garde ce que l'equipe y avait mis.
+  async resetSurface(surface: 'felt' | 'card_back'): Promise<void> {
+    const saving = surface === 'felt' ? this.savingFelt : this.savingBack;
+    if (saving()) return;
+    const reset = this.applyDefault(surface);
+    saving.set(true);
+    try {
+      this.team.set(await reset.request());
+      this.messages.add({ severity: 'success', summary: this.transloco.translate('teams.appearance_saved') });
+    } catch {
+      reset.revert();
+      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+    } finally {
+      saving.set(false);
+    }
+  }
+
+  // Pose l'etat d'usine tout de suite et rend de quoi appeler le serveur puis, si
+  // l'appel echoue, revenir a la valeur precedente.
+  private applyDefault(surface: 'felt' | 'card_back'): { request: () => Promise<Team>; revert: () => void } {
+    if (surface === 'felt') {
+      if (this.feltStyle() === 'color') {
+        const previous = this.feltColor();
+        this.feltColor.set(DEFAULT_FELT_COLOR);
+        return {
+          request: () => this.teamsService.setAppearance(this.id, { felt_color: DEFAULT_FELT_COLOR }),
+          revert: () => this.feltColor.set(previous),
+        };
+      }
+      const previous = this.selectedFeltId();
+      this.selectedFeltId.set(null);
+      return {
+        request: () => this.teamsService.setFelt(this.id, null),
+        revert: () => this.selectedFeltId.set(previous),
+      };
+    }
+    if (this.cardBackStyle() === 'color') {
+      const previous = this.backColor();
+      this.backColor.set(DEFAULT_BACK_COLOR);
+      return {
+        request: () => this.teamsService.setAppearance(this.id, { card_back_color: DEFAULT_BACK_COLOR }),
+        revert: () => this.backColor.set(previous),
+      };
+    }
+    // null cote serveur = pas de dos choisi ; l'ecran affiche alors le dos livre,
+    // exactement ce que la salle dessinera.
+    const previous = this.selectedCardBackId();
+    this.selectedCardBackId.set(this.defaultCardBackId());
+    return {
+      request: () => this.teamsService.setCardBack(this.id, null),
+      revert: () => this.selectedCardBackId.set(previous),
+    };
   }
 
   async selectResultLayout(layout: ResultLayout): Promise<void> {

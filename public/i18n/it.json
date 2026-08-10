@@ -72,7 +72,6 @@
       "create_soon": "La creazione di mazzi personalizzati arriverà presto.",
       "create_paid": "I mazzi personalizzati sono riservati ai team con un abbonamento.",
       "backs_title": "Retro delle carte",
-      "backs_intro": "Il retro può essere abbinato a qualsiasi set di fronti.",
       "back_saved": "Retro salvato.",
       "enabled": "Attivo",
       "none_enabled": "Nessun tipo attivo: le sessioni useranno il mazzo standard."
@@ -91,7 +90,8 @@
       "delete": "Elimina",
       "delete_confirm": "Eliminare questa immagine caricata?",
       "zoom": "Ingrandisci",
-      "preview": "Anteprima"
+      "preview": "Anteprima",
+      "reset": "Ripristina il valore predefinito"
     },
     "rename_action": "Rinomina il team",
     "delete_intro": "L'eliminazione del team è definitiva.",

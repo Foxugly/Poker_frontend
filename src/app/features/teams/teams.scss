@@ -280,7 +280,14 @@
   height: 42px;
 }
 
+/* Le selecteur Couleur/Image a gauche, le bouton de remise a zero pousse au bord
+   droit du sous-onglet. */
 .style-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  flex-wrap: wrap;
   margin-bottom: var(--s-3);
 }
 /* Preview: the image, when picked, sits over the colour — same layering as the room. */

@@ -22,7 +22,9 @@ export class TeamsService {
   renameTeam(id: number, name: string) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, { name }));
   }
-  setAppearance(id: number, colors: { card_back_color: string; felt_color: string }) {
+  // Partiel : le reset d'une surface ne renvoie que sa propre couleur, le serveur
+  // ne touchant qu'aux champs presents dans le PATCH.
+  setAppearance(id: number, colors: Partial<{ card_back_color: string; felt_color: string }>) {
     return firstValueFrom(this.http.patch<Team>(`${this.base}/${id}/`, colors));
   }
   deleteTeam(id: number) {

@@ -72,7 +72,6 @@
       "create_soon": "La création de jeux personnalisés arrive bientôt.",
       "create_paid": "La création de jeux personnalisés est réservée aux équipes avec un abonnement.",
       "backs_title": "Dos des cartes",
-      "backs_intro": "Le dos s'associe librement à n'importe quel jeu de faces.",
       "back_saved": "Dos des cartes enregistré.",
       "enabled": "Activé",
       "none_enabled": "Aucun type activé : les sessions utiliseront le jeu standard."
@@ -91,7 +90,8 @@
       "delete": "Supprimer",
       "delete_confirm": "Supprimer cette image uploadée ?",
       "zoom": "Agrandir",
-      "preview": "Aperçu"
+      "preview": "Aperçu",
+      "reset": "Rétablir la valeur par défaut"
     },
     "rename_action": "Renommer l'équipe",
     "delete_intro": "La suppression de l'équipe est définitive.",
