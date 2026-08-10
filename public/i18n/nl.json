@@ -329,6 +329,11 @@
     "vote_title": "Titel van de stemming",
     "code_copied": "Code gekopieerd",
     "link_copied": "Link gekopieerd",
+    "qr": {
+      "open": "QR-code voor toegang",
+      "copy_hint": "Klik op de QR-code om die naar het klembord te kopiëren",
+      "copied": "QR-code gekopieerd"
+    },
     "fullscreen": "Volledig scherm",
     "exit_fullscreen": "Volledig scherm sluiten",
     "timer": {

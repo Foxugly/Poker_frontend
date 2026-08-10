@@ -6,6 +6,8 @@
     <h1 class="rh-title">{{ socket.roomTitle() || ('room.untitled' | transloco) }}</h1>
     <div class="rh-right">
       <p-button [label]="code()" icon="pi pi-copy" [outlined]="true" severity="secondary" (onClick)="copyCode()" />
+      <p-button icon="pi pi-qrcode" [ariaLabel]="'room.qr.open' | transloco" [pTooltip]="'room.qr.open' | transloco"
+                [outlined]="true" severity="secondary" (onClick)="openQr()" />
       <p-button [label]="'room.share' | transloco" icon="pi pi-share-alt" [outlined]="true" severity="secondary" (onClick)="shareLink()" />
       <p-button [icon]="isFullscreen() ? 'pi pi-window-minimize' : 'pi pi-window-maximize'"
                 [ariaLabel]="(isFullscreen() ? 'room.exit_fullscreen' : 'room.fullscreen') | transloco"
@@ -283,6 +285,19 @@
           </div>
         </aside>
       }
+    </div>
+  }
+
+  <!-- QR de jointure. Fond cliquable pour fermer ; la carte arrete le clic, sinon
+       viser le QR refermerait la fenetre au lieu de le copier. -->
+  @if (qrDataUrl(); as qr) {
+    <div class="qr-overlay" (click)="closeQr()">
+      <div class="qr-card" (click)="$event.stopPropagation()">
+        <button type="button" class="qr-image" (click)="copyQr()">
+          <img [src]="qr" [alt]="'room.qr.open' | transloco" />
+        </button>
+        <p class="qr-hint">{{ 'room.qr.copy_hint' | transloco }}</p>
+      </div>
     </div>
   }
 </section>

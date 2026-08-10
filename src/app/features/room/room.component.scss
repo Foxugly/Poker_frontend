@@ -867,3 +867,49 @@
     max-width: var(--card-hand);
   }
 }
+
+/* QR de jointure. Meme facture que la loupe des catalogues d'apparence : voile
+   plein ecran qui ferme au clic, contenu centre. */
+.qr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: var(--s-6);
+}
+.qr-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+/* Un bouton, pas une image nue : le QR se copie au clic, donc il doit etre
+   atteignable au clavier et s'annoncer comme actionnable. */
+.qr-image {
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+}
+.qr-image img {
+  display: block;
+  width: min(70vw, 320px);
+  height: auto;
+  border-radius: var(--radius);
+}
+/* Le texte vit dans la carte, pas sur le voile : en --muted sur fond sombre il
+   etait a peine lisible. */
+.qr-hint {
+  margin: 0;
+  max-width: min(70vw, 320px);
+  text-align: center;
+  color: var(--ink-soft);
+}
