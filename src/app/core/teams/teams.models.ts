@@ -16,6 +16,9 @@ export interface Team {
   card_back_style: SurfaceStyle;
   felt_style: SurfaceStyle;
   felt_id: number | null;
+  background_style: BackgroundStyle;
+  background_color: string;
+  background_id: number | null;
   result_layout: ResultLayout;
   is_paid: boolean;
   billing_enabled: boolean;
@@ -58,11 +61,22 @@ export interface Deck {
 
 /** Which representation a surface renders. */
 export type SurfaceStyle = 'color' | 'image';
+/** Le fond a un etat de plus que les autres surfaces : 'theme' n'impose rien et
+ * laisse la page suivre le mode clair/sombre du visiteur. C'est le defaut. */
+export type BackgroundStyle = 'theme' | 'color' | 'image';
 /** Les deux formes du depouillement, une fois les votes reveles. Meme type que dans
  * le protocole temps reel : c'est la meme valeur, reglee ici et figee sur la salle. */
 export type ResultLayout = 'cards' | 'summary';
 
 export interface Felt {
+  id: number;
+  name: string;
+  is_standard: boolean;
+  is_custom: boolean;
+  image: string;
+}
+
+export interface Background {
   id: number;
   name: string;
   is_standard: boolean;
@@ -85,5 +99,7 @@ export interface TeamDecks {
   selected_card_back_id: number | null;
   felts: Felt[];
   selected_felt_id: number | null;
+  backgrounds: Background[];
+  selected_background_id: number | null;
   can_customize: boolean;
 }

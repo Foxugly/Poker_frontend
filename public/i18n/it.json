@@ -93,6 +93,14 @@
       "preview": "Anteprima",
       "reset": "Ripristina il valore predefinito"
     },
+    "background": {
+      "tab": "Sfondo",
+      "style_theme": "Tema",
+      "theme_hint": "La stanza mantiene lo sfondo chiaro o scuro di ogni partecipante. È l'impostazione predefinita.",
+      "color": "Colore dello sfondo",
+      "none": "Nessuna immagine di sfondo per ora: caricane una.",
+      "upload_hint": "PNG, JPEG o WebP, max 6 MB."
+    },
     "rename_action": "Rinomina il team",
     "delete_intro": "L'eliminazione del team è definitiva.",
     "result_layout": {

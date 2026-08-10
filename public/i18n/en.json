@@ -93,6 +93,14 @@
       "preview": "Preview",
       "reset": "Restore the default"
     },
+    "background": {
+      "tab": "Background",
+      "style_theme": "Theme",
+      "theme_hint": "The room keeps each participant's light or dark background. This is the default.",
+      "color": "Background colour",
+      "none": "No background image yet — upload one.",
+      "upload_hint": "PNG, JPEG or WebP, 6 MB max."
+    },
     "rename_action": "Rename the team",
     "delete_intro": "Deleting the team is permanent.",
     "result_layout": {
