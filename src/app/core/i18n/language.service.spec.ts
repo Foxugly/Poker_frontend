@@ -25,20 +25,23 @@ function serviceWithEvents() {
 }
 
 describe('LanguageService.revision', () => {
-  it('change quand un catalogue arrive, sans bascule de langue', () => {
+  it('change quand un catalogue arrive, sans bascule de langue', async () => {
     const { events$, service } = serviceWithEvents();
     const before = service.revision();
 
     events$.next({ type: 'translationLoadSuccess' });
+    // L'ecriture est repoussee d'une microtache pour ne pas tomber pendant un rendu.
+    await Promise.resolve();
 
     expect(service.revision()).not.toBe(before);
   });
 
-  it('ignore les evenements Transloco qui ne sont pas un chargement', () => {
+  it('ignore les evenements Transloco qui ne sont pas un chargement', async () => {
     const { events$, service } = serviceWithEvents();
     const before = service.revision();
 
     events$.next({ type: 'langChanged' });
+    await Promise.resolve();
 
     expect(service.revision()).toBe(before);
   });
