@@ -25,7 +25,9 @@
     "cancel": "Cancel",
     "save": "Save",
     "quit": "Leave",
-    "back": "Back"
+    "back": "Back",
+    "delete": "Delete",
+    "confirm_title": "Confirmation"
   },
   "teams": {
     "title": "Teams",
@@ -236,12 +238,15 @@
       "prepared_votes": "Votes prepared in advance",
       "export": "CSV / PDF export",
       "email_history": "Email the history"
-    }
+    },
+    "yes": "Included",
+    "no": "Not included"
   },
   "auth": {
     "email": "Email address",
     "password": "Password",
     "new_password": "New password",
+    "password_confirm": "Confirm password",
     "display_name": "Display name",
     "logout": "Sign out",
     "back_to_login": "Back to sign in",
@@ -252,7 +257,7 @@
       "title": "Sign in",
       "cta": "Sign in",
       "forgot": "Forgot your password?",
-      "magic": "Email me a sign-in link",
+      "magic": "Get a sign-in link",
       "no_account": "No account yet?",
       "not_confirmed": "Please confirm your email first.",
       "resend": "Resend the link",
@@ -260,8 +265,7 @@
     },
     "register": {
       "title": "Create an account",
-      "lead": "Create your account to manage a team.",
-      "cta": "Create account",
+      "cta": "Create my account",
       "have_account": "Already have an account?",
       "done_title": "Check your inbox",
       "done_lead": "We've sent you a link to confirm your address."
@@ -273,7 +277,7 @@
       "sent": "If that address exists, a reset link has been sent."
     },
     "reset": {
-      "title": "Reset password",
+      "title": "Choose a new password",
       "cta": "Reset",
       "done": "Password reset. You can now sign in."
     },
@@ -285,21 +289,21 @@
       "error_lead": "This confirmation link is invalid or has expired."
     },
     "magic": {
-      "title": "Sign-in link",
-      "lead": "Enter your email and we'll send you a link to sign in.",
       "cta": "Send the link",
       "sent": "If that account exists, a sign-in link has been sent.",
       "verifying": "Signing in…",
       "error_title": "Invalid link",
-      "error_lead": "This link is invalid, expired, or already used.",
-      "request_new": "Request a new link"
+      "error_lead": "This link is invalid, expired, or already used."
     },
     "errors": {
       "invalid_credentials": "Incorrect email or password.",
+      "too_many": "Too many attempts. Please try again in a few minutes.",
       "password_short": "At least 8 characters.",
       "generic": "Something went wrong. Please try again.",
       "reset_invalid": "Invalid or expired link.",
-      "captcha": "Please complete the captcha."
+      "captcha": "Please complete the captcha.",
+      "password_invalid": "This password isn't accepted. Please choose a stronger one.",
+      "password_mismatch": "The passwords don't match."
     }
   },
   "vote_state": {
@@ -443,7 +447,10 @@
     "room_full": "This room is full (15 people maximum)."
   },
   "common": {
-    "skip_to_content": "Skip to content"
+    "skip_to_content": "Skip to content",
+    "language_switcher": {
+      "aria": "Choose language"
+    }
   },
   "me": {
     "title": "My account",
@@ -505,5 +512,10 @@
   "appUpdate": {
     "title": "A new version is available",
     "detail": "The app was updated while you were here. Reload the page to continue."
+  },
+  "topmenu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "theme": "Toggle theme"
   }
 }

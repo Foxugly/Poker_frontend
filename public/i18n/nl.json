@@ -25,7 +25,9 @@
     "cancel": "Annuleren",
     "save": "Opslaan",
     "quit": "Verlaten",
-    "back": "Terug"
+    "back": "Terug",
+    "delete": "Verwijderen",
+    "confirm_title": "Bevestiging"
   },
   "teams": {
     "title": "Teams",
@@ -236,12 +238,15 @@
       "prepared_votes": "Vooraf voorbereide stemmingen",
       "export": "CSV / PDF-export",
       "email_history": "Geschiedenis per e-mail versturen"
-    }
+    },
+    "yes": "Inbegrepen",
+    "no": "Niet inbegrepen"
   },
   "auth": {
     "email": "E-mailadres",
     "password": "Wachtwoord",
     "new_password": "Nieuw wachtwoord",
+    "password_confirm": "Bevestig wachtwoord",
     "display_name": "Weergavenaam",
     "logout": "Afmelden",
     "back_to_login": "Terug naar aanmelden",
@@ -252,7 +257,7 @@
       "title": "Inloggen",
       "cta": "Aanmelden",
       "forgot": "Wachtwoord vergeten?",
-      "magic": "Stuur me een aanmeldlink per e-mail",
+      "magic": "Een aanmeldlink ontvangen",
       "no_account": "Nog geen account?",
       "not_confirmed": "Bevestig eerst je e-mail.",
       "resend": "Link opnieuw sturen",
@@ -260,8 +265,7 @@
     },
     "register": {
       "title": "Account aanmaken",
-      "lead": "Maak je account om een team te beheren.",
-      "cta": "Account aanmaken",
+      "cta": "Mijn account aanmaken",
       "have_account": "Heb je al een account?",
       "done_title": "Controleer je inbox",
       "done_lead": "We hebben je een link gestuurd om je adres te bevestigen."
@@ -273,7 +277,7 @@
       "sent": "Als dat adres bestaat, is een herstellink verstuurd."
     },
     "reset": {
-      "title": "Wachtwoord opnieuw instellen",
+      "title": "Kies een nieuw wachtwoord",
       "cta": "Opnieuw instellen",
       "done": "Wachtwoord opnieuw ingesteld. Je kunt je nu aanmelden."
     },
@@ -285,21 +289,21 @@
       "error_lead": "Deze bevestigingslink is ongeldig of verlopen."
     },
     "magic": {
-      "title": "Aanmeldlink",
-      "lead": "Voer je e-mail in en we sturen je een link om je aan te melden.",
       "cta": "Link versturen",
       "sent": "Als dat account bestaat, is een aanmeldlink verstuurd.",
       "verifying": "Aanmelden…",
       "error_title": "Ongeldige link",
-      "error_lead": "Deze link is ongeldig, verlopen of al gebruikt.",
-      "request_new": "Nieuwe link aanvragen"
+      "error_lead": "Deze link is ongeldig, verlopen of al gebruikt."
     },
     "errors": {
       "invalid_credentials": "Onjuist e-mailadres of wachtwoord.",
+      "too_many": "Te veel pogingen. Probeer het over enkele minuten opnieuw.",
       "password_short": "Minstens 8 tekens.",
       "generic": "Er ging iets mis. Probeer opnieuw.",
       "reset_invalid": "Ongeldige of verlopen link.",
-      "captcha": "Voltooi de captcha."
+      "captcha": "Voltooi de captcha.",
+      "password_invalid": "Dit wachtwoord wordt niet geaccepteerd. Kies een sterker wachtwoord.",
+      "password_mismatch": "De wachtwoorden komen niet overeen."
     }
   },
   "vote_state": {
@@ -443,7 +447,10 @@
     "room_full": "Deze kamer is vol (maximaal 15 personen)."
   },
   "common": {
-    "skip_to_content": "Naar de inhoud"
+    "skip_to_content": "Naar de inhoud",
+    "language_switcher": {
+      "aria": "Taal kiezen"
+    }
   },
   "me": {
     "title": "Mijn account",
@@ -505,5 +512,10 @@
   "appUpdate": {
     "title": "Nieuwe versie beschikbaar",
     "detail": "De app is bijgewerkt terwijl u bezig was. Herlaad de pagina om verder te gaan."
+  },
+  "topmenu": {
+    "open": "Menu openen",
+    "close": "Menu sluiten",
+    "theme": "Thema wisselen"
   }
 }

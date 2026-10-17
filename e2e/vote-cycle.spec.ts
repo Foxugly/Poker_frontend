@@ -35,9 +35,9 @@ test('two participants run a full vote cycle', async ({ browser }) => {
   await expect(fac.getByText('Alex')).toBeVisible();
 
   // --- Facilitator sets the subject and opens the vote ---
-  await fac.getByRole('textbox').first().fill('Who owns the budget?');
-  await fac.getByRole('button', { name: /Save/ }).click();
-  await fac.getByRole('button', { name: /Open vote/ }).click();
+  await fac.locator('#subjectDraft').fill('Who owns the budget?');
+  await fac.getByRole('button', { name: /Prepare the vote/ }).click();
+  await fac.getByRole('button', { name: /Launch the vote/ }).click();
 
   // --- Voter casts card 5 (Advise) ---
   await voter.getByRole('button', { name: /Advise/ }).click();
