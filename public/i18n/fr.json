@@ -25,7 +25,9 @@
     "cancel": "Annuler",
     "save": "Enregistrer",
     "quit": "Quitter",
-    "back": "Retour"
+    "back": "Retour",
+    "delete": "Supprimer",
+    "confirm_title": "Confirmation"
   },
   "teams": {
     "title": "Équipes",
@@ -236,14 +238,17 @@
       "prepared_votes": "Votes préparés à l'avance",
       "export": "Export CSV / PDF",
       "email_history": "Envoi de l'historique par email"
-    }
+    },
+    "yes": "Inclus",
+    "no": "Non inclus"
   },
   "auth": {
     "email": "Adresse e-mail",
     "password": "Mot de passe",
     "new_password": "Nouveau mot de passe",
+    "password_confirm": "Confirmer le mot de passe",
     "display_name": "Nom affiché",
-    "logout": "Se déconnecter",
+    "logout": "Déconnexion",
     "back_to_login": "Retour à la connexion",
     "back_to_password": "Retour au mot de passe",
     "remember_me": "Se souvenir de moi",
@@ -252,7 +257,7 @@
       "title": "Connexion",
       "cta": "Se connecter",
       "forgot": "Mot de passe oublié ?",
-      "magic": "Recevoir un lien de connexion par e-mail",
+      "magic": "Recevoir un lien de connexion",
       "no_account": "Pas encore de compte ?",
       "not_confirmed": "Confirmez d'abord votre e-mail.",
       "resend": "Renvoyer le lien",
@@ -260,8 +265,7 @@
     },
     "register": {
       "title": "Créer un compte",
-      "lead": "Créez votre compte pour gérer une équipe.",
-      "cta": "Créer le compte",
+      "cta": "Créer mon compte",
       "have_account": "Déjà un compte ?",
       "done_title": "Vérifiez votre boîte mail",
       "done_lead": "Nous vous avons envoyé un lien pour confirmer votre adresse."
@@ -273,7 +277,7 @@
       "sent": "Si cette adresse existe, un lien de réinitialisation a été envoyé."
     },
     "reset": {
-      "title": "Réinitialiser le mot de passe",
+      "title": "Choisir un nouveau mot de passe",
       "cta": "Réinitialiser",
       "done": "Mot de passe réinitialisé. Vous pouvez vous connecter."
     },
@@ -285,21 +289,21 @@
       "error_lead": "Ce lien de confirmation est invalide ou expiré."
     },
     "magic": {
-      "title": "Lien de connexion",
-      "lead": "Entrez votre e-mail, on vous envoie un lien pour vous connecter.",
       "cta": "Envoyer le lien",
       "sent": "Si ce compte existe, un lien de connexion a été envoyé.",
       "verifying": "Connexion en cours…",
       "error_title": "Lien invalide",
-      "error_lead": "Ce lien est invalide, expiré ou déjà utilisé.",
-      "request_new": "Demander un nouveau lien"
+      "error_lead": "Ce lien est invalide, expiré ou déjà utilisé."
     },
     "errors": {
       "invalid_credentials": "E-mail ou mot de passe incorrect.",
+      "too_many": "Trop de tentatives. Réessayez dans quelques minutes.",
       "password_short": "Au moins 8 caractères.",
       "generic": "Une erreur est survenue. Réessayez.",
       "reset_invalid": "Lien invalide ou expiré.",
-      "captcha": "Veuillez valider le captcha."
+      "captcha": "Veuillez valider le captcha.",
+      "password_invalid": "Ce mot de passe n'est pas accepté. Choisissez-en un plus robuste.",
+      "password_mismatch": "Les mots de passe ne correspondent pas."
     }
   },
   "vote_state": {
@@ -443,7 +447,10 @@
     "room_full": "Cette salle est pleine (15 personnes maximum)."
   },
   "common": {
-    "skip_to_content": "Aller au contenu"
+    "skip_to_content": "Aller au contenu",
+    "language_switcher": {
+      "aria": "Choisir la langue"
+    }
   },
   "me": {
     "title": "Mon compte",
@@ -505,5 +512,10 @@
   "appUpdate": {
     "title": "Nouvelle version disponible",
     "detail": "L'application a été mise à jour pendant votre visite. Rechargez la page pour continuer."
+  },
+  "topmenu": {
+    "open": "Ouvrir le menu",
+    "close": "Fermer le menu",
+    "theme": "Basculer le thème"
   }
 }
