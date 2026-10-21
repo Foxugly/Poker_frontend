@@ -115,7 +115,6 @@
     }
   },
   "home": {
-    "title": "Décidez ensemble, en temps réel",
     "intro": "Poker réunit Poker Planning et Delegation Poker : créez une salle, invitez votre équipe, votez et révélez les résultats ensemble.",
     "create_title": "Créer une salle",
     "room_title": "Titre de la salle (optionnel)",
@@ -123,7 +122,12 @@
     "join_title": "Rejoindre une salle",
     "join_intro": "Vous avez un code de salle ou un lien ? Rejoignez la partie en cours.",
     "join_cta": "Rejoindre",
-    "contact_cta": "Me contacter"
+    "contact_cta": "Me contacter",
+    "stat_mode": "Mode",
+    "stat_mode_visitor": "Visiteur",
+    "stat_mode_member": "Membre",
+    "stat_languages": "Langues",
+    "stat_voting": "Vote"
   },
   "support": {
     "title": "Soutenir",

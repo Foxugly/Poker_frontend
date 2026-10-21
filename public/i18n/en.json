@@ -115,7 +115,6 @@
     }
   },
   "home": {
-    "title": "Decide together, in real time",
     "intro": "Poker brings together Poker Planning and Delegation Poker: create a room, invite your team, vote and reveal the results together.",
     "create_title": "Create a room",
     "room_title": "Room title (optional)",
@@ -123,7 +122,12 @@
     "join_title": "Join a room",
     "join_intro": "Got a room code or a link? Jump into the ongoing game.",
     "join_cta": "Join",
-    "contact_cta": "Contact me"
+    "contact_cta": "Contact me",
+    "stat_mode": "Mode",
+    "stat_mode_visitor": "Visitor",
+    "stat_mode_member": "Member",
+    "stat_languages": "Languages",
+    "stat_voting": "Voting"
   },
   "support": {
     "title": "Support",
