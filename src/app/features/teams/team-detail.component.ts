@@ -83,11 +83,13 @@ const DEFAULT_BACKGROUND_COLOR = '#0f172a';
                     @if (m.user.avatar_url) {
                       <img class="avatar avatar--img" [src]="m.user.avatar_url" alt="" />
                     } @else {
-                      <div class="avatar" [style.background]="color(m.user.email)">{{ initials(m.user.display_name || m.user.email) }}</div>
+                      <div class="avatar" [style.background]="color('' + m.user.id)">{{ initials(m.user.display_name) }}</div>
                     }
                     <div class="who">
-                      <div class="name">{{ m.user.display_name || m.user.email }}</div>
-                      <div class="email">{{ m.user.email }}</div>
+                      <div class="name">{{ m.user.display_name }}</div>
+                      @if (m.user.email) {
+                        <div class="email">{{ m.user.email }}</div>
+                      }
                     </div>
                     @if (m.role === 'owner') {
                       <p-tag [value]="'teams.role.owner' | transloco" />
