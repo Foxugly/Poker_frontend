@@ -19,7 +19,7 @@ test('two participants run a full vote cycle', async ({ browser }) => {
   // --- Facilitator creates a room ---
   await fac.goto('/');
   await fac.getByRole('textbox').nth(1).fill('Sam'); // 1st = title (optional), 2nd = username
-  await fac.getByRole('button', { name: /Create/ }).click();
+  await fac.getByRole('button', { name: /Create the room/ }).click();
   await fac.waitForURL(/\/room\/[A-Z0-9]{6,8}/);
   const code = fac.url().split('/room/')[1];
   expect(code).toMatch(/^[A-Z0-9]{6,8}$/);
