@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Role } from '../realtime/protocol';
 
 const NAME_KEY = 'poker.username';
-const SESSION_KEY = 'poker.session';
+const SESSION_KEY = 'poker.room';
 
 export interface RoomSession {
   code: string;
