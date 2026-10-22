@@ -14,6 +14,11 @@ const API = 'http://localhost:8000';
 const COOKIE = 'poker_refresh';
 const PASSWORD = 'sup3rSecret!e2e';
 
+// Security tests: never retried. A failure here is a finding, not a flake — a
+// retry would hide an intermittent auth bug (playwright.config.ts retries the
+// rest of the suite once on CI).
+test.describe.configure({ retries: 0 });
+
 function createConfirmedUser(): string {
   const email = `e2e-cookie-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.com`;
   execFileSync(
