@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <!-- No hand until a round is prepared: nothing to vote on yet. -->
+        <!-- No hand until the vote is open: the deck may still change before. -->
         @if (handVisible()) {
           <div class="hand">
             <span class="hand-label">{{ 'room.your_hand' | transloco }}</span>
