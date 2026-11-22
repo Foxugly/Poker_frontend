@@ -35,7 +35,7 @@
   <div class="home-actions">
     <!-- Create a room (in evidence) -->
     <div class="card card--action">
-      <h2><i class="pi pi-plus-circle"></i> {{ 'home.create_title' | transloco }}</h2>
+      <h2><i class="pi pi-users"></i> {{ 'home.create_title' | transloco }}</h2>
       <div class="fields">
         <div>
           <label class="meta-label">{{ 'home.room_title' | transloco }}</label>
@@ -52,7 +52,7 @@
              salle, et le dos des cartes est impose. -->
         <p-button
           [label]="'home.create_cta' | transloco"
-          icon="pi pi-plus"
+          icon="pi pi-users"
           severity="success"
           size="large"
           styleClass="w-full"
@@ -64,7 +64,7 @@
 
     <!-- Join a room (in evidence, inline fields) -->
     <div class="card card--action">
-      <h2><i class="pi pi-sign-in"></i> {{ 'home.join_title' | transloco }}</h2>
+      <h2><i class="pi pi-user-plus"></i> {{ 'home.join_title' | transloco }}</h2>
       <div class="fields">
         <div>
           <label class="meta-label">{{ 'join.code' | transloco }} *</label>
@@ -82,7 +82,7 @@
         </div>
         <p-button
           [label]="'home.join_cta' | transloco"
-          icon="pi pi-sign-in"
+          icon="pi pi-user-plus"
           size="large"
           styleClass="w-full"
           [loading]="joining()"

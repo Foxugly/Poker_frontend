@@ -37,7 +37,11 @@ test('two participants run a full vote cycle', async ({ browser }) => {
   // --- Facilitator sets the subject and opens the vote ---
   await fac.locator('#subjectDraft').fill('Who owns the budget?');
   await fac.getByRole('button', { name: /Prepare the vote/ }).click();
+  // Prepared but not open: the deck may still change, so no hand yet (#10).
+  await expect(voter.getByText('Who owns the budget?')).toBeVisible();
+  await expect(voter.getByText('Your hand')).toHaveCount(0);
   await fac.getByRole('button', { name: /Launch the vote/ }).click();
+  await expect(voter.getByText('Your hand')).toBeVisible();
 
   // --- Voter casts card 5 (Advise) ---
   await voter.getByRole('button', { name: /Advise/ }).click();

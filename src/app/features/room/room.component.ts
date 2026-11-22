@@ -213,13 +213,12 @@ export class RoomComponent implements OnInit, OnDestroy {
   );
   readonly showPrepared = computed(() => this.state() === 'idle' && !this.showComposeForm());
   readonly canPrepare = computed(() => this.subjectDraft().trim().length > 0);
-  /** The hand only appears once a round has been prepared (subject announced) —
-   * before that there is nothing to vote on and the cards would just be noise.
+  /** La main n'apparait qu'a l'ouverture du vote (#10) : tant que le tour est
+   * seulement prepare, l'animateur peut encore changer de type de poker, et la main
+   * montree aux joueurs ne serait pas forcement celle du vote.
    * Elle disparait a la revelation : les cartes cessent d'etre jouables, et le
    * depouillement prend sa place (voir outcomeVisible). */
-  readonly handVisible = computed(
-    () => this.socket.subject().trim().length > 0 && !this.outcomeVisible(),
-  );
+  readonly handVisible = computed(() => this.state() === 'open');
 
   /** Le depouillement occupe la bande de la main des que les votes sont reveles, puis
    * cede a la carte retenue une fois la decision prise. Il tenait jusqu'ici dans un
