@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { provideTranslocoScope, TranslocoTestingModule } from '@jsverse/transloco';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from '@openng/optimus-ui/api';
 import { describe, expect, it } from 'vitest';
 
 import fr from '../../../../public/i18n/fr.json';
@@ -19,7 +19,7 @@ import { TeamDetailComponent } from './team-detail.component';
  * display name alone in that case — never an empty email line, never a fallback
  * to the address.
  */
-// PrimeNG tabs observe their size; jsdom has no ResizeObserver.
+// Optimus UI tabs observe their size; jsdom has no ResizeObserver.
 globalThis.ResizeObserver ??= class {
   observe(): void {}
   unobserve(): void {}

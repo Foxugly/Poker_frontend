@@ -1,15 +1,26 @@
-import { Component, computed, DestroyRef, effect, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
-import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { TooltipModule } from 'primeng/tooltip';
+import { MessageService } from '@openng/optimus-ui/api';
+import { ButtonModule } from '@openng/optimus-ui/button';
+import { InputNumberModule } from '@openng/optimus-ui/inputnumber';
+import { InputTextModule } from '@openng/optimus-ui/inputtext';
+import { SelectModule } from '@openng/optimus-ui/select';
+import { TagModule } from '@openng/optimus-ui/tag';
+import { ToggleSwitchModule } from '@openng/optimus-ui/toggleswitch';
+import { TooltipModule } from '@openng/optimus-ui/tooltip';
 
 import QRCode from 'qrcode';
 import { firstValueFrom } from 'rxjs';
@@ -90,8 +101,17 @@ interface Seat {
   selector: 'app-room',
   standalone: true,
   imports: [
-    FormsModule, TranslocoModule, ButtonModule, InputNumberModule, InputTextModule, SelectModule, TagModule, ToggleSwitchModule,
-    TooltipModule, DelegationDeckComponent, DelegationCardComponent,
+    FormsModule,
+    TranslocoModule,
+    ButtonModule,
+    InputNumberModule,
+    InputTextModule,
+    SelectModule,
+    TagModule,
+    ToggleSwitchModule,
+    TooltipModule,
+    DelegationDeckComponent,
+    DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss',
@@ -146,15 +166,22 @@ export class RoomComponent implements OnInit, OnDestroy {
   readonly showPanel = computed(() => this.isFacilitator() || !this.socket.facilitatorPresent());
   readonly state = this.socket.roundState;
   readonly badgeSeverity = computed(() => BADGE_SEVERITY[this.state()]);
-  readonly canOpen = computed(() => this.state() === 'idle' && this.socket.subject().trim().length > 0);
-  readonly canReveal = computed(() => this.state() === 'open' && this.socket.participation().voted >= 1);
+  readonly canOpen = computed(
+    () => this.state() === 'idle' && this.socket.subject().trim().length > 0,
+  );
+  readonly canReveal = computed(
+    () => this.state() === 'open' && this.socket.participation().voted >= 1,
+  );
   readonly votable = computed(() => this.state() === 'open');
 
   // Team appearance (P2.6): felt recolours the table, card-back colours the face-down cards.
   // Appearance: each surface says whether it renders a colour or an image. The
   // legacy theme.* is the fallback while older snapshots are still around.
   readonly feltColor = computed(
-    () => this.socket.deckSnapshot()?.felt?.color ?? this.socket.deckSnapshot()?.theme?.feltColor ?? null,
+    () =>
+      this.socket.deckSnapshot()?.felt?.color ??
+      this.socket.deckSnapshot()?.theme?.feltColor ??
+      null,
   );
   readonly feltImage = computed(() => {
     const felt = this.socket.deckSnapshot()?.felt;
@@ -174,9 +201,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   /** Un fond quelconque casse le contraste du texte pose dessus : l'equipe choisit
    *  son image, pas la couleur d'encre du visiteur. Quand il y en a un, les zones
    *  de texte prennent un voile de la surface courante. */
-  readonly hasCustomBackground = computed(() => this.backgroundColor() !== null || this.backgroundImage() !== null);
+  readonly hasCustomBackground = computed(
+    () => this.backgroundColor() !== null || this.backgroundImage() !== null,
+  );
   readonly cardBackColor = computed(
-    () => this.socket.deckSnapshot()?.cardBack?.color ?? this.socket.deckSnapshot()?.theme?.cardBackColor ?? null,
+    () =>
+      this.socket.deckSnapshot()?.cardBack?.color ??
+      this.socket.deckSnapshot()?.theme?.cardBackColor ??
+      null,
   );
   /** Null when the team chose a flat colour: the card then shows the colour alone. */
   readonly cardBackImage = computed(() => {
@@ -264,7 +296,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   /** Act/globalise on the level NAME, not the number. Options + the acted result
    * resolve the card's translated name (from the snapshot) in the current language. */
   readonly cardOptions = computed(() =>
-    (this.socket.deckSnapshot()?.cards ?? []).map((c) => ({ value: c.value, label: this.cardName(c) })),
+    (this.socket.deckSnapshot()?.cards ?? []).map((c) => ({
+      value: c.value,
+      label: this.cardName(c),
+    })),
   );
   readonly resultName = computed(() => {
     const v = this.socket.result();
@@ -290,12 +325,19 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   // --- Imposed avatar (free): deterministic initials + colour. Custom upload = Phase 2 (paid).
   private readonly AVATAR_COLORS = [
-    '#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#ef4444', '#14b8a6', '#6366f1',
+    '#0ea5e9',
+    '#8b5cf6',
+    '#ec4899',
+    '#f59e0b',
+    '#10b981',
+    '#ef4444',
+    '#14b8a6',
+    '#6366f1',
   ];
   initials(name: string): string {
     const parts = (name || '?').trim().split(/\s+/);
     const a = parts[0]?.[0] ?? '?';
-    const b = parts.length > 1 ? parts[1][0] : parts[0]?.[1] ?? '';
+    const b = parts.length > 1 ? parts[1][0] : (parts[0]?.[1] ?? '');
     return (a + b).toUpperCase();
   }
   avatarColor(seed: string): string {
@@ -373,7 +415,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   });
 
   // Must match the `aspect` in seats() so the seat geometry lands on the real felt shape.
-  readonly feltAspect = computed(() => Math.min(2.6, 1.9 + this.socket.participants().length * 0.05).toFixed(2));
+  readonly feltAspect = computed(() =>
+    Math.min(2.6, 1.9 + this.socket.participants().length * 0.05).toFixed(2),
+  );
 
   /** Nombre de cartes du deck actif : la rangee de la main s'y ajuste. */
   readonly deckCardCount = computed(() => this.socket.deckSnapshot()?.cards.length ?? 7);
@@ -448,7 +492,10 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.stopCountdown();
       if (deadline) {
         this.remainingSeconds.set(secondsLeft(deadline));
-        this.countdownHandle = setInterval(() => this.remainingSeconds.set(secondsLeft(this.socket.deadline())), 1000);
+        this.countdownHandle = setInterval(
+          () => this.remainingSeconds.set(secondsLeft(this.socket.deadline())),
+          1000,
+        );
       } else {
         this.remainingSeconds.set(null);
       }
@@ -493,7 +540,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private roundDetails() {
     const isTeam = this.socket.isTeam();
     return {
-      deckId: (this.deckDraft() ?? this.currentDeckId()) ?? undefined,
+      deckId: this.deckDraft() ?? this.currentDeckId() ?? undefined,
       anonymous: this.socket.revealMode().canAnonymise ? this.anonymousDraft() : undefined,
       timerEnabled: isTeam ? this.timerEnabledDraft() : undefined,
       timerSeconds: isTeam ? this.timerSecondsDraft() : undefined,
@@ -598,12 +645,18 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   copyCode(): void {
     navigator.clipboard?.writeText(this.code());
-    this.messages.add({ severity: 'success', summary: this.transloco.translate('room.code_copied') });
+    this.messages.add({
+      severity: 'success',
+      summary: this.transloco.translate('room.code_copied'),
+    });
   }
 
   shareLink(): void {
     navigator.clipboard?.writeText(this.joinUrl());
-    this.messages.add({ severity: 'success', summary: this.transloco.translate('room.link_copied') });
+    this.messages.add({
+      severity: 'success',
+      summary: this.transloco.translate('room.link_copied'),
+    });
   }
 
   private joinUrl(): string {
@@ -616,7 +669,10 @@ export class RoomComponent implements OnInit, OnDestroy {
       // se re-encode en blob pour le presse-papier sans dependre du DOM rendu.
       this.qrDataUrl.set(await QRCode.toDataURL(this.joinUrl(), { width: 320, margin: 2 }));
     } catch {
-      this.messages.add({ severity: 'error', summary: this.transloco.translate('auth.errors.generic') });
+      this.messages.add({
+        severity: 'error',
+        summary: this.transloco.translate('auth.errors.generic'),
+      });
     }
   }
 
@@ -632,10 +688,16 @@ export class RoomComponent implements OnInit, OnDestroy {
     try {
       const blob = await (await fetch(src)).blob();
       await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-      this.messages.add({ severity: 'success', summary: this.transloco.translate('room.qr.copied') });
+      this.messages.add({
+        severity: 'success',
+        summary: this.transloco.translate('room.qr.copied'),
+      });
     } catch {
       navigator.clipboard?.writeText(this.joinUrl());
-      this.messages.add({ severity: 'success', summary: this.transloco.translate('room.link_copied') });
+      this.messages.add({
+        severity: 'success',
+        summary: this.transloco.translate('room.link_copied'),
+      });
     }
   }
 

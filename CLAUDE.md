@@ -30,8 +30,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-- Angular 21, standalone components only, signals for state, PrimeNG 21 (Aura,
-  `darkModeSelector: '.dark-mode'` set by `core/theme`), SCSS with fleet tokens in
+- Angular 21, standalone components only, signals for state, **Optimus UI 1**
+  (`@openng/optimus-ui`, MIT community fork of PrimeNG 21: same components, selectors and Aura
+  theme via `@openng/optimus-ui-themes`, `pi pi-*` icons via `@openng/icons`, `provideOptimus`;
+  **PrimeNG >= 22 is banned in the fleet**, commercial licence key, see foxugly-ops
+  `STANDARD-frontend-layout.md` « Bibliothèque UI »; `darkModeSelector: '.dark-mode'` set by `core/theme`), SCSS with fleet tokens in
   `src/styles/_tokens.scss` (layout standard §3.15 of `OPERATIONS.md`).
 - Files keep the `.component.ts` suffix (`room.component.ts`, …), unlike PushIT_frontend.
 - `src/app/core/` — one folder per domain: `api/` (`RoomApiService`), `auth/` (session,
