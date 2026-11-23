@@ -30,7 +30,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-- Angular 21, standalone components only, signals for state, **Optimus UI 1**
+- Angular 22, standalone components only, signals for state, **Optimus UI 2**
   (`@openng/optimus-ui`, MIT community fork of PrimeNG 21: same components, selectors and Aura
   theme via `@openng/optimus-ui-themes`, `pi pi-*` icons via `@openng/icons`, `provideOptimus`;
   **PrimeNG >= 22 is banned in the fleet**, commercial licence key, see foxugly-ops

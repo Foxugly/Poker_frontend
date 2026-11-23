@@ -9,6 +9,7 @@ import {
   OnInit,
   signal,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -114,6 +115,7 @@ interface Seat {
     DelegationCardComponent,
   ],
   templateUrl: './room.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './room.component.scss',
 })
 export class RoomComponent implements OnInit, OnDestroy {
